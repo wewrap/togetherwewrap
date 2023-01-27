@@ -6,6 +6,12 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
     res.status(200).send("Hello World");
+});
+
+app.get('/api', (req, res) => {
+    res.status(200).json({
+        data: "Together we wrap!"
+    })
 })
 
 const port = 8000;
