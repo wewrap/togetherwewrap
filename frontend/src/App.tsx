@@ -10,8 +10,8 @@ function App() {
   }
 
   const handleClick = async () => {
-    const displayingMessage = message ? true : false
-    if (displayingMessage) {
+    const isDisplayingMessage = !!message
+    if (isDisplayingMessage) {
       resetMessage()
       return
     };
