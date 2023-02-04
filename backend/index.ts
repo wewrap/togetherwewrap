@@ -1,8 +1,11 @@
 import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client'
+import morgan from 'morgan';
 
 const app = express();
+
+app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
@@ -30,23 +33,20 @@ app.listen(8000, () => {
     console.log(`Server started: http://localhost:${port}/`);
 }); 
 
-import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
+// async function main() {
+//   // ... you will write your Prisma Client queries here
 
-async function main() {
-  // ... you will write your Prisma Client queries here
-  
-  const allUsers = await prisma.user.findMany()
-  console.log(allUsers)
-}
+//   const allUsers = await prisma.user.findMany()
+//   console.log(allUsers)
+// }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+// main()
+//   .then(async () => {
+//     await prisma.$disconnect()
+//   })
+//   .catch(async (e) => {
+//     console.error(e)
+//     await prisma.$disconnect()
+//     process.exit(1)
+//   })
