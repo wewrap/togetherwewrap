@@ -1,8 +1,14 @@
+import * as dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({path: path.resolve(__dirname, "../.env")});
 import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client'
+import morgan from 'morgan';
 
 const app = express();
+
+app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
