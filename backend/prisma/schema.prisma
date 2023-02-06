@@ -12,7 +12,7 @@ model User {
   email   String   @unique
   firstName    String 
   lastName String 
-  passwords String 
-  birthDate DateTime 
+  password String 
+  birthDate DateTime? 
 }
 
