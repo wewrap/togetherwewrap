@@ -13,6 +13,6 @@ model User {
   firstName    String 
   lastName String 
   passwords String 
-  birthdate DateTime 
+  birthDate DateTime 
 }
 
