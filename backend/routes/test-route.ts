@@ -1,9 +1,9 @@
-import { prisma } from "@prisma/client";
 import express from "express";
 const testRouter = express.Router()
+import prisma from '../utils/prismaClient'
 
 testRouter.get('/feed', async (req, res) => {
-    const allUsers = await prisma.User.findMany()
+    const allUsers = await prisma.user.findMany()
     console.log(allUsers)
     res.json(allUsers)
 })

@@ -3,7 +3,7 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 import express from 'express';
 import cors from 'cors';
-import { prisma, PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 import morgan from 'morgan';
 import session from 'express-session';
 import passport from 'passport';
