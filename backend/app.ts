@@ -3,14 +3,15 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 import express from 'express';
 import cors from 'cors';
-import { PrismaClient } from '@prisma/client'
+import { prisma, PrismaClient } from '@prisma/client'
 import morgan from 'morgan';
 import session from 'express-session';
 import passport from 'passport';
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+import googleOAuthRouter from './routes/google-oauth';
+import testRouter from './routes/test-route'
 
 const app = express();
-const prisma = new PrismaClient()
 
 dotenv.config();
 app.use(morgan("dev"));
@@ -35,31 +36,9 @@ passport.use(new GoogleStrategy({
         cb(null, profile)
     }));
 
-app.get('/auth/google',
-    passport.authenticate('google', { scope: ['profile'] }));
+app.use('/', testRouter)
 
-app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
-    function (req, res) {
-        // Successful authentication, redirect home.
-        res.redirect('http://localhost:3000/');
-    });
+app.use('/auth/google', googleOAuthRouter)
 
-
-app.get('/feed', async (req, res) => {
-    const allUsers = await prisma.user.findMany()
-    console.log(allUsers)
-    res.json(allUsers)
-})
-
-app.get('/', (req, res) => {
-    res.status(200).send("Hello World");
-});
-
-app.get('/api', (req, res) => {
-    res.status(200).json({
-        data: "Together we wrap!"
-    })
-})
 
 export default app;
