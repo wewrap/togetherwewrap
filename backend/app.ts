@@ -24,6 +24,14 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
+passport.serializeUser((user: any, done: any) => {
+    return done(null, user)
+})
+
+passport.deserializeUser((user: any, done: any) => {
+    return done(null, user)
+})
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -32,6 +40,7 @@ passport.use(new GoogleStrategy({
     function (accessToken: any, refreshToken: any, profile: any, cb: any) {
         // Called On successful authentication
         // Insert User to Database
+        console.log(profile)
         cb(null, profile)
     }));
 
