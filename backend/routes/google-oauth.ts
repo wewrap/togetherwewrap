@@ -2,6 +2,8 @@ import express from "express";
 const googleOAuthRouter = express.Router()
 import passport from 'passport'
 
+//route prefix: /auth/google
+
 googleOAuthRouter.get('/',
     passport.authenticate('google', { scope: ['profile'] }));
 
