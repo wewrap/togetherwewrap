@@ -38,32 +38,37 @@ passport.use(new GoogleStrategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/auth/google/callback"
 },
-    async function (accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
         // Called On successful authentication
 
         //find a user that has a matching google ID with the incoming profile ID
-        const user = await prisma.user.findUnique({
-            where: {
-                //googleID: profileID
-            }
-        })
-
-        if (!user) { // if user doesn't exist
-
-            // create a new user and store in database
-            const newUser = await prisma.user.create({
-                data: {
-                    email: profile.email,
-                    firstName: profile.name.givenName,
-                    lastName: profile.name.familyName,
-                    password: ""
-                    //..
+        try {
+            const user = await prisma.user.findUnique({
+                where: {
+                    googleID: profile.id
                 }
             })
-            // return user object
-            cb(null, newUser)
-        } else {
-            cb(null, user)
+
+            if (!user) { // if user doesn't exist
+                // create a new user and store in database
+                const newUser = await prisma.user.create({
+                    data: {
+                        email: "",
+                        firstName: profile._json.given_name,
+                        lastName: profile._json.family_name,
+                        password: ""
+                        //googleID: profile.id
+                        //...
+                        
+                    }
+                })
+                // return user object
+                cb(null, newUser)
+            } else {
+                cb(null, user)
+            }
+        } catch (error) {
+            cb(error, null)
         }
     }));
 
