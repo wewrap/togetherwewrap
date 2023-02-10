@@ -9,6 +9,7 @@ import passport from 'passport';
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 import googleOAuthRouter from './routes/google-oauth';
 import testRouter from './routes/test-route'
+import prisma from './utils/prismaClient';
 
 const app = express();
 
@@ -25,23 +26,45 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 passport.serializeUser((user: any, done: any) => {
-    return done(null, user)
+    return done(null, user.id)
 })
 
 passport.deserializeUser((user: any, done: any) => {
     return done(null, user)
 })
-
+    
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: "/auth/google/callback"
 },
-    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function (accessToken: any, refreshToken: any, profile: any, cb: any) {
         // Called On successful authentication
-        // Insert User to Database
-        console.log(profile)
-        cb(null, profile)
+        
+        //find a user that has a matching google ID with the incoming profile ID
+        const user = await prisma.user.findUnique( {
+            where: {
+                //googleID: profileID
+            }
+        })
+
+        if (!user) { // if user doesn't exist
+
+            // create a new user and store in database
+            const newUser = await prisma.user.create({
+                data: {
+                    email: profile.email,
+                    firstName: profile.name.givenName,
+                    lastName: profile.name.familyName, 
+                    password: ""
+                    //..
+                }
+            })
+            // return user object
+            cb(null, newUser)
+        } else {
+            cb(null, user)
+        }
     }));
 
 app.use('/', testRouter)
