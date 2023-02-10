@@ -32,7 +32,7 @@ passport.serializeUser((user: any, done: any) => {
 passport.deserializeUser((user: any, done: any) => {
     return done(null, user)
 })
-    
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -40,9 +40,9 @@ passport.use(new GoogleStrategy({
 },
     async function (accessToken: any, refreshToken: any, profile: any, cb: any) {
         // Called On successful authentication
-        
+
         //find a user that has a matching google ID with the incoming profile ID
-        const user = await prisma.user.findUnique( {
+        const user = await prisma.user.findUnique({
             where: {
                 //googleID: profileID
             }
@@ -55,7 +55,7 @@ passport.use(new GoogleStrategy({
                 data: {
                     email: profile.email,
                     firstName: profile.name.givenName,
-                    lastName: profile.name.familyName, 
+                    lastName: profile.name.familyName,
                     password: ""
                     //..
                 }
