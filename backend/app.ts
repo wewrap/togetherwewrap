@@ -7,8 +7,8 @@ import morgan from 'morgan';
 import session from 'express-session';
 import passport from 'passport';
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-import googleOAuthRouter from './routes/google-oauth';
-import testRouter from './routes/test-route'
+import googleOAuthRouter from './routes/googleOAuth';
+import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
 
 const app = express();
@@ -17,8 +17,11 @@ dotenv.config();
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
+
+const secretcode = process.env.SESSION_SECRET as string;
+
 app.use(session({
-    secret: "secretcode",
+    secret: secretcode,
     resave: true,
     saveUninitialized: true,
 }));
