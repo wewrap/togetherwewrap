@@ -53,13 +53,12 @@ passport.use(new GoogleStrategy({
                 // create a new user and store in database
                 const newUser = await prisma.user.create({
                     data: {
-                        email: "",
+                        email: "", 
                         firstName: profile._json.given_name,
                         lastName: profile._json.family_name,
-                        password: ""
-                        //googleID: profile.id
+                        password: "",
+                        googleID: profile.id
                         //...
-                        
                     }
                 })
                 // return user object

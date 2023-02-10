@@ -9,10 +9,10 @@ datasource db {
 
 model User {
   id        String    @id @default(uuid())
-  email     String    @unique
+  email     String?    @unique
   firstName String
   lastName  String
-  password  String
+  password  String?
   birthDate DateTime?
   googleID  String?   @unique
 }
