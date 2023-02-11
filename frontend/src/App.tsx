@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import {LoginForm} from './Components/loginForm'
 const serverURL = 'http://localhost:8000'
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
   return (
     <div className="App">
       <h2>{message ?? ""}</h2>
+      <LoginForm />
       <button onClick={handleClick}>click me!</button>
     </div>
   );
