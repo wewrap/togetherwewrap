@@ -50,47 +50,39 @@ app.get('/login/password',
   });
 
 app.post('/login/password',
-//   passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
+  passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
   function(req, res) {
     console.log(req.body)
     res.status(200).send("we logged in")
   });
 
-// var passport = require('passport');
-// var LocalStrategy = require('passport-local');
-// var crypto = require('crypto');
-// var mysql = require('mysql12')
+var passport = require('passport');
+var LocalStrategy = require('passport-local');
+var crypto = require('crypto');
+var mysql = require('mysql12')
 
-// // connecting to the database
-// var connection = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: 'Workfahad6!',
-//     database: 'mydatabase'
-//   });
+// connecting to the database
+var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'wewrap_local'
+  });
   
 // checking for user info in the database
-// passport.use(new LocalStrategy(function verify(username:any, password:any, cb:any) {
-//     connection.query('SELECT * FROM users WHERE username = ?', [ username ], function(err:any, user:any) {
-//       if (err) { return cb(err); }
-//       if (!user) { return cb(null, false, { message: 'Incorrect username or password.' }); }
+passport.use(new LocalStrategy(function verify(username:any, password:any, cb:any) {
+    connection.query('SELECT * FROM users WHERE username = ?', [ username ], function(err:any, user:any) {
+      if (err) { return cb(err); }
+      if (!user) { return cb(null, false, { message: 'Incorrect username or password.' }); }
   
-//       crypto.pbkdf2(password, user.salt, 310000, 32, 'sha256', function(err:any, hashedPassword:any) {
-//         if (err) { return cb(err); }
-//         if (!crypto.timingSafeEqual(user.hashed_password, hashedPassword)) {
-//           return cb(null, false, { message: 'Incorrect username or password.' });
-//         }
-//         return cb(null, user);
-//       });
-//     });
-//   }));
-//   connection.end()
+      crypto.pbkdf2(password, user.salt, 310000, 32, 'sha256', function(err:any, hashedPassword:any) {
+        if (err) { return cb(err); }
+        if (!crypto.timingSafeEqual(user.hashed_password, hashedPassword)) {
+          return cb(null, false, { message: 'Incorrect username or password.' });
+        }
+        return cb(null, user);
+      });
+    });
+  }));
+  connection.end()
 
-
-  // HTTP POST endpoint for the route '/login. redirects user to the route specified if auth fails or is successful
-//   app.post('/login/password',
-// //   passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
-//   function(req, res) {
-//     console.log(req.body)
-//     res.redirect('/~');
-//   });

@@ -25,7 +25,7 @@ export const LoginForm = () => {
     return (
         <form action="/login/password" method="post" onSubmit={handleSubmit}>
             <div>
-                <label htmlFor="username">Username 12121a</label>
+                <label htmlFor="username">Username</label>
                 <input id="username" name="username" type="text" autoComplete="username" required value={username} onChange={event => setUsername(event.target.value)} />
             </div>
             <div>
