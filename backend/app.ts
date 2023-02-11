@@ -6,10 +6,13 @@ import cors from 'cors';
 import morgan from 'morgan';
 import session from 'express-session';
 import passport from 'passport';
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
+
+import googleStrategy from 'passport-google-oauth20';
+
+const GoogleStrategy = googleStrategy.Strategy;
 
 const app = express();
 
@@ -19,6 +22,8 @@ app.use(cors());
 app.use(express.json());
 
 const secretcode = process.env.SESSION_SECRET as string;
+const clientID = process.env.GOOGLE_CLIENT_ID as string;
+const clientSecret = process.env.GOOGLE_CLIENT_SECRET as string;
 
 app.use(session({
     secret: secretcode,
@@ -37,8 +42,8 @@ passport.deserializeUser((user: any, done: any) => {
 })
 
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    clientID: clientID,
+    clientSecret: clientSecret,
     callbackURL: "/auth/google/callback"
 },
     async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
