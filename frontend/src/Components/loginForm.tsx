@@ -19,11 +19,11 @@ export const LoginForm = () => {
         }
     };
     
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>, setUsername: React.Dispatch<React.SetStateAction<string>>) => {
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>, setPassword: React.Dispatch<React.SetStateAction<string>>) => {
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
   };
 
@@ -37,12 +37,12 @@ export const LoginForm = () => {
               <div>
                   <p className='form_text'>username*</p>
                   <label htmlFor="username"></label>
-                  <input id="username" name="username" type="text" autoComplete="username" required value={username} onChange={event => handleUsernameChange(event, setUsername)}/>
+                  <input id="username" name="username" type="text" autoComplete="username" required value={username} onChange={event => handleUsernameChange(event)}/>
               </div>
               <div>
                   <p className='form_text'>password*</p>
                   <label htmlFor="current-password"></label>
-                  <input id="current-password" name="password" type="password" autoComplete="current-password" required value={password} onChange={event => handlePasswordChange(event, setPassword)}/>
+                  <input id="current-password" name="password" type="password" autoComplete="current-password" required value={password} onChange={event => handlePasswordChange(event)}/>
                   <p className='form_text'>remember me</p>
               </div>
               <div>

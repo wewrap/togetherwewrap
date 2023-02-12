@@ -22,7 +22,6 @@ function App() {
       const serverMessage = res.data.data
       setMessage(serverMessage)
     } catch (error) {
-      //error has type 'unknown'. My fix: assert error as any.
       console.error("Error connecting to backend:", (error as any).message)
       alert(`Error connecting to backend: ${(error as any).message}`)
     }
@@ -31,7 +30,6 @@ function App() {
     <div className="App">
       <h2>{message ?? ""}</h2>
       <LoginForm />
-      {/* <button onClick={handleClick}>click me!</button> */}
     </div>
   );
 }
