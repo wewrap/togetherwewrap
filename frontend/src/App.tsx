@@ -31,7 +31,7 @@ function App() {
     <div className="App">
       <h2>{message ?? ""}</h2>
       <LoginForm />
-      <button onClick={handleClick}>click me!</button>
+      {/* <button onClick={handleClick}>click me!</button> */}
     </div>
   );
 }
