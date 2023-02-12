@@ -2,26 +2,22 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './login.css';
 
-
-
 export const LoginForm = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-          axios.post("http://localhost:8000/login/password", {
+        try {
+          const response = await axios.post("http://localhost:8000/login/password", {
             username,
             password,
-          })
-          .then(response => {
-            console.log(response.data);
-          })
-          .catch(error => {
-            console.error(error);
           });
-      };  
-    
+          console.log(response.data)
+        } catch(error) {
+            console.error(error);
+        }
+    };
     
     return (
         <section>
