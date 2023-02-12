@@ -19,6 +19,14 @@ export const LoginForm = () => {
         }
     };
     
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>, setUsername: React.Dispatch<React.SetStateAction<string>>) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>, setPassword: React.Dispatch<React.SetStateAction<string>>) => {
+    setPassword(event.target.value);
+  };
+
     return (
         <section>
           <img src='./logo192.png' alt='placeholder for wewrap logo'></img>
@@ -29,12 +37,12 @@ export const LoginForm = () => {
               <div>
                   <p className='form_text'>username*</p>
                   <label htmlFor="username"></label>
-                  <input id="username" name="username" type="text" autoComplete="username" required value={username} onChange={event => setUsername(event.target.value)} />
+                  <input id="username" name="username" type="text" autoComplete="username" required value={username} onChange={event => handleUsernameChange(event, setUsername)}/>
               </div>
               <div>
                   <p className='form_text'>password*</p>
                   <label htmlFor="current-password"></label>
-                  <input id="current-password" name="password" type="password" autoComplete="current-password" required value={password} onChange={event => setPassword(event.target.value)} />
+                  <input id="current-password" name="password" type="password" autoComplete="current-password" required value={password} onChange={event => handlePasswordChange(event, setPassword)}/>
                   <p className='form_text'>remember me</p>
               </div>
               <div>
