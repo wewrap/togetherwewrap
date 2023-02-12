@@ -5,6 +5,10 @@ import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client'
 import morgan from 'morgan';
+import passport from 'passport';
+import {Strategy as LocalStrategy} from 'passport-local';
+import crypto from 'crypto'
+import * as mysql from 'mysql2';
 
 
 const app = express();
@@ -37,13 +41,6 @@ app.listen(8000, () => {
     console.log(`Server started: http://localhost:${port}/`);
 }); 
 
-
-
-// Configure Strategy for Login
-
-// user is prompted to sign in with their username and password by rendering a form
-// defining a route
-
 app.get('/login/password',
   function(req, res, next) {
     res.render('login');
@@ -56,20 +53,13 @@ app.post('/login/password',
     res.status(200).send("we logged in")
   });
 
-var passport = require('passport');
-var LocalStrategy = require('passport-local');
-var crypto = require('crypto');
-var mysql = require('mysql12')
-
-// connecting to the database
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'wewrap_local'
+const connection = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
   });
   
-// checking for user info in the database
 passport.use(new LocalStrategy(function verify(username:any, password:any, cb:any) {
     connection.query('SELECT * FROM users WHERE username = ?', [ username ], function(err:any, user:any) {
       if (err) { return cb(err); }
@@ -85,4 +75,3 @@ passport.use(new LocalStrategy(function verify(username:any, password:any, cb:an
     });
   }));
   connection.end()
-
