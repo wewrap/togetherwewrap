@@ -5,7 +5,7 @@ import passport from 'passport'
 //route prefix: /auth/google
 
 googleOAuthRouter.get('/',
-    passport.authenticate('google', { scope: ['profile'] }));
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 googleOAuthRouter.get('/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
