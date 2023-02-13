@@ -28,7 +28,7 @@ const clientSecret = process.env.GOOGLE_CLIENT_SECRET as string;
 app.use(session({
     secret: secretcode,
     resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false,
 }));
 app.use(passport.initialize())
 app.use(passport.session())
