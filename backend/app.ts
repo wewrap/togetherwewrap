@@ -92,9 +92,32 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'displayName', 'email'],
     enableProof: true
 },
-    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
-        console.log(profile)
-        cb(null, profile)
+    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
+        try {
+            const user = await prisma.user.findUnique({
+                where: {
+                    facebookID: profile.id
+                }
+            })
+
+            if (!user) { // if user doesn't exist
+                // create a new user and store in database
+                const newUser = await prisma.user.create({
+                    data: {
+                        firstName: profile._json.given_name,
+                        lastName: profile._json.family_name,
+                        googleID: profile.id,
+                        email: profile.emails[0].value
+                    }
+                })
+                // return user object
+                cb(null, newUser)
+            } else {
+                cb(null, user)
+            }
+        } catch (error) {
+            cb(error, null)
+        }
     }
 ));
 
