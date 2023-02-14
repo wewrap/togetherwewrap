@@ -9,10 +9,12 @@ import passport from 'passport';
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
-
 import googleStrategy from 'passport-google-oauth20';
+import facebookStrategy from 'passport-facebook';
+import facebookOAuthRouter from './routes/facebookOAuth';
 
 const GoogleStrategy = googleStrategy.Strategy;
+const FacebookStrategy = facebookStrategy.Strategy;
 
 const app = express();
 
@@ -22,8 +24,10 @@ app.use(cors());
 app.use(express.json());
 
 const secretcode = process.env.SESSION_SECRET as string;
-const clientID = process.env.GOOGLE_CLIENT_ID as string;
-const clientSecret = process.env.GOOGLE_CLIENT_SECRET as string;
+const googleClientID = process.env.GOOGLE_CLIENT_ID as string;
+const googleAppSecret = process.env.GOOGLE_APP_SECRET as string;
+const facebookClientID = process.env.FACEBOOK_CLIENT_ID as string;
+const facebookAppSecret = process.env.FACEBOOK_APP_SECRET as string;
 
 app.use(session({
     secret: secretcode,
@@ -47,8 +51,8 @@ passport.deserializeUser(async (incomingId: string, done: any) => {
 })
 
 passport.use(new GoogleStrategy({
-    clientID: clientID,
-    clientSecret: clientSecret,
+    clientID: googleClientID,
+    clientSecret: googleAppSecret,
     callbackURL: "/auth/google/callback"
 },
     async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
@@ -81,8 +85,23 @@ passport.use(new GoogleStrategy({
         }
     }));
 
+passport.use(new FacebookStrategy({
+    clientID: facebookClientID,
+    clientSecret: facebookAppSecret,
+    callbackURL: "http://localhost:8000/auth/facebook/callback",
+    profileFields: ['id', 'displayName', 'email'],
+    enableProof: true
+},
+    function (accessToken: any, refreshToken: any, profile: any, cb: any) {
+        console.log(profile)
+        cb(null, profile)
+    }
+));
+
 app.use('/', testRouter)
 
 app.use('/auth/google', googleOAuthRouter)
+
+app.use('/auth/facebook', facebookOAuthRouter)
 
 export default app;
