@@ -14,7 +14,6 @@ app.use(express.json());
 
 const prisma = new PrismaClient()
 
-
 app.get('/feed', async (req, res) => {
     const allUsers = await prisma.user.findMany()
     console.log(allUsers)
