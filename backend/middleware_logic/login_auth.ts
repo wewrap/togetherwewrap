@@ -2,15 +2,13 @@ import * as dotenv from 'dotenv';
 import path from 'path';
 dotenv.config({path: path.resolve(__dirname, "../.env")});
 import express from 'express';
-import { PrismaClient } from '@prisma/client'
+// import { PrismaClient } from '@prisma/client'
 import passport from 'passport';
 import {Strategy as LocalStrategy} from 'passport-local';
-import crypto from 'crypto'
-
+import crypto from 'crypto';
+import {prisma} from './index';
 
 const app = express();
-
-const prisma = new PrismaClient()
 
 app.get('/login/password',
   function(req, res, next) {
