@@ -29,20 +29,17 @@ export const LoginForm = () => {
 
     return (
         <section>
-          {/* TODO (Fahad) T78: refactor this code after wewrap logo can be downloaded */}
-          <img src='./logo192.png' alt='placeholder for wewrap logo'></img>
+          <img src='./wewrap_green.png' alt='wewrap logo'></img>
           <h1>Log in to your account</h1>
           <p className='subheader'>Don't have an account? Sign up</p>
 
           <form action="/login/password" method="post" onSubmit={handleSubmit}>
-              <div>
-                  <p className='form_text'>username*</p>
-                  <label htmlFor="username"></label>
+              <div className='user_creds'>
+                  <label htmlFor="username">username*</label>
                   <input id="username" name="username" type="text" autoComplete="on" required value={username} onChange={handleUsernameChange}/>
               </div>
-              <div>
-                  <p className='form_text'>password*</p>
-                  <label htmlFor="current_password"></label>
+              <div className='user_creds'>
+                  <label htmlFor="current_password">password*</label>
                   <input id="current_password" name="password" type="password" autoComplete="on" required value={password} onChange={handlePasswordChange}/>
                   <p className='form_text'>remember me</p>
               </div>

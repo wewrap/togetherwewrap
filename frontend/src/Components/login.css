@@ -10,6 +10,11 @@ section{
 
 }
 
+img {
+  width: 60px;
+  height: auto;
+}
+
 h1 {
   font-family: 'Montserrat';
   font-style: normal;
@@ -43,11 +48,7 @@ form{
   flex-direction: column;
 }
 
-.form_text{
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  letter-spacing: -0.015em;
-  color: #000000;
+.user_creds{
+  display: flex;
+  flex-direction: column;
 }
