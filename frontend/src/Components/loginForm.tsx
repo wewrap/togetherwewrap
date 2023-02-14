@@ -3,14 +3,14 @@ import axios from 'axios';
 import './login.css';
 
 export const LoginForm = () => {
-    const [username, setUsername] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
           const response = await axios.post("http://localhost:8000/login/password", {
-            username,
+            email,
             password,
           });
           console.log(response.data)
@@ -19,8 +19,8 @@ export const LoginForm = () => {
         }
     };
     
-  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,13 +35,14 @@ export const LoginForm = () => {
 
           <form action="/login/password" method="post" onSubmit={handleSubmit}>
               <div className='user_creds'>
-                  <label htmlFor="username">username*</label>
-                  <input id="username" name="username" type="text" autoComplete="on" required value={username} onChange={handleUsernameChange}/>
+                  <label htmlFor="email">Email*</label>
+                  <input id="email" name="email" type="text" autoComplete="on" required value={email} onChange={handleEmailChange}/>
               </div>
               <div className='user_creds'>
-                  <label htmlFor="current_password">password*</label>
+                  <label htmlFor="current_password">Password*</label>
                   <input id="current_password" name="password" type="password" autoComplete="on" required value={password} onChange={handlePasswordChange}/>
-                  <p className='form_text'>remember me</p>
+                  <p className='form_text'>Remember me</p>
+                  <p>Forgot password?</p>
               </div>
               <div>
                   <button type="submit">Log in</button>
