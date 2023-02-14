@@ -14,6 +14,7 @@ app.use(express.json());
 
 const prisma = new PrismaClient()
 
+
 app.get('/feed', async (req, res) => {
     const allUsers = await prisma.user.findMany()
     console.log(allUsers)
@@ -35,3 +36,6 @@ const port = 8000;
 app.listen(8000, () => {
     console.log(`Server started: http://localhost:${port}/`);
 }); 
+
+
+export default prisma;
