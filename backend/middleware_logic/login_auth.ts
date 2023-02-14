@@ -23,21 +23,21 @@ app.post('/login/password',
     res.status(200).send("we logged in")
   });
 
-  passport.use(new LocalStrategy(async (username: string, password: string, done: Function) => {
+  passport.use(new LocalStrategy(async (email: string, password: string, done: Function) => {
     try {
       const user = await db.user.findUnique({
         where: {
-          email:username
+          email
         },
       });
 
       if (!user) {
-        return done(null, false, {message: 'Incorrect username or password.' });
+        return done(null, false, {message: 'Incorrect email or password.' });
       }
 
       const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('hex');
       if (user.password !== hashedPassword) {
-        return done(null, false, { message: 'Incorrect username or password.' });
+        return done(null, false, { message: 'Incorrect email or password.' });
       }
 
       return done(null, user);
