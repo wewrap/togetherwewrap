@@ -100,17 +100,15 @@ passport.use(new FacebookStrategy({
                 }
             })
 
-            if (!user) { // if user doesn't exist
-                // create a new user and store in database
+            if (!user) {
                 const newUser = await prisma.user.create({
                     data: {
-                        firstName: profile._json.given_name,
-                        lastName: profile._json.family_name,
-                        googleID: profile.id,
-                        email: profile.emails[0].value
+                        firstName: profile._json.name,
+                        lastName: profile._json.name,
+                        facebookID: profile._json.id,
+                        email: profile._json.email
                     }
                 })
-                // return user object
                 cb(null, newUser)
             } else {
                 cb(null, user)
