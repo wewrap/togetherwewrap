@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev index.ts",
+    "dev": "nodemon index.ts",
     "tsc": "tsc",
     "postinstall": "prisma generate",
     "prismaMigrate": "npx prisma migrate dev --name"
@@ -23,6 +23,7 @@
     "@types/passport": "^1.0.11",
     "@types/passport-google-oauth20": "^2.0.11",
     "@types/passport-local": "^1.0.35",
+    "nodemon": "^2.0.20",
     "prisma": "^4.9.0",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",

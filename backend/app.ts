@@ -1,6 +1,4 @@
 import * as dotenv from 'dotenv';
-import path from 'path';
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -10,15 +8,13 @@ import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
 import loginAuth from './routes/loginAuth'
-
 import googleStrategy from 'passport-google-oauth20';
-
+dotenv.config();
 const GoogleStrategy = googleStrategy.Strategy;
 
-
+const db = prisma;
 const app = express();
 
-dotenv.config();
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
@@ -40,7 +36,7 @@ passport.serializeUser((user: any, done: any) => {
 })
 
 passport.deserializeUser(async (incomingId: string, done: any) => {
-    const user = await prisma.user.findFirst({
+    const user = await db.user.findFirst({
         where: {
             id: incomingId
         }
@@ -57,7 +53,7 @@ passport.use(new GoogleStrategy({
         // Called On successful authentication
         // //find a user that has a matching google ID with the incoming profile ID
         try {
-            const user = await prisma.user.findUnique({
+            const user = await db.user.findUnique({
                 where: {
                     googleID: profile.id
                 }
@@ -65,7 +61,7 @@ passport.use(new GoogleStrategy({
 
             if (!user) { // if user doesn't exist
                 // create a new user and store in database
-                const newUser = await prisma.user.create({
+                const newUser = await db.user.create({
                     data: {
                         firstName: profile._json.given_name,
                         lastName: profile._json.family_name,
