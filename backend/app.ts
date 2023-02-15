@@ -53,7 +53,7 @@ passport.use(new GoogleStrategy({
     clientSecret: clientSecret,
     callbackURL: "/auth/google/callback"
 },
-    async function verify(_accessToken: any, _refreshToken: any, _profile: any, _cb: any) {
+    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
         // Called On successful authentication
         // //find a user that has a matching google ID with the incoming profile ID
         try {
