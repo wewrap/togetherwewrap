@@ -35,12 +35,13 @@ passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
 })
 
-passport.deserializeUser(async (incomingId: string, done: any) => {
+passport.deserializeUser(async (id: string, done: any) => {
     const user = await db.user.findFirst({
         where: {
-            id: incomingId
+            id: id
         }
     })
+    console.log('found user from cookie')
     return done(null, user)
 })
 
