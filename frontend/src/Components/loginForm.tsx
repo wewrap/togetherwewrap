@@ -28,26 +28,29 @@ export const LoginForm = () => {
   };
 
     return (
-        <section>
+        <div className='login_form'>
           <img src='./wewrap_green.png' alt='wewrap logo'></img>
           <h1>Log in to your account</h1>
-          <p className='subheader'>Don't have an account? Sign up</p>
-
+          <p className='subheader'>Don't have an account? &nbsp;<a href='' >Sign up</a> </p>
           <form action="/login/password" method="post" onSubmit={handleSubmit}>
               <div className='user_creds'>
                   <label htmlFor="email">Email*</label>
-                  <input id="email" name="email" type="text" autoComplete="on" required value={email} onChange={handleEmailChange}/>
+                  <input className="email" name="email" type="text" autoComplete="on" required value={email} onChange={handleEmailChange}/>
               </div>
               <div className='user_creds'>
                   <label htmlFor="current_password">Password*</label>
-                  <input id="current_password" name="password" type="password" autoComplete="on" required value={password} onChange={handlePasswordChange}/>
-                  <p className='form_text'>Remember me</p>
-                  <p>Forgot password?</p>
+                  <input className="current_password" name="password" type="password" autoComplete="on" required value={password} onChange={handlePasswordChange}/>
+              </div>
+              <div className='user_helper'>
+                <label>
+                  <input type="checkbox" name="remember-me" id="remember-me"/>Remember Me
+                </label>
+                <p className='forget_password'>Forgot password?</p>
               </div>
               <div>
-                  <button type="submit">Log in</button>
+                  <button className='submit_button' type="submit">Log in</button>
               </div>
           </form>
-        </section>
+        </div>
     );
 };

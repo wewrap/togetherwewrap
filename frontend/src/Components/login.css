@@ -1,17 +1,14 @@
-* {
-  background: #F8FFE5;
-}
-
-section{
+.login_form{
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  height: 100%;
+  background-color: #F8FFE5;
 }
 
 img {
-  width: 60px;
+  width: 75px;
   height: auto;
 }
 
@@ -20,13 +17,11 @@ h1 {
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
-  line-height: 40px;
-  
   text-align: center;
   align-items: center;
   letter-spacing: -0.015em;
-  
   color: #000000;
+  margin-bottom: 0px;
 }
 
 .subheader{
@@ -34,10 +29,14 @@ h1 {
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
-  line-height: 0px;
+  text-align: center;
+  letter-spacing: -0.015em;
+  color: #000000;
+  margin-bottom: 50px;
 }
 
 form{
+  background:#FFFFFF;
   width: 450px;
   height: 220px;
   padding: 50px;
@@ -51,4 +50,9 @@ form{
 .user_creds{
   display: flex;
   flex-direction: column;
+}
+
+.user_helper {
+  display: flex;
+  justify-content: space-between;
 }
