@@ -9,6 +9,7 @@ import passport from 'passport';
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
+import loginAuth from './routes'
 
 import googleStrategy from 'passport-google-oauth20';
 
@@ -82,7 +83,7 @@ passport.use(new GoogleStrategy({
     }));
 
 app.use('/', testRouter)
-
 app.use('/auth/google', googleOAuthRouter)
+app.use('/login', loginAuth)
 
 export default app;
