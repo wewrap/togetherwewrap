@@ -5,7 +5,6 @@ import passport from 'passport'
 import prisma from '../utils/prismaClient'
 import crypto from 'crypto';
 
-
 const db = prisma;
 
 loginAuthRouter.get('/login/password',
@@ -28,11 +27,11 @@ passport.use(new LocalStrategy(async (email: string, password: string, done: Fun
             },
         });
 
-        if (!user) {
+        if (!user || !user.salt) {
             return done(null, false, { message: 'Incorrect email or password.' });
         }
 
-        const hashedPassword = crypto.pbkdf2Sync(password, db.user.salt, 310000, 32, 'sha256').toString('hex');
+        const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('hex');
         if (user.password !== hashedPassword) {
             return done(null, false, { message: 'Incorrect email or password.' });
         }

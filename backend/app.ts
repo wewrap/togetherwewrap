@@ -9,11 +9,12 @@ import passport from 'passport';
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
-import loginAuth from './routes'
+import loginAuth from './routes/loginAuth'
 
 import googleStrategy from 'passport-google-oauth20';
 
 const GoogleStrategy = googleStrategy.Strategy;
+
 
 const app = express();
 
@@ -52,7 +53,7 @@ passport.use(new GoogleStrategy({
     clientSecret: clientSecret,
     callbackURL: "/auth/google/callback"
 },
-    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function verify(_accessToken: any, _refreshToken: any, _profile: any, _cb: any) {
         // Called On successful authentication
         // //find a user that has a matching google ID with the incoming profile ID
         try {
