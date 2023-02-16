@@ -1,9 +1,9 @@
 import * as dotenv from 'dotenv';
 import path from 'path';
 dotenv.config({path: path.resolve(__dirname, "../.env")});
-import app from './utils/app';
+import app from '../utils/app';
 import cors from 'cors';
-import prisma from './utils/db';
+import prisma from '../utils/db';
 import { PrismaClient } from '@prisma/client';
 import morgan from 'morgan';
 import express from 'express';
