@@ -31,6 +31,7 @@ export const LoginForm = () => {
         <div className='login_form'>
           <img src='./wewrap_green.png' alt='wewrap logo'></img>
           <h1>Log in to your account</h1>
+          {/* T80 (FK): Add route to sign up page once sign up code is push and merged */}
           <p className='subheader'>Don't have an account?<a href='' > Sign up</a> </p>
           <form action="/login/password" method="post" onSubmit={handleSubmit}>
               <div className='user_creds'>
@@ -45,6 +46,7 @@ export const LoginForm = () => {
                 <label className='remember_me_and_checkbox'>
                   <input type="checkbox" name="remember_me" className="remember_me"/>Remember Me
                 </label>
+                {/* T81 (FK) Create and add route to forgot password page once that page is built */}
                 <p className='forget_password'><a href=''>Forgot password?</a> </p>
               </div>
               <div>
