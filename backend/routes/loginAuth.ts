@@ -2,12 +2,12 @@ import express from "express";
 const loginAuthRouter = express.Router()
 import passport from 'passport'
 
-loginAuthRouter.get('/login/password',
+loginAuthRouter.get('/password',
     function (req, res, next) {
         res.render('login');
     });
 
-loginAuthRouter.post('/login/password',
+loginAuthRouter.post('/password',
     passport.authenticate('local', { failureRedirect: '/login', failureMessage: true }),
     function (req, res) {
         console.log(req.body)
