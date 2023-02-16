@@ -16,4 +16,3 @@ model User {
   salt String 
   birthDate DateTime? 
 }
-
