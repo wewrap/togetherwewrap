@@ -11,6 +11,10 @@ import googleStrategy from 'passport-google-oauth20';
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuth from './routes/loginAuth'
+import { Strategy as LocalStrategy } from 'passport-local';
+import crypto from 'crypto';
+
+
 
 const GoogleStrategy = googleStrategy.Strategy;
 const FacebookStrategy = facebookStrategy.Strategy;
@@ -25,7 +29,7 @@ app.use(express.json());
 
 const secretcode = process.env.SESSION_SECRET as string;
 const googleClientID = process.env.GOOGLE_CLIENT_ID as string;
-const googleAppSecret = process.env.GOOGLE_APP_SECRET as string;
+const googleAppSecret = process.env.GOOGLE_CLIENT_SECRET as string;
 const facebookClientID = process.env.FACEBOOK_CLIENT_ID as string;
 const facebookAppSecret = process.env.FACEBOOK_APP_SECRET as string;
 
@@ -95,14 +99,14 @@ passport.use(new FacebookStrategy({
 },
     async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
         try {
-            const user = await prisma.user.findFirst({
+            const user = await db.user.findFirst({
                 where: {
                     facebookID: profile.id
                 }
             })
 
             if (!user) {
-                const newUser = await prisma.user.create({
+                const newUser = await db.user.create({
                     data: {
                         firstName: profile._json.name,
                         lastName: profile._json.name,
@@ -119,6 +123,30 @@ passport.use(new FacebookStrategy({
         }
     }
 ));
+
+passport.use(new LocalStrategy(async (email: string, password: string, done: Function) => {
+    try {
+        const user = await db.user.findUnique({
+            where: {
+                email
+            },
+        });
+
+        if (!user || !user.salt) {
+            return done(null, false, { message: 'Incorrect email or password.' });
+        }
+
+        const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('hex');
+        if (user.password !== hashedPassword) {
+            return done(null, false, { message: 'Incorrect email or password.' });
+        }
+
+        return done(null, user);
+
+    } catch (error) {
+        done(error);
+    }
+}));
 
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
