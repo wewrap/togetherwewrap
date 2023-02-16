@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE `User` ADD COLUMN `salt` VARCHAR(191) NOT NULL;
+ALTER TABLE `User` ADD COLUMN `salt` VARCHAR(191) NULL;
