@@ -94,7 +94,7 @@ passport.use(new FacebookStrategy({
 },
     async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
         try {
-            const user = await prisma.user.findUnique({
+            const user = await prisma.user.findFirst({
                 where: {
                     facebookID: profile.id
                 }
