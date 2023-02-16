@@ -13,8 +13,7 @@ import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuth from './routes/loginAuth'
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
-
-
+import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID } from './utils/config'
 
 const GoogleStrategy = googleStrategy.Strategy;
 const FacebookStrategy = facebookStrategy.Strategy;
@@ -26,12 +25,6 @@ const db = prisma;
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
-
-const secretcode = process.env.SESSION_SECRET as string;
-const googleClientID = process.env.GOOGLE_CLIENT_ID as string;
-const googleAppSecret = process.env.GOOGLE_CLIENT_SECRET as string;
-const facebookClientID = process.env.FACEBOOK_CLIENT_ID as string;
-const facebookAppSecret = process.env.FACEBOOK_APP_SECRET as string;
 
 app.use(session({
     secret: secretcode,
@@ -57,7 +50,7 @@ passport.deserializeUser(async (id: string, done: any) => {
 
 passport.use(new GoogleStrategy({
     clientID: googleClientID,
-    clientSecret: googleAppSecret,
+    clientSecret: googleClientSecret,
     callbackURL: "/auth/google/callback"
 },
     async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
