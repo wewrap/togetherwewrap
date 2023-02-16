@@ -1,6 +1,4 @@
 import * as dotenv from 'dotenv';
-import path from 'path';
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -12,13 +10,15 @@ import prisma from './utils/prismaClient';
 import googleStrategy from 'passport-google-oauth20';
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
+import loginAuth from './routes/loginAuth'
 
 const GoogleStrategy = googleStrategy.Strategy;
 const FacebookStrategy = facebookStrategy.Strategy;
 
 const app = express();
-
 dotenv.config();
+const db = prisma;
+
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
@@ -41,12 +41,13 @@ passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
 })
 
-passport.deserializeUser(async (incomingId: string, done: any) => {
-    const user = await prisma.user.findFirst({
+passport.deserializeUser(async (id: string, done: any) => {
+    const user = await db.user.findFirst({
         where: {
-            id: incomingId
+            id: id
         }
     })
+    console.log('found user from cookie')
     return done(null, user)
 })
 
@@ -59,7 +60,7 @@ passport.use(new GoogleStrategy({
         // Called On successful authentication
         // //find a user that has a matching google ID with the incoming profile ID
         try {
-            const user = await prisma.user.findUnique({
+            const user = await db.user.findUnique({
                 where: {
                     googleID: profile.id
                 }
@@ -67,7 +68,7 @@ passport.use(new GoogleStrategy({
 
             if (!user) { // if user doesn't exist
                 // create a new user and store in database
-                const newUser = await prisma.user.create({
+                const newUser = await db.user.create({
                     data: {
                         firstName: profile._json.given_name,
                         lastName: profile._json.family_name,
@@ -120,9 +121,8 @@ passport.use(new FacebookStrategy({
 ));
 
 app.use('/', testRouter)
-
 app.use('/auth/google', googleOAuthRouter)
-
 app.use('/auth/facebook', facebookOAuthRouter)
+app.use('/login', loginAuth)
 
 export default app;
