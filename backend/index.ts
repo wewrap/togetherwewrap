@@ -1,39 +1,12 @@
-import * as dotenv from 'dotenv';
-import path from 'path';
-dotenv.config({path: path.resolve(__dirname, "../.env")});
-import express from 'express';
-import cors from 'cors';
-import { PrismaClient } from '@prisma/client'
-import morgan from 'morgan';
+/* Index ts is responsible for connecting the app to local port*/
 
-const app = express();
+import app from './app';
+import http from 'http';
 
-app.use(morgan("dev"));
-app.use(cors());
-app.use(express.json());
-
-const prisma = new PrismaClient()
-
-app.get('/feed', async (req, res) => {
-    const allUsers = await prisma.user.findMany()
-    console.log(allUsers)
-    res.json(allUsers)
-  })
-
-app.get('/', (req, res) => {
-    res.status(200).send("Hello World");
-});
-
-app.get('/api', (req, res) => {
-    res.status(200).json({
-        data: "Together we wrap!"
-    })
-})
+const server = http.createServer(app)
 
 const port = 8000;
 
-app.listen(8000, () => {
+server.listen(port, () => {
     console.log(`Server started: http://localhost:${port}/`);
-}); 
-
-export default prisma;
+});
