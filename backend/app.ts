@@ -9,6 +9,10 @@ import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
 import loginAuth from './routes/loginAuth'
 import googleStrategy from 'passport-google-oauth20';
+import expressSession from 'express-session';
+import { PrismaSessionStore } from '@quixo3/prisma-session-store';
+import { PrismaClient } from '@prisma/client';
+
 dotenv.config();
 const GoogleStrategy = googleStrategy.Strategy;
 
@@ -23,11 +27,25 @@ const secretcode = process.env.SESSION_SECRET as string;
 const clientID = process.env.GOOGLE_CLIENT_ID as string;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET as string;
 
-app.use(session({
-    secret: secretcode,
-    resave: true,
-    saveUninitialized: false,
-}));
+app.use(
+    expressSession({
+        cookie: {
+            maxAge: 3 * 24 * 60 * 60 * 1000 // 3 days
+        },
+        secret: secretcode,
+        resave: true,
+        saveUninitialized: false,
+        store: new PrismaSessionStore(
+            new PrismaClient(),
+            {
+                checkPeriod: 2 * 60 * 1000,  
+                dbRecordIdIsSessionId: true,
+                dbRecordIdFunction: undefined,
+            }
+        )
+    })
+);
+
 app.use(passport.initialize())
 app.use(passport.session())
 
