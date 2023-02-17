@@ -16,6 +16,7 @@ export const LoginForm = () => {
           console.log(response.data)
         } catch(error) {
             console.error(error);
+            console.log("we hit an error")
         }
     };
     
