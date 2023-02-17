@@ -9,6 +9,8 @@ import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
 import loginAuth from './routes/loginAuth'
 import googleStrategy from 'passport-google-oauth20';
+import { Strategy as LocalStrategy } from 'passport-local';
+import crypto from 'crypto';
 dotenv.config();
 const GoogleStrategy = googleStrategy.Strategy;
 
@@ -77,6 +79,30 @@ passport.use(new GoogleStrategy({
             }
         } catch (error) {
             cb(error, null)
+        }
+    }));
+
+    passport.use(new LocalStrategy(async (email: string, password: string, done: Function) => {
+        try {
+            const user = await db.user.findUnique({
+                where: {
+                    email
+                },
+            });
+    
+            if (!user || !user.salt) {
+                return done(null, false, { message: 'Incorrect email or password.' });
+            }
+    
+            const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('hex');
+            if (user.password !== hashedPassword) {
+                return done(null, false, { message: 'Incorrect email or password.' });
+            }
+    
+            return done(null, user);
+    
+        } catch (error) {
+            done(error);
         }
     }));
 
