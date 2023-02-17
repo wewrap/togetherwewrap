@@ -30,6 +30,9 @@ app.use(session({
     secret: secretcode,
     resave: true,
     saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 3//3 days
+    }
 }));
 app.use(passport.initialize())
 app.use(passport.session())
@@ -45,6 +48,7 @@ passport.deserializeUser(async (id: string, done: any) => {
         }
     })
     console.log('found user from cookie')
+    console.log(user)
     return done(null, user)
 })
 
@@ -107,12 +111,12 @@ passport.use(new FacebookStrategy({
                         email: profile._json.email
                     }
                 })
-                cb(null, newUser)
+                return cb(null, newUser)
             } else {
-                cb(null, user)
+                return cb(null, user)
             }
         } catch (error) {
-            cb(error, null)
+            return cb(error, null)
         }
     }
 ));
