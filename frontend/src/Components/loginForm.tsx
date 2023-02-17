@@ -14,9 +14,9 @@ export const LoginForm = () => {
             password,
           });
           console.log(response.data)
+          // TODO T105 (FK) After successful response redirect user to whatever page they're trying to reach
         } catch(error) {
             console.error(error);
-            console.log("we hit an error")
         }
     };
     
