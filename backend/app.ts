@@ -111,12 +111,12 @@ passport.use(new FacebookStrategy({
                         email: profile._json.email
                     }
                 })
-                return cb(null, newUser)
+                cb(null, newUser)
             } else {
-                return cb(null, user)
+                cb(null, user)
             }
         } catch (error) {
-            return cb(error, null)
+            cb(error, null)
         }
     }
 ));
