@@ -45,3 +45,10 @@ app.post('/signup', async function(req, res, next) {
 //  function(req, res) {
 //     console.log(req.body)
 //  });
+
+
+//app.post('/signup', 
+// passport.authenticate('local', {failureRedirect: '/signup', failureMessage: true }),
+// function(req, res) {
+//    console.log(req.body)
+// });
