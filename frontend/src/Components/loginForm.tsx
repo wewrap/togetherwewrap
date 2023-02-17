@@ -41,7 +41,7 @@ export const LoginForm = () => {
               </div>
               <div className='user_creds'>
                   <label htmlFor="current_password">Password<span>*</span></label>
-                  <input className="current_password" name="password" type="password" autoComplete="on" required value={password} onChange={handlePasswordChange}/>
+                  <input className="password" name="password" type="password" autoComplete="on" required value={password} onChange={handlePasswordChange}/>
               </div>
               <div className='user_helper'>
                 <label className='remember_me_and_checkbox'>

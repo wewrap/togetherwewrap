@@ -63,7 +63,15 @@ form{
   margin-bottom: 8px;
 }
 
-input{
+.email{
+  background: #FFFFFF;
+  border: 1px solid #D7D7D7;
+  border-radius: 6px;
+  box-sizing: border-box;
+  height: 41px;
+}
+
+.password{
   background: #FFFFFF;
   border: 1px solid #D7D7D7;
   border-radius: 6px;
@@ -108,7 +116,7 @@ a {
   color: #06D6A0;
 }
 
-input[type="checkbox"]{
+.remember_me{
   appearance: none;
   -webkit-appearance: none;
   height: 15px;
@@ -118,18 +126,19 @@ input[type="checkbox"]{
   cursor: pointer;
   display: flex;
   align-items: center;
+  border: 1px solid #D7D7D7;
 }
 
-input[type="checkbox"]:hover{
+.remember_me:hover{
   background-color: #a5a5a5;
 }
 
-input[type="checkbox"]:checked{
+.remember_me:checked{
   background-color: #06D6A0;
   content: "\2713";
 }
 
-input[type="checkbox"]:checked:after{
+.remember_me:checked:after{
   display: block;
   content: "\2713";
   color: white;
