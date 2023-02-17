@@ -28,7 +28,7 @@ app.post('/signup', async function(req, res, next) {
                 email: req.body.email,
                 firstName: req.body.firstName,
                 lastName: req.body.lastName, 
-                hashedPassword: hashedPassword.toString("base64"),
+                password: hashedPassword.toString("base64"),
                 salt: salt //fix salt ??? how to best generate salt using crypto 
             },
         })
