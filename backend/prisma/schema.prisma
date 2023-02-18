@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  firstName String
-  lastName  String
-  password  String?
-  birthDate DateTime?
-  googleID  String?   @unique
-  salt      String?
+  id           String    @id @default(uuid())
+  email        String   @unique
+  firstName    String
+  lastName     String
+  password     String?
+  birthDate    DateTime?
+  googleID     String?   @unique
+  salt        String?
+  facebookID String?   @unique
 }
 
 model Session {
