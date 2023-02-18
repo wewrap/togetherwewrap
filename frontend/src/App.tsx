@@ -9,10 +9,10 @@ function App() {
   return (
 <div> 
     <Routes> 
-      <Route path = "/signup" element={<SignUp/>}>  </Route>
+      <Route path = "/login" element = {<LoginForm/>}> </Route>
     </Routes>
     <Routes> 
-      <Route path = "/login" element = {<LoginForm/>}> </Route>
+      <Route path = "/signup" element={<SignUp/>}>  </Route>
     </Routes>
 </div>
   );

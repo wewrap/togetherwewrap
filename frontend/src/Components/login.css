@@ -40,7 +40,7 @@ h1 {
   margin-bottom: 40px;
 }
 
-form{
+form {
   background:#FFFFFF;
   width: 380px;
   height: 220px;
@@ -60,12 +60,9 @@ form{
 }
 
 .email{
-  margin-bottom: 8px;
-}
-
-.email{
   background: #FFFFFF;
   border: 1px solid #D7D7D7;
+  margin-bottom: 8px;
   border-radius: 6px;
   box-sizing: border-box;
   height: 41px;
