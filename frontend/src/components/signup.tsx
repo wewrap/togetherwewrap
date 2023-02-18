@@ -45,12 +45,11 @@ export const SignUp = () => {
     return (
 
         <section className = "container"> 
-        {/* <img className = "weWrapLogo" src = './weWrapGreen.png' alt = 'wewrap logo'> </img> */}
         <header> 
+        <img src='./wewrap_green.png' alt='wewrap logo'></img>
         <h3 className = "weWrapTitle"> Sign Up for WeWrap </h3>
         <p className = "createAccount" > Create a free account or &nbsp;<a href = " ">login </a> </p>
         </header>
-            {/* <img src = ""> WeWrap Logo </img> */}
             <form className = "signUpForm" onSubmit = {handleSubmit}> 
                 <label htmlFor = "errorNotification"> {warning} </label>
                 <label htmlFor = "firstName"> 
