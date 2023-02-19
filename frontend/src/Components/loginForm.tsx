@@ -16,7 +16,6 @@ export const LoginForm = () => {
             password,
           });
           // TODO T105 (FK) After successful response redirect user to whatever page they're trying to reach
-          console.log(response.data)
           
         } catch(error) {
             console.error(error);
@@ -39,7 +38,7 @@ export const LoginForm = () => {
           {/* T80 (FK): Add route to sign up page once sign up code is push and merged */}
           <p className='subheader'>Don't have an account?<a href='' > Sign up</a> </p>
           <form action="/login/password" method="post" onSubmit={handleSubmit}>
-              <p className='error_message'>{errorMessage}</p>
+              {errorMessage && <p className='error_message'>{errorMessage}</p>}
               <div className='user_creds'>
                   <label htmlFor="email">Email<span>*</span></label>
                   <input className="email" name="email" type="text" autoComplete="on" required value={email} onChange={handleEmailChange}/>

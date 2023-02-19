@@ -13,14 +13,11 @@ loginAuthRouter.get('/password',
 loginAuthRouter.post("/password", function (req, res, next) {
     passport.authenticate("local", function (err, user, info) {
       if (err) {
-          // Replace this with Error Message
         return res.status(401).send('Email or password did not match. Please try again.')
       }
       if (!user) {
-          // Replace this with Error Message
         return res.status(401).send('Email or password did not match. Please try again.');
       }
-      // NEED TO CALL req.login()!!!
       req.login(user, next);
     })(req, res, next);
   });
