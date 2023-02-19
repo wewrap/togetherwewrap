@@ -11,7 +11,7 @@ loginAuthRouter.get('/password',
     });
 
 loginAuthRouter.post('/password',
-    passport.authenticate('local', {failureRedirect: '/login', failureMessage: 'Email or password did not match. Please try again.'}),
+    passport.authenticate('local', {failureMessage: true}),
     function (req, res) {
         console.log(req.body)
         res.status(200).send("we logged in")

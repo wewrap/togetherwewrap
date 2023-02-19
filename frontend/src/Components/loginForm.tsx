@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './login.css';
 
+
 export const LoginForm = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -14,11 +15,12 @@ export const LoginForm = () => {
             email,
             password,
           });
-          console.log(response.data)
           // TODO T105 (FK) After successful response redirect user to whatever page they're trying to reach
-        } catch(error:any) {
+          console.log(response.data)
+          
+        } catch(error) {
             console.error(error);
-            setErrorMessage(error.response?.data?.message ?? "Unknown error occured.");
+            setErrorMessage((error as any).response.data ?? "Unknown error occured.");
         }
     };
     
