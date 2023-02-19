@@ -2,7 +2,6 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import session from 'express-session';
 import passport from 'passport';
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
@@ -11,8 +10,6 @@ import googleStrategy from 'passport-google-oauth20';
 import expressSession from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
-
-dotenv.config();
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuth from './routes/loginAuth'
@@ -20,6 +17,7 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
 import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID } from './utils/config'
 
+dotenv.config();
 const GoogleStrategy = googleStrategy.Strategy;
 const FacebookStrategy = facebookStrategy.Strategy;
 
@@ -37,7 +35,7 @@ app.use(
             maxAge: 3 * 24 * 60 * 60 * 1000 // 3 days
         },
         secret: secretcode,
-        resave: true,
+        resave: false,
         saveUninitialized: false,
         store: new PrismaSessionStore(
             new PrismaClient(),
@@ -50,14 +48,7 @@ app.use(
     })
 );
 
-app.use(session({
-    secret: secretcode,
-    resave: true,
-    saveUninitialized: false,
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 3//3 days
-    }
-}));
+
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -85,7 +76,7 @@ passport.use(new GoogleStrategy({
         // Called On successful authentication
         // //find a user that has a matching google ID with the incoming profile ID
         try {
-            const user = await db.user.findUnique({
+            const user = await db.user.findFirst({
                 where: {
                     googleID: profile.id
                 }
