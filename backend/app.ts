@@ -40,7 +40,7 @@ app.use(
         store: new PrismaSessionStore(
             new PrismaClient(),
             {
-                checkPeriod: 2 * 60 * 1000,  
+                checkPeriod: 2 * 60 * 1000,
                 dbRecordIdIsSessionId: true,
                 dbRecordIdFunction: undefined,
             }
@@ -51,6 +51,9 @@ app.use(
 
 app.use(passport.initialize())
 app.use(passport.session())
+app.use('/', testRouter)
+app.use('/auth/google', googleOAuthRouter)
+app.use('/login', loginAuth)
 
 passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
@@ -136,33 +139,36 @@ passport.use(new FacebookStrategy({
     }
 ));
 
-passport.use(new LocalStrategy(async (email: string, password: string, done: Function) => {
-    try {
-        const user = await db.user.findUnique({
-            where: {
-                email
-            },
-        });
-
-        if (!user || !user.salt) {
-            return done(null, false, { message: 'Incorrect email or password.' });
-        }
-
-        const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('hex');
-        if (user.password !== hashedPassword) {
-            return done(null, false, { message: 'Incorrect email or password.' });
-        }
-
-        return done(null, user);
-
-    } catch (error) {
-        done(error);
-    }
-}));
-
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuth)
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+},
+    async (email: string, password: string, done: Function) => {
+        try {
+            const user = await db.user.findUnique({
+                where: {
+                    email
+                },
+            });
+
+            if (!user || !user.salt) {
+                return done('Email or password did not match. Please try again.');
+            }
+
+            const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('hex');
+            if (user.password !== hashedPassword) {
+                return done('Email or password did not match. Please try again.');
+            }
+
+            return done(null, user);
+
+        } catch (error) {
+            done(error);
+        }
+    }));
 
 export default app;

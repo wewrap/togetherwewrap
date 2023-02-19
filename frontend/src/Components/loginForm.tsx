@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './login.css';
 
+
 export const LoginForm = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    
+    const [errorMessage, setErrorMessage] = useState<string>('');
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
@@ -13,10 +15,11 @@ export const LoginForm = () => {
             email,
             password,
           });
-          console.log(response.data)
           // TODO T105 (FK) After successful response redirect user to whatever page they're trying to reach
+          
         } catch(error) {
             console.error(error);
+            setErrorMessage((error as any).response.data ?? "Unknown error occured.");
         }
     };
     
@@ -35,6 +38,7 @@ export const LoginForm = () => {
           {/* T80 (FK): Add route to sign up page once sign up code is push and merged */}
           <p className='subheader'>Don't have an account?<a href='' > Sign up</a> </p>
           <form action="/login/password" method="post" onSubmit={handleSubmit}>
+              {errorMessage && <p className='error_message'>{errorMessage}</p>}
               <div className='user_creds'>
                   <label htmlFor="email">Email<span>*</span></label>
                   <input className="email" name="email" type="text" autoComplete="on" required value={email} onChange={handleEmailChange}/>
