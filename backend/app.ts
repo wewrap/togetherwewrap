@@ -32,6 +32,9 @@ app.use(session({
 }));
 app.use(passport.initialize())
 app.use(passport.session())
+app.use('/', testRouter)
+app.use('/auth/google', googleOAuthRouter)
+app.use('/login', loginAuth)
 
 passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
@@ -95,12 +98,12 @@ passport.use(new GoogleStrategy({
             });
 
             if (!user || !user.salt) {
-                return done(null, false, {message: 'Email or password did not match. Please try again.'});
+                return done('Email or password did not match. Please try again.');
             }
 
             const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('hex');
             if (user.password !== hashedPassword) {
-                return done(null, false, {message: 'Email or password did not match. Please try again.'});
+                return done('Email or password did not match. Please try again.');
             }
 
             return done(null, user);
@@ -109,9 +112,5 @@ passport.use(new GoogleStrategy({
             done(error);
         }
     }));
-
-app.use('/', testRouter)
-app.use('/auth/google', googleOAuthRouter)
-app.use('/login', loginAuth)
 
 export default app;

@@ -10,11 +10,20 @@ loginAuthRouter.get('/password',
         res.render('login');
     });
 
-loginAuthRouter.post('/password',
-    passport.authenticate('local', {failureMessage: true}),
-    function (req, res) {
-        console.log(req.body)
-        res.status(200).send("we logged in")
-    });
+loginAuthRouter.post("/password", function (req, res, next) {
+    passport.authenticate("local", function (err, user, info) {
+      if (err) {
+          // Replace this with Error Message
+        return res.status(401).send('OOPPPs')
+      }
+      if (!user) {
+          // Replace this with Error Message
+        return res.status(401).send('OOPS');
+      }
+  
+      // NEED TO CALL req.login()!!!
+      req.login(user, next);
+    })(req, res, next);
+  });
 
 export default loginAuthRouter
