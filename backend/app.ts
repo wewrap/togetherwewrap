@@ -47,8 +47,6 @@ passport.deserializeUser(async (id: string, done: any) => {
             id: id
         }
     })
-    console.log('found user from cookie')
-    console.log(user)
     return done(null, user)
 })
 
@@ -58,8 +56,6 @@ passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback"
 },
     async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
-        // Called On successful authentication
-        // //find a user that has a matching google ID with the incoming profile ID
         try {
             const user = await db.user.findUnique({
                 where: {
@@ -67,8 +63,7 @@ passport.use(new GoogleStrategy({
                 }
             })
 
-            if (!user) { // if user doesn't exist
-                // create a new user and store in database
+            if (!user) {
                 const newUser = await db.user.create({
                     data: {
                         firstName: profile._json.given_name,
@@ -77,7 +72,7 @@ passport.use(new GoogleStrategy({
                         email: profile.emails[0].value
                     }
                 })
-                // return user object
+                
                 cb(null, newUser)
             } else {
                 cb(null, user)

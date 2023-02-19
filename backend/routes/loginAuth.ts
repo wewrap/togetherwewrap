@@ -2,10 +2,6 @@ import express from "express";
 const loginAuthRouter = express.Router()
 import passport from 'passport'
 
-loginAuthRouter.get('/', (req, res) => {
-    res.status(400).send('failed login')
-})
-
 loginAuthRouter.get('/password',
     function (req, res, next) {
         res.render('login');
