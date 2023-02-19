@@ -29,7 +29,7 @@ export const SignUp = () => {
                 })
         
                 .then((res) => {
-                    console.log(res.data)
+                    setWarning('Successful submission.');
                 })
         
                 .catch((err) => {
