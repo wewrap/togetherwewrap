@@ -33,10 +33,12 @@ export const SignUp = () => {
                 })
         
                 .catch((err) => {
-                    setWarning('Submission Error. Please try again.');
+                    if(err.response.status == 409){
+                        setWarning('Existing email. Please use a different email.');
+                    }
+                    else{setWarning('Submission Error. Please try again.');}
                 })
             }
-            
             else{
                 setConfirmPassword(''); 
                 setWarning('Please use a different password.')
