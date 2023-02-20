@@ -6,13 +6,14 @@ import passport from 'passport';
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
+import loginAuth from './routes/loginAuth';
+import signUpAuth from './routes/signUpAuth';
 import googleStrategy from 'passport-google-oauth20';
 import expressSession from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
-import loginAuth from './routes/loginAuth'
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
 import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID } from './utils/config'
@@ -55,6 +56,7 @@ app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuth)
+app.use('/signup', signUpAuth)
 
 passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
