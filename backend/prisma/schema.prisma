@@ -8,9 +8,12 @@ datasource db {
 }
 
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  firstName    String @unique
-  lastName String @unique 
-  birthdate DateTime @unique
+  id        String    @id @default(uuid())
+  email     String    @unique
+  firstName String
+  lastName  String
+  password  String?
+  birthDate DateTime?
+  googleID  String?   @unique
+  salt      String?
 }
