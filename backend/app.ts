@@ -15,9 +15,7 @@ import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuth from './routes/loginAuth'
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
-import session from 'express-session';
 import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID } from './utils/config'
-import { request } from 'http';
 
 dotenv.config();
 const GoogleStrategy = googleStrategy.Strategy;
