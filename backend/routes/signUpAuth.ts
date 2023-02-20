@@ -1,9 +1,6 @@
 import express from 'express';
 import crypto from 'crypto'
-import * as dotenv from 'dotenv';
 import prisma from '../utils/prismaClient';
-
-dotenv.config();
 const signUpAuthRouter = express.Router()
 const db = prisma;
 
