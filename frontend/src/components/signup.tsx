@@ -51,7 +51,7 @@ export const SignUp = () => {
         <h3 className = "weWrapTitle"> Sign Up for WeWrap </h3>
         <p className = "createAccount" > Create a free account or&nbsp;<Link to = "/login">log in </Link> </p>
             <form className = "signUpForm" onSubmit = {handleSubmit}> 
-                <label htmlFor = "errorNotification"> {warning} </label>
+                <p className = "errorNotification"> {warning} </p>
                 <label htmlFor = "signUpFieldTitles"> First Name <span>*</span> 
                     <input id = "signUpFirstName" className = "signUpFields" type = "text" required value = {firstName} onChange = {(event) => setFirstName(event.target.value)}/>
                     </label>
