@@ -4,10 +4,10 @@ import * as dotenv from 'dotenv';
 import prisma from '../utils/prismaClient';
 
 dotenv.config();
-const signUpAuth = express.Router()
+const signUpAuthRouter = express.Router()
 const db = prisma;
 
-signUpAuth.post('/signup', async function(req, res, next) {
+signUpAuthRouter.post('/', async function(req, res, next) {
     console.log(req.body);
     console.log("hello");
     const existingUser = await db.user.findUnique({
@@ -40,4 +40,4 @@ signUpAuth.post('/signup', async function(req, res, next) {
     }
 });
 
-export default signUpAuth
+export default signUpAuthRouter
