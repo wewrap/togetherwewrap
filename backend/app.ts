@@ -15,7 +15,9 @@ import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuth from './routes/loginAuth'
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
+import session from 'express-session';
 import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID } from './utils/config'
+import { request } from 'http';
 
 dotenv.config();
 const GoogleStrategy = googleStrategy.Strategy;
@@ -32,7 +34,7 @@ app.use(express.json());
 app.use(
     expressSession({
         cookie: {
-            maxAge: 3 * 24 * 60 * 60 * 1000 // 3 days
+            maxAge:  20 * 1000
         },
         secret: secretcode,
         resave: false,
@@ -44,10 +46,10 @@ app.use(
                 dbRecordIdIsSessionId: true,
                 dbRecordIdFunction: undefined,
             }
-        )
+        ),
+        rolling: true
     })
 );
-
 
 app.use(passport.initialize())
 app.use(passport.session())
