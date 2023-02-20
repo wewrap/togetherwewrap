@@ -9,6 +9,8 @@ import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
 import loginAuth from './routes/loginAuth'
 import googleStrategy from 'passport-google-oauth20';
+import { Strategy as LocalStrategy } from 'passport-local';
+import crypto from 'crypto';
 dotenv.config();
 const GoogleStrategy = googleStrategy.Strategy;
 
@@ -30,6 +32,9 @@ app.use(session({
 }));
 app.use(passport.initialize())
 app.use(passport.session())
+app.use('/', testRouter)
+app.use('/auth/google', googleOAuthRouter)
+app.use('/login', loginAuth)
 
 passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
@@ -80,8 +85,32 @@ passport.use(new GoogleStrategy({
         }
     }));
 
-app.use('/', testRouter)
-app.use('/auth/google', googleOAuthRouter)
-app.use('/login', loginAuth)
+    passport.use(new LocalStrategy({
+                usernameField: 'email',
+                passwordField: 'password'
+        },
+        async (email: string, password: string, done: Function) => {
+        try {
+            const user = await db.user.findUnique({
+                where: {
+                    email
+                },
+            });
+
+            if (!user || !user.salt) {
+                return done('Email or password did not match. Please try again.');
+            }
+
+            const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('hex');
+            if (user.password !== hashedPassword) {
+                return done('Email or password did not match. Please try again.');
+            }
+
+            return done(null, user);
+
+        } catch (error) {
+            done(error);
+        }
+    }));
 
 export default app;
