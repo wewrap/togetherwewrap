@@ -1,19 +1,13 @@
-import * as dotenv from 'dotenv';
-import path from 'path';
-dotenv.config();
-import cors from 'cors';
-import prisma from '../utils/prismaClient';
-import morgan from 'morgan';
 import express from 'express';
-import app from '../app';
-import passport from 'passport';
-import {Strategy as LocalStrategy} from 'passport-local';
 import crypto from 'crypto'
-import mysql from 'mysql2';
+import * as dotenv from 'dotenv';
+import prisma from '../utils/prismaClient';
 
+dotenv.config();
+const signUpAuth = express.Router()
 const db = prisma;
 
-app.post('/signup', async function(req, res, next) {
+signUpAuth.post('/signup', async function(req, res, next) {
     console.log(req.body);
     console.log("hello");
     const existingUser = await db.user.findUnique({
@@ -45,3 +39,5 @@ app.post('/signup', async function(req, res, next) {
         res.status(200);
     }
 });
+
+export default signUpAuth
