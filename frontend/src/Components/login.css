@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 
-*{
+* {
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
 }
@@ -40,7 +40,7 @@ h1 {
   margin-bottom: 40px;
 }
 
-form{
+form {
   background:#FFFFFF;
   width: 420px;
   height: auto;
@@ -70,6 +70,7 @@ form{
 .email{
   background: #FFFFFF;
   border: 1px solid #D7D7D7;
+  margin-bottom: 8px;
   border-radius: 6px;
   box-sizing: border-box;
   height: 41px;
