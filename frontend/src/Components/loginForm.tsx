@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './login.css';
+import { Link } from 'react-router-dom';
 
 
 export const LoginForm = () => {
@@ -35,16 +36,15 @@ export const LoginForm = () => {
         <div className='login_form'>
           <img src='./wewrap_green.png' alt='wewrap logo'></img>
           <h1>Log in to your account</h1>
-          {/* T80 (FK): Add route to sign up page once sign up code is push and merged */}
-          <p className='subheader'>Don't have an account?<a href='' > Sign up</a> </p>
+          <p className='subheader'>Don't have an account? <Link to = "/signup"> Sign up </Link> </p>
           <form action="/login/password" method="post" onSubmit={handleSubmit}>
               {errorMessage && <p className='error_message'>{errorMessage}</p>}
               <div className='user_creds'>
-                  <label htmlFor="email">Email<span>*</span></label>
+                  <label htmlFor="email">Email <span>*</span></label>
                   <input className="email" name="email" type="text" autoComplete="on" required value={email} onChange={handleEmailChange}/>
               </div>
               <div className='user_creds'>
-                  <label htmlFor="current_password">Password<span>*</span></label>
+                  <label htmlFor="current_password">Password <span>*</span></label>
                   <input className="password" name="password" type="password" autoComplete="on" required value={password} onChange={handlePasswordChange}/>
               </div>
               <div className='user_helper'>

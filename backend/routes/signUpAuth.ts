@@ -10,7 +10,6 @@ import passport from 'passport';
 import {Strategy as LocalStrategy} from 'passport-local';
 import crypto from 'crypto'
 import mysql from 'mysql2';
-import e from 'express';
 
 const db = prisma;
 
