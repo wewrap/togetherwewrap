@@ -7,7 +7,8 @@ import passport from 'passport';
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
-import loginAuth from './routes/loginAuth'
+import loginAuth from './routes/loginAuth';
+import signUpAuth from './routes/signUpAuth';
 import googleStrategy from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
@@ -30,11 +31,13 @@ app.use(session({
     resave: true,
     saveUninitialized: false,
 }));
+
 app.use(passport.initialize())
 app.use(passport.session())
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/login', loginAuth)
+app.use('/signup', signUpAuth)
 
 passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
