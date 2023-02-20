@@ -12,5 +12,6 @@ module.exports = {
     project: './tsconfig.json'
   },
   rules: {
+    eqeqeq: ['error', 'always']
   }
 }
