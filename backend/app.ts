@@ -34,7 +34,7 @@ app.use(express.json());
 app.use(
     expressSession({
         cookie: {
-            maxAge:  20 * 1000
+            maxAge:  3 * 24 * 60 * 60 * 1000 //3 days
         },
         secret: secretcode,
         resave: false,
@@ -42,7 +42,7 @@ app.use(
         store: new PrismaSessionStore(
             new PrismaClient(),
             {
-                checkPeriod: 2 * 60 * 1000,
+                checkPeriod: 2 * 60 * 1000, //2 minutes
                 dbRecordIdIsSessionId: true,
                 dbRecordIdFunction: undefined,
             }
@@ -55,6 +55,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
+app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuth)
 
 passport.serializeUser((user: any, done: any) => {
@@ -78,8 +79,6 @@ passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback"
 },
     async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
-        // Called On successful authentication
-        // //find a user that has a matching google ID with the incoming profile ID
         try {
             const user = await db.user.findFirst({
                 where: {
@@ -87,8 +86,8 @@ passport.use(new GoogleStrategy({
                 }
             })
 
-            if (!user) { // if user doesn't exist
-                // create a new user and store in database
+            if (!user) { 
+                
                 const newUser = await db.user.create({
                     data: {
                         firstName: profile._json.given_name,
@@ -97,7 +96,7 @@ passport.use(new GoogleStrategy({
                         email: profile.emails[0].value
                     }
                 })
-                // return user object
+                
                 cb(null, newUser)
             } else {
                 cb(null, user)
@@ -141,10 +140,6 @@ passport.use(new FacebookStrategy({
     }
 ));
 
-app.use('/', testRouter)
-app.use('/auth/google', googleOAuthRouter)
-app.use('/auth/facebook', facebookOAuthRouter)
-app.use('/login', loginAuth)
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
