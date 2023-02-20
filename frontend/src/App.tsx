@@ -1,5 +1,5 @@
 import {LoginForm} from './components/loginForm';
-import {SignUp} from '../src/components/signup';
+import {SignUp} from './components/signup';
 import './index.css';
 import axios from "axios";
 import { useState } from "react";
