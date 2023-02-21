@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './login.css';
 import { Link } from 'react-router-dom';
+import googleIcon from '../assets/googleIcon.png'
 
 
 export const LoginForm = () => {
@@ -32,6 +33,10 @@ export const LoginForm = () => {
     setPassword(event.target.value);
   };
 
+  const handleGoogleOAuth = () => {
+    window.open('http://localhost:8000/auth/google', '_self')
+  }
+
     return (
         <div className='login_form'>
           <img src='./wewrap_green.png' alt='wewrap logo'></img>
@@ -56,6 +61,13 @@ export const LoginForm = () => {
               </div>
               <div>
                   <button className='login_button' type="submit">Log in</button>
+              </div>
+              <div className='orOAuth'>
+                <p>or</p>
+              </div>
+              <div className='googleContainer' onClick={handleGoogleOAuth}>
+                <img src={googleIcon} alt='googleIcon'/>
+                <p>Log in with Google</p>
               </div>
           </form>
         </div>
