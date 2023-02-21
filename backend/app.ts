@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(
     expressSession({
         cookie: {
-            maxAge:  3 * 24 * 60 * 60 * 1000 //3 days
+            maxAge: 3 * 24 * 60 * 60 * 1000 //3 days
         },
         secret: secretcode,
         resave: false,
@@ -86,8 +86,8 @@ passport.use(new GoogleStrategy({
                 }
             })
 
-            if (!user) { 
-                
+            if (!user) {
+
                 const newUser = await db.user.create({
                     data: {
                         firstName: profile._json.given_name,
@@ -96,7 +96,7 @@ passport.use(new GoogleStrategy({
                         email: profile.emails[0].value
                     }
                 })
-                
+
                 cb(null, newUser)
             } else {
                 cb(null, user)
@@ -156,7 +156,7 @@ passport.use(new LocalStrategy({
                 return done('Email or password did not match. Please try again.');
             }
 
-            const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('hex');
+            const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64');
             if (user.password !== hashedPassword) {
                 return done('Email or password did not match. Please try again.');
             }
