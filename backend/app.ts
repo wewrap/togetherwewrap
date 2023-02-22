@@ -6,7 +6,6 @@ import passport from 'passport';
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
-import loginAuth from './routes/loginAuth';
 import signUpAuth from './routes/signUpAuth';
 import googleStrategy from 'passport-google-oauth20';
 import expressSession from 'express-session';
@@ -14,11 +13,11 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
+import loginAuth from './routes/loginAuth'
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
 import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID } from './utils/config'
 
-dotenv.config();
 const GoogleStrategy = googleStrategy.Strategy;
 const FacebookStrategy = facebookStrategy.Strategy;
 
@@ -29,26 +28,6 @@ const db = prisma;
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
-
-app.use(
-    expressSession({
-        cookie: {
-            maxAge: 3 * 24 * 60 * 60 * 1000 //3 days
-        },
-        secret: secretcode,
-        resave: false,
-        saveUninitialized: false,
-        store: new PrismaSessionStore(
-            new PrismaClient(),
-            {
-                checkPeriod: 2 * 60 * 1000, //2 minutes
-                dbRecordIdIsSessionId: true,
-                dbRecordIdFunction: undefined,
-            }
-        ),
-        rolling: true
-    })
-);
 
 app.use(passport.initialize())
 app.use(passport.session())
@@ -87,7 +66,6 @@ passport.use(new GoogleStrategy({
             })
 
             if (!user) {
-
                 const newUser = await db.user.create({
                     data: {
                         firstName: profile._json.given_name,
@@ -96,7 +74,6 @@ passport.use(new GoogleStrategy({
                         email: profile.emails[0].value
                     }
                 })
-
                 cb(null, newUser)
             } else {
                 cb(null, user)
@@ -140,11 +117,11 @@ passport.use(new FacebookStrategy({
     }
 ));
 
-passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-},
-    async (email: string, password: string, done: Function) => {
+    passport.use(new LocalStrategy({
+                usernameField: 'email',
+                passwordField: 'password'
+        },
+        async (email: string, password: string, done: Function) => {
         try {
             const user = await db.user.findUnique({
                 where: {
