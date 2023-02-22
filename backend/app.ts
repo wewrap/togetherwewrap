@@ -7,29 +7,33 @@ import passport from 'passport';
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
-import loginAuth from './routes/loginAuth';
 import signUpAuth from './routes/signUpAuth';
 import googleStrategy from 'passport-google-oauth20';
+import facebookStrategy from 'passport-facebook';
+import facebookOAuthRouter from './routes/facebookOAuth';
+import loginAuth from './routes/loginAuth'
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
-dotenv.config();
-const GoogleStrategy = googleStrategy.Strategy;
+import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID } from './utils/config'
 
-const db = prisma;
+const GoogleStrategy = googleStrategy.Strategy;
+const FacebookStrategy = facebookStrategy.Strategy;
+
 const app = express();
+dotenv.config();
+const db = prisma;
 
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
-const secretcode = process.env.SESSION_SECRET as string;
-const clientID = process.env.GOOGLE_CLIENT_ID as string;
-const clientSecret = process.env.GOOGLE_CLIENT_SECRET as string;
-
 app.use(session({
     secret: secretcode,
     resave: true,
     saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 3//3 days
+    }
 }));
 
 app.use(passport.initialize())
@@ -49,18 +53,15 @@ passport.deserializeUser(async (id: string, done: any) => {
             id: id
         }
     })
-    console.log('found user from cookie')
     return done(null, user)
 })
 
 passport.use(new GoogleStrategy({
-    clientID: clientID,
-    clientSecret: clientSecret,
+    clientID: googleClientID,
+    clientSecret: googleClientSecret,
     callbackURL: "/auth/google/callback"
 },
     async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
-        // Called On successful authentication
-        // //find a user that has a matching google ID with the incoming profile ID
         try {
             const user = await db.user.findUnique({
                 where: {
@@ -68,8 +69,7 @@ passport.use(new GoogleStrategy({
                 }
             })
 
-            if (!user) { // if user doesn't exist
-                // create a new user and store in database
+            if (!user) {
                 const newUser = await db.user.create({
                     data: {
                         firstName: profile._json.given_name,
@@ -78,7 +78,7 @@ passport.use(new GoogleStrategy({
                         email: profile.emails[0].value
                     }
                 })
-                // return user object
+                
                 cb(null, newUser)
             } else {
                 cb(null, user)
@@ -88,6 +88,45 @@ passport.use(new GoogleStrategy({
         }
     }));
 
+passport.use(new FacebookStrategy({
+    clientID: facebookClientID,
+    clientSecret: facebookAppSecret,
+    callbackURL: "http://localhost:8000/auth/facebook/callback",
+    profileFields: ['id', 'displayName', 'email'],
+    enableProof: true
+},
+    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
+        try {
+            const user = await db.user.findFirst({
+                where: {
+                    facebookID: profile.id
+                }
+            })
+
+            if (!user) {
+                const newUser = await db.user.create({
+                    data: {
+                        firstName: profile._json.name,
+                        lastName: profile._json.name,
+                        facebookID: profile._json.id,
+                        email: profile._json.email
+                    }
+                })
+                cb(null, newUser)
+            } else {
+                cb(null, user)
+            }
+        } catch (error) {
+            cb(error, null)
+        }
+    }
+));
+
+
+app.use('/', testRouter)
+app.use('/auth/google', googleOAuthRouter)
+app.use('/auth/facebook', facebookOAuthRouter)
+app.use('/login', loginAuth)
     passport.use(new LocalStrategy({
                 usernameField: 'email',
                 passwordField: 'password'
