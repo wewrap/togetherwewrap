@@ -14,14 +14,15 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
-import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL } from './utils/config'
-
+import { secretcode, googleClientID, googleClientSecret} from './utils/config'
 dotenv.config();
+
 const GoogleStrategy = googleStrategy.Strategy;
 
 const app = express();
-dotenv.config();
 const db = prisma;
+const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
+const TWO_MINUTES = 1000 * 60 * 2
 
 app.use(morgan("dev"));
 app.use(cors());
@@ -30,7 +31,7 @@ app.use(express.json());
 app.use(
     expressSession({
         cookie: {
-            maxAge: 3 * 24 * 60 * 60 * 1000 //3 days
+            maxAge: THREE_DAYS //3 days
         },
         secret: secretcode,
         resave: false,
@@ -38,7 +39,7 @@ app.use(
         store: new PrismaSessionStore(
             new PrismaClient(),
             {
-                checkPeriod: 2 * 60 * 1000, //2 minutes
+                checkPeriod: TWO_MINUTES, //2 minutes
                 dbRecordIdIsSessionId: true,
                 dbRecordIdFunction: undefined,
             }
