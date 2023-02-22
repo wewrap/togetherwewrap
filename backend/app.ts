@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(
     expressSession({
         cookie: {
-            maxAge: THREE_DAYS //3 days
+            maxAge: THREE_DAYS
         },
         secret: secretcode,
         resave: false,
@@ -41,7 +41,7 @@ app.use(
         store: new PrismaSessionStore(
             new PrismaClient(),
             {
-                checkPeriod: TWO_MINUTES, //2 minutes
+                checkPeriod: TWO_MINUTES,
                 dbRecordIdIsSessionId: true,
                 dbRecordIdFunction: undefined,
             }
