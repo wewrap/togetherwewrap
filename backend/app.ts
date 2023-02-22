@@ -7,6 +7,7 @@ import passport from 'passport';
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
+import signUpAuth from './routes/signUpAuth';
 import googleStrategy from 'passport-google-oauth20';
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
@@ -34,11 +35,13 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 3//3 days
     }
 }));
+
 app.use(passport.initialize())
 app.use(passport.session())
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/login', loginAuth)
+app.use('/signup', signUpAuth)
 
 passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
