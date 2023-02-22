@@ -20,6 +20,7 @@
     "@types/node": "^18.11.18",
     "@types/oauth": "^0.9.1",
     "@types/passport": "^1.0.11",
+    "@types/passport-facebook": "^2.1.11",
     "@types/passport-google-oauth20": "^2.0.11",
     "@types/passport-local": "^1.0.35",
     "nodemon": "^2.0.20",
@@ -38,6 +39,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^3.1.2",
     "passport": "^0.6.0",
+    "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "react-router-dom": "^6.8.1"
