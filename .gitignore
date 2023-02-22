@@ -2,4 +2,4 @@ node_modules/
 dist/
 .env
 .vscode
-frontend/src/Component
+frontend/src/Components
