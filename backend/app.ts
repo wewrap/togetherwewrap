@@ -6,7 +6,6 @@ import passport from 'passport';
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
-import loginAuth from './routes/loginAuth';
 import signUpAuth from './routes/signUpAuth';
 import googleStrategy from 'passport-google-oauth20';
 import expressSession from 'express-session';
@@ -14,12 +13,15 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
-import { secretcode, googleClientID, googleClientSecret} from './utils/config'
+import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID } from './utils/config'
+import facebookStrategy from 'passport-facebook';
+import facebookOAuthRouter from './routes/facebookOAuth';
+import loginAuth from './routes/loginAuth'
 dotenv.config();
-
 const GoogleStrategy = googleStrategy.Strategy;
-
+const FacebookStrategy = facebookStrategy.Strategy;
 const app = express();
+
 const db = prisma;
 const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
 const TWO_MINUTES = 1000 * 60 * 2
@@ -52,6 +54,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
+app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuth)
 app.use('/signup', signUpAuth)
 
@@ -84,7 +87,6 @@ passport.use(new GoogleStrategy({
             })
 
             if (!user) {
-
                 const newUser = await db.user.create({
                     data: {
                         firstName: profile._json.given_name,
@@ -93,7 +95,7 @@ passport.use(new GoogleStrategy({
                         email: profile.emails[0].value
                     }
                 })
-
+                
                 cb(null, newUser)
             } else {
                 cb(null, user)
@@ -103,12 +105,47 @@ passport.use(new GoogleStrategy({
         }
     }));
 
-
-passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
+passport.use(new FacebookStrategy({
+    clientID: facebookClientID,
+    clientSecret: facebookAppSecret,
+    callbackURL: "http://localhost:8000/auth/facebook/callback",
+    profileFields: ['id', 'displayName', 'email'],
+    enableProof: true
 },
-    async (email: string, password: string, done: Function) => {
+    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
+        try {
+            const user = await db.user.findFirst({
+                where: {
+                    facebookID: profile.id
+                }
+            })
+
+            if (!user) {
+                const newUser = await db.user.create({
+                    data: {
+                        firstName: profile._json.name,
+                        lastName: profile._json.name,
+                        facebookID: profile._json.id,
+                        email: profile._json.email
+                    }
+                })
+                cb(null, newUser)
+            } else {
+                cb(null, user)
+            }
+        } catch (error) {
+            cb(error, null)
+        }
+    }
+));
+
+
+
+    passport.use(new LocalStrategy({
+                usernameField: 'email',
+                passwordField: 'password'
+        },
+        async (email: string, password: string, done: Function) => {
         try {
             const user = await db.user.findUnique({
                 where: {
