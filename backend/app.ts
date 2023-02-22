@@ -13,7 +13,7 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
-import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID } from './utils/config'
+import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL} from './utils/config'
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuth from './routes/loginAuth'
@@ -76,7 +76,7 @@ passport.deserializeUser(async (id: string, done: any) => {
 passport.use(new GoogleStrategy({
     clientID: googleClientID,
     clientSecret: googleClientSecret,
-    callbackURL: "/auth/google/callback"
+    callbackURL: googleCallBackURL
 },
     async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
         try {
@@ -95,7 +95,7 @@ passport.use(new GoogleStrategy({
                         email: profile.emails[0].value
                     }
                 })
-                
+
                 cb(null, newUser)
             } else {
                 cb(null, user)
@@ -108,7 +108,7 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: facebookClientID,
     clientSecret: facebookAppSecret,
-    callbackURL: "http://localhost:8000/auth/facebook/callback",
+    callbackURL: facebookCallBackURL,
     profileFields: ['id', 'displayName', 'email'],
     enableProof: true
 },
@@ -139,13 +139,11 @@ passport.use(new FacebookStrategy({
     }
 ));
 
-
-
-    passport.use(new LocalStrategy({
-                usernameField: 'email',
-                passwordField: 'password'
-        },
-        async (email: string, password: string, done: Function) => {
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+},
+    async (email: string, password: string, done: Function) => {
         try {
             const user = await db.user.findUnique({
                 where: {
