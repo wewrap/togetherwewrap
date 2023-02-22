@@ -1,8 +1,7 @@
 import {LoginForm} from './components/loginForm';
 import {SignUp} from './components/signup';
+import { TempLandingPage } from './components/tempLandingPage';
 import './index.css';
-import axios from "axios";
-import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 const serverURL = 'http://localhost:8000';
 function App() {
@@ -13,6 +12,9 @@ function App() {
     </Routes>
     <Routes> 
       <Route path = "/signup" element={<SignUp/>}>  </Route>
+    </Routes>
+    <Routes>
+      <Route path = "/tempLandingPage" element={<TempLandingPage/>}> </Route>
     </Routes>
 </div>
   );
