@@ -1,5 +1,6 @@
-import {LoginForm} from './Components/loginForm';
-import {SignUp} from './Components/signup';
+import {LoginForm} from './components/loginForm';
+import {SignUp} from './components/signup';
+import { TempLandingPage } from './components/tempLandingPage';
 import './index.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
@@ -10,6 +11,9 @@ function App() {
     </Routes>
     <Routes> 
       <Route path = "/signup" element={<SignUp/>}>  </Route>
+    </Routes>
+    <Routes>
+      <Route path = "/tempLandingPage" element={<TempLandingPage/>}> </Route>
     </Routes>
 </div>
   );

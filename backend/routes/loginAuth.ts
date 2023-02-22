@@ -19,7 +19,9 @@ loginAuthRouter.post("/password", function (req, res, next) {
         return res.status(401).send('Email or password did not match. Please try again.');
       }
       req.login(user, next);
+      res.status(200).send('Sucessfully logged in')
     })(req, res, next);
   });
+
 
 export default loginAuthRouter
