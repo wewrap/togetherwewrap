@@ -3,7 +3,6 @@ import {SignUp} from './components/signup';
 import { TempLandingPage } from './components/tempLandingPage';
 import './index.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-const serverURL = 'http://localhost:8000';
 function App() {
   return (
 <div> 
