@@ -16,7 +16,7 @@ import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
-import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID } from './utils/config'
+import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL } from './utils/config'
 
 dotenv.config();
 const GoogleStrategy = googleStrategy.Strategy;
@@ -109,7 +109,7 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: facebookClientID,
     clientSecret: facebookAppSecret,
-    callbackURL: "http://localhost:8000/auth/facebook/callback",
+    callbackURL: facebookCallBackURL,
     profileFields: ['id', 'displayName', 'email'],
     enableProof: true
 },
