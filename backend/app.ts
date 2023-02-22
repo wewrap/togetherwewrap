@@ -104,7 +104,7 @@ passport.use(new GoogleStrategy({
                 return done('Email or password did not match. Please try again.');
             }
 
-            const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('hex');
+            const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64');
             if (user.password !== hashedPassword) {
                 return done('Email or password did not match. Please try again.');
             }

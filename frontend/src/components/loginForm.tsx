@@ -17,7 +17,7 @@ export const LoginForm = () => {
             password,
           });
           // TODO T105 (FK) After successful response redirect user to whatever page they're trying to reach
-          
+          console.log(response);
         } catch(error) {
             console.error(error);
             setErrorMessage((error as any).response.data ?? "Unknown error occured.");
