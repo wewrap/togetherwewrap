@@ -3,6 +3,7 @@ import axios from 'axios';
 import './login.css';
 import { Link } from 'react-router-dom';
 import googleIcon from '../assets/googleIcon.png'
+import facebookIcon from '../assets/facebookIcon.png'
 
 
 export const LoginForm = () => {
@@ -37,6 +38,10 @@ export const LoginForm = () => {
     window.open('http://localhost:8000/auth/google', '_self')
   }
 
+  const handleFaceBookOAuth = () => {
+    window.open('http://localhost:8000/auth/facebook', '_self')
+  }
+
     return (
         <div className='login_form'>
           <img src='./wewrap_green.png' alt='wewrap logo'></img>
@@ -68,6 +73,10 @@ export const LoginForm = () => {
               <div className='googleContainer' onClick={handleGoogleOAuth}>
                 <img src={googleIcon} alt='googleIcon'/>
                 <p>Log in with Google</p>
+              </div>
+              <div className='facebookContainer' onClick={handleFaceBookOAuth}>
+                <img src={facebookIcon} alt='googleIcon'/>
+                <p>Log in with Facebook</p>
               </div>
           </form>
         </div>
