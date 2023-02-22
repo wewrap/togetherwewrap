@@ -1,5 +1,5 @@
-import {LoginForm} from './Components/loginForm';
-import {SignUp} from './Components/signup';
+import {LoginForm} from './components/loginForm';
+import {SignUp} from './components/signup';
 import './index.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
