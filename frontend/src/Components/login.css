@@ -155,29 +155,52 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px;
+  width: 420px;
   height: 50px;
   background: #4385f4;
   position: relative;
-  font-size: 15px;
+  font-size: 17px;
   cursor: pointer;
   margin: auto;
   border-radius: 6px;
 }
 
-.googleContainer img {
-  object-fit: contain;
-  height: 100%;
-  width: 12.5%;
-  left: 10px;
-  margin: 0px;
-  border-radius: 3px;
-  position: absolute;
-}
 
 .googleContainer p {
   color: #FFFFFF;
   margin-left: 10px;
+}
+
+.facebookContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 420px;
+  height: 50px;
+  background: #4385f4;
+  position: relative;
+  font-size: 17px;
+  cursor: pointer;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 6px;
+}
+
+.facebookContainer p {
+  color: #FFFFFF;
+  margin-left: 10px;
+}
+
+.facebookContainer img,
+.googleContainer img {
+  height: 80%;
+  left: 4px;
+  object-fit: contain;
+  width: 12.5%;
+  margin: 0px;
+  border-radius: 3px;
+  position: absolute;
 }
 
 .orOAuth {
