@@ -68,7 +68,7 @@ export const LoginForm = () => {
                   <button className='login_button' type="submit">Log in</button>
               </div>
               <div className='orOAuth'>
-                <p>or</p>
+                <p>OR</p>
               </div>
               <div className='googleContainer' onClick={handleGoogleOAuth}>
                 <img src={googleIcon} alt='googleIcon'/>

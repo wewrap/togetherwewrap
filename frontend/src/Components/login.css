@@ -157,17 +157,20 @@ a {
   justify-content: center;
   width: 420px;
   height: 50px;
-  background: #4385f4;
+  background: #ffffff;
   position: relative;
   font-size: 17px;
   cursor: pointer;
   margin: auto;
   border-radius: 6px;
+  border-style: solid;
+  border-color: #000000;
+  border-width: 1px;
 }
 
 
 .googleContainer p {
-  color: #FFFFFF;
+  color: #000000;
   margin-left: 10px;
 }
 
@@ -181,7 +184,7 @@ a {
   position: relative;
   font-size: 17px;
   cursor: pointer;
-  margin-top: 30px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 6px;
@@ -190,6 +193,7 @@ a {
 .facebookContainer p {
   color: #FFFFFF;
   margin-left: 10px;
+  font-weight: bold;
 }
 
 .facebookContainer img,
@@ -205,10 +209,10 @@ a {
 
 .orOAuth {
   display: flex;
-  flex-direction: row;
   justify-content: center;
 }
 
 .orOAuth p {
   font-size: 20px;
+  margin: 13px;
 }
