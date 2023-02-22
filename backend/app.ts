@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -17,7 +18,6 @@ import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, face
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuth from './routes/loginAuth'
-dotenv.config();
 const GoogleStrategy = googleStrategy.Strategy;
 const FacebookStrategy = facebookStrategy.Strategy;
 const app = express();
@@ -37,6 +37,7 @@ app.use(
         },
         secret: secretcode,
         resave: false,
+        rolling: true,
         saveUninitialized: false,
         store: new PrismaSessionStore(
             new PrismaClient(),
@@ -46,7 +47,6 @@ app.use(
                 dbRecordIdFunction: undefined,
             }
         ),
-        rolling: true
     })
 );
 
