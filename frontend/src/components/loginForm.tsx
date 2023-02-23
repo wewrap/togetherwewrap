@@ -73,7 +73,7 @@ export const LoginForm = () => {
               </div>
               <div className='googleContainer' onClick={handleGoogleOAuth}>
                 <img src={googleIcon} alt='googleIcon'/>
-                <p>Log in with Googles</p>
+                <p>Log in with Google</p>
               </div>
               <div className='facebookContainer' onClick={handleFaceBookOAuth}>
                 <img src={facebookIcon} alt='googleIcon'/>
