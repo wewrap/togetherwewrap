@@ -17,7 +17,6 @@ export const LoginForm = () => {
             email,
             password,
           });
-          // TODO T105 (FK) After successful response redirect user to whatever page they're trying to reach
           navigate('/tempLandingPage')
         } catch(error) {
             console.error(error);

@@ -122,11 +122,6 @@ passport.use(new FacebookStrategy({
     }
 ));
 
-
-app.use('/', testRouter)
-app.use('/auth/google', googleOAuthRouter)
-app.use('/auth/facebook', facebookOAuthRouter)
-app.use('/login', loginAuth)
     passport.use(new LocalStrategy({
                 usernameField: 'email',
                 passwordField: 'password'
@@ -154,5 +149,11 @@ app.use('/login', loginAuth)
             done(error);
         }
     }));
+
+app.use('/', testRouter)
+app.use('/auth/google', googleOAuthRouter)
+app.use('/auth/facebook', facebookOAuthRouter)
+app.use('/login', loginAuth)
+
 
 export default app;
