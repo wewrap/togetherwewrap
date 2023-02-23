@@ -68,8 +68,6 @@ passport.deserializeUser(async (id: string, done: any) => {
             id: id
         }
     })
-    console.log('found user from cookie')
-    console.log(user)
     return done(null, user)
 })
 
