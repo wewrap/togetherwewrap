@@ -13,8 +13,6 @@ CREATE TABLE `User` (
     UNIQUE INDEX `User_email_key`(`email`),
     UNIQUE INDEX `User_googleID_key`(`googleID`),
     UNIQUE INDEX `User_facebookID_key`(`facebookID`),
-<<<<<<<< HEAD:backend/prisma/migrations/20230223014126_sync/migration.sql
-========
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -26,6 +24,5 @@ CREATE TABLE `Session` (
     `expiresAt` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `Session_sid_key`(`sid`),
->>>>>>>> origin:backend/prisma/migrations/20230222192724_sync_with_db/migration.sql
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
