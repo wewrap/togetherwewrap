@@ -31,7 +31,11 @@
   },
   "dependencies": {
     "@prisma/client": "^4.9.0",
+<<<<<<< HEAD
     "@types/react-router-dom": "^5.3.3",
+=======
+    "@quixo3/prisma-session-store": "^3.1.10",
+>>>>>>> origin
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
