@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './login.css';
-import { Link } from 'react-router-dom';
 import googleIcon from '../assets/googleIcon.png'
 import facebookIcon from '../assets/facebookIcon.png'
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export const LoginForm = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string>('');
+    const navigate = useNavigate()
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-          const response = await axios.post("http://localhost:8000/login/password", {
+          await axios.post("http://localhost:8000/login/password", {
             email,
             password,
           });
           // TODO T105 (FK) After successful response redirect user to whatever page they're trying to reach
-          
+          navigate('/tempLandingPage')
         } catch(error) {
             console.error(error);
             setErrorMessage((error as any).response.data ?? "Unknown error occured.");

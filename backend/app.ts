@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
@@ -11,23 +12,43 @@ import googleStrategy from 'passport-google-oauth20';
 import expressSession from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
+import { Strategy as LocalStrategy } from 'passport-local';
+import crypto from 'crypto';
+import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL} from './utils/config'
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuth from './routes/loginAuth'
-import { Strategy as LocalStrategy } from 'passport-local';
-import crypto from 'crypto';
-import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID } from './utils/config'
-
 const GoogleStrategy = googleStrategy.Strategy;
 const FacebookStrategy = facebookStrategy.Strategy;
-
 const app = express();
-dotenv.config();
+
 const db = prisma;
+const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
+const TWO_MINUTES = 1000 * 60 * 2
 
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
+
+app.use(
+    expressSession({
+        cookie: {
+            maxAge: THREE_DAYS
+        },
+        secret: secretcode,
+        resave: false,
+        rolling: true,
+        saveUninitialized: false,
+        store: new PrismaSessionStore(
+            new PrismaClient(),
+            {
+                checkPeriod: TWO_MINUTES,
+                dbRecordIdIsSessionId: true,
+                dbRecordIdFunction: undefined,
+            }
+        ),
+    })
+);
 
 app.use(passport.initialize())
 app.use(passport.session())
@@ -55,7 +76,7 @@ passport.deserializeUser(async (id: string, done: any) => {
 passport.use(new GoogleStrategy({
     clientID: googleClientID,
     clientSecret: googleClientSecret,
-    callbackURL: "/auth/google/callback"
+    callbackURL: googleCallBackURL
 },
     async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
         try {
@@ -86,7 +107,7 @@ passport.use(new GoogleStrategy({
 passport.use(new FacebookStrategy({
     clientID: facebookClientID,
     clientSecret: facebookAppSecret,
-    callbackURL: "http://localhost:8000/auth/facebook/callback",
+    callbackURL: facebookCallBackURL,
     profileFields: ['id', 'displayName', 'email'],
     enableProof: true
 },
@@ -117,11 +138,11 @@ passport.use(new FacebookStrategy({
     }
 ));
 
-    passport.use(new LocalStrategy({
-                usernameField: 'email',
-                passwordField: 'password'
-        },
-        async (email: string, password: string, done: Function) => {
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+},
+    async (email: string, password: string, done: Function) => {
         try {
             const user = await db.user.findUnique({
                 where: {
