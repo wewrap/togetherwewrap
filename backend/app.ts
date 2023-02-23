@@ -165,10 +165,4 @@ passport.use(new LocalStrategy({
         }
     }));
 
-app.use('/', testRouter)
-app.use('/auth/google', googleOAuthRouter)
-app.use('/auth/facebook', facebookOAuthRouter)
-app.use('/login', loginAuth)
-
-
 export default app;

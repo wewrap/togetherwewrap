@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 
-*{
+* {
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
 }
 
-.login_form{
+.login_form {
   display: flex;
   flex-direction: column;
   align-items: center;
