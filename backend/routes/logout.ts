@@ -12,9 +12,8 @@ logoutRouter.post('/logout', function(req, res, next){
         if (err) {
           return next(err);
         }
-        res.redirect('/login');
+        res.redirect('/tempLandingPage');
         res.status(200).send("Successful logout")
       });
     });
   });
-  
