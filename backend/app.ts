@@ -14,22 +14,19 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
-import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL} from './utils/config'
+import { THREE_DAYS, TWO_MINUTES, secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL} from './utils/config'
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuth from './routes/loginAuth'
 const GoogleStrategy = googleStrategy.Strategy;
 const FacebookStrategy = facebookStrategy.Strategy;
 const app = express();
+const db = prisma;
 
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
 }));
-
-const db = prisma;
-const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
-const TWO_MINUTES = 1000 * 60 * 2
 
 app.use(morgan("dev"));
 app.use(express.json());
