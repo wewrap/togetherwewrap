@@ -22,12 +22,16 @@ const GoogleStrategy = googleStrategy.Strategy;
 const FacebookStrategy = facebookStrategy.Strategy;
 const app = express();
 
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+}));
+
 const db = prisma;
 const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
 const TWO_MINUTES = 1000 * 60 * 2
 
 app.use(morgan("dev"));
-app.use(cors());
 app.use(express.json());
 
 app.use(
