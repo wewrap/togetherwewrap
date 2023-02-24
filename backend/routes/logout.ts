@@ -1,9 +1,9 @@
 import express from "express";
 
+
 const logoutRouter = express.Router();
 
-
-logoutRouter.post('/user', function(req, res, next){
+logoutRouter.post('/logout', function(req, res, next){
     req.logout(function(err) {
       if (err) {
         return next(err);
