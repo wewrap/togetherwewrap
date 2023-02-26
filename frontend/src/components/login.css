@@ -6,13 +6,16 @@
   font-style: normal;
 }
 
+body{
+  background-color: #F8FFE5;
+}
+
 .login_form {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
-  background-color: #F8FFE5;
 }
 
 img {
