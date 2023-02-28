@@ -1,13 +1,29 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 
+type ImportantDate = {
+    date: Date;
+    type: string;
+}
+enum RelationshipType {
+    COWORKER = 'coworker',
+    SIGNIFICANT_OTHER = 'significant_other',
+    FRIEND = 'friend',
+    FAMILY = 'family',
+    ACQUAINTANCE = 'acquaintance',
+    CLASSMATE = 'classmate',
+    OTHER = 'other',
+    UNKNOWN = 'unknown',
+}
 export const Contacts = () => {
-    const [fullName, setFullName] = useState<string>('')
-    const [relationship, setRelationship] = useState<string>('')
-    const [importantDate, setImportantDate] = useState<string>('')
+    const [firstName, setFirstName] = useState<string>('')
+    const [lastName, setLastName] = useState<string>('')
+    const [relationship, setRelationship] = useState<RelationshipType>(RelationshipType.UNKNOWN)
+    const [importantDate, setImportantDate] = useState<Array<ImportantDate>>([])
     const [email, setEmail] = useState<string>('')
     const [phoneNumber, setPhoneNumber] = useState<string>('')
-    const [address, setAddress] = useState<string>('')
+    // TODO T:110 (FK) Support adding addresses 
+    // const [address, setAddress] = useState<string>('')
     const [notes, setNotes] = useState<string>('')
     const [errorMessage, setErrorMessage] = useState<string>('')
 
@@ -16,12 +32,12 @@ export const Contacts = () => {
 
         try {
             await axios.post("http://localhost:8000/user/contacts", {
-                fullName,
+                firstName,
+                lastName,
                 relationship,
                 importantDate,
                 email,
                 phoneNumber,
-                address,
                 notes,
             })
         } catch(error) {
