@@ -8,14 +8,14 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  email        String   @unique
-  firstName    String
-  lastName     String
-  password     String?
-  birthDate    DateTime?
-  googleID     String?   @unique
-  salt        String?
+  id         String    @id @default(uuid())
+  email      String    @unique
+  firstName  String
+  lastName   String
+  password   String?
+  birthDate  DateTime?
+  googleID   String?   @unique
+  salt       String?
   facebookID String?   @unique
 }
 
@@ -24,4 +24,30 @@ model Session {
   sid       String   @unique
   data      String
   expiresAt DateTime
+}
+
+model Contacts {
+  id          String  @id @default(uuid())
+  userID      String //foreign key on user. look up later 
+  email       String?
+  firstName   String
+  lastName    String?
+  phoneNumber String?
+  address     String
+  notes       String?
+  source      String
+}
+
+model Dates {
+  id        String   @id @default(uuid())
+  contactID String //foreign key on contact
+  date      DateTime
+  type      String
+}
+
+model Relationships {
+  id        String @id @default(uuid())
+  ownerID   String
+  contactID String
+  type      String
 }
