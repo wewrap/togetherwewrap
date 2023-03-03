@@ -33,7 +33,7 @@ signUpAuthRouter.post('/', async function(req, res, next) {
             })
             console.log(user); //redirect to the login page 
         })
-        res.status(200);
+        res.status(200).send('Successful Submission');
     }
 });
 

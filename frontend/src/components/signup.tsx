@@ -28,6 +28,7 @@ export const SignUp = () => {
         setHasNumber(/\D/.test(password));
 
         if(validLength && hasNumber && specialChar) {
+
             if(password === confirmPassword) {
                 setWarning('');
                 await axios.post('http://localhost:8000/signup', {
@@ -36,11 +37,11 @@ export const SignUp = () => {
                     email,
                     password, 
                 })
-        
+
                 .then((res) => {
                     setWarning('Successful submission.');
                 })
-        
+
                 .catch((err) => {
                     if(err.response.status == 409){
                         setWarning('Existing email. Please use a different email.');
@@ -48,16 +49,16 @@ export const SignUp = () => {
                     else{setWarning('Submission Error. Please try again.');}
                 })
             }
+            
             else{
                 setConfirmPassword(''); 
-                setWarning('Please use a different password.')
+                setWarning('Your passwords do not match.')
             }
         }
 
         else{
             setWarning('Your password does not meet the requirements.')
         }
-
     }
 
     return (
