@@ -12,13 +12,22 @@ export const SignUp = () => {
     const [lastName, setLastName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [validLength, setValidLength] = useState<boolean>(false); 
+    const [hasNumber, setHasNumber] = useState<boolean>(false); 
+    const [specialChar, setSpecialChar] = useState<boolean>(false); 
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [warning, setWarning] = useState<string>(''); 
+    const regex = /^!@#$%\^\&*\)\(+=._-]+$/g;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
         e.preventDefault(); 
 
+        setValidLength(password.length >= 8 ? true : false);
+        setSpecialChar(regex.test(password));
+        // setHasNumber(/\D/.test(password));
+
+        if(validLength && hasNumber) {
             if(password === confirmPassword) {
                 setWarning('');
                 await axios.post('http://localhost:8000/signup', {
@@ -43,6 +52,12 @@ export const SignUp = () => {
                 setConfirmPassword(''); 
                 setWarning('Please use a different password.')
             }
+        }
+
+        else{
+            setWarning('Your password does not meet the requirements.')
+        }
+
     }
 
     return (
