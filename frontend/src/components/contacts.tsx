@@ -18,7 +18,7 @@ export const Contacts = () => {
     []
   );
   const [eventDate, setEventDate] = useState<string>("");
-  const [dateType, setDateType] = useState<string>("");
+  const [eventType, setEventType] = useState<string>("");
   const [relationshipType, setRelationshipType] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -74,7 +74,7 @@ export const Contacts = () => {
   };
 
   const addImportantEvent = () => {
-    if (eventDate.trim() === "" || dateType.trim() === "") {
+    if (eventDate.trim() === "" || eventType.trim() === "") {
       setShowError(true);
       return;
     }
@@ -82,11 +82,11 @@ export const Contacts = () => {
       ...prevDates,
       {
         date: eventDate,
-        event: dateType,
+        event: eventType,
       },
     ]);
     setEventDate("");
-    setDateType("");
+    setEventType("");
   };
 
   const handleImportantEventChange = (
@@ -223,8 +223,8 @@ export const Contacts = () => {
             Type:
             <input
               type="text"
-              value={dateType}
-              onChange={(event) => setDateType(event.target.value)}
+              value={eventType}
+              onChange={(event) => setEventType(event.target.value)}
             />
           </label>
           <button onClick={addImportantEvent}>Add</button>
