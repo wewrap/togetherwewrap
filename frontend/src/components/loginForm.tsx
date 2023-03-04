@@ -35,14 +35,6 @@ export const LoginForm = () => {
     setPassword(event.target.value);
   };
 
-  const handleGoogleOAuth = () => {
-    window.open('http://localhost:8000/auth/google', '_self')
-  }
-
-  const handleFaceBookOAuth = () => {
-    window.open('http://localhost:8000/auth/facebook', '_self')
-  }
-
     return (
         <div className='login_form'>
           <img src='./wewrap_green.png' alt='wewrap logo'></img>
