@@ -71,14 +71,14 @@ export const LoginForm = () => {
               <div className='orOAuth'>
                 <p>OR</p>
               </div>
-              <div className='googleContainer' onClick={handleGoogleOAuth}>
+              <a className='googleContainer' href='http://localhost:8000/auth/google'>
                 <img src={googleIcon} alt='googleIcon'/>
                 <p>Log in with Google</p>
-              </div>
-              <div className='facebookContainer' onClick={handleFaceBookOAuth}>
+              </a>
+              <a className='facebookContainer' href='http://localhost:8000/auth/facebook'>
                 <img src={facebookIcon} alt='googleIcon'/>
                 <p>Log in with Facebook</p>
-              </div>
+              </a>
           </form>
         </div>
     );
