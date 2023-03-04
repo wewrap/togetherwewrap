@@ -220,7 +220,7 @@ export const Contacts = () => {
             />
           </label>
           <label>
-            Type:
+            Event:
             <input
               type="text"
               value={eventType}
