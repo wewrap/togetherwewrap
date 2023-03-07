@@ -8,20 +8,37 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  email        String   @unique
-  firstName    String
-  lastName     String
-  password     String?
-  birthDate    DateTime?
-  googleID     String?   @unique
-  salt        String?
-  facebookID String?   @unique
-  venmoUrl String? 
-  cashappUrl String? 
-  paypalUrl String?
-  profile Profile?
+  UserID         String             @id @default(uuid())
+  email          String             @unique
+  firstName      String
+  lastName       String
+  password       String?
+  birthDate      DateTime?
+  googleID       String?            @unique
+  salt           String?
+  facebookID     String?            @unique
+  venmoUrl       String?
+  cashappUrl     String?
+  paypalUrl      String?
+  profile        Profile?
+  contacts       Contact[]
+  friend1        UserRelationship[] @relation("user1")
+  friend2        UserRelationship[] @relation("user2")
+  UserPlanBridge UserPlanBridge[]
+}
 
+model UserRelationship {
+  UserRealtionshipID String             @id @default(uuid())
+  user1              User               @relation("user1", fields: [user1ID], references: [UserID])
+  user1ID            String
+  user2              User               @relation("user2", fields: [user2ID], references: [UserID])
+  user2ID            String
+  relationshipStatus RelationshipStatus @default(NOT_FRIEND)
+}
+
+enum RelationshipStatus {
+  FRIEND
+  NOT_FRIEND
 }
 
 model Session {
@@ -32,8 +49,77 @@ model Session {
 }
 
 model Profile {
-  id     String @id @default(uuid())
-  user   User @relation(fields: [userId], references: [id])
-  userId String @unique @default(uuid())
-  photoUrl String? 
+  profileID String  @id @default(uuid())
+  user      User    @relation(fields: [userId], references: [UserID])
+  userId    String  @unique
+  photoUrl  String?
+}
+
+model Plan {
+  PlanID           String           @id @default(uuid())
+  description      String
+  startDate        DateTime
+  endDate          DateTime
+  createDate       DateTime
+  specialEventType EventType
+  contact          Contact?         @relation(fields: [contactID], references: [ContactID])
+  contactID        String           @unique
+  User             UserPlanBridge[]
+}
+
+model UserPlanBridge {
+  UserPlanID String @id @default(uuid())
+  plan       Plan   @relation(fields: [planID], references: [PlanID])
+  planID     String
+  user       User   @relation(fields: [userID], references: [UserID])
+  userID     String
+}
+
+model Contact {
+  ContactID          String                    @id @default(uuid())
+  userID             String
+  email              String?
+  firstName          String
+  lastName           String?
+  phoneNumber        String?
+  address            String
+  notes              String?
+  source             String
+  date               Date?
+  owner              User                      @relation(fields: [ownerID], references: [UserID])
+  ownerID            String
+  importantDateEvent ImportantDateEvent[]
+  relationship       UserContactRelationship[]
+  Plan               Plan?
+}
+
+model ImportantDateEvent {
+  ConImportEventID String  @id @default(uuid())
+  contact          Contact @relation(fields: [contactID], references: [ContactID])
+  contactID        String
+}
+
+model UserContactRelationship {
+  UserContactRelationshipID String  @id @default(uuid())
+  contact                   Contact @relation(fields: [contactID], references: [ContactID])
+  contactID                 String
+}
+
+model Date {
+  DateID    String   @id @default(uuid())
+  date      DateTime
+  type      String
+  contact   Contact  @relation(fields: [contactID], references: [ContactID])
+  contactID String   @unique
+}
+
+enum EventType {
+  BIRTHDAY
+  ANNIVERSARY
+  GRADUATION
+  WEDDING
+  BABYSHOWER
+  ACHIEVEMENT
+  HOLIDAY
+  OTHER
 }

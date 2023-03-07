@@ -65,7 +65,7 @@ passport.serializeUser((user: any, done: any) => {
 passport.deserializeUser(async (id: string, done: any) => {
     const user = await db.user.findFirst({
         where: {
-            id: id
+            UserID: id
         }
     })
     return done(null, user)
