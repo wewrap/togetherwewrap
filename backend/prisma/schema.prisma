@@ -85,7 +85,6 @@ model Contact {
   address            String
   notes              String?
   source             String
-  date               Date?
   owner              User                      @relation(fields: [ownerID], references: [UserID])
   ownerID            String
   importantDateEvent ImportantDateEvent[]
@@ -103,14 +102,6 @@ model UserContactRelationship {
   UserContactRelationshipID String  @id @default(uuid())
   contact                   Contact @relation(fields: [contactID], references: [ContactID])
   contactID                 String
-}
-
-model Date {
-  DateID    String   @id @default(uuid())
-  date      DateTime
-  type      String
-  contact   Contact  @relation(fields: [contactID], references: [ContactID])
-  contactID String   @unique
 }
 
 enum EventType {
