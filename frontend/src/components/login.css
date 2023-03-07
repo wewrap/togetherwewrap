@@ -6,7 +6,7 @@
   font-style: normal;
 }
 
-.login_form{
+.login_form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,7 +40,7 @@ h1 {
   margin-bottom: 40px;
 }
 
-form {
+form{
   background:#FFFFFF;
   width: 420px;
   height: auto;
@@ -70,7 +70,6 @@ form {
 .email{
   background: #FFFFFF;
   border: 1px solid #D7D7D7;
-  margin-bottom: 8px;
   border-radius: 6px;
   box-sizing: border-box;
   height: 41px;
