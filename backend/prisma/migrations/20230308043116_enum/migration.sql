@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `UserRelationship` MODIFY `relationshipStatus` ENUM('FRIEND', 'PENDING_REQUEST', 'NOT_FRIEND') NOT NULL DEFAULT 'NOT_FRIEND';

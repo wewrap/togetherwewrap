@@ -8,7 +8,8 @@
     "dev": "nodemon index.ts",
     "tsc": "tsc",
     "postinstall": "prisma generate",
-    "prismaMigrate": "npx prisma migrate dev --name"
+    "prismaMigrate": "npx prisma migrate dev --name",
+    "seedscript": "ts-node ./utils/testDB.ts"
   },
   "author": "",
   "license": "ISC",

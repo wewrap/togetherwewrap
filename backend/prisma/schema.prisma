@@ -22,22 +22,23 @@ model User {
   paypalUrl      String?
   profile        Profile?
   contacts       Contact[]
-  friend1        UserRelationship[] @relation("user1")
-  friend2        UserRelationship[] @relation("user2")
+  User           UserRelationship[] @relation("self")
+  friendsWith    UserRelationship[] @relation("friendsWith")
   UserPlanBridge UserPlanBridge[]
 }
 
 model UserRelationship {
   UserRealtionshipID String             @id @default(uuid())
-  user1              User               @relation("user1", fields: [user1ID], references: [UserID])
-  user1ID            String
-  user2              User               @relation("user2", fields: [user2ID], references: [UserID])
-  user2ID            String
+  User               User               @relation("self", fields: [userID], references: [UserID])
+  userID             String
+  friendsWith        User               @relation("friendsWith", fields: [friendsWithID], references: [UserID])
+  friendsWithID      String
   relationshipStatus RelationshipStatus @default(NOT_FRIEND)
 }
 
 enum RelationshipStatus {
   FRIEND
+  PENDING_REQUEST
   NOT_FRIEND
 }
 
@@ -63,21 +64,34 @@ model Plan {
   createDate       DateTime
   specialEventType EventType
   contact          Contact?         @relation(fields: [contactID], references: [ContactID])
-  contactID        String           @unique
+  contactID        String?          @unique
   User             UserPlanBridge[]
 }
 
 model UserPlanBridge {
-  UserPlanID String @id @default(uuid())
-  plan       Plan   @relation(fields: [planID], references: [PlanID])
-  planID     String
-  user       User   @relation(fields: [userID], references: [UserID])
-  userID     String
+  UserPlanID   String       @id @default(uuid())
+  plan         Plan         @relation(fields: [planID], references: [PlanID])
+  planID       String
+  user         User         @relation(fields: [userID], references: [UserID])
+  userID       String
+  inviteStatus InviteStatus
+  role         Role
+}
+
+enum Role {
+  PLAN_LEADER
+  FRIEND
+}
+
+enum InviteStatus {
+  INVITED
+  RESENT_INVITE
+  ACCEPTED
+  DENY
 }
 
 model Contact {
   ContactID          String                    @id @default(uuid())
-  userID             String
   email              String?
   firstName          String
   lastName           String?

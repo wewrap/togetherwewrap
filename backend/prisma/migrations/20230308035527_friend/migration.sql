@@ -22,8 +22,8 @@ CREATE TABLE `User` (
 -- CreateTable
 CREATE TABLE `UserRelationship` (
     `UserRealtionshipID` VARCHAR(191) NOT NULL,
-    `user1ID` VARCHAR(191) NOT NULL,
-    `user2ID` VARCHAR(191) NOT NULL,
+    `userID` VARCHAR(191) NOT NULL,
+    `friendsWithID` VARCHAR(191) NOT NULL,
     `relationshipStatus` ENUM('FRIEND', 'NOT_FRIEND') NOT NULL DEFAULT 'NOT_FRIEND',
 
     PRIMARY KEY (`UserRealtionshipID`)
@@ -58,7 +58,7 @@ CREATE TABLE `Plan` (
     `endDate` DATETIME(3) NOT NULL,
     `createDate` DATETIME(3) NOT NULL,
     `specialEventType` ENUM('BIRTHDAY', 'ANNIVERSARY', 'GRADUATION', 'WEDDING', 'BABYSHOWER', 'ACHIEVEMENT', 'HOLIDAY', 'OTHER') NOT NULL,
-    `contactID` VARCHAR(191) NOT NULL,
+    `contactID` VARCHAR(191) NULL,
 
     UNIQUE INDEX `Plan_contactID_key`(`contactID`),
     PRIMARY KEY (`PlanID`)
@@ -69,6 +69,8 @@ CREATE TABLE `UserPlanBridge` (
     `UserPlanID` VARCHAR(191) NOT NULL,
     `planID` VARCHAR(191) NOT NULL,
     `userID` VARCHAR(191) NOT NULL,
+    `inviteStatus` ENUM('INVITED', 'RESENT_INVITE', 'ACCEPTED', 'DENY') NOT NULL,
+    `role` ENUM('PLAN_LEADER', 'FRIEND') NOT NULL,
 
     PRIMARY KEY (`UserPlanID`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -76,7 +78,6 @@ CREATE TABLE `UserPlanBridge` (
 -- CreateTable
 CREATE TABLE `Contact` (
     `ContactID` VARCHAR(191) NOT NULL,
-    `userID` VARCHAR(191) NOT NULL,
     `email` VARCHAR(191) NULL,
     `firstName` VARCHAR(191) NOT NULL,
     `lastName` VARCHAR(191) NULL,
@@ -105,28 +106,17 @@ CREATE TABLE `UserContactRelationship` (
     PRIMARY KEY (`UserContactRelationshipID`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- CreateTable
-CREATE TABLE `Date` (
-    `DateID` VARCHAR(191) NOT NULL,
-    `date` DATETIME(3) NOT NULL,
-    `type` VARCHAR(191) NOT NULL,
-    `contactID` VARCHAR(191) NOT NULL,
-
-    UNIQUE INDEX `Date_contactID_key`(`contactID`),
-    PRIMARY KEY (`DateID`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- AddForeignKey
+ALTER TABLE `UserRelationship` ADD CONSTRAINT `UserRelationship_userID_fkey` FOREIGN KEY (`userID`) REFERENCES `User`(`UserID`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `UserRelationship` ADD CONSTRAINT `UserRelationship_user1ID_fkey` FOREIGN KEY (`user1ID`) REFERENCES `User`(`UserID`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `UserRelationship` ADD CONSTRAINT `UserRelationship_user2ID_fkey` FOREIGN KEY (`user2ID`) REFERENCES `User`(`UserID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `UserRelationship` ADD CONSTRAINT `UserRelationship_friendsWithID_fkey` FOREIGN KEY (`friendsWithID`) REFERENCES `User`(`UserID`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Profile` ADD CONSTRAINT `Profile_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`UserID`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Plan` ADD CONSTRAINT `Plan_contactID_fkey` FOREIGN KEY (`contactID`) REFERENCES `Contact`(`ContactID`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Plan` ADD CONSTRAINT `Plan_contactID_fkey` FOREIGN KEY (`contactID`) REFERENCES `Contact`(`ContactID`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `UserPlanBridge` ADD CONSTRAINT `UserPlanBridge_planID_fkey` FOREIGN KEY (`planID`) REFERENCES `Plan`(`PlanID`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -142,6 +132,3 @@ ALTER TABLE `ImportantDateEvent` ADD CONSTRAINT `ImportantDateEvent_contactID_fk
 
 -- AddForeignKey
 ALTER TABLE `UserContactRelationship` ADD CONSTRAINT `UserContactRelationship_contactID_fkey` FOREIGN KEY (`contactID`) REFERENCES `Contact`(`ContactID`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `Date` ADD CONSTRAINT `Date_contactID_fkey` FOREIGN KEY (`contactID`) REFERENCES `Contact`(`ContactID`) ON DELETE RESTRICT ON UPDATE CASCADE;
