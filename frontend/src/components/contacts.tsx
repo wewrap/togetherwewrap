@@ -122,7 +122,7 @@ export const Contacts = () => {
       });
     } catch (error) {
       console.error(error);
-      setErrorMessage((error as any).response.date ?? "Unknown error occured.");
+      setErrorMessage((error as any).response.data ?? "Unknown error occured.");
     }
   };
 
@@ -200,7 +200,7 @@ export const Contacts = () => {
               }}
             />
           </label>
-          <button onClick={addRelationship}>Add</button>
+          <button type="button" onClick={addRelationship}>Add</button>
           {relationships.map((type, index) => (
             <div key={index}>
               <input
@@ -210,7 +210,7 @@ export const Contacts = () => {
                   handleRelationshipChange(index, "type", event.target.value)
                 }
               />
-              <button onClick={() => handleRemoveRelationshipType(index)}>
+              <button type= "button" onClick={() => handleRemoveRelationshipType(index)}>
                 x
               </button>
             </div>
@@ -241,7 +241,7 @@ export const Contacts = () => {
               }}
             />
           </label>
-          <button onClick={addImportantEvent}>Add</button>
+          <button type='button' onClick={addImportantEvent}>Add</button>
           {importantDates.map((date, index) => (
             <div key={index}>
               <input
@@ -258,7 +258,7 @@ export const Contacts = () => {
                   handleImportantEventChange(index, "event", event.target.value)
                 }
               />
-              <button onClick={() => handleRemoveImportantEvent(index)}>
+              <button type="button" onClick={() => handleRemoveImportantEvent(index)}>
                 x
               </button>
             </div>
