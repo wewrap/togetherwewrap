@@ -8,12 +8,12 @@
     "dev": "nodemon index.ts",
     "tsc": "tsc",
     "postinstall": "prisma generate",
-    "prismaMigrate": "npx prisma migrate dev --name",
-    "seedscript": "ts-node ./utils/testDB.ts"
+    "prismaMigrate": "npx prisma migrate dev --name"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.16",
     "@types/express-session": "^1.17.6",
@@ -47,5 +47,8 @@
     "react-router-dom": "^6.8.1"
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "prisma": {
+    "seed": "ts-node ./utils/seed.ts"
+  }
 }
