@@ -4,7 +4,7 @@ const db = prisma
 
 const reset = async () => {
     await db.userRelationship.deleteMany({})
-    await db.userPlanBridge.deleteMany({})
+    await db.pledge.deleteMany({})
     await db.plan.deleteMany({})
     await db.contact.deleteMany({})
     await db.user.deleteMany({})
@@ -69,7 +69,6 @@ const create = async () => {
             description: 'Birthday plan for pedro!',
             startDate: new Date('03-07-2023'),
             endDate: new Date('03-20-2023'),
-            createDate: new Date(),
             specialEventType: 'BIRTHDAY',
             contactID: oliver.ContactID,
         }
@@ -81,13 +80,12 @@ const create = async () => {
             description: "John's graduation",
             startDate: new Date('03-07-2023'),
             endDate: new Date('03-20-2023'),
-            createDate: new Date(),
             specialEventType: 'BIRTHDAY',
         }
     })
 
     //create a relationship bridge between john's planID and hyun (plan leader)
-    await db.userPlanBridge.create({
+    await db.pledge.create({
         data: {
             planID: johnPlan.PlanID,
             userID: hyun.UserID,
@@ -125,6 +123,7 @@ const create = async () => {
     })
 }
 
+//testing query
 const query = async () => {
     const contacts = await db.user.findFirst({
         where: {

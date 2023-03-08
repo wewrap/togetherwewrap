@@ -8,23 +8,23 @@ datasource db {
 }
 
 model User {
-  UserID         String             @id @default(uuid())
-  email          String             @unique
-  firstName      String
-  lastName       String
-  password       String?
-  birthDate      DateTime?
-  googleID       String?            @unique
-  salt           String?
-  facebookID     String?            @unique
-  venmoUrl       String?
-  cashappUrl     String?
-  paypalUrl      String?
-  profile        Profile?
-  contacts       Contact[]
-  User           UserRelationship[] @relation("self")
-  friendsWith    UserRelationship[] @relation("friendsWith")
-  UserPlanBridge UserPlanBridge[]
+  UserID      String             @id @default(uuid())
+  email       String             @unique
+  firstName   String
+  lastName    String
+  password    String?
+  birthDate   DateTime?
+  googleID    String?            @unique
+  salt        String?
+  facebookID  String?            @unique
+  venmoUrl    String?
+  cashappUrl  String?
+  paypalUrl   String?
+  profile     Profile?
+  contacts    Contact[]
+  User        UserRelationship[] @relation("self")
+  friendsWith UserRelationship[] @relation("friendsWith")
+  Pledge      Pledge[]
 }
 
 model UserRelationship {
@@ -57,25 +57,27 @@ model Profile {
 }
 
 model Plan {
-  PlanID           String           @id @default(uuid())
+  PlanID           String      @id @default(uuid())
   description      String
   startDate        DateTime
   endDate          DateTime
-  createDate       DateTime
+  createdDate      DateTime    @default(now())
   specialEventType EventType
-  contact          Contact?         @relation(fields: [contactID], references: [ContactID])
-  contactID        String?          @unique
-  User             UserPlanBridge[]
+  contact          Contact?    @relation(fields: [contactID], references: [ContactID])
+  contactID        String?     @unique
+  User             Pledge[]
+  FinalGift        FinalGift?
 }
 
-model UserPlanBridge {
-  UserPlanID   String       @id @default(uuid())
-  plan         Plan         @relation(fields: [planID], references: [PlanID])
+model Pledge {
+  PledgeID     String        @id @default(uuid())
+  plan         Plan          @relation(fields: [planID], references: [PlanID])
   planID       String
-  user         User         @relation(fields: [userID], references: [UserID])
+  user         User          @relation(fields: [userID], references: [UserID])
   userID       String
-  inviteStatus InviteStatus
+  inviteStatus InviteStatus?
   role         Role
+  giftChoice   GiftChoice[]
 }
 
 enum Role {
@@ -88,6 +90,7 @@ enum InviteStatus {
   RESENT_INVITE
   ACCEPTED
   DENY
+  NOT_APPLICABLE
 }
 
 model Contact {
@@ -116,6 +119,22 @@ model UserContactRelationship {
   UserContactRelationshipID String  @id @default(uuid())
   contact                   Contact @relation(fields: [contactID], references: [ContactID])
   contactID                 String
+}
+
+model GiftChoice {
+  GiftChoiceID String   @id @default(uuid())
+  Pledge       Pledge   @relation(fields: [pledgeID], references: [PledgeID])
+  pledgeID     String
+  giftUrl      String
+  giftName     String
+  dateCreated  DateTime @default(now())
+  price        Int
+}
+
+model FinalGift {
+  FinalGiftID String @id @default(uuid())
+  plan        Plan   @relation(fields: [planID], references: [PlanID])
+  planID      String @unique
 }
 
 enum EventType {
