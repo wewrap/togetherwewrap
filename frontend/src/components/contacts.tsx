@@ -129,7 +129,7 @@ export const Contacts = () => {
   return (
     <div className="contacts_form">
       <h1>Add a contact</h1>
-      <form action="/user/contacts" method="post" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         {errorMessage && <p className="error_message">{errorMessage}</p>}
         <div className="user_input">
           <label htmlFor="first_name">First name</label>
@@ -192,7 +192,12 @@ export const Contacts = () => {
             <input
               type="text"
               value={relationshipType}
-              onChange={(event) => setRelationshipType(event.target.value)}
+              onChange={(event) => {
+                const value = event.target.value;
+                if (/^[A-Za-z\s]*$/.test(value)) {
+                  setRelationshipType(value);
+                }
+              }}
             />
           </label>
           <button onClick={addRelationship}>Add</button>
@@ -214,17 +219,26 @@ export const Contacts = () => {
           <label>
             Date:
             <input
-              type="text"
+              type="date"
               value={eventDate}
-              onChange={(event) => setEventDate(event.target.value)}
+              onChange={(event) => {
+                const value = event.target.value;
+                  setEventDate(value);
+              }}
             />
           </label>
+
           <label>
             Event:
             <input
               type="text"
               value={eventType}
-              onChange={(event) => setEventType(event.target.value)}
+              onChange={(event) => {
+                const value = event.target.value;
+                if (/^[A-Za-z\s]*$/.test(value)) {
+                  setEventType(value);
+                }
+              }}
             />
           </label>
           <button onClick={addImportantEvent}>Add</button>
