@@ -93,7 +93,6 @@ passport.use(new GoogleStrategy({
                         email: profile.emails[0].value
                     }
                 })
-
                 cb(null, newUser)
             } else {
                 cb(null, user)
