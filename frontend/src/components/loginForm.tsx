@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './login.css';
+import googleIcon from '../assets/googleIcon.png'
+import facebookIcon from '../assets/facebookIcon.png'
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -57,6 +59,17 @@ export const LoginForm = () => {
               <div>
                   <button className='login_button' type="submit">Log in</button>
               </div>
+              <div className='orOAuth'>
+                <p>OR</p>
+              </div>
+              <a className='googleContainer' href='http://localhost:8000/auth/google'>
+                <img src={googleIcon} alt='googleIcon'/>
+                <p>Log in with Google</p>
+              </a>
+              <a className='facebookContainer' href='http://localhost:8000/auth/facebook'>
+                <img src={facebookIcon} alt='googleIcon'/>
+                <p>Log in with Facebook</p>
+              </a>
           </form>
         </div>
     );
