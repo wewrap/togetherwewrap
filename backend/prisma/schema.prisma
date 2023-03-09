@@ -8,19 +8,38 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  email      String    @unique
-  firstName  String
-  lastName   String
-  password   String?
-  birthDate  DateTime?
-  googleID   String?   @unique
-  salt       String?
-  facebookID String?   @unique
-  venmoUrl   String?
-  cashappUrl String?
-  paypalUrl  String?
-  profile    Profile?
+  UserID      String             @id @default(uuid())
+  email       String             @unique
+  firstName   String
+  lastName    String
+  password    String?
+  birthDate   DateTime?
+  googleID    String?            @unique
+  salt        String?
+  facebookID  String?            @unique
+  venmoUrl    String?
+  cashappUrl  String?
+  paypalUrl   String?
+  profile     Profile?
+  contacts    Contact[]
+  User        UserRelationship[] @relation("self")
+  friendsWith UserRelationship[] @relation("friendsWith")
+  Pledge      Pledge[]
+}
+
+model UserRelationship {
+  UserRealtionshipID String             @id @default(uuid())
+  User               User               @relation("self", fields: [userID], references: [UserID])
+  userID             String
+  friendsWith        User               @relation("friendsWith", fields: [friendsWithID], references: [UserID])
+  friendsWithID      String
+  relationshipStatus RelationshipStatus @default(NOT_FRIEND)
+}
+
+enum RelationshipStatus {
+  FRIEND
+  PENDING_REQUEST
+  NOT_FRIEND
 }
 
 model Session {
@@ -30,35 +49,101 @@ model Session {
   expiresAt DateTime
 }
 
-model Contacts {
-  id          String  @id @default(uuid())
-  userID      String //foreign key on user. look up later 
-  email       String?
-  firstName   String
-  lastName    String?
-  phoneNumber String?
-  address     String
-  notes       String?
-  source      String
-}
-
-model Dates {
-  id        String   @id @default(uuid())
-  contactID String //foreign key on contact
-  date      DateTime
-  type      String
-}
-
-model Relationships {
-  id        String @id @default(uuid())
-  ownerID   String
-  contactID String
-  type      String
-}
-
 model Profile {
-  id       String  @id @default(uuid())
-  user     User    @relation(fields: [userId], references: [id])
-  userId   String  @unique @default(uuid())
-  photoUrl String?
+  profileID String  @id @default(uuid())
+  user      User    @relation(fields: [userId], references: [UserID])
+  userId    String  @unique
+  photoUrl  String?
+}
+
+model Plan {
+  PlanID           String     @id @default(uuid())
+  description      String
+  startDate        DateTime
+  endDate          DateTime
+  createdDate      DateTime   @default(now())
+  specialEventType EventType
+  contact          Contact?   @relation(fields: [contactID], references: [ContactID])
+  contactID        String?    @unique
+  User             Pledge[]
+  FinalGift        FinalGift?
+}
+
+model Pledge {
+  PledgeID     String        @id @default(uuid())
+  plan         Plan          @relation(fields: [planID], references: [PlanID])
+  planID       String
+  user         User          @relation(fields: [userID], references: [UserID])
+  userID       String
+  inviteStatus InviteStatus?
+  role         Role
+  giftChoice   GiftChoice[]
+}
+
+enum Role {
+  PLAN_LEADER
+  FRIEND
+}
+
+enum InviteStatus {
+  INVITED
+  RESENT_INVITE
+  ACCEPTED
+  DENY
+  NOT_APPLICABLE
+}
+
+model Contact {
+  ContactID          String                    @id @default(uuid())
+  email              String?
+  firstName          String
+  lastName           String?
+  phoneNumber        String?
+  address            String
+  notes              String?
+  source             String
+  owner              User                      @relation(fields: [ownerID], references: [UserID])
+  ownerID            String
+  importantDateEvent ImportantDateEvent[]
+  relationship       UserContactRelationship[]
+  Plan               Plan?
+}
+
+model ImportantDateEvent {
+  ConImportEventID String  @id @default(uuid())
+  contact          Contact @relation(fields: [contactID], references: [ContactID])
+  contactID        String
+}
+
+model UserContactRelationship {
+  UserContactRelationshipID String  @id @default(uuid())
+  contact                   Contact @relation(fields: [contactID], references: [ContactID])
+  contactID                 String
+}
+
+model GiftChoice {
+  GiftChoiceID String   @id @default(uuid())
+  Pledge       Pledge   @relation(fields: [pledgeID], references: [PledgeID])
+  pledgeID     String
+  giftUrl      String
+  giftName     String
+  dateCreated  DateTime @default(now())
+  price        Int
+}
+
+model FinalGift {
+  FinalGiftID String @id @default(uuid())
+  plan        Plan   @relation(fields: [planID], references: [PlanID])
+  planID      String @unique
+}
+
+enum EventType {
+  BIRTHDAY
+  ANNIVERSARY
+  GRADUATION
+  WEDDING
+  BABYSHOWER
+  ACHIEVEMENT
+  HOLIDAY
+  OTHER
 }
