@@ -1,13 +1,13 @@
 import { LoginForm } from './components/loginForm'
-import React from 'react'
 import { SignUp } from './components/signup'
 import { TempLandingPage } from './components/tempLandingPage'
 import './index.css'
 import { Routes, Route } from 'react-router-dom'
+import { Contacts } from './components/contacts'
 import { PlanForm } from './components/PlanForm'
+import React from 'react'
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function App () {
+function App (): JSX.Element {
   return (
     <div>
       <Routes>
@@ -20,9 +20,11 @@ function App () {
         <Route path="/tempLandingPage" element={<TempLandingPage />}> </Route>
       </Routes>
       <Routes>
+        <Route path="/contactPage" element={<Contacts />}> </Route>
+      </Routes>
+      <Routes>
         <Route path="/planForm" element={<PlanForm />}> </Route>
       </Routes>
-
     </div>
   )
 }
