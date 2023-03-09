@@ -6,13 +6,16 @@
   font-style: normal;
 }
 
+body{
+  background-color: #F8FFE5;
+}
+
 .login_form {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
-  background-color: #F8FFE5;
 }
 
 img {
@@ -148,4 +151,70 @@ a {
   color: white;
   font-size: 16px;
   text-align: center;
+}
+
+.googleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 420px;
+  height: 50px;
+  background: #ffffff;
+  position: relative;
+  font-size: 15px;
+  cursor: pointer;
+  margin: auto;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: #000000;
+  border-width: 1px;
+}
+
+
+.googleContainer p {
+  color: #000000;
+  margin-left: 10px;
+}
+
+.facebookContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 420px;
+  height: 50px;
+  background: #4385f4;
+  position: relative;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 6px;
+}
+
+.facebookContainer p {
+  color: #FFFFFF;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.facebookContainer img,
+.googleContainer img {
+  height: 80%;
+  left: 4px;
+  object-fit: contain;
+  width: 12.5%;
+  margin: 0px;
+  border-radius: 3px;
+  position: absolute;
+}
+
+.orOAuth {
+  display: flex;
+  justify-content: center;
+}
+
+.orOAuth p {
+  font-size: 20px;
+  margin: 13px;
 }
