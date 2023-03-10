@@ -1,5 +1,7 @@
+//seeds fake users and contacts into the database.
 import { faker } from '@faker-js/faker'
 import prisma from './prismaClient';
+import { EventType, RelationshipStatus, InviteStatus, Role } from '@prisma/client'
 
 const db = prisma
 
@@ -46,9 +48,8 @@ const main = async () => {
     const oliver = await db.contact.create({
         data: {
             firstName: 'Oliver',
-            address: 'abc 123 SF, Cali',
             source: 'phone contact',
-            ownerID: hyun.UserID
+            ownerID: hyun.id
         }
     })
 
@@ -57,19 +58,18 @@ const main = async () => {
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: faker.internet.email(),
-        address: faker.address.streetAddress(),
-        ownerID: hyun.UserID,
+        ownerID: hyun.id,
         source: 'phone contact'
     }))
 
     await db.contact.createMany({
-        data: [...contactData]
+        data: contactData
     })
 
     //create many contacts for sarah
     await db.contact.createMany({
-        data: contactData.map(obj => 
-            ({ ...obj, ownerID: sarah.UserID })
+        data: contactData.map(obj =>
+            ({ ...obj, ownerID: sarah.id })
         )
     })
 
@@ -79,8 +79,8 @@ const main = async () => {
             description: 'Birthday plan for pedro!',
             startDate: new Date('03-07-2023'),
             endDate: new Date('03-20-2023'),
-            specialEventType: 'BIRTHDAY',
-            contactID: oliver.ContactID,
+            specialEventType: EventType.BIRTHDAY,
+            contactID: oliver.id,
         }
     })
 
@@ -90,45 +90,45 @@ const main = async () => {
             description: "John's graduation",
             startDate: new Date('03-07-2023'),
             endDate: new Date('03-20-2023'),
-            specialEventType: 'BIRTHDAY',
+            specialEventType: EventType.GRADUATION,
         }
     })
 
     //hyun becomes a pledge for john's plan
     await db.pledge.create({
         data: {
-            planID: johnPlan.PlanID,
-            userID: hyun.UserID,
+            planID: johnPlan.id,
+            userID: hyun.id,
             inviteStatus: 'ACCEPTED',
-            role: 'PLAN_LEADER'
+            role: Role.PLAN_LEADER
         }
     })
 
     //hyun sends john as a friend first
     const hyunAddsJohn = await db.userRelationship.create({
         data: {
-            userID: hyun.UserID,
-            friendsWithID: john.UserID,
-            relationshipStatus: "PENDING_REQUEST"
+            userID: hyun.id,
+            friendsWithID: john.id,
+            relationshipStatus: RelationshipStatus.PENDING_REQUEST
         }
     })
 
     //john accepts and adds hyun as a friend 
     await db.userRelationship.create({
         data: {
-            userID: john.UserID,
-            friendsWithID: hyun.UserID,
-            relationshipStatus: "FRIEND"
+            userID: john.id,
+            friendsWithID: hyun.id,
+            relationshipStatus: RelationshipStatus.FRIEND
         }
     })
 
     //update hyun relationship with john to 'friend'
     await db.userRelationship.update({
         where: {
-            UserRealtionshipID: hyunAddsJohn.UserRealtionshipID,
+            id: hyunAddsJohn.id,
         },
         data: {
-            relationshipStatus: "FRIEND"
+            relationshipStatus: RelationshipStatus.FRIEND
         }
     })
 }
@@ -141,7 +141,7 @@ main()
         }
     )
     .catch(async (e) => {
-        console.error(e)
+        console.error(`Failed seeding database, error: ${e}`)
         await db.$disconnect()
     })
 

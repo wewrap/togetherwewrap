@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  UserID      String             @id @default(uuid())
+  id          String             @id @default(uuid())
   email       String             @unique
   firstName   String
   lastName    String
@@ -25,15 +25,19 @@ model User {
   User        UserRelationship[] @relation("self")
   friendsWith UserRelationship[] @relation("friendsWith")
   Pledge      Pledge[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
 }
 
 model UserRelationship {
-  UserRealtionshipID String             @id @default(uuid())
-  User               User               @relation("self", fields: [userID], references: [UserID])
+  id                 String             @id @default(uuid())
+  User               User               @relation("self", fields: [userID], references: [id])
   userID             String
-  friendsWith        User               @relation("friendsWith", fields: [friendsWithID], references: [UserID])
+  friendsWith        User               @relation("friendsWith", fields: [friendsWithID], references: [id])
   friendsWithID      String
   relationshipStatus RelationshipStatus @default(NOT_FRIEND)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
 }
 
 enum RelationshipStatus {
@@ -50,34 +54,46 @@ model Session {
 }
 
 model Profile {
-  profileID String  @id @default(uuid())
-  user      User    @relation(fields: [userId], references: [UserID])
-  userId    String  @unique
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userID], references: [id])
+  userID    String   @unique
   photoUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Plan {
-  PlanID           String      @id @default(uuid())
+  id               String       @id @default(uuid())
   description      String
   startDate        DateTime
   endDate          DateTime
-  createdDate      DateTime    @default(now())
+  createdDate      DateTime     @default(now())
   specialEventType EventType
-  contact          Contact?    @relation(fields: [contactID], references: [ContactID])
-  contactID        String?     @unique
+  contact          Contact?     @relation(fields: [contactID], references: [id])
+  contactID        String?      @unique
   User             Pledge[]
-  FinalGift        FinalGift?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  GiftChoice       GiftChoice[]
 }
 
 model Pledge {
-  PledgeID     String        @id @default(uuid())
-  plan         Plan          @relation(fields: [planID], references: [PlanID])
+  id           String        @id @default(uuid())
+  plan         Plan          @relation(fields: [planID], references: [id])
   planID       String
-  user         User          @relation(fields: [userID], references: [UserID])
+  user         User          @relation(fields: [userID], references: [id])
   userID       String
   inviteStatus InviteStatus?
   role         Role
-  giftChoice   GiftChoice[]
+  amount       Int?
+  pledgeStatus PledgeStatus?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+enum PledgeStatus {
+  SENT_MONEY
+  HAVENT_SENT_MONEY
 }
 
 enum Role {
@@ -94,48 +110,47 @@ enum InviteStatus {
 }
 
 model Contact {
-  ContactID          String                    @id @default(uuid())
+  id                 String                    @id @default(uuid())
   email              String?
   firstName          String
-  lastName           String?
-  phoneNumber        String?
-  address            String
   notes              String?
   source             String
-  owner              User                      @relation(fields: [ownerID], references: [UserID])
+  owner              User                      @relation(fields: [ownerID], references: [id])
   ownerID            String
   importantDateEvent ImportantDateEvent[]
   relationship       UserContactRelationship[]
   Plan               Plan?
+  createdAt          DateTime                  @default(now())
+  updatedAt          DateTime?                 @updatedAt
 }
 
 model ImportantDateEvent {
-  ConImportEventID String  @id @default(uuid())
-  contact          Contact @relation(fields: [contactID], references: [ContactID])
-  contactID        String
+  id        String   @id @default(uuid())
+  contact   Contact  @relation(fields: [contactID], references: [id])
+  contactID String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model UserContactRelationship {
-  UserContactRelationshipID String  @id @default(uuid())
-  contact                   Contact @relation(fields: [contactID], references: [ContactID])
-  contactID                 String
+  id        String   @id @default(uuid())
+  contact   Contact  @relation(fields: [contactID], references: [id])
+  contactID String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model GiftChoice {
-  GiftChoiceID String   @id @default(uuid())
-  Pledge       Pledge   @relation(fields: [pledgeID], references: [PledgeID])
-  pledgeID     String
-  giftUrl      String
-  giftName     String
-  dateCreated  DateTime @default(now())
-  price        Int
+  id        String   @id @default(uuid())
+  Plan      Plan     @relation(fields: [planID], references: [id])
+  planID    String
+  url       String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  price     Int
 }
 
-model FinalGift {
-  FinalGiftID String @id @default(uuid())
-  plan        Plan   @relation(fields: [planID], references: [PlanID])
-  planID      String @unique
-}
 
 enum EventType {
   BIRTHDAY
