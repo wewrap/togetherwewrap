@@ -1,4 +1,0 @@
--- AlterTable
-ALTER TABLE `User` ADD COLUMN `cashappUrl` VARCHAR(191) NULL,
-    ADD COLUMN `paypalUrl` VARCHAR(191) NULL,
-    ADD COLUMN `venmoUrl` VARCHAR(191) NULL;
