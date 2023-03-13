@@ -1,0 +1,96 @@
+*{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+body{
+    font-family: montserrat;
+    background-color: #61D3A3;
+}
+nav{
+    background: white;
+    height: 80px;
+    width: 100%;
+}
+nav ul{
+    float: left;
+    margin-right: 20px;
+}
+nav ul li{
+    display: inline-block;
+    line-height: 80px;
+    margin: 0 5px;
+}
+nav ul li a{
+    color: #DD5470;
+    font-size: 17px;
+    padding: 7px 13px;
+    border-radius: 3px;
+}
+a.active,a:hover{
+    background: #61D3A3;
+    transition: .5s;
+
+}
+.giftImage{
+width: 50%;
+float: right;
+margin-top:40px;
+}
+h1{
+margin-top:200px;
+margin-left:50px;
+color:white;
+font-size:45px;
+}
+p{
+margin-left:50px;
+color:white;
+font-size: 20px;
+}
+.learnMoreButton{
+margin-top:10px;
+margin-left:50px;
+background-color: white;
+border-color: #DD5470;
+border: solid;
+border-width: 1px;
+color: #DD5470;
+padding: 5px 16px;
+text-align: center;
+display: inline-block;
+font-size: 16px;
+border-radius: 5px;
+}
+.getStartedButton{
+margin-top:10px;
+margin-left:20px;
+background-color: #DD5470;
+color: white;
+padding: 5px 16px;
+text-align: center;
+display: inline-block;
+font-size: 16px;
+border-radius: 5px;
+}
+.logInButton{
+background-color: white;
+border-color: #DD5470;
+border: solid;
+border-width: 1px;
+color: #DD5470;
+padding: 5px 16px;
+text-align: center;
+font-size: 16px;
+border-radius: 5px;
+}
+.signUpButton{
+background-color: #DD5470;
+color: white;
+padding: 5px 16px;
+text-align: center;
+font-size: 16px;
+border-radius: 5px;
+}
