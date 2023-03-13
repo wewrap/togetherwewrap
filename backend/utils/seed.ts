@@ -56,7 +56,6 @@ const main = async () => {
     //create many contacts for hyun
     const contactData = Array.from({ length: 50 }).map(() => ({
         firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
         email: faker.internet.email(),
         ownerID: hyun.id,
         source: 'phone contact'
@@ -134,15 +133,14 @@ const main = async () => {
 }
 
 main()
-    .then(
-        async () => {
-            await db.$disconnect()
-            console.log('Disconnected fom DB')
-        }
-    )
     .catch(async (e) => {
         console.error(`Failed seeding database, error: ${e}`)
         await db.$disconnect()
+    })
+    .finally(async () => {
+        console.log('Script executed successfully');
+        await db.$disconnect()
+        console.log('Disconnected fom DB')
     })
 
 
