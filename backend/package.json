@@ -49,6 +49,6 @@
   "keywords": [],
   "description": "",
   "prisma": {
-    "seed": "ts-node ./utils/seed.ts"
+    "seed": "ts-node ./utils/userContactPlanSeed.ts"
   }
 }
