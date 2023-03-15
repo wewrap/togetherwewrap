@@ -1,16 +1,16 @@
-## Title: Airtable's task title
+## Title: Task Name from Airtable
 
 *example Title: T71 Create Pull Request Template*
 
 ## Description 
 
-Describe the big picture of your changes here. This could be a feature implementation, a bug fix or related issue.
+Describe the big picture of your changes here. This could be a feature implementation, bug fix or related issue from another branch.
 
-For frontend work, you can include some screenshots of your work in the description.
+- For frontend work, you can include _must_ screenshots of your work in the description.
 
 ## Types of changes
 
-What types of changes does your code introduce to Appium?
+What types of changes does your code introduce to WeWrap?
 _Put an `x` in the boxes that apply_
 
 - [ ] Bugfix (non-breaking change which fixes an issue)
@@ -20,13 +20,6 @@ _Put an `x` in the boxes that apply_
 
 ## Checklist
 
-
 - [ ] I have made sure that eslint was passed locally
 - [ ] I have added necessary documentation (if appropriate)
 - [ ] Any dependent changes have been merged and published in downstream modules
-
-
-
-
-
-
