@@ -6,7 +6,7 @@
 
 Describe the big picture of your changes here. This could be a feature implementation, bug fix or related issue from another branch.
 
-- For frontend work, you can include _must_ screenshots of your work in the description.
+- For frontend work, you _must_ include screenshots of your work in the description.
 
 ## Types of changes
 
