@@ -99,11 +99,12 @@ model Contact {
   firstName          String
   lastName           String?
   phoneNumber        String?
-  address            String
   notes              String?
+  relationships      String
+  importantDates     String
   source             String
-  owner              User                      @relation(fields: [ownerID], references: [id])
   ownerID            String
+  owner              User                      @relation(fields: [ownerID], references: [id])
   importantDateEvent ImportantDateEvent[]
   relationship       UserContactRelationship[]
   Plan               Plan?

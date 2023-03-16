@@ -14,7 +14,7 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
-import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL} from './utils/config'
+import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL } from './utils/config'
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuth from './routes/loginAuth'
@@ -31,23 +31,24 @@ app.use(cors());
 app.use(express.json());
 
 app.use(
-    expressSession({
-        cookie: {
-            maxAge: THREE_DAYS
-        },
-        secret: secretcode,
-        resave: false,
-        rolling: true,
-        saveUninitialized: false,
-        store: new PrismaSessionStore(
-            new PrismaClient(),
-            {
-                checkPeriod: TWO_MINUTES,
-                dbRecordIdIsSessionId: true,
-                dbRecordIdFunction: undefined,
-            }
-        ),
-    })
+    expressSession(
+        {
+            cookie: {
+                maxAge: THREE_DAYS
+            },
+            secret: secretcode,
+            resave: false,
+            rolling: true,
+            saveUninitialized: false,
+            store: new PrismaSessionStore(
+                new PrismaClient(),
+                {
+                    checkPeriod: TWO_MINUTES,
+                    dbRecordIdIsSessionId: true,
+                    dbRecordIdFunction: undefined,
+                }
+            ),
+        })
 );
 
 app.use(passport.initialize())
