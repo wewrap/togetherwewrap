@@ -17,7 +17,8 @@ import crypto from 'crypto';
 import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL } from './utils/config'
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
-import loginAuth from './routes/loginAuth'
+import contactCreatorRouter from './routes/contactCreator';
+import loginAuthRouter from './routes/loginAuth';
 const GoogleStrategy = googleStrategy.Strategy;
 const FacebookStrategy = facebookStrategy.Strategy;
 const app = express();
@@ -56,8 +57,9 @@ app.use(passport.session())
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
-app.use('/login', loginAuth)
+app.use('/login', loginAuthRouter)
 app.use('/signup', signUpAuth)
+app.use('/contacts', contactCreatorRouter)
 
 passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
