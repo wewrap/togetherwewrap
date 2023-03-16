@@ -5,24 +5,67 @@ import { EventType, RelationshipStatus, InviteStatus, Role } from '@prisma/clien
 
 const db = prisma
 
-const userData = Array.from({ length: 20 }).map(() => ({
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    email: faker.internet.email()
-}))
+
+const realUsers = [
+    {
+        email: 'test1@gmail.com',
+        firstName: 'john',
+        lastName: 'smith'
+    }, {
+        email: 'test2@gmail.com',
+        firstName: 'Xavier',
+        lastName: 'Moss'
+    }, {
+        email: 'test3@gmail.com',
+        firstName: 'Kaylee',
+        lastName: 'Ryan'
+    }, {
+        email: 'test4@gmail.com',
+        firstName: 'Scott',
+        lastName: 'Lee'
+    }, {
+        email: 'test5@gmail.com',
+        firstName: 'Carly',
+        lastName: 'Hendrix'
+    },     {
+        email: 'test6@gmail.com',
+        firstName: 'Ella',
+        lastName: 'Haas'
+    },    {
+        email: 'test7@gmail.com',
+        firstName: 'Shania',
+        lastName: 'Baxter'
+    },     {
+        email: 'test8@gmail.com',
+        firstName: 'Halle',
+        lastName: 'Pratt'
+    },    {
+        email: 'test9@gmail.com',
+        firstName: 'Miya',
+        lastName: 'Reid'
+    },     {
+        email: 'test10@gmail.com',
+        firstName: 'Wesley',
+        lastName: 'Lowery'
+    },     {
+        email: 'test111@gmail.com',
+        firstName: 'Bianca',
+        lastName: 'Lawrence'
+    },
+]
 
 
 const main = async () => {
 
-    //create many users
+    //create many real users
     await db.user.createMany({
-        data: userData
+        data: realUsers
     })
 
     //create user: hyun, john, sarah
     const hyun = await db.user.create({
         data: {
-            email: 'test@gmail.com',
+            email: 'hyun@gmail.com',
             firstName: 'hyun',
             lastName: 'test'
         }
@@ -32,7 +75,7 @@ const main = async () => {
         data: {
             email: 'john@gmail.com',
             firstName: 'john',
-            lastName: 'test'
+            lastName: 'joe'
         }
     })
 
@@ -40,7 +83,7 @@ const main = async () => {
         data: {
             email: 'sarah@gmail.com',
             firstName: 'sarah',
-            lastName: 'test'
+            lastName: 'soe'
         }
     })
 

@@ -67,7 +67,6 @@ model Plan {
   description      String
   startDate        DateTime
   endDate          DateTime
-  createdDate      DateTime     @default(now())
   specialEventType EventType
   contact          Contact?     @relation(fields: [contactID], references: [id])
   contactID        String?      @unique
