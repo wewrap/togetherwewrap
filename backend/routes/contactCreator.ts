@@ -5,7 +5,7 @@ import prisma from '../utils/prismaClient'
 const contactCreatorRouter = express.Router();
 const db = prisma;
 
-contactCreatorRouter.post('/contacts', async function (req, res, next) {
+contactCreatorRouter.post('/', async function (req, res, next) {
     try {
         const contact = await db.contact.create({
             data: {
