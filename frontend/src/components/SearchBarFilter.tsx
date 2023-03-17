@@ -61,22 +61,6 @@ export const SearchBarFilter: React.FC<Props> = ({
     setSelected(filteredItems)
   }
 
-  const oneTag = (): JSX.Element => (
-    <div className='tag-grid'>
-      {select.length
-        ? <Tag handleRemoveTag={removeTag} item={select[0]} key={select[0].firstName} />
-        : ''}
-    </div>
-  )
-
-  const multiTag = (): JSX.Element => (
-    <div className='tag-grid'>
-      {select.map(obj => (
-        <Tag handleRemoveTag={removeTag} item={obj} key={obj.firstName} />
-      ))}
-    </div>
-  )
-
   return (
     <div className='search-bar'>
       <input
@@ -98,7 +82,11 @@ export const SearchBarFilter: React.FC<Props> = ({
         )}
       </div>
       <p>Selected:</p>
-      {multiTag()}
+      <div className='tag-grid'>
+      {select.map(obj => (
+        <Tag handleRemoveTag={removeTag} item={obj} key={obj.firstName} />
+      ))}
+    </div>
     </div>
   )
 }

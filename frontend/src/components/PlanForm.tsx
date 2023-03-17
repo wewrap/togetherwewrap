@@ -105,6 +105,15 @@ export const PlanForm = () => {
           />
         </div>
         <div>
+          <label htmlFor='description'>Description: </label>
+          <textarea
+            id='description'
+            required
+            value={description}
+            onChange={handleDescriptionChange}>
+          </textarea>
+        </div>
+        <div>
           <label htmlFor='specialDate'>Special date: </label>
           <input
             type='date'
@@ -115,16 +124,7 @@ export const PlanForm = () => {
           />
         </div>
         <div>
-          <label htmlFor='description'>Description: </label>
-          <textarea
-            id='description'
-            required
-            value={description}
-            onChange={handleDescriptionChange}>
-          </textarea>
-        </div>
-        <div>
-          <label htmlFor='startDate'>start date: </label>
+          <label htmlFor='startDate'>Start date: </label>
           <input
             type='date'
             id='startDate'
@@ -134,7 +134,7 @@ export const PlanForm = () => {
           />
         </div>
         <div>
-          <label htmlFor='endDate'>end date: </label>
+          <label htmlFor='endDate'>End date: </label>
           <input
             type='date'
             id='endDate'

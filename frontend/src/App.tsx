@@ -11,19 +11,11 @@ function App (): JSX.Element {
   return (
     <div>
       <Routes>
-        <Route path="/login" element={<LoginForm />}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/signup" element={<SignUp />}>  </Route>
-      </Routes>
-      <Routes>
-        <Route path="/tempLandingPage" element={<TempLandingPage />}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/contactPage" element={<Contacts />}> </Route>
-      </Routes>
-      <Routes>
-        <Route path="/planForm" element={<PlanForm />}> </Route>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/tempLandingPage" element={<TempLandingPage />} />
+        <Route path="/contactPage" element={<Contacts />} />
+        <Route path="/planForm" element={<PlanForm />} />
       </Routes>
     </div>
   )

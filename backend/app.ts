@@ -14,10 +14,10 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
-import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL} from './utils/config'
+import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL } from './utils/config'
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
-import loginAuth from './routes/loginAuth'
+import loginAuthRouter from './routes/loginAuth'
 const GoogleStrategy = googleStrategy.Strategy;
 const FacebookStrategy = facebookStrategy.Strategy;
 const app = express();
@@ -27,8 +27,14 @@ const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
 const TWO_MINUTES = 1000 * 60 * 2
 
 app.use(morgan("dev"));
-app.use(cors());
+
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+}));
+
 app.use(express.json());
+app.use(passport.initialize())
 
 app.use(
     expressSession({
@@ -50,13 +56,7 @@ app.use(
     })
 );
 
-app.use(passport.initialize())
 app.use(passport.session())
-app.use('/', testRouter)
-app.use('/auth/google', googleOAuthRouter)
-app.use('/auth/facebook', facebookOAuthRouter)
-app.use('/login', loginAuth)
-app.use('/signup', signUpAuth)
 
 passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
@@ -100,7 +100,7 @@ passport.use(new GoogleStrategy({
         } catch (error) {
             cb(error, null)
         }
-    }));
+    }))
 
 passport.use(new FacebookStrategy({
     clientID: facebookClientID,
@@ -136,32 +136,40 @@ passport.use(new FacebookStrategy({
     }
 ));
 
-passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-},
-    async (email: string, password: string, done: Function) => {
-        try {
+passport.use(
+    new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password',
+        passReqToCallback: true
+
+    },
+        async function (req, email, password, done) {
+
             const user = await db.user.findUnique({
                 where: {
-                    email
+                    email: email
                 },
-            });
+            })
 
             if (!user || !user.salt) {
-                return done('Email or password did not match. Please try again.');
+                return done(null, false);
             }
 
             const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64');
             if (user.password !== hashedPassword) {
-                return done('Email or password did not match. Please try again.');
+                return done(null, false);
+            } else {
+                return done(null, user);
             }
 
-            return done(null, user);
-
-        } catch (error) {
-            done(error);
         }
-    }));
+    ));
+
+app.use('/', testRouter)
+app.use('/auth/google', googleOAuthRouter)
+app.use('/auth/facebook', facebookOAuthRouter)
+app.use('/login', loginAuthRouter)
+app.use('/signup', signUpAuth)
+
 
 export default app;

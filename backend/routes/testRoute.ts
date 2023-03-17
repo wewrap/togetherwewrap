@@ -1,3 +1,4 @@
+import { User } from "@prisma/client";
 import express from "express";
 const testRouter = express.Router()
 import prisma from '../utils/prismaClient'
