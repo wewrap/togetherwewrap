@@ -1,27 +1,21 @@
-import express from "express";
+import { type User } from '@prisma/client'
+import express from 'express'
 import passport from 'passport'
 import prisma from '../utils/prismaClient'
 
 const loginAuthRouter = express.Router()
-const db = prisma;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const db = prisma
 
 loginAuthRouter.get('/password',
-    function (req, res, next) {
-        res.render('login');
-    });
+  function (req, res, next) {
+    res.render('login')
+  })
 
-loginAuthRouter.post("/password", function (req, res, next) {
-    passport.authenticate("local", function (err, user, info) {
-      if (err) {
-        return res.status(401).send('Email or password did not match. Please try again.')
-      }
-      if (!user) {
-        return res.status(401).send('Email or password did not match. Please try again.');
-      }
-      req.login(user, next);
-      res.status(200).send('Sucessfully logged in')
-    })(req, res, next);
-  });
-
+loginAuthRouter.post('/password', passport.authenticate('local'),
+  function (req, res) {
+    console.log('user from local auth: ' + (req.user as User).id)
+    res.redirect('/')
+  })
 
 export default loginAuthRouter

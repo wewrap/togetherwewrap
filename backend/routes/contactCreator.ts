@@ -6,6 +6,7 @@ const contactCreatorRouter = express.Router();
 const db = prisma;
 
 contactCreatorRouter.post('/', async function (req, res, next) {
+    console.log(req.user);
     try {
         const contact = await db.contact.create({
             data: {
@@ -20,7 +21,7 @@ contactCreatorRouter.post('/', async function (req, res, next) {
                 source: req.body.source,
             },
         });
-        console.log(contact.ownerID);
+        // console.log(contact.ownerID);
         res.status(200).send({ contact });
     } catch (error) {
         console.error(error);

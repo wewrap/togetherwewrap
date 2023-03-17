@@ -119,7 +119,7 @@ export const Contacts = () => {
         email,
         phoneNumber,
         notes,
-      });
+      },{withCredentials:true});
     } catch (error) {
       console.error(error);
       setErrorMessage((error as any).response.data ?? "Unknown error occured.");

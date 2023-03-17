@@ -3,7 +3,7 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
-import passport from 'passport';
+import passport, { deserializeUser } from 'passport';
 import googleOAuthRouter from './routes/googleOAuth';
 import testRouter from './routes/testRoute'
 import prisma from './utils/prismaClient';
@@ -28,14 +28,18 @@ const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
 const TWO_MINUTES = 1000 * 60 * 2
 
 app.use(morgan("dev"));
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+}));
 app.use(express.json());
 
 app.use(
     expressSession(
         {
             cookie: {
-                maxAge: THREE_DAYS
+                maxAge: THREE_DAYS,
+                secure: false
             },
             secret: secretcode,
             resave: false,
@@ -54,12 +58,7 @@ app.use(
 
 app.use(passport.initialize())
 app.use(passport.session())
-app.use('/', testRouter)
-app.use('/auth/google', googleOAuthRouter)
-app.use('/auth/facebook', facebookOAuthRouter)
-app.use('/login', loginAuthRouter)
-app.use('/signup', signUpAuth)
-app.use('/contacts', contactCreatorRouter)
+
 
 passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
@@ -71,6 +70,7 @@ passport.deserializeUser(async (id: string, done: any) => {
             id: id
         }
     })
+    console.error(user)
     return done(null, user)
 })
 
@@ -139,32 +139,36 @@ passport.use(new FacebookStrategy({
     }
 ));
 
-passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-},
-    async (email: string, password: string, done: Function) => {
-        try {
-            const user = await db.user.findUnique({
+passport.use(
+    new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password',
+        session: true,
+        passReqToCallback: true
+    },
+        async function (req, email, password, done) {
+            const user = await db.user.findFirst({
                 where: {
-                    email
+                    email: email
                 },
-            });
-
+            })
             if (!user || !user.salt) {
-                return done('Email or password did not match. Please try again.');
+                return done(null, false);
             }
-
             const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64');
             if (user.password !== hashedPassword) {
-                return done('Email or password did not match. Please try again.');
+                return done(null, false)
+            } else {
+                return done(null, user);
             }
-
-            return done(null, user);
-
-        } catch (error) {
-            done(error);
         }
-    }));
+    ));
+
+app.use('/', testRouter)
+app.use('/auth/google', googleOAuthRouter)
+app.use('/auth/facebook', facebookOAuthRouter)
+app.use('/login', loginAuthRouter)
+app.use('/signup', signUpAuth)
+app.use('/contacts', contactCreatorRouter)
 
 export default app;
