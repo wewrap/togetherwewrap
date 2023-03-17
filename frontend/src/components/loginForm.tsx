@@ -18,6 +18,8 @@ export const LoginForm = () => {
           await axios.post("http://localhost:8000/login/password", {
             email,
             password,
+          }, {
+            withCredentials: true
           });
           navigate('/tempLandingPage')
         } catch(error) {
