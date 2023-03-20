@@ -1,12 +1,13 @@
-import { User } from '@prisma/client';
-import express from 'express';
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { type User } from '@prisma/client'
+import express from 'express'
 import prisma from '../utils/prismaClient'
 
-const contactCreatorRouter = express.Router();
-const db = prisma;
+const contactCreatorRouter = express.Router()
+const db = prisma
 
-contactCreatorRouter.post('/', async function (req, res, next) {
-    console.log(req.user);
+contactCreatorRouter.post('/', async function (req, res) {
+    console.log(req.user)
     try {
         const contact = await db.contact.create({
             data: {
@@ -18,14 +19,13 @@ contactCreatorRouter.post('/', async function (req, res, next) {
                 importantDates: req.body.importantDates,
                 notes: req.body.notes,
                 ownerID: (req.user as User).id,
-                source: req.body.source,
-            },
-        });
-        // console.log(contact.ownerID);
-        res.status(200).send({ contact });
+                source: req.body.source
+            }
+        })
+        res.status(200).send({ contact })
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: 'Failed to create contact' });
+        console.error(error)
+        res.status(500).send({ message: 'Failed to create contact' })
     }
-});
-export default contactCreatorRouter;
+})
+export default contactCreatorRouter

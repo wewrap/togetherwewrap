@@ -19,6 +19,10 @@ module.exports = {
     'react'
   ],
   rules: {
-    eqeqeq: ['error', 'always']
+    eqeqeq: ['error', 'always'],
+    '@typescript-eslint/consistent-type-definitions': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/indent': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off'
   }
 }

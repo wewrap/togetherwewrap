@@ -1,38 +1,40 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
-import express from 'express';
-import cors from 'cors';
-import morgan from 'morgan';
-import passport, { deserializeUser } from 'passport';
-import googleOAuthRouter from './routes/googleOAuth';
+/* eslint-disable import/first */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import * as dotenv from 'dotenv'
+dotenv.config()
+import express from 'express'
+import cors from 'cors'
+import morgan from 'morgan'
+import passport from 'passport'
+import googleOAuthRouter from './routes/googleOAuth'
 import testRouter from './routes/testRoute'
-import prisma from './utils/prismaClient';
-import signUpAuth from './routes/signUpAuth';
-import googleStrategy from 'passport-google-oauth20';
-import expressSession from 'express-session';
-import { PrismaSessionStore } from '@quixo3/prisma-session-store';
-import { PrismaClient } from '@prisma/client';
-import { Strategy as LocalStrategy } from 'passport-local';
-import crypto from 'crypto';
+import prisma from './utils/prismaClient'
+import signUpAuth from './routes/signUpAuth'
+import googleStrategy from 'passport-google-oauth20'
+import expressSession from 'express-session'
+import { PrismaSessionStore } from '@quixo3/prisma-session-store'
+import { PrismaClient } from '@prisma/client'
+import { Strategy as LocalStrategy } from 'passport-local'
+import crypto from 'crypto'
 import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL } from './utils/config'
-import facebookStrategy from 'passport-facebook';
-import facebookOAuthRouter from './routes/facebookOAuth';
-import contactCreatorRouter from './routes/contactCreator';
-import loginAuthRouter from './routes/loginAuth';
-const GoogleStrategy = googleStrategy.Strategy;
-const FacebookStrategy = facebookStrategy.Strategy;
-const app = express();
+import facebookStrategy from 'passport-facebook'
+import facebookOAuthRouter from './routes/facebookOAuth'
+import contactCreatorRouter from './routes/contactCreator'
+import loginAuthRouter from './routes/loginAuth'
+const GoogleStrategy = googleStrategy.Strategy
+const FacebookStrategy = facebookStrategy.Strategy
+const app = express()
 
-const db = prisma;
+const db = prisma
 const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
 const TWO_MINUTES = 1000 * 60 * 2
 
-app.use(morgan("dev"));
+app.use(morgan('dev'))
 app.use(cors({
     credentials: true,
     origin: 'http://localhost:3000'
-}));
-app.use(express.json());
+}))
+app.use(express.json())
 
 app.use(
     expressSession(
@@ -50,15 +52,14 @@ app.use(
                 {
                     checkPeriod: TWO_MINUTES,
                     dbRecordIdIsSessionId: true,
-                    dbRecordIdFunction: undefined,
+                    dbRecordIdFunction: undefined
                 }
-            ),
+            )
         })
-);
+)
 
 app.use(passport.initialize())
 app.use(passport.session())
-
 
 passport.serializeUser((user: any, done: any) => {
     return done(null, user.id)
@@ -67,11 +68,11 @@ passport.serializeUser((user: any, done: any) => {
 passport.deserializeUser(async (id: string, done: any) => {
     const user = await db.user.findFirst({
         where: {
-            id: id
+            id
         }
     })
     console.error(user)
-    return done(null, user)
+    done(null, user)
 })
 
 passport.use(new GoogleStrategy({
@@ -79,7 +80,7 @@ passport.use(new GoogleStrategy({
     clientSecret: googleClientSecret,
     callbackURL: googleCallBackURL
 },
-    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function verify (accessToken: any, refreshToken: any, profile: any, cb: any) {
         try {
             const user = await db.user.findFirst({
                 where: {
@@ -103,7 +104,7 @@ passport.use(new GoogleStrategy({
         } catch (error) {
             cb(error, null)
         }
-    }));
+    }))
 
 passport.use(new FacebookStrategy({
     clientID: facebookClientID,
@@ -112,7 +113,7 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'displayName', 'email'],
     enableProof: true
 },
-    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function verify (accessToken: any, refreshToken: any, profile: any, cb: any) {
         try {
             const user = await db.user.findFirst({
                 where: {
@@ -137,7 +138,7 @@ passport.use(new FacebookStrategy({
             cb(error, null)
         }
     }
-));
+))
 
 passport.use(
     new LocalStrategy({
@@ -149,20 +150,20 @@ passport.use(
         async function (req, email, password, done) {
             const user = await db.user.findFirst({
                 where: {
-                    email: email
-                },
+                    email
+                }
             })
-            if (!user || !user.salt) {
-                return done(null, false);
+            if (!user?.salt) {
+                done(null, false); return
             }
-            const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64');
+            const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64')
             if (user.password !== hashedPassword) {
-                return done(null, false)
+                done(null, false)
             } else {
-                return done(null, user);
+                done(null, user)
             }
         }
-    ));
+    ))
 
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
@@ -171,4 +172,4 @@ app.use('/login', loginAuthRouter)
 app.use('/signup', signUpAuth)
 app.use('/contacts', contactCreatorRouter)
 
-export default app;
+export default app
