@@ -108,37 +108,6 @@ enum InviteStatus {
   NOT_APPLICABLE
 }
 
-model Contact {
-  id                 String                    @id @default(uuid())
-  email              String?
-  firstName          String
-  notes              String?
-  source             String
-  owner              User                      @relation(fields: [ownerID], references: [id])
-  ownerID            String
-  importantDateEvent ImportantDateEvent[]
-  relationship       UserContactRelationship[]
-  Plan               Plan?
-  createdAt          DateTime                  @default(now())
-  updatedAt          DateTime?                 @updatedAt
-}
-
-model ImportantDateEvent {
-  id        String   @id @default(uuid())
-  contact   Contact  @relation(fields: [contactID], references: [id])
-  contactID String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model UserContactRelationship {
-  id        String   @id @default(uuid())
-  contact   Contact  @relation(fields: [contactID], references: [id])
-  contactID String
-  relationship String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
 
 model GiftChoice {
   id        String   @id @default(uuid())
