@@ -78,14 +78,6 @@ const main = async (): Promise<void> => {
         }
     })
 
-    const sarah = await db.user.create({
-        data: {
-            email: 'sarah@gmail.com',
-            firstName: 'sarah',
-            lastName: 'soe'
-        }
-    })
-
     // create birthday plan for user john
     const johnPlan = await db.plan.create({
         data: {
@@ -141,6 +133,23 @@ const main = async (): Promise<void> => {
         data: {
             relationshipStatus: RelationshipStatus.FRIEND
         }
+    })
+
+    // hyun adds a bunch of people
+    realUsers.map(async user => {
+        const userInDB = await db.user.findUniqueOrThrow({
+            where: {
+                email: user.email
+            }
+        })
+
+        await db.userRelationship.create({
+            data: {
+                userID: hyun.id,
+                friendsWithID: userInDB.id,
+                relationshipStatus: RelationshipStatus.FRIEND
+            }
+        })
     })
 }
 
