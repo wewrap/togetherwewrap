@@ -218,7 +218,7 @@ export const Contacts = () => {
           <label>
             Date:
             <input
-              type="date"
+              type="text"
               value={eventDate}
               onChange={(event) => {
                 const value = event.target.value
