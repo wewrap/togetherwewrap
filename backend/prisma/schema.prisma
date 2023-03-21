@@ -100,13 +100,11 @@ model Contact {
   lastName           String?
   phoneNumber        String?
   notes              String?
-  relationships      String
-  importantDates     String
-  source             String
+  source             String?
   ownerID            String
   owner              User                      @relation(fields: [ownerID], references: [id])
   importantDateEvent ImportantDateEvent[]
-  relationship       UserContactRelationship[]
+  relationships      UserContactRelationship[]
   Plan               Plan?
 }
 
@@ -114,12 +112,15 @@ model ImportantDateEvent {
   id        String  @id @default(uuid())
   contact   Contact @relation(fields: [contactID], references: [id])
   contactID String
+  date      String
+  eventType String
 }
 
 model UserContactRelationship {
-  id        String  @id @default(uuid())
-  contact   Contact @relation(fields: [contactID], references: [id])
-  contactID String
+  id               String  @id @default(uuid())
+  contact          Contact @relation(fields: [contactID], references: [id])
+  contactID        String
+  relationshipType String
 }
 
 model GiftChoice {

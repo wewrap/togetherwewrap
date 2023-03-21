@@ -7,7 +7,6 @@ const contactCreatorRouter = express.Router()
 const db = prisma
 
 contactCreatorRouter.post('/', async function (req, res) {
-    console.log(req.user)
     try {
         const contact = await db.contact.create({
             data: {
@@ -15,13 +14,28 @@ contactCreatorRouter.post('/', async function (req, res) {
                 lastName: req.body.lastName,
                 email: req.body.email,
                 phoneNumber: req.body.phoneNumber,
-                relationships: req.body.relationships,
-                importantDates: req.body.importantDates,
                 notes: req.body.notes,
                 ownerID: (req.user as User).id,
                 source: req.body.source
             }
         })
+        for (const relationship of req.body.relationships) {
+            await db.userContactRelationship.create({
+                data: {
+                    relationshipType: relationship.type,
+                    contact: { connect: { id: contact.id } }
+                }
+            })
+        }
+        for (const importantDate of req.body.importantDates) {
+            await db.importantDateEvent.create({
+                data: {
+                    date: importantDate.date,
+                    eventType: importantDate.event,
+                    contact: { connect: { id: contact.id } }
+                }
+            })
+        }
         res.status(200).send({ contact })
     } catch (error) {
         console.error(error)
