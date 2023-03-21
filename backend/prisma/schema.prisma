@@ -75,7 +75,7 @@ model Plan {
 
 model Pledge {
   id           String         @id @default(uuid())
-  status       String
+  status       PledgeStatus
   pledgeAmount Int
   pledgeDate   DateTime?
   membership   PlanMembership @relation(fields: [membershipID], references: [id])
