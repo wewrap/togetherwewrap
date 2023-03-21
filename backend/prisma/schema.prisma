@@ -8,25 +8,24 @@ datasource db {
 }
 
 model User {
-  id          String             @id @default(uuid())
-  email       String             @unique
-  firstName   String
-  lastName    String
-  password    String?
-  birthDate   DateTime?
-  googleID    String?            @unique
-  salt        String?
-  facebookID  String?            @unique
-  venmoUrl    String?
-  cashappUrl  String?
-  paypalUrl   String?
-  profile     Profile?
-  contacts    Contact[]
-  User        UserRelationship[] @relation("self")
-  friendsWith UserRelationship[] @relation("friendsWith")
-  Pledge      Pledge[]
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
+  id             String             @id @default(uuid())
+  email          String             @unique
+  firstName      String
+  lastName       String
+  password       String?
+  birthDate      DateTime?
+  googleID       String?            @unique
+  salt           String?
+  facebookID     String?            @unique
+  venmoUrl       String?
+  cashappUrl     String?
+  paypalUrl      String?
+  profile        Profile?
+  User           UserRelationship[] @relation("self")
+  friendsWith    UserRelationship[] @relation("friendsWith")
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  PlanMembership PlanMembership[]
 }
 
 model UserRelationship {
@@ -63,31 +62,26 @@ model Profile {
 }
 
 model Plan {
-  id               String       @id @default(uuid())
+  id               String           @id @default(uuid())
   description      String
   startDate        DateTime
   endDate          DateTime
   specialEventType EventType
-  contact          Contact?     @relation(fields: [contactID], references: [id])
-  contactID        String?      @unique
-  User             Pledge[]
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
   GiftChoice       GiftChoice[]
+  PlanMembership   PlanMembership[]
 }
 
 model Pledge {
-  id           String        @id @default(uuid())
-  plan         Plan          @relation(fields: [planID], references: [id])
-  planID       String
-  user         User          @relation(fields: [userID], references: [id])
-  userID       String
-  inviteStatus InviteStatus?
-  role         Role
-  amount       Int?
-  pledgeStatus PledgeStatus?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id           String         @id @default(uuid())
+  status       String
+  pledgeAmount Int
+  pledgeDate   DateTime?
+  membership   PlanMembership @relation(fields: [membershipID], references: [id])
+  membershipID String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 }
 
 enum PledgeStatus {
@@ -98,6 +92,7 @@ enum PledgeStatus {
 enum Role {
   PLAN_LEADER
   FRIEND
+  SPECIAL_PERSON
 }
 
 enum InviteStatus {
@@ -107,7 +102,6 @@ enum InviteStatus {
   DENY
   NOT_APPLICABLE
 }
-
 
 model GiftChoice {
   id        String   @id @default(uuid())
@@ -120,7 +114,6 @@ model GiftChoice {
   price     Int
 }
 
-
 enum EventType {
   BIRTHDAY
   ANNIVERSARY
@@ -130,4 +123,15 @@ enum EventType {
   ACHIEVEMENT
   HOLIDAY
   OTHER
+}
+
+model PlanMembership {
+  id           String       @id @default(uuid())
+  plan         Plan         @relation(fields: [planID], references: [id])
+  planID       String
+  user         User         @relation(fields: [userID], references: [id])
+  userID       String
+  Pledge       Pledge[]
+  inviteStatus InviteStatus
+  role         Role
 }
