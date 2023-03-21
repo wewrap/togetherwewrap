@@ -69,7 +69,6 @@ model Plan {
   specialEventType EventType
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
-  GiftChoice       GiftChoice[]
   PlanMembership   PlanMembership[]
 }
 
@@ -101,17 +100,6 @@ enum InviteStatus {
   ACCEPTED
   DENY
   NOT_APPLICABLE
-}
-
-model GiftChoice {
-  id        String   @id @default(uuid())
-  Plan      Plan     @relation(fields: [planID], references: [id])
-  planID    String
-  url       String
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  price     Int
 }
 
 enum EventType {
