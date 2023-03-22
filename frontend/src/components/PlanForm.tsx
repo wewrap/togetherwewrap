@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 // eslint-disable-next-line @typescript-eslint/key-spacing
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import { SearchBarFilter } from './SearchBarFilter'
 import type { Item } from './SearchBarFilter'
 import './PlanForm.css'
-import axios from 'axios'
+import axios, { Axios, AxiosError, AxiosResponse } from 'axios'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const PlanForm = () => {
@@ -58,6 +59,7 @@ export const PlanForm = () => {
     event.preventDefault()
     if (specialPerson === undefined) {
       handleError('Please add 1 special person')
+      return
     }
     try {
       await axios.post('https://localhost:8000/plan-form', {
@@ -71,8 +73,10 @@ export const PlanForm = () => {
         withCredentials: true
       })
     } catch (error) {
-      console.error(error)
-      handleError(`An error has occured: ${error as string}`)
+      if (error instanceof AxiosError) {
+        console.error(error?.response?.status)
+        console.error(error?.response?.data)
+      }
     }
   }
 
