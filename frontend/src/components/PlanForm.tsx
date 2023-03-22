@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
+// eslint-disable-next-line @typescript-eslint/key-spacing
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import { SearchBarFilter } from './SearchBarFilter'
