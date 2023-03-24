@@ -19,23 +19,19 @@ contactCreatorRouter.post('/', async function (req, res) {
                 source: req.body.source
             }
         })
-        for (const relationship of req.body.relationships) {
-            await db.userContactRelationship.create({
-                data: {
-                    relationshipType: relationship.type,
-                    contact: { connect: { id: contact.id } }
-                }
-            })
-        }
-        for (const importantDate of req.body.importantDates) {
-            await db.importantDateEvent.create({
-                data: {
-                    date: importantDate.date,
-                    eventType: importantDate.event,
-                    contact: { connect: { id: contact.id } }
-                }
-            })
-        }
+        await db.userContactRelationship.createMany({
+            data: req.body.relationships.map((relationship: { type: any }) => ({
+                relationshipType: relationship.type,
+                contactID: contact.id
+            }))
+        })
+        await db.importantDateEvent.createMany({
+            data: req.body.importantDates.map((importantDate: { date: any, event: any }) => ({
+                date: importantDate.date,
+                eventType: importantDate.event,
+                contactId: contact.id
+            }))
+        })
         res.status(200).send({ contact })
     } catch (error) {
         console.error(error)
