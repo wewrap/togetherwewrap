@@ -8,20 +8,41 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  email        String   @unique
-  firstName    String
-  lastName     String
-  password     String?
-  birthDate    DateTime?
-  googleID     String?   @unique
-  salt        String?
-  facebookID String?   @unique
-  venmoUrl String? 
-  cashappUrl String? 
-  paypalUrl String?
-  profile Profile?
+  id             String             @id @default(uuid())
+  email          String             @unique
+  firstName      String
+  lastName       String
+  password       String?
+  birthDate      DateTime?
+  googleID       String?            @unique
+  salt           String?
+  facebookID     String?            @unique
+  venmoUrl       String?
+  cashappUrl     String?
+  paypalUrl      String?
+  profile        Profile?
+  User           UserRelationship[] @relation("self")
+  friendsWith    UserRelationship[] @relation("friendsWith")
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  PlanMembership PlanMembership[]
+}
 
+model UserRelationship {
+  id                 String             @id @default(uuid())
+  User               User               @relation("self", fields: [userID], references: [id])
+  userID             String
+  friendsWith        User               @relation("friendsWith", fields: [friendsWithID], references: [id])
+  friendsWithID      String
+  relationshipStatus RelationshipStatus @default(NOT_FRIEND)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
+
+enum RelationshipStatus {
+  FRIEND
+  PENDING_REQUEST
+  NOT_FRIEND
 }
 
 model Session {
@@ -32,8 +53,73 @@ model Session {
 }
 
 model Profile {
-  id     String @id @default(uuid())
-  user   User @relation(fields: [userId], references: [id])
-  userId String @unique @default(uuid())
-  photoUrl String? 
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userID], references: [id])
+  userID    String   @unique
+  photoUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Plan {
+  id               String           @id @default(uuid())
+  description      String
+  startDate        DateTime
+  endDate          DateTime
+  specialEventType EventType
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  PlanMembership   PlanMembership[]
+}
+
+model Pledge {
+  id           String         @id @default(uuid())
+  status       PledgeStatus
+  pledgeAmount Int
+  pledgeDate   DateTime?
+  membership   PlanMembership @relation(fields: [membershipID], references: [id])
+  membershipID String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+enum PledgeStatus {
+  SENT_MONEY
+  HAVENT_SENT_MONEY
+}
+
+enum Role {
+  PLAN_LEADER
+  FRIEND
+  SPECIAL_PERSON
+}
+
+enum InviteStatus {
+  INVITED
+  RESENT_INVITE
+  ACCEPTED
+  DENY
+  NOT_APPLICABLE
+}
+
+enum EventType {
+  BIRTHDAY
+  ANNIVERSARY
+  GRADUATION
+  WEDDING
+  BABY_SHOWER
+  ACHIEVEMENT
+  HOLIDAY
+  OTHER
+}
+
+model PlanMembership {
+  id           String       @id @default(uuid())
+  plan         Plan         @relation(fields: [planID], references: [id])
+  planID       String
+  user         User         @relation(fields: [userID], references: [id])
+  userID       String
+  Pledge       Pledge[]
+  inviteStatus InviteStatus
+  role         Role
 }
