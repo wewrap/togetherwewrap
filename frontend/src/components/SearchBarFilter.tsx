@@ -35,7 +35,6 @@ export const SearchBarFilter: React.FC<Props> = ({
     const filteredItems: Item[] = items.filter(
       obj => obj.firstName.toLowerCase().includes(value)
     )
-    console.log(filteredItems)
     setItems(filteredItems)
   }
 

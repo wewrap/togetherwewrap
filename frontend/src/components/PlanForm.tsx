@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-// eslint-disable-next-line @typescript-eslint/key-spacing
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react'
 import { SearchBarFilter } from './SearchBarFilter'
 import type { Item } from './SearchBarFilter'
 import './PlanForm.css'
-import axios, { Axios, AxiosError, AxiosResponse } from 'axios'
+import axios, { AxiosError } from 'axios'
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const PlanForm = () => {
+export const PlanForm = (): JSX.Element => {
   const [specialPerson, setSpecialPerson] = useState<Item | undefined>()
   const [description, setDescription] = useState<string>('')
   const [startDate, setStartDate] = useState<string>('')
