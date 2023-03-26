@@ -1,40 +1,40 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import './login.css';
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import React, { useState } from 'react'
+import axios from 'axios'
+import './login.css'
 import googleIcon from '../assets/googleIcon.png'
 import facebookIcon from '../assets/facebookIcon.png'
-import { Link, useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom'
 
 export const LoginForm = () => {
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [errorMessage, setErrorMessage] = useState<string>('')
     const navigate = useNavigate()
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
+        event.preventDefault()
         try {
-          await axios.post("http://localhost:8000/login/password", {
+          await axios.post('http://localhost:8000/login/password', {
             email,
-            password,
+            password
           }, {
-            withCredentials:true
-          }); 
+            withCredentials: true
+          })
           navigate('/tempLandingPage')
-        } catch(error) {
-            console.error(error);
-            setErrorMessage((error as any).response.data ?? "Unknown error occured.");
+        } catch (error) {
+            console.error(error)
+            setErrorMessage((error as any).response.data ?? 'Unknown error occured.')
         }
-    };
-    
+    }
+
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-  };
+    setEmail(event.target.value)
+  }
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-  };
+    setPassword(event.target.value)
+  }
 
     return (
         <div className='login_form'>
@@ -74,5 +74,5 @@ export const LoginForm = () => {
               </a>
           </form>
         </div>
-    );
-};
+    )
+}

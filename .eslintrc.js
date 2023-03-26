@@ -4,7 +4,6 @@ module.exports = {
     es2021: true
   },
   extends: [
-    'plugin:react/recommended',
     'standard-with-typescript'
   ],
   overrides: [
@@ -16,7 +15,6 @@ module.exports = {
     tsconfigRootDir: __dirname
   },
   plugins: [
-    'react'
   ],
   rules: {
     eqeqeq: ['error', 'always'],

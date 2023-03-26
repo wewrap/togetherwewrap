@@ -1,26 +1,20 @@
-import {LoginForm} from './components/loginForm';
-import {SignUp} from './components/signup';
-import { TempLandingPage } from './components/tempLandingPage';
-import './index.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Contacts } from './components/contacts';
-function App() {
+import { LoginForm } from './components/loginForm'
+import { SignUp } from './components/signup'
+import { TempLandingPage } from './components/tempLandingPage'
+import './index.css'
+import { BrowserRouter as Routes, Route } from 'react-router-dom'
+import { ContactsList } from './components/contactsList'
+function App () {
   return (
-<div> 
-    <Routes> 
-      <Route path = "/login" element = {<LoginForm/>}> </Route>
-    </Routes>
-    <Routes> 
-      <Route path = "/signup" element={<SignUp/>}>  </Route>
-    </Routes>
+    <div>
     <Routes>
-      <Route path = "/tempLandingPage" element={<TempLandingPage/>}> </Route>
+      <Route path="/login" element={<LoginForm />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/tempLandingPage" element={<TempLandingPage />} />
+      <Route path="/contactPage" element={<ContactsList />} />
     </Routes>
-    <Routes>
-      <Route path = "/contactPage" element={<Contacts/>}> </Route>
-    </Routes>
-</div>
-  );
+  </div>
+  )
 }
 
-export default App;
+export default App
