@@ -11,14 +11,14 @@ function App (): JSX.Element {
   const userState = useState(null)
   return (
     <div>
-      <Routes>
-        <UserContext.Provider value={userState}>
-          <Route path="/login" element={<LoginForm />}> </Route>
-          <Route path="/signup" element={<SignUp />}>  </Route>
-          <Route path="/tempLandingPage" element={<TempLandingPage />}> </Route>
-          <Route path="/contactPage" element={<Contacts />}> </Route>
-        </UserContext.Provider>
-      </Routes>
+      <UserContext.Provider value={userState}>
+        <Routes>
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/tempLandingPage" element={<TempLandingPage />} />
+          <Route path="/contactPage" element={<Contacts />} />
+        </Routes>
+      </UserContext.Provider>
     </div>
   )
 }

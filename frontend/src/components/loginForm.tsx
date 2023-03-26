@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState, useContext } from 'react'
 import axios from 'axios'
@@ -13,9 +14,7 @@ export const LoginForm = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('')
   const navigate = useNavigate()
 
-  const [user] = useContext(UserContext)
-
-  console.log(user)
+  const [user, setUSer] = useContext(UserContext)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
