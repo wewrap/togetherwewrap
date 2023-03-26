@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable react/no-unescaped-entities */
 import * as React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
