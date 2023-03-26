@@ -5,6 +5,17 @@ import type { Item } from './SearchBarFilter'
 import './PlanForm.css'
 import axios, { AxiosError } from 'axios'
 
+enum EventType {
+  BIRTHDAY = 'BIRTHDAY',
+  ANNIVERSARY = 'ANNIVERSARY',
+  GRADUATION = 'GRADUATION',
+  WEDDING = 'WEDDING',
+  BABY_SHOWER = 'BABY_SHOWER',
+  ACHIEVEMENT = 'ACHIEVEMENT',
+  HOLIDAY = 'HOLIDAY',
+  OTHER = 'OTHER'
+}
+
 export const PlanForm = (): JSX.Element => {
   const [specialPerson, setSpecialPerson] = useState<Item | undefined>()
   const [description, setDescription] = useState<string>('')
@@ -15,6 +26,7 @@ export const PlanForm = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
   const [maxFriends] = useState<number>(3)
+  const [eventType, setEventType] = useState<EventType>()
 
   const handleSpecialPersonChange = (item: Item): void => {
     setSpecialPerson(item)
@@ -59,13 +71,14 @@ export const PlanForm = (): JSX.Element => {
       return
     }
     try {
-      await axios.post('https://localhost:8000/plan-form', {
+      await axios.post('http://localhost:8000/planform', {
         specialPerson,
         description,
         startDate,
         endDate,
         specialDate,
-        friends
+        friends,
+        eventType
       }, {
         withCredentials: true
       })
@@ -91,6 +104,10 @@ export const PlanForm = (): JSX.Element => {
       <p className='error-message'>{errorMessage}</p>
     )
   )
+
+  const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    setEventType(e.target.value as EventType)
+  }
 
   return (
     <div>
@@ -123,6 +140,25 @@ export const PlanForm = (): JSX.Element => {
             required
             onChange={handleSpecialDateChange}
           />
+        </div>
+        <div>
+          <label htmlFor='eventType'>
+            Event Type
+            <select
+              id='eventType'
+              value={eventType}
+              onChange={handleEventSelect}
+            >
+              <option />
+                {Object.keys(EventType).map(event => {
+                  return (
+                  <option key={event} value={event}>
+                    {event}
+                  </option>)
+                })}
+
+            </select>
+          </label>
         </div>
         <div>
           <label htmlFor='startDate'>Start date: </label>
