@@ -14,24 +14,28 @@ planFormRouter.post('/', async (req, res) => {
 
   console.log(req.body)
 
-  const plan = await db.plan.create({
-    data: {
-      specialEventType: EventType.ACHIEVEMENT,
-      description,
-      endDate,
-      startDate
-    }
-  })
+  try {
+    const plan = await db.plan.create({
+      data: {
+        specialEventType: EventType.ACHIEVEMENT,
+        description,
+        endDate: new Date(endDate),
+        startDate: new Date(startDate)
+      }
+    })
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const planMembership = await db.planMembership.create({
-    data: {
-      role: 'PLAN_LEADER',
-      inviteStatus: 'NOT_APPLICABLE',
-      userID: (req.user as User).id,
-      planID: plan.id
-    }
-  })
+    await db.planMembership.create({
+      data: {
+        role: 'PLAN_LEADER',
+        inviteStatus: 'NOT_APPLICABLE',
+        userID: (req.user as User).id,
+        planID: plan.id
+      }
+    })
+  } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    if (err) res.status(400).end()
+  }
 })
 
 export default planFormRouter
