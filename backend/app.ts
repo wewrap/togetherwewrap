@@ -18,6 +18,7 @@ import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, face
 import facebookStrategy from 'passport-facebook'
 import facebookOAuthRouter from './routes/facebookOAuth'
 import loginAuthRouter from './routes/loginAuth'
+import planFormRouter from './routes/planForm'
 dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -169,6 +170,7 @@ app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
+app.use('/planform', planFormRouter)
 app.use('/signup', signUpAuth)
 
 export default app
