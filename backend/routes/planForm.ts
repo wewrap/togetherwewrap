@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express'
 import prisma from '../utils/prismaClient'
-import { EventType, type User } from '@prisma/client'
+import { type User } from '@prisma/client'
 const planFormRouter = express.Router()
 const db = prisma
 
@@ -9,15 +9,15 @@ planFormRouter.post('/', async (req, res) => {
   const {
     description,
     startDate,
-    endDate
+    endDate,
+    EventType,
+    friends
   } = req.body
-
-  console.log(req.body)
 
   try {
     const plan = await db.plan.create({
       data: {
-        specialEventType: EventType.ACHIEVEMENT,
+        specialEventType: EventType,
         description,
         endDate: new Date(endDate),
         startDate: new Date(startDate)
@@ -32,9 +32,12 @@ planFormRouter.post('/', async (req, res) => {
         planID: plan.id
       }
     })
+    // create plan membership invitation to friends
+    await db.planMembership.createMany({
+      data: [friends]
+    })
   } catch (err) {
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    if (err) res.status(400).end()
+    res.status(400).send('Invalid form submission')
   }
 })
 
