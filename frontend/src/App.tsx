@@ -2,7 +2,7 @@ import { LoginForm } from './components/loginForm'
 import { SignUp } from './components/signup'
 import { TempLandingPage } from './components/tempLandingPage'
 import './index.css'
-import { BrowserRouter as Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { ContactsList } from './components/contactsList'
 function App () {
   return (
