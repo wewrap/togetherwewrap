@@ -14,7 +14,7 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { PrismaClient } from '@prisma/client';
 import { Strategy as LocalStrategy } from 'passport-local';
 import crypto from 'crypto';
-import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL} from './utils/config'
+import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL } from './utils/config'
 import facebookStrategy from 'passport-facebook';
 import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuth from './routes/loginAuth'
@@ -27,8 +27,13 @@ const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
 const TWO_MINUTES = 1000 * 60 * 2
 
 app.use(morgan("dev"));
-app.use(cors());
+
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+}));
 app.use(express.json());
+
 
 app.use(
     expressSession({
@@ -76,7 +81,7 @@ passport.use(new GoogleStrategy({
     clientSecret: googleClientSecret,
     callbackURL: googleCallBackURL
 },
-    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
         try {
             const user = await db.user.findFirst({
                 where: {
@@ -93,14 +98,14 @@ passport.use(new GoogleStrategy({
                         email: profile.emails[0].value
                     }
                 })
-                cb(null, newUser)
+                done(null, newUser)
             } else {
-                cb(null, user)
+                done(null, user)
             }
         } catch (error) {
-            cb(error, null)
+            done(error, null)
         }
-    }));
+    }))
 
 passport.use(new FacebookStrategy({
     clientID: facebookClientID,
@@ -109,7 +114,7 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'displayName', 'email'],
     enableProof: true
 },
-    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
         try {
             const user = await db.user.findFirst({
                 where: {
@@ -126,42 +131,44 @@ passport.use(new FacebookStrategy({
                         email: profile._json.email
                     }
                 })
-                cb(null, newUser)
+                done(null, newUser)
             } else {
-                cb(null, user)
+                done(null, user)
             }
         } catch (error) {
-            cb(error, null)
+            done(error, null)
         }
     }
 ));
 
-passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-},
-    async (email: string, password: string, done: Function) => {
-        try {
+passport.use(
+    new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password',
+        session: true,
+        passReqToCallback: true
+
+    },
+        async function (req, email, password, done) {
+
             const user = await db.user.findUnique({
                 where: {
-                    email
+                    email: email
                 },
-            });
+            })
 
             if (!user || !user.salt) {
-                return done('Email or password did not match. Please try again.');
+                return done(null, false);
             }
 
             const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64');
             if (user.password !== hashedPassword) {
-                return done('Email or password did not match. Please try again.');
+                return done(null, false);
+            } else {
+                return done(null, user);
             }
 
-            return done(null, user);
-
-        } catch (error) {
-            done(error);
         }
-    }));
+    ));
 
 export default app;
