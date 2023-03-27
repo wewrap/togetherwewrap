@@ -11,7 +11,12 @@ type Relationship = {
   type: string
 }
 
-export const CreateAContactForm = () => {
+interface Props {
+  setShowCreateAContactForm: (value: boolean) => void
+  handleContactCreate: (newContact: any) => void
+}
+
+export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCreate }: Props) => {
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [relationships, setRelationships] = useState<Relationship[]>([])
@@ -26,7 +31,6 @@ export const CreateAContactForm = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showError, setShowError] = useState<boolean>(false)
   const [showForm, setShowForm] = useState<boolean>(true)
-  const [showCreateAContactForm, setShowCreateAContactForm] = useState<boolean>(true)
 
   const resetForm = () => {
     setFirstName('')
@@ -44,8 +48,8 @@ export const CreateAContactForm = () => {
 
   const handleClose = () => {
     setShowForm(false)
-    setShowCreateAContactForm(false)
     resetForm()
+    setShowCreateAContactForm(false)
   }
 
   const handleChange =
@@ -149,7 +153,7 @@ export const CreateAContactForm = () => {
 
   return (
     <div className="contacts_form">
-      {showForm && showCreateAContactForm && (
+      {showForm && (
         <>
           <h1>Add a contact</h1>
           <form onSubmit={handleSubmit}>

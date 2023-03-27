@@ -1,19 +1,70 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CreateAContactForm } from './contactsForm'
+import axios from 'axios'
+
+interface Contact {
+    id: string
+    firstName: string
+    lastName?: string
+    email?: string
+    phoneNumber?: string
+    notes?: string
+    source?: string
+    ownerID: string
+    relationships?: UserContactRelationship[]
+    importantDateEvent?: ImportantDateEvent[]
+  }
+
+interface UserContactRelationship {
+    id: string
+    relationshipType: string
+  }
+
+interface ImportantDateEvent {
+    id: string
+    date: string
+    eventType: string
+}
 
 export const ContactsList = () => {
     const [showCreateAContactForm, setShowCreateAContactForm] = useState<boolean>(false)
+    const [contacts, setContacts] = useState<Contact[]>([])
 
     const toggleContactForm = () => {
         setShowCreateAContactForm(!showCreateAContactForm)
     }
 
+    const handleContactCreate = (newContact: Contact) => {
+        setContacts((prevState) => [...prevState, newContact])
+    }
+
+    useEffect(() => {
+        const getContacts = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/contacts')
+                const contactsData = response.data.contacts as Contact[]
+                setContacts(contactsData)
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        void getContacts()
+    }, [])
+
     return (
         <div>
           <h1>Contacts List</h1>
           <button onClick={toggleContactForm}>Add Contact</button>
-          {showCreateAContactForm && <CreateAContactForm />}
-          {/* rest of the contacts list page */}
+          {showCreateAContactForm && <CreateAContactForm setShowCreateAContactForm={setShowCreateAContactForm} />}
+            <ul>
+                {contacts.map((contact) => (
+                    <li key={contact.id}>
+                    <p>{contact.firstName} {contact.lastName}</p>
+                    <p>{contact.email}</p>
+                    <p>{contact.phoneNumber}</p>
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 }

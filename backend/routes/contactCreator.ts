@@ -32,7 +32,16 @@ contactCreatorRouter.post('/', async function (req, res) {
                 contactId: contact.id
             }))
         })
-        res.status(200).send({ contact })
+
+        const newContact = await db.contact.findUnique({
+            where: { id: contact.id },
+            include: {
+                relationships: true,
+                importantDateEvent: true
+            }
+        })
+
+        res.status(200).send({ contact: newContact })
     } catch (error) {
         console.error(error)
         res.status(500).send({ message: 'Failed to create contact' })
