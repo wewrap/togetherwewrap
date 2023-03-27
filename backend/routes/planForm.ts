@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express'
 import prisma from '../utils/prismaClient'
-import { type User } from '@prisma/client'
+import { type User, InviteStatus, Role } from '@prisma/client'
 const planFormRouter = express.Router()
 const db = prisma
 
@@ -34,7 +34,14 @@ planFormRouter.post('/', async (req, res) => {
     })
     // create plan membership invitation to friends
     await db.planMembership.createMany({
-      data: [friends]
+      data: friends.map((friend: any) => (
+        {
+          userID: friend.id,
+          planID: plan.id,
+          inviteStatus: InviteStatus.INVITED,
+          role: Role.FRIEND
+        }
+      ))
     })
   } catch (err) {
     res.status(400).send('Invalid form submission')
