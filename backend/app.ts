@@ -79,7 +79,7 @@ passport.use(new GoogleStrategy({
   clientSecret: googleClientSecret,
   callbackURL: googleCallBackURL
 },
-async function verify (_accessToken: any, _refreshToken: any, profile: any, cb: any) {
+async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
   try {
     const user = await db.user.findFirst({
       where: {
@@ -96,12 +96,12 @@ async function verify (_accessToken: any, _refreshToken: any, profile: any, cb: 
           email: profile.emails[0].value
         }
       })
-      cb(null, newUser)
+      done(null, newUser)
     } else {
-      cb(null, user)
+      done(null, user)
     }
   } catch (error) {
-    cb(error, null)
+    done(error, null)
   }
 }))
 
@@ -111,8 +111,7 @@ passport.use(new FacebookStrategy({
   callbackURL: facebookCallBackURL,
   profileFields: ['id', 'displayName', 'email'],
   enableProof: true
-},
-async function verify (_accessToken: any, _refreshToken: any, profile: any, cb: any) {
+}, async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
   try {
     const user = await db.user.findFirst({
       where: {
@@ -129,24 +128,24 @@ async function verify (_accessToken: any, _refreshToken: any, profile: any, cb: 
           email: profile._json.email
         }
       })
-      cb(null, newUser)
+      done(null, newUser)
     } else {
-      cb(null, user)
+      done(null, user)
     }
   } catch (error) {
-    cb(error, null)
+    done(error, null)
   }
-}
-))
+}))
 
 passport.use(
   new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
+    session: true,
     passReqToCallback: true
 
   },
-  async function (_req, email, password, done) {
+  async function (req, email, password, done) {
     const user = await db.user.findUnique({
       where: {
         email
@@ -154,7 +153,8 @@ passport.use(
     })
 
     if ((user === null) || (user.salt === null)) {
-      done(null, false); return
+      done(null, false)
+      return
     }
 
     const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64')
@@ -172,5 +172,4 @@ app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
 app.use('/planform', planFormRouter)
 app.use('/signup', signUpAuth)
-
 export default app
