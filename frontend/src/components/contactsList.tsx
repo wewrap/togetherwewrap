@@ -55,7 +55,7 @@ export const ContactsList = () => {
         <div>
           <h1>Contacts List</h1>
           <button onClick={toggleContactForm}>Add Contact</button>
-          {showCreateAContactForm && <CreateAContactForm setShowCreateAContactForm={setShowCreateAContactForm} />}
+          {showCreateAContactForm && <CreateAContactForm setShowCreateAContactForm={setShowCreateAContactForm} handleContactCreate={handleContactCreate} />}
             <ul>
                 {contacts.map((contact) => (
                     <li key={contact.id}>
