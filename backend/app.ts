@@ -18,6 +18,7 @@ import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, face
 import facebookStrategy from 'passport-facebook'
 import facebookOAuthRouter from './routes/facebookOAuth'
 import loginAuth from './routes/loginAuth'
+import userDataRouter from './routes/userData'
 dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -73,7 +74,7 @@ passport.use(new GoogleStrategy({
   clientSecret: googleClientSecret,
   callbackURL: googleCallBackURL
 },
-async function verify (accessToken: any, refreshToken: any, profile: any, done: any): void {
+async function verify (accessToken: any, refreshToken: any, profile: any, done: any): Promise<void> {
   try {
     const user = await db.user.findFirst({
       where: {
@@ -106,14 +107,14 @@ passport.use(new FacebookStrategy({
   profileFields: ['id', 'displayName', 'email'],
   enableProof: true
 },
-async function verify (accessToken: any, refreshToken: any, profile: any, done: any): void {
+async function verify (accessToken: any, refreshToken: any, profile: any, done: any): Promise<void> {
   try {
     const user = await db.user.findFirst({
       where: {
         facebookID: profile.id
       }
     })
-
+    console.log(user)
     if (user === null) {
       const newUser = await db.user.create({
         data: {
@@ -139,7 +140,7 @@ passport.use(
     session: true,
     passReqToCallback: true
 
-  }, async function (req, email, password, done): void {
+  }, async function (req, email, password, done): Promise<void> {
     const user = await db.user.findUnique({
       where: {
         email
@@ -166,6 +167,7 @@ app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuth)
+app.use('/user-data', userDataRouter)
 app.use('/signup', signUpAuth)
 
 export default app
