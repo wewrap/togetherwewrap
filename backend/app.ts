@@ -32,9 +32,9 @@ app.use(cors({
     credentials: true,
     origin: 'http://localhost:3000'
 }));
-
 app.use(express.json());
 app.use(passport.initialize())
+
 
 app.use(
     expressSession({
@@ -76,7 +76,7 @@ passport.use(new GoogleStrategy({
     clientSecret: googleClientSecret,
     callbackURL: googleCallBackURL
 },
-    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
         try {
             const user = await db.user.findFirst({
                 where: {
@@ -93,12 +93,12 @@ passport.use(new GoogleStrategy({
                         email: profile.emails[0].value
                     }
                 })
-                cb(null, newUser)
+                done(null, newUser)
             } else {
-                cb(null, user)
+                done(null, user)
             }
         } catch (error) {
-            cb(error, null)
+            done(error, null)
         }
     }))
 
@@ -109,7 +109,7 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'displayName', 'email'],
     enableProof: true
 },
-    async function verify(accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
         try {
             const user = await db.user.findFirst({
                 where: {
@@ -126,12 +126,12 @@ passport.use(new FacebookStrategy({
                         email: profile._json.email
                     }
                 })
-                cb(null, newUser)
+                done(null, newUser)
             } else {
-                cb(null, user)
+                done(null, user)
             }
         } catch (error) {
-            cb(error, null)
+            done(error, null)
         }
     }
 ));
@@ -140,6 +140,7 @@ passport.use(
     new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
+        session: true,
         passReqToCallback: true
 
     },
