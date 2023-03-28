@@ -12,13 +12,22 @@ export const SignUp = () => {
     const [lastName, setLastName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [isValidLength, setIsValidLength] = useState<boolean>(false); 
+    const [hasNumber, setHasNumber] = useState<boolean>(false); 
+    const [hasSpecialChar, setHasSpecialChar] = useState<boolean>(false); 
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [warning, setWarning] = useState<string>(''); 
+    const specialCharRegex = /[\!\@\#\$\%\^\&\*\)\(\+\=\.\<\>\{\}\[\]\:\;\'\"\|\~\`\_\-]/g;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
         e.preventDefault(); 
 
+        setIsValidLength(password.length >= 8);
+        setHasNumber(/\D/.test(password));
+        setHasSpecialChar(specialCharRegex.test(password));
+
+        if(password.length >= 8 && /\D/.test(password) && specialCharRegex.test(password)) {
             if(password === confirmPassword) {
                 setWarning('');
                 await axios.post('http://localhost:8000/signup', {
@@ -27,11 +36,9 @@ export const SignUp = () => {
                     email,
                     password, 
                 })
-        
                 .then((res) => {
                     setWarning('Successful submission.');
                 })
-        
                 .catch((err) => {
                     if(err.response.status == 409){
                         setWarning('Existing email. Please use a different email.');
@@ -39,10 +46,16 @@ export const SignUp = () => {
                     else{setWarning('Submission Error. Please try again.');}
                 })
             }
+            
             else{
                 setConfirmPassword(''); 
-                setWarning('Please use a different password.')
+                setWarning('Your passwords do not match.')
             }
+        }
+
+        else{
+            setWarning('Your password does not meet the requirements.')
+        }
     }
 
     return (
