@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { SearchBarFilter } from './SearchBarFilter'
 import './PlanForm.css'
 import axios, { AxiosError } from 'axios'
@@ -30,14 +30,6 @@ export const PlanForm = (): JSX.Element => {
   const [error, setError] = useState<boolean>(false)
   const [maxFriends] = useState<number>(3)
   const [eventType, setEventType] = useState<EventType>()
-
-  useEffect(() => {
-    void getFriends()
-  }, [])
-
-  const getFriends = async (): Promise<void> => {
-    const response = await axios.get('http://localhost:8000/user-friends', { withCredentials: true })
-  }
 
   const handleSpecialPersonChange = (friend: Friend): void => {
     setSpecialPerson(friend)
