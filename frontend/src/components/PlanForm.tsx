@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SearchBarFilter } from './SearchBarFilter'
-import type { Item } from './SearchBarFilter'
 import './PlanForm.css'
 import axios, { AxiosError } from 'axios'
 
@@ -16,24 +15,36 @@ enum EventType {
   OTHER = 'OTHER'
 }
 
+export interface Friend {
+  firstName: string
+}
+
 export const PlanForm = (): JSX.Element => {
-  const [specialPerson, setSpecialPerson] = useState<Item | undefined>()
+  const [specialPerson, setSpecialPerson] = useState<Friend | undefined>()
   const [description, setDescription] = useState<string>('')
   const [startDate, setStartDate] = useState<string>('')
   const [endDate, setEndDate] = useState<string>('')
   const [specialDate, setSpecialDate] = useState<string>('')
-  const [friends, setFriends] = useState<Item[]>([])
+  const [friends, setFriends] = useState<Friend[]>([])
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
   const [maxFriends] = useState<number>(3)
   const [eventType, setEventType] = useState<EventType>()
 
-  const handleSpecialPersonChange = (item: Item): void => {
-    setSpecialPerson(item)
+  useEffect(() => {
+    void getFriends()
+  }, [])
+
+  const getFriends = async (): Promise<void> => {
+    const response = await axios.get('http://localhost:8000/user-friends', { withCredentials: true })
   }
 
-  const handleSpecialPersonRemove = (item: Item[] | undefined): void => {
-    item !== undefined && setSpecialPerson(item[0])
+  const handleSpecialPersonChange = (friend: Friend): void => {
+    setSpecialPerson(friend)
+  }
+
+  const handleSpecialPersonRemove = (friend: Friend[] | undefined): void => {
+    friend !== undefined && setSpecialPerson(friend[0])
   }
 
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
@@ -52,16 +63,16 @@ export const PlanForm = (): JSX.Element => {
     setSpecialDate(event.target.value)
   }
 
-  const handleFriendsChange = (item: Item): void => {
+  const handleFriendsChange = (friend: Friend): void => {
     if (friends.length >= maxFriends) {
       handleError(`Only a max of ${maxFriends} friends are allowed`)
-    } else if (!friends.includes(item)) {
-      setFriends(friends => [...friends, item])
+    } else if (!friends.includes(friend)) {
+      setFriends(friends => [...friends, friend])
     }
   }
 
-  const hanldeRemoveFriends = (item: Item[]): void => {
-    setFriends(item)
+  const hanldeRemoveFriends = (friend: Friend[]): void => {
+    setFriends(friend)
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -99,12 +110,6 @@ export const PlanForm = (): JSX.Element => {
     }, 4000)
   }
 
-  const displayError = (): JSX.Element => (
-    (
-      <p className='error-message'>{errorMessage}</p>
-    )
-  )
-
   const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setEventType(e.target.value as EventType)
   }
@@ -112,7 +117,7 @@ export const PlanForm = (): JSX.Element => {
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
-        {error && displayError()}
+        {error && <p className='error-message'> {errorMessage} </p>}
         <div>
           Select 1 Special Person (user or contact):
           <SearchBarFilter

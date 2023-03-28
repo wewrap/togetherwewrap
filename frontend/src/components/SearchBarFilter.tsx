@@ -3,17 +3,14 @@
 import React, { useState } from 'react'
 import { Tag } from './Tag'
 import './searchbar.css'
-
-export interface Item {
-  firstName: string
-}
+import { type Friend } from './PlanForm'
 
 interface Props {
-  items: Item[]
-  handleSelectChange: (item: Item) => void
-  handleRemoveTag?: (item: Item[]) => void
+  items: Friend[]
+  handleSelectChange: (friend: Friend) => void
+  handleRemoveTag?: (friend: Friend[]) => void
   numbOfSelect?: number
-  setSelectError?: (item: Item) => void
+  setSelectError?: (friend: Friend) => void
 }
 
 export const SearchBarFilter: React.FC<Props> = ({
@@ -24,35 +21,35 @@ export const SearchBarFilter: React.FC<Props> = ({
   setSelectError
 }) => {
   const [query, setQuery] = useState<string>()
-  const [item, setItems] = useState<Item[]>([])
-  const [select, setSelected] = useState<Item[]>([])
+  const [friend, setItems] = useState<Friend[]>([])
+  const [select, setSelected] = useState<Friend[]>([])
 
   const handleQuery = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const value = event.target.value
     setQuery(value)
 
-    const filteredItems: Item[] = items.filter(
+    const filteredItems: Friend[] = items.filter(
       obj => obj.firstName.toLowerCase().includes(value)
     )
     setItems(filteredItems)
   }
 
-  const handleSelect = (item: Item): void => {
+  const handleSelect = (friend: Friend): void => {
     if (numbOfSelect &&
       select.length < numbOfSelect &&
-      !select.includes(item)) {
-      handleSelectChange(item)
-      setSelected(select => [...select, item])
-    } else if (!numbOfSelect && !select.includes(item)) {
-      handleSelectChange(item)
-      setSelected(select => [...select, item])
+      !select.includes(friend)) {
+      handleSelectChange(friend)
+      setSelected(select => [...select, friend])
+    } else if (!numbOfSelect && !select.includes(friend)) {
+      handleSelectChange(friend)
+      setSelected(select => [...select, friend])
     } else {
-      setSelectError?.(item)
+      setSelectError?.(friend)
     }
   }
 
-  const removeTag = (obj: Item): void => {
-    const filteredItems: Item[] = select.filter(item => item.firstName !== obj.firstName)
+  const removeTag = (obj: Friend): void => {
+    const filteredItems: Friend[] = select.filter(friend => friend.firstName !== obj.firstName)
     if (handleRemoveTag) {
       handleRemoveTag(filteredItems)
     }
@@ -69,7 +66,7 @@ export const SearchBarFilter: React.FC<Props> = ({
       />
       <div>
         {query && (
-          item.map(obj => (
+          friend.map(obj => (
             <div
               className='search-results'
               onClick={() => {
@@ -82,7 +79,7 @@ export const SearchBarFilter: React.FC<Props> = ({
       <p>Selected:</p>
       <div className='tag-grid'>
       {select.map(obj => (
-        <Tag handleRemoveTag={removeTag} item={obj} key={obj.firstName} />
+        <Tag handleRemoveTag={removeTag} friend={obj} key={obj.firstName} />
       ))}
     </div>
     </div>
