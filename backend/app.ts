@@ -19,6 +19,7 @@ import facebookStrategy from 'passport-facebook'
 import facebookOAuthRouter from './routes/facebookOAuth'
 import loginAuthRouter from './routes/loginAuth'
 import planFormRouter from './routes/planForm'
+import { checkUserAuthorization } from './modules/auth'
 dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -66,12 +67,16 @@ passport.serializeUser((user: any, done: any) => {
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 passport.deserializeUser(async (id: string, done: any) => {
-  const user = await db.user.findFirst({
-    where: {
-      id
-    }
-  })
-  return done(null, user)
+  try {
+    const user = await db.user.findFirst({
+      where: {
+        id
+      }
+    })
+    return done(null, user)
+  } catch (e) {
+    console.error(e)
+  }
 })
 
 passport.use(new GoogleStrategy({
@@ -170,6 +175,6 @@ app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
-app.use('/api/planform', planFormRouter)
+app.use('/api/planform', checkUserAuthorization, planFormRouter)
 app.use('/signup', signUpAuth)
 export default app
