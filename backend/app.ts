@@ -170,6 +170,6 @@ app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
-app.use('/planform', planFormRouter)
+app.use('/api/planform', planFormRouter)
 app.use('/signup', signUpAuth)
 export default app
