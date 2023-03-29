@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import React, { useState } from 'react'
 import { Tag } from './Tag'
