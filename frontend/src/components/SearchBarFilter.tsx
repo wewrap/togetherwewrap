@@ -21,7 +21,7 @@ export const SearchBarFilter: React.FC<Props> = ({
   setSelectError
 }) => {
   const [query, setQuery] = useState<string>('')
-  const [friend, setItems] = useState<Friend[]>([])
+  const [friends, setFriends] = useState<Friend[]>([])
   const [select, setSelected] = useState<Friend[]>([])
 
   const handleQuery = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -31,7 +31,7 @@ export const SearchBarFilter: React.FC<Props> = ({
     const filteredItems: Friend[] = items.filter(
       obj => obj.firstName.toLowerCase().includes(value)
     )
-    setItems(filteredItems)
+    setFriends(filteredItems)
   }
 
   const handleSelect = (friend: Friend): void => {
@@ -62,13 +62,13 @@ export const SearchBarFilter: React.FC<Props> = ({
       />
       <div>
         {query && (
-          friend.map(obj => (
+          friends.map(friend => (
             <div
               className='search-results'
               onClick={() => {
-                handleSelect(obj)
+                handleSelect(friend)
               }}
-              key={obj.firstName}>{obj.firstName}
+              key={friend.firstName}>{friend.firstName}
             </div>))
         )}
       </div>
