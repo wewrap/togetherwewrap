@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import * as React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
@@ -14,7 +12,7 @@ export const SignUp = (): JSX.Element => {
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [warning, setWarning] = useState<string>('')
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
 
     if (password === confirmPassword) {
