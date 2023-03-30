@@ -54,6 +54,10 @@ export const PlanForm = (): JSX.Element => {
     setSpecialDate(event.target.value)
   }
 
+  const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    setEventType(e.target.value as EventType)
+  }
+
   const handleFriendsChange = (friend: Friend): void => {
     if (friends.length >= maxFriends) {
       handleError(`Only a max of ${maxFriends} friends are allowed`)
@@ -73,7 +77,7 @@ export const PlanForm = (): JSX.Element => {
       return
     }
     try {
-      await axios.post('http://localhost:8000/planform', {
+      await axios.post('http://localhost:8000/planForm', {
         specialPerson,
         description,
         startDate,
@@ -88,21 +92,19 @@ export const PlanForm = (): JSX.Element => {
       if (error instanceof AxiosError) {
         console.error(error?.response?.status)
         console.error(error?.response?.data)
+        handleError('Failed form submission. Please check your input and retry.')
       }
     }
   }
 
   const handleError = (message: string): void => {
+    if (errorMessage.length > 0) return
     setError(true)
     setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage('')
       setError(false)
     }, 4000)
-  }
-
-  const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    setEventType(e.target.value as EventType)
   }
 
   return (

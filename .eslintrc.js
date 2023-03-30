@@ -17,6 +17,7 @@ module.exports = {
 
   rules: {
     eqeqeq: ['error', 'always'],
-    '@typescript-eslint/no-misused-promises': 'off'
+    '@typescript-eslint/no-misused-promises': 'off',
+    '@typescript-eslint/semi': 'off'
   }
 }
