@@ -1,10 +1,11 @@
+import { type NextFunction, type Request, type Response } from 'express'
 import { validationResult } from 'express-validator'
 
-export const handleInputErrors = (req, res, next): void => {
+export const handleInputErrors = (req: Request, res: Response, next: NextFunction): void => {
   const result = validationResult(req)
 
   if (!result.isEmpty()) {
-    res.json({ error: result.array() }).status(400)
+    res.status(400).json({ error: result.array() })
   } else {
     next()
   }

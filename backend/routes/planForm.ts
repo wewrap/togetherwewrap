@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express'
 import prisma from '../utils/prismaClient'
-import { type User, InviteStatus, Role } from '@prisma/client'
+import { type User, InviteStatus, Role, EventType } from '@prisma/client'
 import { body } from 'express-validator'
 import { handleInputErrors } from '../modules/middleware'
 const planFormRouter = express.Router()
@@ -12,7 +12,7 @@ planFormRouter.post('/',
   body('startDate').isString(),
   body('startDate').isString(),
   body('endDate').isString(),
-  body('EventType'),
+  body('EventType').isIn(Object.values(EventType)),
   body('friends').isArray(),
   handleInputErrors,
   async (req, res) => {

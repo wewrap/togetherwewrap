@@ -1,6 +1,8 @@
-export const checkUserAuthorization = (req, res, next): void => {
-  if (!req.user) {
-    res.status(401).json({ error: 'not authorized' })
+import { type NextFunction, type Request, type Response } from 'express'
+
+export const checkUserAuthorization = (req: Request, res: Response, next: NextFunction): void => {
+  if (req.user === null) {
+    res.status(401).json({ error: 'Not Authorized' })
   } else {
     next()
   }
