@@ -18,6 +18,47 @@ export interface Friend {
   firstName: string
 }
 
+const fakeUserData = [
+  {
+    firstName: 'john'
+  },
+  {
+    firstName: 'joe'
+  },
+  {
+    firstName: 'sarah'
+  },
+  {
+    firstName: 'alex'
+  },
+  {
+    firstName: 'kevin'
+  },
+  {
+    firstName: 'bob'
+  },
+  {
+    firstName: 'jenny'
+  },
+  {
+    firstName: 'kim'
+  }, {
+    firstName: 'josh'
+  },
+  {
+    firstName: 'edward'
+  },
+  {
+    firstName: 'lisett'
+  },
+  {
+    firstName: 'jordan'
+  },
+  {
+    firstName: 'aden'
+  }
+]
+
 export const PlanForm = (): JSX.Element => {
   const [specialPerson, setSpecialPerson] = useState<Friend | undefined>()
   const [description, setDescription] = useState<string>('')
@@ -104,7 +145,7 @@ export const PlanForm = (): JSX.Element => {
     setTimeout(() => {
       setErrorMessage('')
       setError(false)
-    }, 4000)
+    }, 3000)
   }
 
   return (
@@ -117,7 +158,7 @@ export const PlanForm = (): JSX.Element => {
             items={fakeUserData}
             handleSelectChange={handleSpecialPersonChange}
             handleRemoveTag={handleSpecialPersonRemove}
-            numbOfSelect={1}
+            numOfSelect={1}
           />
         </div>
         <div>
@@ -183,7 +224,7 @@ export const PlanForm = (): JSX.Element => {
             items={fakeUserData}
             handleSelectChange={handleFriendsChange}
             handleRemoveTag={hanldeRemoveFriends}
-            numbOfSelect={maxFriends}
+            numOfSelect={maxFriends}
             setSelectError={handleFriendsChange}
           />
         </div>
@@ -194,44 +235,3 @@ export const PlanForm = (): JSX.Element => {
     </div>
   )
 }
-
-const fakeUserData = [
-  {
-    firstName: 'john'
-  },
-  {
-    firstName: 'joe'
-  },
-  {
-    firstName: 'sarah'
-  },
-  {
-    firstName: 'alex'
-  },
-  {
-    firstName: 'kevin'
-  },
-  {
-    firstName: 'bob'
-  },
-  {
-    firstName: 'jenny'
-  },
-  {
-    firstName: 'kim'
-  }, {
-    firstName: 'josh'
-  },
-  {
-    firstName: 'edward'
-  },
-  {
-    firstName: 'lisett'
-  },
-  {
-    firstName: 'jordan'
-  },
-  {
-    firstName: 'aden'
-  }
-]

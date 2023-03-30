@@ -9,7 +9,7 @@ interface Props {
   items: Friend[]
   handleSelectChange: (friend: Friend) => void
   handleRemoveTag?: (friend: Friend[]) => void
-  numbOfSelect?: number
+  numOfSelect: number
   setSelectError?: (friend: Friend) => void
 }
 
@@ -17,10 +17,10 @@ export const SearchBarFilter: React.FC<Props> = ({
   items,
   handleSelectChange,
   handleRemoveTag,
-  numbOfSelect,
+  numOfSelect,
   setSelectError
 }) => {
-  const [query, setQuery] = useState<string>()
+  const [query, setQuery] = useState<string>('')
   const [friend, setItems] = useState<Friend[]>([])
   const [select, setSelected] = useState<Friend[]>([])
 
@@ -35,12 +35,8 @@ export const SearchBarFilter: React.FC<Props> = ({
   }
 
   const handleSelect = (friend: Friend): void => {
-    if (numbOfSelect &&
-      select.length < numbOfSelect &&
+    if (select.length < numOfSelect &&
       !select.includes(friend)) {
-      handleSelectChange(friend)
-      setSelected(select => [...select, friend])
-    } else if (!numbOfSelect && !select.includes(friend)) {
       handleSelectChange(friend)
       setSelected(select => [...select, friend])
     } else {
