@@ -155,7 +155,7 @@ export const PlanForm = (): JSX.Element => {
         <div>
           Select 1 Special Person (user or contact):
           <SearchBarFilter
-            items={fakeUserData}
+            friendArray={fakeUserData}
             handleSelectChange={handleSpecialPersonChange}
             handleRemoveTag={handleSpecialPersonRemove}
             numOfSelect={1}
@@ -221,7 +221,7 @@ export const PlanForm = (): JSX.Element => {
         </div>
         <div>
           Add Friends: <SearchBarFilter
-            items={fakeUserData}
+            friendArray={fakeUserData}
             handleSelectChange={handleFriendsChange}
             handleRemoveTag={hanldeRemoveFriends}
             numOfSelect={maxFriends}

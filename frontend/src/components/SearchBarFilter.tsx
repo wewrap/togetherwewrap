@@ -6,7 +6,7 @@ import './searchbar.css'
 import { type Friend } from './PlanForm'
 
 interface Props {
-  items: Friend[]
+  friendArray: Friend[]
   handleSelectChange: (friend: Friend) => void
   handleRemoveTag?: (friend: Friend[]) => void
   numOfSelect: number
@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const SearchBarFilter: React.FC<Props> = ({
-  items,
+  friendArray,
   handleSelectChange,
   handleRemoveTag,
   numOfSelect,
@@ -28,8 +28,8 @@ export const SearchBarFilter: React.FC<Props> = ({
     const value = event.target.value
     setQuery(value)
 
-    const filteredItems: Friend[] = items.filter(
-      obj => obj.firstName.toLowerCase().includes(value)
+    const filteredItems: Friend[] = friendArray.filter(
+      friend => friend.firstName.toLowerCase().includes(value)
     )
     setFriends(filteredItems)
   }
