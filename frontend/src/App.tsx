@@ -13,7 +13,7 @@ function App (): JSX.Element {
   console.log('🚀 ~ file: App.tsx:13 ~ App ~ userState:', userState[0])
   return (
     <div>
-        <UserContext.Provider value={userState}>
+      <UserContext.Provider value={userState}>
           <Routes>
             <Route element={<ProtectedRoutes />}>
               <Route path="/contactPage" element={<Contacts />} />
@@ -21,9 +21,8 @@ function App (): JSX.Element {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/tempLandingPage" element={<TempLandingPage />} />
-            <Route path="/contactPage" element={<Contacts />} />
           </Routes>
-        </UserContext.Provider>
+      </UserContext.Provider>
     </div >
   )
 }
