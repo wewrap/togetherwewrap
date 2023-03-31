@@ -7,6 +7,11 @@ import { UserContext } from './UserContext'
 export const TempLandingPage = (): JSX.Element => {
   const [user, setUSer] = useContext(UserContext)
   const navigate = useNavigate()
+  console.log('🚀 ~ file: tempLandingPage.tsx:9 ~ TempLandingPage ~ user:', user)
+
+  useEffect(() => {
+    void getUserData()
+  }, [])
 
   const handleLogout = async (): Promise<void> => {
     try {
@@ -16,9 +21,6 @@ export const TempLandingPage = (): JSX.Element => {
     }
     navigate('/login')
   }
-  useEffect(() => {
-    void getUserData()
-  }, [])
 
   const getUserData = async (): Promise<void> => {
     try {
