@@ -29,10 +29,9 @@ contactCreatorRouter.post('/', async function (req, res) {
             data: req.body.importantDates.map((importantDate: { date: any, event: any }) => ({
                 date: importantDate.date,
                 eventType: importantDate.event,
-                contactId: contact.id
+                contactID: contact.id
             }))
         })
-
         const newContact = await db.contact.findUnique({
             where: { id: contact.id },
             include: {

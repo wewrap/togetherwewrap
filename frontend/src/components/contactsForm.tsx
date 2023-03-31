@@ -155,7 +155,6 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
     <div className="contacts_form">
       {showForm && (
         <>
-          <h1>Add a contact</h1>
           <form onSubmit={handleSubmit}>
             <button type='button' onClick={handleClose}>X</button>
             {(errorMessage.length > 0) && <p className="error_message">{errorMessage}</p>}
