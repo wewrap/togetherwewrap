@@ -1,6 +1,3 @@
-WeWrap
+WeWrap is a web application that provides a seamless and organized experience for group gift-giving. The demand for our application comes from instances in which a number of people want to pool together a sum of money with their friends, family, coworkers or any other group to buy a gift for a special someone or an event. Our web app allows users to create groups, vote on gifts, and chip in money towards the contribution plan.
 
-Dev Notes
-
-- Whenever you update the .env, make sure you add new keys to the .sample-env
-- When pulling to main run npm i, check if there are any .env vars that need to be added, and run migrations.
+Users on our web application will have the option to add individuals as contacts and assign important dates associated to that contact. This contacts information then gets automatically added into the contacts list and the users calendar to help them keep track of all upcoming events and dates. From here users are allowed to form together groups for a contribution plan. In this they will be able to vote on a gift, pool in money, be able to discuss what gifts they want to give and overall go through with the plan before the deadline so the gift can reach the gift receiver in time.
