@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState } from 'react'
 import { SearchBarFilter } from './SearchBarFilter'
-import type { Item } from './SearchBarFilter'
 import './PlanForm.css'
 import axios, { AxiosError } from 'axios'
 
@@ -16,24 +14,69 @@ enum EventType {
   OTHER = 'OTHER'
 }
 
+export interface Friend {
+  firstName: string
+}
+
+const fakeUserData = [
+  {
+    firstName: 'john'
+  },
+  {
+    firstName: 'joe'
+  },
+  {
+    firstName: 'sarah'
+  },
+  {
+    firstName: 'alex'
+  },
+  {
+    firstName: 'kevin'
+  },
+  {
+    firstName: 'bob'
+  },
+  {
+    firstName: 'jenny'
+  },
+  {
+    firstName: 'kim'
+  }, {
+    firstName: 'josh'
+  },
+  {
+    firstName: 'edward'
+  },
+  {
+    firstName: 'lisett'
+  },
+  {
+    firstName: 'jordan'
+  },
+  {
+    firstName: 'aden'
+  }
+]
+
 export const PlanForm = (): JSX.Element => {
-  const [specialPerson, setSpecialPerson] = useState<Item | undefined>()
+  const [specialPerson, setSpecialPerson] = useState<Friend | undefined>()
   const [description, setDescription] = useState<string>('')
   const [startDate, setStartDate] = useState<string>('')
   const [endDate, setEndDate] = useState<string>('')
   const [specialDate, setSpecialDate] = useState<string>('')
-  const [friends, setFriends] = useState<Item[]>([])
+  const [friends, setFriends] = useState<Friend[]>([])
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
   const [maxFriends] = useState<number>(3)
   const [eventType, setEventType] = useState<EventType>()
 
-  const handleSpecialPersonChange = (item: Item): void => {
-    setSpecialPerson(item)
+  const handleSpecialPersonChange = (friend: Friend): void => {
+    setSpecialPerson(friend)
   }
 
-  const handleSpecialPersonRemove = (item: Item[] | undefined): void => {
-    item !== undefined && setSpecialPerson(item[0])
+  const handleSpecialPersonRemove = (friend: Friend[] | undefined): void => {
+    friend !== undefined && setSpecialPerson(friend[0])
   }
 
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
@@ -52,16 +95,20 @@ export const PlanForm = (): JSX.Element => {
     setSpecialDate(event.target.value)
   }
 
-  const handleFriendsChange = (item: Item): void => {
+  const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>): void => {
+    setEventType(e.target.value as EventType)
+  }
+
+  const handleFriendsChange = (friend: Friend): void => {
     if (friends.length >= maxFriends) {
       handleError(`Only a max of ${maxFriends} friends are allowed`)
-    } else if (!friends.includes(item)) {
-      setFriends(friends => [...friends, item])
+    } else if (!friends.includes(friend)) {
+      setFriends(friends => [...friends, friend])
     }
   }
 
-  const hanldeRemoveFriends = (item: Item[]): void => {
-    setFriends(item)
+  const hanldeRemoveFriends = (friend: Friend[]): void => {
+    setFriends(friend)
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -71,7 +118,7 @@ export const PlanForm = (): JSX.Element => {
       return
     }
     try {
-      await axios.post('http://localhost:8000/planform', {
+      await axios.post('http://localhost:8000/planForm', {
         specialPerson,
         description,
         startDate,
@@ -86,40 +133,32 @@ export const PlanForm = (): JSX.Element => {
       if (error instanceof AxiosError) {
         console.error(error?.response?.status)
         console.error(error?.response?.data)
+        handleError('Failed form submission. Please check your input and retry.')
       }
     }
   }
 
   const handleError = (message: string): void => {
+    if (errorMessage.length > 0) return
     setError(true)
     setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage('')
       setError(false)
-    }, 4000)
-  }
-
-  const displayError = (): JSX.Element => (
-    (
-      <p className='error-message'>{errorMessage}</p>
-    )
-  )
-
-  const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>): void => {
-    setEventType(e.target.value as EventType)
+    }, 3000)
   }
 
   return (
     <div>
       <form onSubmit={handleSubmit} className="form">
-        {error && displayError()}
+        {error && <p className='error-message'> {errorMessage} </p>}
         <div>
           Select 1 Special Person (user or contact):
           <SearchBarFilter
-            items={fakeUserData}
+            friendArray={fakeUserData}
             handleSelectChange={handleSpecialPersonChange}
             handleRemoveTag={handleSpecialPersonRemove}
-            numbOfSelect={1}
+            numOfSelect={1}
           />
         </div>
         <div>
@@ -182,10 +221,10 @@ export const PlanForm = (): JSX.Element => {
         </div>
         <div>
           Add Friends: <SearchBarFilter
-            items={fakeUserData}
+            friendArray={fakeUserData}
             handleSelectChange={handleFriendsChange}
             handleRemoveTag={hanldeRemoveFriends}
-            numbOfSelect={maxFriends}
+            numOfSelect={maxFriends}
             setSelectError={handleFriendsChange}
           />
         </div>
@@ -196,44 +235,3 @@ export const PlanForm = (): JSX.Element => {
     </div>
   )
 }
-
-const fakeUserData = [
-  {
-    firstName: 'john'
-  },
-  {
-    firstName: 'joe'
-  },
-  {
-    firstName: 'sarah'
-  },
-  {
-    firstName: 'alex'
-  },
-  {
-    firstName: 'kevin'
-  },
-  {
-    firstName: 'bob'
-  },
-  {
-    firstName: 'jenny'
-  },
-  {
-    firstName: 'kim'
-  }, {
-    firstName: 'josh'
-  },
-  {
-    firstName: 'edward'
-  },
-  {
-    firstName: 'lisett'
-  },
-  {
-    firstName: 'jordan'
-  },
-  {
-    firstName: 'aden'
-  }
-]

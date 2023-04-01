@@ -177,4 +177,5 @@ app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
 app.use('/api/planForm', checkUserAuthorization, planFormRouter)
 app.use('/signup', signUpAuth)
+
 export default app
