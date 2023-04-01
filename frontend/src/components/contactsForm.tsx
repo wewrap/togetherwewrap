@@ -145,6 +145,16 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
       }, {
         withCredentials: true
       })
+      handleContactCreate({
+        firstName,
+        lastName,
+        relationships,
+        importantDates,
+        email,
+        phoneNumber,
+        notes
+      })
+      resetForm()
     } catch (error) {
       console.error(error)
       setErrorMessage((error as any).response.data ?? 'Unknown error occured.')
