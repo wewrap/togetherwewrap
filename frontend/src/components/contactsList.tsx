@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CreateAContactForm } from './contactsForm'
 import axios from 'axios'
 
@@ -27,8 +27,7 @@ interface ImportantDateEvent {
 }
 
 export const ContactsList = () => {
-  const [showCreateAContactForm, setShowCreateAContactForm] =
-    useState<boolean>(false)
+  const [showCreateAContactForm, setShowCreateAContactForm] = useState<boolean>(false)
   const [contacts, setContacts] = useState<Contact[]>([])
 
   const toggleContactForm = () => {
@@ -36,6 +35,7 @@ export const ContactsList = () => {
   }
 
   const handleContactCreate = (newContact: Contact) => {
+    console.log(newContact)
     setContacts((prevState) => [...prevState, newContact])
   }
 
@@ -43,7 +43,6 @@ export const ContactsList = () => {
     const getContacts = async () => {
       try {
         const response = await axios.get('http://localhost:8000/contacts')
-        console.log(response.data)
         const contactsData = response.data.contacts as Contact[]
         setContacts(contactsData)
       } catch (error) {

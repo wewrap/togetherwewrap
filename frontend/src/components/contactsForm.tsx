@@ -4,11 +4,11 @@ import axios from 'axios'
 
 type ImportantDate = {
   date: string
-  event: string
+  eventType: string
 }
 
 type Relationship = {
-  type: string
+  relationshipType: string
 }
 
 interface Props {
@@ -71,7 +71,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
     setRelationships((prevRelationships) => [
       ...prevRelationships,
       {
-        type: relationshipType
+        relationshipType
       }
     ])
     setRelationshipType('')
@@ -105,7 +105,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
       ...prevDates,
       {
         date: eventDate,
-        event: eventType
+        eventType
       }
     ])
     setEventDate('')
@@ -149,7 +149,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
         firstName,
         lastName,
         relationships,
-        importantDates,
+        importantDateEvent: importantDates,
         email,
         phoneNumber,
         notes
@@ -241,8 +241,8 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
                 <div key={index}>
                   <input
                     type="text"
-                    value={type.type}
-                    onChange={(event) => { handleRelationshipChange(index, 'type', event.target.value) }
+                    value={type.relationshipType}
+                    onChange={(event) => { handleRelationshipChange(index, 'relationshipType', event.target.value) }
                     }
                   />
                   <button type= "button" onClick={() => { handleRemoveRelationshipType(index) }}>
@@ -287,8 +287,8 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
                   />
                   <input
                     type="text"
-                    value={date.event}
-                    onChange={(event) => { handleImportantEventChange(index, 'event', event.target.value) }
+                    value={date.eventType}
+                    onChange={(event) => { handleImportantEventChange(index, 'eventType', event.target.value) }
                     }
                   />
                   <button type="button" onClick={() => { handleRemoveImportantEvent(index) }}>
