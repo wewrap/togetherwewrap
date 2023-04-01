@@ -10,7 +10,6 @@ import { ProtectedRoutes } from './components/protectedRoutes'
 
 function App (): JSX.Element {
   const userState = useState(null)
-  console.log('🚀 ~ file: App.tsx:13 ~ App ~ userState:', userState[0])
   return (
     <div>
       <UserContext.Provider value={userState}>

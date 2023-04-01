@@ -7,7 +7,6 @@ import { UserContext } from './UserContext'
 export const TempLandingPage = (): JSX.Element => {
   const [user, setUSer] = useContext(UserContext)
   const navigate = useNavigate()
-  console.log('🚀 ~ file: tempLandingPage.tsx:9 ~ TempLandingPage ~ user:', user)
 
   useEffect(() => {
     void getUserData()
