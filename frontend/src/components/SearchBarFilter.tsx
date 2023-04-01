@@ -21,34 +21,34 @@ export const SearchBarFilter: React.FC<Props> = ({
 }) => {
   const [query, setQuery] = useState<string>('')
   const [friends, setFriends] = useState<Friend[]>([])
-  const [select, setSelected] = useState<Friend[]>([])
+  const [selectedFriend, setSelectedFriends] = useState<Friend[]>([])
 
   const handleQuery = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const value = event.target.value
     setQuery(value)
 
-    const filteredItems: Friend[] = friendArray.filter(
+    const filteredFriends: Friend[] = friendArray.filter(
       friend => friend.firstName.toLowerCase().includes(value)
     )
-    setFriends(filteredItems)
+    setFriends(filteredFriends)
   }
 
   const handleSelect = (friend: Friend): void => {
-    if (select.length < numOfSelect &&
-      !select.includes(friend)) {
+    if (selectedFriend.length < numOfSelect &&
+      !selectedFriend.includes(friend)) {
       handleSelectChange(friend)
-      setSelected(select => [...select, friend])
+      setSelectedFriends(selectedFriend => [...selectedFriend, friend])
     } else {
       setSelectError?.(friend)
     }
   }
 
   const removeTag = (obj: Friend): void => {
-    const filteredItems: Friend[] = select.filter(friend => friend.firstName !== obj.firstName)
+    const filteredFriends: Friend[] = selectedFriend.filter(friend => friend.firstName !== obj.firstName)
     if (handleRemoveTag) {
-      handleRemoveTag(filteredItems)
+      handleRemoveTag(filteredFriends)
     }
-    setSelected(filteredItems)
+    setSelectedFriends(filteredFriends)
   }
 
   return (
@@ -73,7 +73,7 @@ export const SearchBarFilter: React.FC<Props> = ({
       </div>
       <p>Selected:</p>
       <div className='tag-grid'>
-      {select.map(obj => (
+      {selectedFriend.map(obj => (
         <Tag handleRemoveTag={removeTag} friend={obj} key={obj.firstName} />
       ))}
     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { type Friend } from './PlanForm'
-import { generateRandomLightColor } from '../utils/colorGenerator'
+import { generateRandomLightColorHex } from '../utils/colorGenerator'
 import './tag.css'
 
 interface Props {
@@ -9,8 +9,7 @@ interface Props {
 }
 
 export const Tag: React.FC<Props> = ({ friend, handleRemoveTag }) => {
-  const [backgroundColor] = useState<any>(generateRandomLightColor())
-  // const backgroundColor = generateRandomLightColor()
+  const [backgroundColor] = useState<any>(generateRandomLightColorHex())
 
   const handleClick = (): void => {
     handleRemoveTag(friend)
