@@ -154,7 +154,6 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
         phoneNumber,
         notes
       })
-      resetForm()
     } catch (error) {
       console.error(error)
       setErrorMessage((error as any).response.data ?? 'Unknown error occured.')
