@@ -1,50 +1,49 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import * as React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import './signup.css'
 import { Link } from 'react-router-dom'
 
-export const SignUp = () => {
-    const [firstName, setFirstName] = useState<string>('')
-    const [lastName, setLastName] = useState<string>('')
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const [confirmPassword, setConfirmPassword] = useState<string>('')
-    const [warning, setWarning] = useState<string>('')
+export const SignUp = (): JSX.Element => {
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [confirmPassword, setConfirmPassword] = useState<string>('')
+  const [warning, setWarning] = useState<string>('')
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault()
 
-            if (password === confirmPassword) {
-                setWarning('')
-                await axios.post('http://localhost:8000/signup', {
-                    firstName,
-                    lastName,
-                    email,
-                    password
-                })
+    if (password === confirmPassword) {
+      setWarning('')
+      await axios.post('http://localhost:8000/signup', {
+        firstName,
+        lastName,
+        email,
+        password
+      })
 
-                .then((res) => {
-                    setWarning('Successful submission.')
-                })
+        .then((res) => {
+          setWarning('Successful submission.')
+        })
 
-                .catch((err) => {
-                    if (err.response.status === 409) {
-                        setWarning('Existing email. Please use a different email.')
-                    } else { setWarning('Submission Error. Please try again.') }
-                })
-            } else {
-                setConfirmPassword('')
-                setWarning('Please use a different password.')
-            }
+        .catch((err) => {
+          if (err.response.status === 409) {
+            setWarning('Existing email. Please use a different email.')
+          } else { setWarning('Submission Error. Please try again.') }
+        })
+    } else {
+      setConfirmPassword('')
+      setWarning('Please use a different password.')
     }
+  }
 
-    return (
+  return (
         <div className = "container">
         <img src='./wewrap_green.png' alt='wewrap logo'></img>
         <h3 className = "weWrapTitle"> Sign Up for WeWrap </h3>
-        <p className = "createAccount" > Create a free account or&nbsp;<Link to = "/login">log in </Link> </p>
+        <p className = "createAccount" > Create a free account or&nbsp<Link to = "/login">log in </Link> </p>
             <form className = "signUpForm" onSubmit = {handleSubmit}>
                 <p className = "errorNotification"> {warning} </p>
                 <label htmlFor = "signUpFieldTitles"> First Name <span>*</span>
@@ -68,5 +67,5 @@ export const SignUp = () => {
             </form>
             <p className = "emailLink"> Need help? Email <a href = " "> help@wewrap.com </a> </p>
         </div>
-    )
+  )
 }

@@ -1,5 +1,5 @@
-import { type User } from '@prisma/client'
-import express from 'express'
+import { type User } from '@prisma/client';
+import express from 'express';
 import passport from 'passport'
 import prisma from '../utils/prismaClient'
 
@@ -8,7 +8,7 @@ const loginAuthRouter = express.Router()
 const db = prisma
 
 loginAuthRouter.get('/password',
-  function (req, res, next) {
+  function (req, res) {
     res.render('login')
   })
 

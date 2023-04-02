@@ -8,33 +8,35 @@ import morgan from 'morgan'
 import passport from 'passport'
 import googleOAuthRouter from './routes/googleOAuth'
 import testRouter from './routes/testRoute'
-import prisma from './utils/prismaClient'
-import signUpAuth from './routes/signUpAuth'
-import googleStrategy from 'passport-google-oauth20'
-import expressSession from 'express-session'
-import { PrismaSessionStore } from '@quixo3/prisma-session-store'
-import { PrismaClient } from '@prisma/client'
-import { Strategy as LocalStrategy } from 'passport-local'
-import crypto from 'crypto'
+import prisma from './utils/prismaClient';
+import signUpAuth from './routes/signUpAuth';
+import googleStrategy from 'passport-google-oauth20';
+import expressSession from 'express-session';
+import { PrismaSessionStore } from '@quixo3/prisma-session-store';
+import { PrismaClient } from '@prisma/client';
+import { Strategy as LocalStrategy } from 'passport-local';
+import crypto from 'crypto';
 import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL } from './utils/config'
-import facebookStrategy from 'passport-facebook'
-import facebookOAuthRouter from './routes/facebookOAuth'
-import contactCreatorRouter from './routes/contactCreator'
+import facebookStrategy from 'passport-facebook';
+import facebookOAuthRouter from './routes/facebookOAuth';
 import loginAuthRouter from './routes/loginAuth'
-const GoogleStrategy = googleStrategy.Strategy
-const FacebookStrategy = facebookStrategy.Strategy
-const app = express()
+import contactCreatorRouter from './routes/contactCreator'
+const GoogleStrategy = googleStrategy.Strategy;
+const FacebookStrategy = facebookStrategy.Strategy;
+const app = express();
 
 const db = prisma
 const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
 const TWO_MINUTES = 1000 * 60 * 2
 
-app.use(morgan('dev'))
+app.use(morgan('dev'));
+
 app.use(cors({
     credentials: true,
     origin: 'http://localhost:3000'
-}))
-app.use(express.json())
+}));
+app.use(express.json());
+app.use(passport.initialize())
 
 app.use(
     expressSession(
@@ -58,7 +60,6 @@ app.use(
         })
 )
 
-app.use(passport.initialize())
 app.use(passport.session())
 
 passport.serializeUser((user: any, done: any) => {
@@ -80,7 +81,7 @@ passport.use(new GoogleStrategy({
     clientSecret: googleClientSecret,
     callbackURL: googleCallBackURL
 },
-    async function verify (accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
         try {
             const user = await db.user.findFirst({
                 where: {
@@ -97,12 +98,12 @@ passport.use(new GoogleStrategy({
                         email: profile.emails[0].value
                     }
                 })
-                cb(null, newUser)
+                done(null, newUser)
             } else {
-                cb(null, user)
+                done(null, user)
             }
         } catch (error) {
-            cb(error, null)
+            done(error, null)
         }
     }))
 
@@ -113,7 +114,7 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'displayName', 'email'],
     enableProof: true
 },
-    async function verify (accessToken: any, refreshToken: any, profile: any, cb: any) {
+    async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
         try {
             const user = await db.user.findFirst({
                 where: {
@@ -130,12 +131,12 @@ passport.use(new FacebookStrategy({
                         email: profile._json.email
                     }
                 })
-                cb(null, newUser)
+                done(null, newUser)
             } else {
-                cb(null, user)
+                done(null, user)
             }
         } catch (error) {
-            cb(error, null)
+            done(error, null)
         }
     }
 ))
@@ -146,24 +147,32 @@ passport.use(
         passwordField: 'password',
         session: true,
         passReqToCallback: true
+
     },
         async function (req, email, password, done) {
-            const user = await db.user.findFirst({
+            const user = await db.user.findUnique({
                 where: {
                     email
                 }
             })
+
             if (!user?.salt) {
-                done(null, false); return
+                done(null, false); return;
             }
             const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64')
             if (user.password !== hashedPassword) {
-                done(null, false)
+                done(null, false);
             } else {
-                done(null, user)
+                done(null, user);
             }
         }
-    ))
+    ));
+
+app.use('/', testRouter)
+app.use('/auth/google', googleOAuthRouter)
+app.use('/auth/facebook', facebookOAuthRouter)
+app.use('/login', loginAuthRouter)
+app.use('/signup', signUpAuth)
 
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)

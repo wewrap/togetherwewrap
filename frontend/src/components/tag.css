@@ -1,0 +1,28 @@
+.tag-wrapper {
+  display: inline-flex;
+  align-items: center;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.tag-close-button:hover {
+  background-color: #dedede;
+}
+
+.tag-text {
+  font-size: 14px;
+  color: rgb(0, 0, 0);
+  margin-right: 8px;
+}
+
+.tag-close-button {
+  cursor: pointer;
+  border: none;
+  color: red;
+  font-size: 15px;
+  border-radius: 25px;
+  background-color: rgba(255, 254, 254, 0.732);
+}
