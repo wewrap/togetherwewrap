@@ -13,7 +13,6 @@ export const LoginForm = (): JSX.Element => {
   const [password, setPassword] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
   const navigate = useNavigate()
-  const [user] = useContext(UserContext)
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {

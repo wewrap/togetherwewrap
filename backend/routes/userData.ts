@@ -2,12 +2,13 @@ import express from 'express'
 const userDataRouter = express.Router()
 
 userDataRouter.get('/', (req, res) => {
-  if (req.user !== null) {
+  console.log('hitting user-data')
+  console.log(req.user)
+  if (req.user !== null && req.user !== undefined) {
     res.send(req.user)
     return
   }
-
-  res.status(400).send("User doesn't exist")
+  res.status(400).json({ error: "User doesn't exist" })
 })
 
 export default userDataRouter

@@ -1,16 +1,13 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { UserContext } from './UserContext'
 
 export const TempLandingPage = (): JSX.Element => {
-  const [user, setUSer] = useContext(UserContext)
+  const user = useContext(UserContext)
+  console.log('🚀 ~ file: tempLandingPage.tsx:9 ~ TempLandingPage ~ user:', user)
   const navigate = useNavigate()
-
-  useEffect(() => {
-    void getUserData()
-  }, [])
 
   const handleLogout = async (): Promise<void> => {
     try {
@@ -21,18 +18,9 @@ export const TempLandingPage = (): JSX.Element => {
     navigate('/login')
   }
 
-  const getUserData = async (): Promise<void> => {
-    try {
-      const userDataResponse = await axios.get('http://localhost:8000/user-data', { withCredentials: true })
-      setUSer(userDataResponse.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   return (
     <div>
-      <h1>WeWrap Home {user?.firstName}</h1>
+      <h1>WeWrap Home {user[0]?.firstName}</h1>
       <button onClick={handleLogout}>Logout</button>
     </div>
   )
