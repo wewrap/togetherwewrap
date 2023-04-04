@@ -15,6 +15,8 @@ module.exports = {
     tsconfigRootDir: __dirname
   },
   rules: {
-    eqeqeq: ['error', 'always']
+    eqeqeq: ['error', 'always'],
+    '@typescript-eslint/no-misused-promises': 'off',
+    '@typescript-eslint/semi': 'off'
   }
 }

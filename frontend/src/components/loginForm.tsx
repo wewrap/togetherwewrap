@@ -1,18 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
 import './login.css'
+import { Link, useNavigate } from 'react-router-dom'
 import googleIcon from '../assets/googleIcon.png'
 import facebookIcon from '../assets/facebookIcon.png'
-import { Link, useNavigate } from 'react-router-dom'
-import { UserContext } from './UserContext'
 
 export const LoginForm = (): JSX.Element => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
   const navigate = useNavigate()
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
@@ -43,7 +41,7 @@ export const LoginForm = (): JSX.Element => {
       <h1>Log in to your account</h1>
       <p className='subheader'>Don't have an account? <Link to="/signup"> Sign up </Link> </p>
       <form action="/login/password" method="post" onSubmit={handleSubmit}>
-        {(errorMessage.length > 0) && <p className='error_message'>{errorMessage}</p>}
+        {(errorMessage !== '') && <p className='error_message'>{errorMessage}</p>}
         <div className='user_creds'>
           <label htmlFor="email">Email <span>*</span></label>
           <input className="email" name="email" type="text" autoComplete="on" required value={email} onChange={handleEmailChange} />

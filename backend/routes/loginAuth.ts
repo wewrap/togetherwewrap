@@ -10,8 +10,8 @@ loginAuthRouter.get('/password',
 
 loginAuthRouter.post('/password', passport.authenticate('local'),
   function (req, res) {
-    console.log('user from local auth: ' + (req.user as User).id)
-    res.redirect('/')
-  })
+    console.info('user from local auth: ' + (req.user as User).id);
+    res.redirect('/');
+  });
 
 export default loginAuthRouter
