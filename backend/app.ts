@@ -31,12 +31,11 @@ const TWO_MINUTES = 1000 * 60 * 2
 app.use(morgan('dev'))
 
 app.use(cors({
-    credentials: true,
-    origin: 'http://localhost:3000'
+  credentials: true,
+  origin: 'http://localhost:3000'
 }));
 app.use(express.json());
 app.use(passport.initialize())
-
 
 app.use(
   expressSession({
@@ -166,112 +165,110 @@ passport.use(
 app.use(passport.session())
 
 passport.serializeUser((user: any, done: any) => {
-    return done(null, user.id)
+  return done(null, user.id)
 })
 
 passport.deserializeUser(async (id: string, done: any) => {
-    const user = await db.user.findFirst({
-        where: {
-            id: id
-        }
-    })
-    return done(null, user)
+  const user = await db.user.findFirst({
+    where: {
+      id
+    }
+  })
+  return done(null, user)
 })
 
 passport.use(new GoogleStrategy({
-    clientID: googleClientID,
-    clientSecret: googleClientSecret,
-    callbackURL: googleCallBackURL
+  clientID: googleClientID,
+  clientSecret: googleClientSecret,
+  callbackURL: googleCallBackURL
 },
-    async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
-        try {
-            const user = await db.user.findFirst({
-                where: {
-                    googleID: profile.id
-                }
-            })
+async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
+  try {
+    const user = await db.user.findFirst({
+      where: {
+        googleID: profile.id
+      }
+    })
 
-            if (!user) {
-                const newUser = await db.user.create({
-                    data: {
-                        firstName: profile._json.given_name,
-                        lastName: profile._json.family_name,
-                        googleID: profile.id,
-                        email: profile.emails[0].value
-                    }
-                })
-                done(null, newUser)
-            } else {
-                done(null, user)
-            }
-        } catch (error) {
-            done(error, null)
+    if (user === null) {
+      const newUser = await db.user.create({
+        data: {
+          firstName: profile._json.given_name,
+          lastName: profile._json.family_name,
+          googleID: profile.id,
+          email: profile.emails[0].value
         }
-    }))
+      })
+      done(null, newUser)
+    } else {
+      done(null, user)
+    }
+  } catch (error) {
+    done(error, null)
+  }
+}))
 
 passport.use(new FacebookStrategy({
-    clientID: facebookClientID,
-    clientSecret: facebookAppSecret,
-    callbackURL: facebookCallBackURL,
-    profileFields: ['id', 'displayName', 'email'],
-    enableProof: true
+  clientID: facebookClientID,
+  clientSecret: facebookAppSecret,
+  callbackURL: facebookCallBackURL,
+  profileFields: ['id', 'displayName', 'email'],
+  enableProof: true
 },
-    async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
-        try {
-            const user = await db.user.findFirst({
-                where: {
-                    facebookID: profile.id
-                }
-            })
+async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
+  try {
+    const user = await db.user.findFirst({
+      where: {
+        facebookID: profile.id
+      }
+    })
 
-            if (!user) {
-                const newUser = await db.user.create({
-                    data: {
-                        firstName: profile._json.name,
-                        lastName: profile._json.name,
-                        facebookID: profile._json.id,
-                        email: profile._json.email
-                    }
-                })
-                done(null, newUser)
-            } else {
-                done(null, user)
-            }
-        } catch (error) {
-            done(error, null)
+    if (user === null) {
+      const newUser = await db.user.create({
+        data: {
+          firstName: profile._json.name,
+          lastName: profile._json.name,
+          facebookID: profile._json.id,
+          email: profile._json.email
         }
+      })
+      done(null, newUser)
+    } else {
+      done(null, user)
     }
+  } catch (error) {
+    done(error, null)
+  }
+}
 ));
 
 passport.use(
-    new LocalStrategy({
-        usernameField: 'email',
-        passwordField: 'password',
-        session: true,
-        passReqToCallback: true
+  new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    session: true,
+    passReqToCallback: true
 
-    },
-        async function (req, email, password, done) {
+  },
+  async function (req, email, password, done) {
+    const user = await db.user.findUnique({
+      where: {
+        email
+      }
+    })
 
-            const user = await db.user.findUnique({
-                where: {
-                    email: email
-                },
-            })
+    if ((user === null) || (user.salt === null)) {
+      done(null, false); return;
+    }
 
-            if (!user || !user.salt) {
-                return done(null, false);
-            }
-
-            const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64');
-            if (user.password !== hashedPassword) {
-                return done(null, false);
-            } else {
-                return done(null, user);
-            }
-
-        }
-    ));
+    const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64');
+    if (user.password !== hashedPassword) {
+      done(null, false);
+    } else {
+      done(null, user);
+    }
+  }
+  ));
 
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)

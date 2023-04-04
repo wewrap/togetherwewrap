@@ -47,8 +47,5 @@
     "react-router-dom": "^6.8.1"
   },
   "keywords": [],
-  "description": "",
-  "prisma": {
-    "seed": "ts-node ./utils/userContactPlanSeed.ts"
-  }
+  "description": ""
 }
