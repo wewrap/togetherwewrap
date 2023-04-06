@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 
+
 :root {
     --light-yellow: #f8ffe5;
     --green: #06D5A0;
@@ -19,7 +20,6 @@ html {
 *::after {
     box-sizing: inherit;
 }
-
 
 body {
     padding: 0;
