@@ -1,26 +1,28 @@
 import React from 'react';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
-import './Plan.css'
+import styles from './Plan.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Plan = (): JSX.Element => {
+  'plan-btn burger-btn'
   return (
-    <div className='plan-container'>
-      <div className='top-container'>
+    <div>
+      <div className={styles.top_container}>
         <div className='burger-btn-wrapper'>
-          <button className='plan-btn burger-btn'><FontAwesomeIcon icon={icon({ name: 'bars' })} /></button>
+          <button className={styles.plan_btn }><FontAwesomeIcon icon={icon({ name: 'bars' })} /></button>
         </div>
         <div id='special-person-wrapper'>
-        <h1 className='special-person-header'>Special Person: Bob Jones</h1>
+        <h1 className='special-person'>Special Person: Bob Jones</h1>
         </div>
         <div className='collected-container'>
           <h4>Amount Collected: 4124</h4>
-          <button className='plan-btn'> <FontAwesomeIcon icon={icon({ name: 'plus' })} /></button>
+          <button className={styles.plan_btn}> <FontAwesomeIcon icon={icon({ name: 'plus' })} /></button>
         </div>
       </div>
+
       <section className='plan-section'>
         <div id='plan-description'>
-          <button className='plan-btn'><FontAwesomeIcon icon={icon({ name: 'pen' })} /></button>
+          <button className={styles.plan_btn}><FontAwesomeIcon icon={icon({ name: 'pen' })} /></button>
           <article>
             <div className='plan-flex-1'>
             <p id='description'>Bob is clebrating his 25th birthday, lets buy him some gifts</p>

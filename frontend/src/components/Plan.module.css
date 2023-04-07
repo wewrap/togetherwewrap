@@ -1,4 +1,4 @@
-div .top-container {
+.top_container {
   display: grid;
   padding: 0;
   grid-template-columns: 0.5fr repeat(5, 1fr);
@@ -11,13 +11,17 @@ ul {
   padding-left: 0;
 }
 
-button.plan-btn {
+.plan_btn {
   background: none;
   border: none;
   padding: 0;
   font: inherit;
   cursor: pointer;
   outline: inherit;
+}
+
+.plan-btn {
+
 }
 
 div .collected-container {
@@ -34,7 +38,6 @@ div .collected-container {
   padding: 0.5rem;
   gap: 0.5rem;
 }
-
 
 #special-person-wrapper {
   display: flex;
