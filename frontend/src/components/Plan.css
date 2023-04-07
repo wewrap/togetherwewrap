@@ -1,56 +1,72 @@
 div .top-container {
   display: grid;
   padding: 0;
-  grid-template-columns: repeat(100, 0.5fr);
+  grid-template-columns: 0.5fr repeat(5, 1fr);
   margin: 1rem;
+  margin-right: 30px;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+button.plan-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
 
 div .collected-container {
   display: flex;
   justify-content: center;
-  width: 400px;
-  height: 100px;
+  align-items: center;
+  width: 19rem;
+  height: 4.5rem;
+  flex-flow: wrap;
   background-color: #FFFF;
   border-radius: 10px;
   box-shadow: 5px 5px 15px #d7d7d7;
-  grid-column: 89;
+  grid-column: 7;
+  padding: 0.5rem;
+  gap: 0.5rem;
 }
 
-.special-person-header {
-  width: 350%;
+
+#special-person-wrapper {
+  display: flex;
   text-align: left;
-  grid-column: 20;
-}
-
-.burger-btn {
-  align-self: center;
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
+  grid-column: 2/5;
+  height: 100%;
+  align-items: center;
 }
 
 .collected-container h4 {
-  width: 80%;
-  text-align: left;
-  padding-top: 10px;
+  flex-basis: 100%;
+  text-align: center;
 }
 
-.collected-container button {
-  align-self: center;
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
-  cursor: pointer;
-  outline: inherit;
+@media (min-width: 800px) {
+  .collected-container h4 {
+    text-align: center;
+    flex-basis: auto;
+    margin: 1rem;
+  }
+
+  div .collected-container {
+    justify-content: space-between;
+    width: 24rem;
+
+  }
 }
 
 .fa-plus {
   color: var(--pink);
   font-size: 2.5rem;
+  margin: 0.1rem;
 }
 
 .fa-bars {
@@ -59,8 +75,51 @@ div .collected-container {
 
 .plan-section {
   background-color: #AFFAE7;
-  border-radius: 10px;
   width: 90%;
   margin: 0 30px 60px auto;
-  height: 10%;
+  height: 45rem;
+  display: grid;
+  grid-template-columns: 0.5fr 0.4fr 0.6fr 0.4fr;
+  border-radius: 10px;
+  box-shadow: 5px 5px 15px #d7d7d7;
+}
+
+#plan-description,
+#idea-list,
+#pledge-list {
+  margin: 1rem 1rem;
+  background-color: #FFFF;
+  border-radius: 10px;
+  padding: 5px 15px;
+  list-style-type: none;
+  box-shadow: 5px 5px 15px #bcbcbc;
+
+}
+
+#plan-description {
+  width: 80%;
+  height: 40rem;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+
+}
+
+#idea-list {
+  width: 80%;
+  height: 20rem;
+
+}
+
+#pledge-list {
+  width: 92%;
+  box-sizing: border-box;
+  grid-column: 4;
+  margin: 0;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.burger-btn {
+  width: 0;
 }

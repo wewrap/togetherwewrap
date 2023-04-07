@@ -7,31 +7,37 @@ export const Plan = (): JSX.Element => {
   return (
     <div className='plan-container'>
       <div className='top-container'>
-        <button className='burger-btn'><FontAwesomeIcon icon={icon({ name: 'bars' })} /></button>
+        <div className='burger-btn-wrapper'>
+          <button className='plan-btn burger-btn'><FontAwesomeIcon icon={icon({ name: 'bars' })} /></button>
+        </div>
+        <div id='special-person-wrapper'>
         <h1 className='special-person-header'>Special Person: Bob Jones</h1>
+        </div>
         <div className='collected-container'>
           <h4>Amount Collected: 4124</h4>
-          <button> <FontAwesomeIcon icon={icon({ name: 'plus' })} /></button>
+          <button className='plan-btn'> <FontAwesomeIcon icon={icon({ name: 'plus' })} /></button>
         </div>
       </div>
       <section className='plan-section'>
         <div id='plan-description'>
-          <button>edit</button>
+          <button className='plan-btn'><FontAwesomeIcon icon={icon({ name: 'pen' })} /></button>
           <article>
+            <div className='plan-flex-1'>
             <p id='description'>Bob is clebrating his 25th birthday, lets buy him some gifts</p>
-            <div id='special-date'>special date</div>
+            <div id='special-date'>special date: 5-10-23</div>
             <h5>wish list</h5>
             <ul>
               <li>thing 1</li>
               <li>thing 2</li>
               <li>thing 3</li>
             </ul>
+            </div>
           </article>
         </div>
 
         <div id='idea-list'>
           <h4 id='idea-list-heading'>Idea list</h4>
-          <button>add button</button>
+          <button className='plan-btn'> <FontAwesomeIcon icon={icon({ name: 'plus' })} /> </button>
           <ul>
             <li>metallica shirt</li>
             <li>new books</li>
