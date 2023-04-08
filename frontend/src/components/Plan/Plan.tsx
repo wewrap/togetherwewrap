@@ -1,9 +1,20 @@
+import { useState } from 'react'
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import styles from './Plan.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { PlanDescription } from './PlanDescription'
+
+interface Pledge {
+  leader: string
+  friends: string[]
+}
 
 export const Plan = (): JSX.Element => {
-  // const [description] = useState<any>();
+  const [specialPerson] = useState<string>('Bob Jones')
+  const [description] = useState<string>('Bob is clebrating his 25th birthday, lets buy him some gifts');
+  const [specialDate] = useState<string>('5-10-23')
+  const [pledges] = useState<Pledge>({ leader: 'John', friends: ['claire', 'jake'] })
+
   return (
     <div>
       <div className={styles.top_container}>
@@ -13,7 +24,7 @@ export const Plan = (): JSX.Element => {
           </button>
         </div>
         <div className={styles.special_person_wrapper}>
-          <h1 className={styles.special_person}>Special Person: Bob Jones</h1>
+          <h1 className={styles.special_person}>Special Person: {specialPerson}</h1>
         </div>
         <div className={styles.collected_container}>
           <h4 id={styles.collected_h4}>Amount Collected: 4124</h4>
@@ -24,23 +35,7 @@ export const Plan = (): JSX.Element => {
       </div>
 
       <section className={styles.plan_section}>
-        <div className={styles.plan_description}>
-          <button className={styles.plan_btn}>
-            <FontAwesomeIcon icon={icon({ name: 'pen' })} className={styles.fa_pen} />
-          </button>
-          <article>
-            <div className={styles.plan_flex_1}>
-              <p id='description'>Bob is clebrating his 25th birthday, lets buy him some gifts</p>
-              <div id='special-date'>special date: 5-10-23</div>
-              <h5>wish list</h5>
-              <ul>
-                <li>thing 1</li>
-                <li>thing 2</li>
-                <li>thing 3</li>
-              </ul>
-            </div>
-          </article>
-        </div>
+        <PlanDescription description={description} specialDate={specialDate}/>
 
         <div className={styles.idea_list}>
           <h4 id='idea-list-heading'>Idea list</h4>
@@ -57,9 +52,10 @@ export const Plan = (): JSX.Element => {
         <div className={styles.pledge_list}>
           <h3 id='pledge'>Pledges</h3>
           <ul className='pledge-accepted'>
-            <li>leader: John</li>
-            <li>claire</li>
-            <li>Jake</li>
+            <li>leader: {pledges.leader}</li>
+            {pledges.friends.map(friend => (
+              <li>{friend}</li>
+            ))}
           </ul>
           <h3 id="pending-invites">Pending invites: </h3>
           <ul className='pledge-pending'>

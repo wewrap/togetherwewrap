@@ -36,7 +36,7 @@ ul {
   width: 19rem;
   height: 5.5rem;
   flex-flow: wrap;
-  background-color: #FFFF;
+  background-color: #F5f5f7;
   border-radius: 10px;
   box-shadow: 5px 5px 15px #d7d7d7;
   grid-column: 7;
@@ -52,7 +52,7 @@ ul {
   align-items: center;
 }
 
-.special_person{
+.special_person {
   margin: 0;
 }
 
@@ -99,11 +99,11 @@ ul {
   box-shadow: 5px 5px 15px #d7d7d7;
 }
 
-.plan_description,
+
 .idea_list,
 .pledge_list {
   margin: 1rem 1rem;
-  background-color: #FFFF;
+  background-color: #F5f5f7;
   border-radius: 10px;
   padding: 5px 15px;
   list-style-type: none;
@@ -111,14 +111,6 @@ ul {
 
 }
 
-.plan_description {
-  width: 80%;
-  height: 40rem;
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: flex-start;
-
-}
 
 .idea_list {
   width: 80%;
