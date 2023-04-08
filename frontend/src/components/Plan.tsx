@@ -9,37 +9,45 @@ export const Plan = (): JSX.Element => {
     <div>
       <div className={styles.top_container}>
         <div className='burger-btn-wrapper'>
-          <button className={styles.plan_btn }><FontAwesomeIcon icon={icon({ name: 'bars' })} /></button>
+          <button className={`${styles.plan_btn} ${styles.burger_btn}`}>
+            <FontAwesomeIcon icon={icon({ name: 'bars' })} className={styles.fa_bars} />
+          </button>
         </div>
-        <div id='special-person-wrapper'>
-        <h1 className='special-person'>Special Person: Bob Jones</h1>
+        <div className={styles.special_person_wrapper}>
+          <h1 className={styles.special_person}>Special Person: Bob Jones</h1>
         </div>
-        <div className='collected-container'>
-          <h4>Amount Collected: 4124</h4>
-          <button className={styles.plan_btn}> <FontAwesomeIcon icon={icon({ name: 'plus' })} /></button>
+        <div className={styles.collected_container}>
+          <h4 id={styles.collected_h4}>Amount Collected: 4124</h4>
+          <button className={styles.plan_btn}>
+            <FontAwesomeIcon icon={icon({ name: 'plus' })} className={styles.fa_plus} />
+          </button>
         </div>
       </div>
 
-      <section className='plan-section'>
-        <div id='plan-description'>
-          <button className={styles.plan_btn}><FontAwesomeIcon icon={icon({ name: 'pen' })} /></button>
+      <section className={styles.plan_section}>
+        <div className={styles.plan_description}>
+          <button className={styles.plan_btn}>
+            <FontAwesomeIcon icon={icon({ name: 'pen' })} className={styles.fa_pen} />
+          </button>
           <article>
-            <div className='plan-flex-1'>
-            <p id='description'>Bob is clebrating his 25th birthday, lets buy him some gifts</p>
-            <div id='special-date'>special date: 5-10-23</div>
-            <h5>wish list</h5>
-            <ul>
-              <li>thing 1</li>
-              <li>thing 2</li>
-              <li>thing 3</li>
-            </ul>
+            <div className={styles.plan_flex_1}>
+              <p id='description'>Bob is clebrating his 25th birthday, lets buy him some gifts</p>
+              <div id='special-date'>special date: 5-10-23</div>
+              <h5>wish list</h5>
+              <ul>
+                <li>thing 1</li>
+                <li>thing 2</li>
+                <li>thing 3</li>
+              </ul>
             </div>
           </article>
         </div>
 
-        <div id='idea-list'>
+        <div className={styles.idea_list}>
           <h4 id='idea-list-heading'>Idea list</h4>
-          <button className='plan-btn'> <FontAwesomeIcon icon={icon({ name: 'plus' })} /> </button>
+          <button className={styles.plan_btn}>
+            <FontAwesomeIcon icon={icon({ name: 'plus' })} className={styles.fa_plus} />
+          </button>
           <ul>
             <li>metallica shirt</li>
             <li>new books</li>
@@ -47,7 +55,7 @@ export const Plan = (): JSX.Element => {
             <li>movie tickets</li>
           </ul>
         </div>
-        <div id='pledge-list'>
+        <div className={styles.pledge_list}>
           <h3 id='pledge'>Pledges</h3>
           <ul className='pledge-accepted'>
             <li>leader: John</li>

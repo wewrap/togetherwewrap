@@ -20,16 +20,17 @@ ul {
   outline: inherit;
 }
 
-.plan-btn {
+.burger_btn {
+  width: 0;
 
 }
 
-div .collected-container {
+.collected_container {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 19rem;
-  height: 4.5rem;
+  height: 5.5rem;
   flex-flow: wrap;
   background-color: #FFFF;
   border-radius: 10px;
@@ -39,7 +40,7 @@ div .collected-container {
   gap: 0.5rem;
 }
 
-#special-person-wrapper {
+.special_person_wrapper {
   display: flex;
   text-align: left;
   grid-column: 2/5;
@@ -47,36 +48,42 @@ div .collected-container {
   align-items: center;
 }
 
-.collected-container h4 {
+.special_person{
+  margin: 0;
+}
+
+#collected_h4 {
   flex-basis: 100%;
   text-align: center;
+  text-align: center;
+  align-items: center;
+  margin: 0;
 }
 
 @media (min-width: 800px) {
-  .collected-container h4 {
+  #collected_h4 {
     text-align: center;
     flex-basis: auto;
     margin: 1rem;
   }
 
-  div .collected-container {
+  .collected_container {
     justify-content: space-between;
     width: 24rem;
-
   }
 }
 
-.fa-plus {
+.fa_plus {
   color: var(--pink);
   font-size: 2.5rem;
   margin: 0.1rem;
 }
 
-.fa-bars {
+.fa_bars {
   font-size: 2.5rem;
 }
 
-.plan-section {
+.plan_section {
   background-color: #AFFAE7;
   width: 90%;
   margin: 0 30px 60px auto;
@@ -87,9 +94,9 @@ div .collected-container {
   box-shadow: 5px 5px 15px #d7d7d7;
 }
 
-#plan-description,
-#idea-list,
-#pledge-list {
+.plan_description,
+.idea_list,
+.pledge_list {
   margin: 1rem 1rem;
   background-color: #FFFF;
   border-radius: 10px;
@@ -99,7 +106,7 @@ div .collected-container {
 
 }
 
-#plan-description {
+.plan_description {
   width: 80%;
   height: 40rem;
   display: flex;
@@ -108,21 +115,17 @@ div .collected-container {
 
 }
 
-#idea-list {
+.idea_list {
   width: 80%;
   height: 20rem;
 
 }
 
-#pledge-list {
+.pledge_list {
   width: 92%;
   box-sizing: border-box;
   grid-column: 4;
   margin: 0;
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-
-.burger-btn {
-  width: 0;
 }
