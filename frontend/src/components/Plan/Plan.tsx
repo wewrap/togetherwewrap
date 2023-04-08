@@ -1,8 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import styles from './Plan.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PlanDescription } from './PlanDescription'
+import { Memberslist } from './MembersList'
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 interface Pledge {
   leader: string
@@ -15,6 +18,19 @@ export const Plan = (): JSX.Element => {
   const [specialDate] = useState<string>('5-10-23')
   const [pledges] = useState<Pledge>({ leader: 'John', friends: ['claire', 'jake'] })
 
+  useEffect(() => {
+    void fetchPlan()
+  }, [])
+
+  const { planID } = useParams()
+  async function fetchPlan (): Promise<void> {
+    try {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      await axios.get(`http://localhost:8000/planID/${planID}`, { withCredentials: true })
+    } catch (err) {
+      console.error(err)
+    }
+  }
   return (
     <div>
       <div className={styles.top_container}>
@@ -35,7 +51,7 @@ export const Plan = (): JSX.Element => {
       </div>
 
       <section className={styles.plan_section}>
-        <PlanDescription description={description} specialDate={specialDate}/>
+        <PlanDescription description={description} specialDate={specialDate} />
 
         <div className={styles.idea_list}>
           <h4 id='idea-list-heading'>Idea list</h4>
@@ -49,22 +65,7 @@ export const Plan = (): JSX.Element => {
             <li>movie tickets</li>
           </ul>
         </div>
-        <div className={styles.pledge_list}>
-          <h3 id='pledge'>Pledges</h3>
-          <ul className='pledge-accepted'>
-            <li>leader: {pledges.leader}</li>
-            {pledges.friends.map(friend => (
-              <li>{friend}</li>
-            ))}
-          </ul>
-          <h3 id="pending-invites">Pending invites: </h3>
-          <ul className='pledge-pending'>
-            <li>Nick</li>
-            <li>Ana</li>
-            <li>emily</li>
-            <li>Ed</li>
-          </ul>
-        </div>
+        <Memberslist friends={pledges.friends} leader={pledges.leader} />
       </section>
     </div>
   )

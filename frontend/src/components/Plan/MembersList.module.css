@@ -1,0 +1,15 @@
+
+.members_list {
+  margin: 1rem 1rem;
+  background-color: #F5f5f7;
+  border-radius: 10px;
+  padding: 5px 15px;
+  list-style-type: none;
+  box-shadow: 5px 5px 15px #bcbcbc;
+  width: 92%;
+  box-sizing: border-box;
+  grid-column: 4;
+  margin: 0;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
