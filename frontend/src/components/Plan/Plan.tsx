@@ -1,14 +1,13 @@
-import React from 'react';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import styles from './Plan.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Plan = (): JSX.Element => {
-  'plan-btn burger-btn'
+  // const [description] = useState<any>();
   return (
     <div>
       <div className={styles.top_container}>
-        <div className='burger-btn-wrapper'>
+        <div className={styles.burger_btn_wrapper}>
           <button className={`${styles.plan_btn} ${styles.burger_btn}`}>
             <FontAwesomeIcon icon={icon({ name: 'bars' })} className={styles.fa_bars} />
           </button>

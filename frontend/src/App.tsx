@@ -5,7 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 import { TempLandingPage } from './components/tempLandingPage'
 import { Contacts } from './components/contacts'
 import { PlanForm } from './components/PlanForm'
-import { Plan } from './components/Plan'
+import { Plan } from './components/Plan/Plan'
 import './App.css'
 
 function App (): JSX.Element {

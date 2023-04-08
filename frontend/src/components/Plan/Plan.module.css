@@ -22,7 +22,11 @@ ul {
 
 .burger_btn {
   width: 0;
+}
 
+.burger_btn_wrapper {
+  display: flex;
+  justify-content: start;
 }
 
 .collected_container {
@@ -58,6 +62,7 @@ ul {
   text-align: center;
   align-items: center;
   margin: 0;
+  color: var(--black);
 }
 
 @media (min-width: 800px) {
