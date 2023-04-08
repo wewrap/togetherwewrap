@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true
@@ -19,5 +20,7 @@ module.exports = {
     eqeqeq: ['error', 'always'],
     '@typescript-eslint/no-misused-promises': 'off',
     '@typescript-eslint/semi': 'off'
-  }
+  },
+
+  ignorePatterns: ['frontend/src/stories/*']
 }
