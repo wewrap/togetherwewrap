@@ -7,6 +7,7 @@ export default class PlanService {
     const modelResponse = await PlanModel.dbCreateOneplan(data)
 
     if (modelResponse == undefined) throw new Error('model response is undefined')
+    
     return modelResponse
     } catch (err) {
       console.error('create plan service failed', err)
