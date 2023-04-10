@@ -8,14 +8,14 @@ export const createPlan = async (req: any, res: any, next: NextFunction): Promis
       description,
       startDate,
       endDate,
-      EventType
+      eventType
     } = req.body
 
     const planData = {
       description,
-      startDate,
-      endDate,
-      EventType
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+      specialEventType: eventType
     }
     const planRecord = await PlanService.initiatePlan(planData)
 
