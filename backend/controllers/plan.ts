@@ -1,7 +1,6 @@
 import PlanService from '../service/plan'
 import PlanMembership from '../service/planMembership'
-import { NextFunction } from 'express'
-
+import { type NextFunction } from 'express'
 
 export const createPlan = async (req: any, res: any, next: NextFunction): Promise<void> => {
   try {
@@ -9,7 +8,7 @@ export const createPlan = async (req: any, res: any, next: NextFunction): Promis
       description,
       startDate,
       endDate,
-      EventType,
+      EventType
     } = req.body
 
     const planData = {
@@ -25,7 +24,7 @@ export const createPlan = async (req: any, res: any, next: NextFunction): Promis
     const membershipData = {
       friends: req.body.friends,
       userID: req.user?.id,
-      planID: planRecord?.id,
+      planID: planRecord?.id
     }
 
     const planMembershipRecord = await PlanMembership.initiatePlanMembership(membershipData)
