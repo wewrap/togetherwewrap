@@ -64,7 +64,6 @@ passport.serializeUser((user: any, done: any) => {
   return done(null, user.id)
 })
 
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
 passport.deserializeUser(async (id: string, done: any) => {
   try {
     const user = await db.user.findFirst({
