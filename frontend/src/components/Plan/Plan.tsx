@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useParams } from 'react-router-dom';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import styles from './Plan.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PlanDescription } from './PlanDescription'
 import { Memberslist } from './MembersList'
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { fetchPlanData } from './hook/fetchPlanData'
+import { loadingStatus } from '../../utils/loadingStatus'
 
 interface Pledge {
   leader: string
@@ -18,19 +19,24 @@ export const Plan = (): JSX.Element => {
   const [specialDate] = useState<string>('5-10-23')
   const [pledges] = useState<Pledge>({ leader: 'John', friends: ['claire', 'jake'] })
 
-  useEffect(() => {
-    void fetchPlan()
-  }, [])
-
   const { planID } = useParams()
-  async function fetchPlan (): Promise<void> {
-    try {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      await axios.get(`http://localhost:8000/planID/${planID}`, { withCredentials: true })
-    } catch (err) {
-      console.error(err)
-    }
+
+  const [data, status] = fetchPlanData(planID)
+
+  if (status === loadingStatus.LOADING) {
+    return (
+      <div>
+        <p>loading plan</p>
+      </div>
+    )
+  } else if (status === loadingStatus.FAILED) {
+    return (
+      <div>
+        <p>couldn't fetch plan</p>
+      </div>
+    )
   }
+
   return (
     <div>
       <div className={styles.top_container}>
