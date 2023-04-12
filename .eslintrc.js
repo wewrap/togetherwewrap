@@ -21,7 +21,8 @@ module.exports = {
     '@typescript-eslint/no-misused-promises': 'off',
     '@typescript-eslint/semi': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off',
-    '@typescript-eslint/space-before-function-paren': 'off'
+    '@typescript-eslint/space-before-function-paren': 'off',
+    '@typescript-eslint/no-extraneous-class': 'off'
   },
 
   ignorePatterns: ['frontend/src/stories/*']
