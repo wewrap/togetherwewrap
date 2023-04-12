@@ -1,7 +1,7 @@
 import PlanModel from '../models/plan'
 
 export default class PlanService {
-  public static async initiatePlan (data: any): Promise<any> {
+  public static async initiatePlan(data: any): Promise<any> {
     try {
       const modelResponse = await PlanModel.dbCreateOneplan(data)
 

@@ -3,7 +3,7 @@ import { type Plan } from '@prisma/client'
 const db = prisma
 
 export default class PlanModel {
-  public static async dbCreateOneplan (incomingData: Plan): Promise<any> {
+  public static async dbCreateOneplan (incomingData: Plan): Promise<Plan | undefined> {
     try {
       const responseData = await db.plan.create({
         data: {
@@ -18,7 +18,7 @@ export default class PlanModel {
 
       return responseData
     } catch (err) {
-      console.log(`Error in dbCreateOnePlan: ${err}`)
+      console.error(`Error in dbCreateOnePlan: ${err}`)
     }
   }
 }
