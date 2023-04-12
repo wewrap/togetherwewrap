@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const fetchPlanData = (planIdParams: any): any => {
   const [status, setStatus] = useState<loadingStatus>(loadingStatus.UNLOADED)
-  const [data, setData] = useState<any>()
+  const [data, setData] = useState<any>(null)
 
   useEffect(() => {
     const controller = new AbortController();

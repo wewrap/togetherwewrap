@@ -31,7 +31,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/ --ext .tsx",
-    "storybook": "DISABLE_ESLINT_PLUGIN=true storybook dev -p 6006",
+    "sb": "DISABLE_ESLINT_PLUGIN=true storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "browserslist": {

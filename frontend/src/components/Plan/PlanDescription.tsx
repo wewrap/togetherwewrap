@@ -17,7 +17,7 @@ export const PlanDescription = ({ description, specialDate }: Props): JSX.Elemen
       <article>
         <div className={styles.plan_flex_1}>
           <p id='description'>{description}</p>
-          <div id='special-date'>special date: {specialDate}</div>
+          <p id='special-date'>special date: {new Date(specialDate)?.toLocaleDateString()}</p>
           <h5>wish list</h5>
           <ul>
             <li>thing 1</li>

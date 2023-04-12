@@ -14,10 +14,10 @@ interface Pledge {
 }
 
 export const Plan = (): JSX.Element => {
-  const [specialPerson] = useState<string>('Bob Jones')
-  const [description] = useState<string>('Bob is clebrating his 25th birthday, lets buy him some gifts');
-  const [specialDate] = useState<string>('5-10-23')
-  const [pledges] = useState<Pledge>({ leader: 'John', friends: ['claire', 'jake'] })
+  const [specialPerson, setSpecialPerson] = useState<string>('Bob Jones')
+  const [description, setDescription] = useState<string>('Bob is clebrating his 25th birthday, lets buy him some gifts');
+  const [specialDate, setSpecialDate] = useState<string>('5-10-23')
+  const [pledges, setPledges] = useState<Pledge>({ leader: 'John', friends: ['claire', 'jake'] })
 
   const { planID } = useParams()
 
@@ -36,6 +36,11 @@ export const Plan = (): JSX.Element => {
       </div>
     )
   }
+
+  setSpecialPerson(data?.specialPerson)
+  setDescription(data?.description)
+  setSpecialDate(data?.specialDate)
+  setPledges(data?.pledgeList)
 
   return (
     <div>
