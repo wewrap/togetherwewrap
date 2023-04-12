@@ -10,8 +10,8 @@ const facebookCallBackURL = process.env.FACEBOOK_CALLBACK_URL as string
 const googleCallBackURL = process.env.GOOGLE_CALLBACK_URL as string
 
 export {
-    secretcode, googleClientID,
-    googleClientSecret, facebookAppSecret,
-    facebookClientID, facebookCallBackURL,
-    googleCallBackURL
+  secretcode, googleClientID,
+  googleClientSecret, facebookAppSecret,
+  facebookClientID, facebookCallBackURL,
+  googleCallBackURL
 }
