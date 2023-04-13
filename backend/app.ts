@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import * as dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
@@ -17,8 +16,11 @@ import crypto from 'crypto'
 import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL } from './utils/config'
 import facebookStrategy from 'passport-facebook'
 import facebookOAuthRouter from './routes/facebookOAuth'
-import userDataRouter from './routes/userData'
 import loginAuthRouter from './routes/loginAuth'
+import planFormRouter from './routes/planForm'
+import { checkUserAuthorization } from './modules/auth'
+import userDataRouter from './routes/userData'
+
 dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -57,17 +59,23 @@ app.use(
   })
 )
 
+app.use(passport.session())
+
 passport.serializeUser((user: any, done: any) => {
   return done(null, user.id)
 })
 
-passport.deserializeUser(async (id: string, done: any): Promise<void> => {
-  const user = await db.user.findFirst({
-    where: {
-      id
-    }
-  })
-  return done(null, user)
+passport.deserializeUser(async (id: string, done: any) => {
+  try {
+    const user = await db.user.findFirst({
+      where: {
+        id
+      }
+    })
+    return done(null, user)
+  } catch (e) {
+    console.error(e)
+  }
 })
 
 passport.use(new GoogleStrategy({
@@ -75,7 +83,7 @@ passport.use(new GoogleStrategy({
   clientSecret: googleClientSecret,
   callbackURL: googleCallBackURL
 },
-async function verify (accessToken: any, refreshToken: any, profile: any, done: any): Promise<void> {
+async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
   try {
     const user = await db.user.findFirst({
       where: {
@@ -107,15 +115,14 @@ passport.use(new FacebookStrategy({
   callbackURL: facebookCallBackURL,
   profileFields: ['id', 'displayName', 'email'],
   enableProof: true
-},
-async function verify (accessToken: any, refreshToken: any, profile: any, done: any): Promise<void> {
+}, async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
   try {
     const user = await db.user.findFirst({
       where: {
         facebookID: profile.id
       }
     })
-    console.log(user)
+
     if (user === null) {
       const newUser = await db.user.create({
         data: {
@@ -141,7 +148,8 @@ passport.use(
     session: true,
     passReqToCallback: true
 
-  }, async function (req, email, password, done): Promise<void> {
+  },
+  async function (req, email, password, done) {
     const user = await db.user.findUnique({
       where: {
         email
@@ -162,119 +170,12 @@ passport.use(
   }
   ))
 
-app.use(passport.session())
-
-passport.serializeUser((user: any, done: any) => {
-  return done(null, user.id)
-})
-
-passport.deserializeUser(async (id: string, done: any) => {
-  const user = await db.user.findFirst({
-    where: {
-      id
-    }
-  })
-  return done(null, user)
-})
-
-passport.use(new GoogleStrategy({
-  clientID: googleClientID,
-  clientSecret: googleClientSecret,
-  callbackURL: googleCallBackURL
-},
-async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
-  try {
-    const user = await db.user.findFirst({
-      where: {
-        googleID: profile.id
-      }
-    })
-
-    if (user === null) {
-      const newUser = await db.user.create({
-        data: {
-          firstName: profile._json.given_name,
-          lastName: profile._json.family_name,
-          googleID: profile.id,
-          email: profile.emails[0].value
-        }
-      })
-      done(null, newUser)
-    } else {
-      done(null, user)
-    }
-  } catch (error) {
-    done(error, null)
-  }
-}))
-
-passport.use(new FacebookStrategy({
-  clientID: facebookClientID,
-  clientSecret: facebookAppSecret,
-  callbackURL: facebookCallBackURL,
-  profileFields: ['id', 'displayName', 'email'],
-  enableProof: true
-},
-async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
-  try {
-    const user = await db.user.findFirst({
-      where: {
-        facebookID: profile.id
-      }
-    })
-
-    if (user === null) {
-      const newUser = await db.user.create({
-        data: {
-          firstName: profile._json.name,
-          lastName: profile._json.name,
-          facebookID: profile._json.id,
-          email: profile._json.email
-        }
-      })
-      done(null, newUser)
-    } else {
-      done(null, user)
-    }
-  } catch (error) {
-    done(error, null)
-  }
-}
-));
-
-passport.use(
-  new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-    session: true,
-    passReqToCallback: true
-
-  },
-  async function (req, email, password, done) {
-    const user = await db.user.findUnique({
-      where: {
-        email
-      }
-    })
-
-    if ((user === null) || (user.salt === null)) {
-      done(null, false); return;
-    }
-
-    const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64');
-    if (user.password !== hashedPassword) {
-      done(null, false);
-    } else {
-      done(null, user);
-    }
-  }
-  ));
-
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
+app.use('/api/plan', checkUserAuthorization, planFormRouter)
 app.use('/signup', signUpAuth)
 app.use('/user-data', userDataRouter)
 
-export default app;
+export default app

@@ -1,5 +1,5 @@
-import { type User } from '@prisma/client'
-import express from 'express'
+import { type User } from '@prisma/client';
+import express from 'express';
 import passport from 'passport'
 const loginAuthRouter = express.Router()
 
