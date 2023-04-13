@@ -5,8 +5,8 @@ import React, { useContext } from 'react'
 import { UserContext } from './UserContext'
 
 export const TempLandingPage = (): JSX.Element => {
-  const user = useContext(UserContext)
-  console.log('🚀 ~ file: tempLandingPage.tsx:9 ~ TempLandingPage ~ user:', user)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [user, loadingStatus] = useContext(UserContext)
   const navigate = useNavigate()
 
   const handleLogout = async (): Promise<void> => {
@@ -20,7 +20,7 @@ export const TempLandingPage = (): JSX.Element => {
 
   return (
     <div>
-      <h1>WeWrap Home {user[0]?.firstName}</h1>
+      <h1>WeWrap Home {user.firstName}</h1>
       <button onClick={handleLogout}>Logout</button>
     </div>
   )

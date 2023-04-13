@@ -2,10 +2,8 @@ import React, { useContext } from 'react'
 import { Outlet } from 'react-router-dom'
 import { UserContext } from './UserContext'
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const ProtectedRoutes = () => {
+export const ProtectedRoutes = (): any => {
   const [user, loadingStatus] = useContext(UserContext)
-  console.log('🚀 ~ file: protectedRoutes.tsx:8 ~ ProtectedRoutes ~ user:', user, loadingStatus)
 
   if (user !== undefined && user !== null) {
     return (<Outlet />)

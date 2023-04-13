@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const fetchUser = () => {
+export const fetchUser = (): any => {
   const [user, setUser] = useState<any>(null)
   const [loadingStatus, setLoadingStatus] = useState<string>('unloaded')
 
@@ -15,7 +14,7 @@ export const fetchUser = () => {
         setLoadingStatus('loaded')
       } catch (error) {
         setLoadingStatus('error')
-        console.log(error)
+        console.error(error)
       }
     }
     void getUserData()
