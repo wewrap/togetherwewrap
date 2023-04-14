@@ -6,19 +6,20 @@ import styles from './PlanDescription.module.css'
 interface Props {
   description: string
   specialDate: string
+  specialPerson: string
 }
 
-export const PlanDescription = ({ description, specialDate }: Props): JSX.Element => {
+export const PlanDescription = ({ description, specialDate, specialPerson }: Props): JSX.Element => {
   return (
-    <div className={styles.plan_description}>
-      <button className={styles.plan_btn}>
+    <div className={styles.planDescription}>
+      <button className={styles.planBtn}>
         <FontAwesomeIcon icon={icon({ name: 'pen' })} className={styles.fa_pen} />
       </button>
       <article>
         <div className={styles.plan_flex_1}>
           <p id='description'>{description}</p>
           <p id='special-date'>special date: {new Date(specialDate)?.toLocaleDateString()}</p>
-          <h5>wish list</h5>
+          <h5>{specialPerson}'s wish list</h5>
           <ul>
             <li>thing 1</li>
             <li>thing 2</li>

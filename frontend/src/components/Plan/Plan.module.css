@@ -1,4 +1,4 @@
-.top_container {
+.topContainer {
   display: grid;
   padding: 0;
   grid-template-columns: 0.5fr repeat(5, 1fr);
@@ -11,7 +11,7 @@ ul {
   padding-left: 0;
 }
 
-.plan_btn {
+.planBtn {
   background: none;
   border: none;
   padding: 0;
@@ -20,16 +20,16 @@ ul {
   outline: inherit;
 }
 
-.burger_btn {
+.burgerBtn {
   width: 0;
 }
 
-.burger_btn_wrapper {
+.burgerBtnWrapper {
   display: flex;
   justify-content: start;
 }
 
-.collected_container {
+.collectedContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,7 +44,7 @@ ul {
   gap: 0.5rem;
 }
 
-.special_person_wrapper {
+.specialPersonWrapper {
   display: flex;
   text-align: left;
   grid-column: 2/5;
@@ -52,11 +52,11 @@ ul {
   align-items: center;
 }
 
-.special_person {
+.specialPerson {
   margin: 0;
 }
 
-#collected_h4 {
+#collectedH4 {
   flex-basis: 100%;
   text-align: center;
   text-align: center;
@@ -66,29 +66,29 @@ ul {
 }
 
 @media (min-width: 800px) {
-  #collected_h4 {
+  #collectedH4 {
     text-align: center;
     flex-basis: auto;
     margin: 1rem;
   }
 
-  .collected_container {
+  .collectedContainer {
     justify-content: space-between;
     width: 24rem;
   }
 }
 
-.fa_plus {
+.faPlus {
   color: var(--pink);
   font-size: 2.5rem;
   margin: 0.1rem;
 }
 
-.fa_bars {
+.faBars {
   font-size: 2.5rem;
 }
 
-.plan_section {
+.planSection {
   background-color: #AFFAE7;
   width: 90%;
   margin: 0 30px 60px auto;
@@ -100,7 +100,7 @@ ul {
 }
 
 
-.idea_list {
+/* .idea_list {
   margin: 1rem 1rem;
   background-color: #F5f5f7;
   border-radius: 10px;
@@ -109,4 +109,4 @@ ul {
   box-shadow: 5px 5px 15px #bcbcbc;
   width: 80%;
   height: 20rem;
-}
+} */

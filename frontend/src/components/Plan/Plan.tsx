@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
@@ -7,6 +8,7 @@ import { PlanDescription } from './PlanDescription'
 import { Memberslist } from './MembersList'
 import { fetchPlanData } from './hook/fetchPlanData'
 import { loadingStatus } from '../../utils/loadingStatus'
+import { PlanIdeaList } from './PlanIdeaList'
 
 interface Pledge {
   leader: string
@@ -21,61 +23,48 @@ export const Plan = (): JSX.Element => {
 
   const { planID } = useParams()
 
-  const [data, status] = fetchPlanData(planID)
+  // const [data, status] = fetchPlanData(planID)
 
-  if (status === loadingStatus.LOADING) {
-    return (
-      <div>
-        <p>loading plan</p>
-      </div>
-    )
-  } else if (status === loadingStatus.FAILED) {
-    return (
-      <div>
-        <p>couldn't fetch plan</p>
-      </div>
-    )
-  }
+  // if (status === loadingStatus.LOADING) {
+  //   return (
+  //     <div>
+  //       <p>loading plan</p>
+  //     </div>
+  //   )
+  // } else if (status === loadingStatus.FAILED) {
+  //   return (
+  //     <div>
+  //       <p>couldn't fetch plan</p>
+  //     </div>
+  //   )
+  // }
 
-  setSpecialPerson(data?.specialPerson)
-  setDescription(data?.description)
-  setSpecialDate(data?.specialDate)
-  setPledges(data?.pledgeList)
+  // setSpecialPerson(data?.specialPerson)
+  // setDescription(data?.description)
+  // setSpecialDate(data?.specialDate)
+  // setPledges(data?.pledgeList)
 
   return (
     <div>
-      <div className={styles.top_container}>
-        <div className={styles.burger_btn_wrapper}>
-          <button className={`${styles.plan_btn} ${styles.burger_btn}`}>
-            <FontAwesomeIcon icon={icon({ name: 'bars' })} className={styles.fa_bars} />
+      <div className={styles.topContainer}>
+        <div className={styles.burgerBtnWrapper}>
+          <button className={`${styles.planBtn} ${styles.burgerBtn}`}>
+            <FontAwesomeIcon icon={icon({ name: 'bars' })} className={styles.faBars} />
           </button>
         </div>
-        <div className={styles.special_person_wrapper}>
-          <h1 className={styles.special_person}>Special Person: {specialPerson}</h1>
+        <div className={styles.specialPersonWrapper}>
+          <h1 className={styles.specialPerson}>Special Person: {specialPerson}</h1>
         </div>
-        <div className={styles.collected_container}>
-          <h4 id={styles.collected_h4}>Amount Collected: 4124</h4>
-          <button className={styles.plan_btn}>
-            <FontAwesomeIcon icon={icon({ name: 'plus' })} className={styles.fa_plus} />
+        <div className={styles.collectedContainer}>
+          <h4 id={styles.collectedH4}>Amount Collected: 4124</h4>
+          <button className={styles.planBtn}>
+            <FontAwesomeIcon icon={icon({ name: 'plus' })} className={styles.faPlus} />
           </button>
         </div>
       </div>
-
-      <section className={styles.plan_section}>
-        <PlanDescription description={description} specialDate={specialDate} />
-
-        <div className={styles.idea_list}>
-          <h4 id='idea-list-heading'>Idea list</h4>
-          <button className={styles.plan_btn}>
-            <FontAwesomeIcon icon={icon({ name: 'plus' })} className={styles.fa_plus} />
-          </button>
-          <ul>
-            <li>metallica shirt</li>
-            <li>new books</li>
-            <li>book shelf</li>
-            <li>movie tickets</li>
-          </ul>
-        </div>
+      <section className={styles.planSection}>
+        <PlanDescription specialPerson={specialPerson} description={description} specialDate={specialDate} />
+        <PlanIdeaList />
         <Memberslist friends={pledges.friends} leader={pledges.leader} />
       </section>
     </div>

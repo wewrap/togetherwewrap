@@ -11,7 +11,7 @@ export const Memberslist = ({
 }: Props): JSX.Element => {
   return (
     <>
-      <div className={styles.members_list}>
+      <div className={styles.membersList}>
         <h3 id='members'>Members</h3>
         <ul className='members-accepted'>
           <li>leader: {leader}</li>
