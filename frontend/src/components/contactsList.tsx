@@ -48,8 +48,7 @@ export const ContactsList = () => {
         console.error(error)
       }
     }
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    getContacts()
+    // getContacts()
   }, [])
 
   return (
