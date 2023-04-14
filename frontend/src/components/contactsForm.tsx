@@ -28,7 +28,6 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
   const [phoneNumber, setPhoneNumber] = useState<string>('')
   const [notes, setNotes] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showError, setShowError] = useState<boolean>(false)
   const [showForm, setShowForm] = useState<boolean>(true)
 
@@ -167,6 +166,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
           <form onSubmit={handleSubmit}>
             <button type='button' onClick={handleClose}>X</button>
             {(errorMessage.length > 0) && <p className="error_message">{errorMessage}</p>}
+            {<p className="show_error">{showError}</p>}
             <div className="user_input">
               <label htmlFor="first_name">First name</label>
               <input

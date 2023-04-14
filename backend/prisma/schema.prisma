@@ -138,13 +138,13 @@ model UserContactRelationship {
 }
 
 model GiftChoice {
-  id          String   @id @default(uuid())
-  Pledge      Pledge   @relation(fields: [pledgeID], references: [id])
-  pledgeID    String
-  giftUrl     String
-  giftName    String
-  dateCreated DateTime @default(now())
-  price       Int
+  id        String   @id @default(uuid())
+  Pledge    Pledge   @relation(fields: [pledgeID], references: [id])
+  pledgeID  String
+  giftUrl   String
+  giftName  String
+  createdAt DateTime @default(now())
+  price     Int
 }
 
 model FinalGift {

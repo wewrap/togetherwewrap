@@ -35,7 +35,6 @@ export const ContactsList = () => {
   }
 
   const handleContactCreate = (newContact: Contact) => {
-    console.log(newContact)
     setContacts((prevState) => [...prevState, newContact])
   }
 
@@ -49,7 +48,8 @@ export const ContactsList = () => {
         console.error(error)
       }
     }
-    void getContacts()
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getContacts()
   }, [])
 
   return (
