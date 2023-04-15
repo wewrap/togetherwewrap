@@ -58,14 +58,13 @@ const testUser = {
 }
 
 const main = async (): Promise<void> => {
-  // create a test user
+  // create a test user,
   try {
     const salt = crypto.randomBytes(16).toString('base64');
     crypto.pbkdf2('test', salt, 310000, 32, 'sha256', async function (err, hashedPassword) {
-      if (err !== null) {
-        throw new Error('failed to create test user')
-      }
-      const bobTheTestUser = await db.user.create({
+      if (err !== null) throw new Error('failed to create test user')
+
+      await db.user.create({
         data: {
           email: testUser.email,
           firstName: testUser.firstName,
@@ -74,68 +73,69 @@ const main = async (): Promise<void> => {
           salt
         }
       })
-      console.log(bobTheTestUser);
     })
   } catch (err) {
     console.error(err)
   }
 
-  const bobTheTestUser = await db.user.findUniqueOrThrow({
-    where: {
-      email: 'test@gmail.com'
-    }
-  })
-
-  // create many users
-  await db.user.createMany({
-    data: realUsers
-  })
-
-  // bob adds a bunch of user
-  realUsers.map(async user => {
-    const userInDB = await db.user.findUniqueOrThrow({
+  // Execute 1 sec later
+  setTimeout(async () => {
+    const bobTheTestUser = await db.user.findFirstOrThrow({
       where: {
-        email: user.email
+        firstName: testUser.firstName
       }
+    })
+    // create many users
+    await db.user.createMany({
+      data: realUsers
     })
 
-    // bob sends friend request to a user
-    await db.userRelationship.create({
-      data: {
-        userID: bobTheTestUser.id,
-        friendsWithID: userInDB.id,
-        relationshipStatus: RelationshipStatus.FRIEND
-      }
-    })
+    // bob adds a bunch of user
+    realUsers.map(async user => {
+      const userInDB = await db.user.findUniqueOrThrow({
+        where: {
+          email: user.email
+        }
+      })
 
-    // user accepts bob's friend request
-    await db.userRelationship.create({
-      data: {
-        userID: userInDB.id,
-        friendsWithID: bobTheTestUser.id,
-        relationshipStatus: RelationshipStatus.FRIEND
-      }
-    })
+      // bob sends friend request to a user
+      const bobFriendRequestToUser = await db.userRelationship.create({
+        data: {
+          userID: bobTheTestUser.id,
+          friendsWithID: userInDB.id,
+          relationshipStatus: RelationshipStatus.PENDING_REQUEST
+        }
+      })
 
-    // update hyun relationship with john to 'friend'
-    await db.userRelationship.update({
-      where: {
-        id: bobTheTestUser.id
-      },
-      data: {
-        relationshipStatus: RelationshipStatus.FRIEND
-      }
+      // user accepts bob's friend request
+      await db.userRelationship.create({
+        data: {
+          userID: userInDB.id,
+          friendsWithID: bobTheTestUser.id,
+          relationshipStatus: RelationshipStatus.FRIEND
+        }
+      })
+
+      // update hyun relationship to 'friend'
+      await db.userRelationship.update({
+        where: {
+          id: bobFriendRequestToUser.id
+        },
+        data: {
+          relationshipStatus: RelationshipStatus.FRIEND
+        }
+      })
     })
-  })
+  }, 1000)
 }
 
 main()
-  .catch(async (e: Error) => {
-    console.error(`Failed seeding database, error: ${e}`)
-    await db.$disconnect()
-  })
-  .finally(async () => {
+  .then(async () => {
     console.log('Script executed successfully')
     await db.$disconnect()
     console.log('Disconnected fom DB')
+  })
+  .catch(async (e: Error) => {
+    console.error(`Failed seeding database, error: ${e}`)
+    await db.$disconnect()
   })
