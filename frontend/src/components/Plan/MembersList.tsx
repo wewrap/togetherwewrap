@@ -1,9 +1,7 @@
 import styles from './MembersList.module.css'
+import { type Member } from './Plan'
 
-interface Props {
-  leader: string
-  friends: string[]
-}
+type Props = Member
 
 export const Memberslist = ({
   leader,
@@ -16,7 +14,7 @@ export const Memberslist = ({
         <ul className='members-accepted'>
           <li>leader: {leader}</li>
           {friends.map(friend => (
-            <li key={friend}>{friend}</li>
+            <li key={friend.id}>{friend.firstName + friend.lastName}</li>
           ))}
         </ul>
         <h3 id="pending-invites">Pending invites: </h3>

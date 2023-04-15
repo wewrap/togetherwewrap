@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import styles from './Plan.module.css'
@@ -10,39 +10,39 @@ import { fetchPlanData } from './hook/fetchPlanData'
 import { loadingStatus } from '../../utils/loadingStatus'
 import { PlanIdeaList } from './PlanIdeaList'
 
-interface Pledge {
+export interface Member {
   leader: string
-  friends: string[]
+  friends: FriendList[]
+}
+
+export interface FriendList {
+  firstName: string
+  lastName: string
+  id: string
 }
 
 export const Plan = (): JSX.Element => {
-  const [specialPerson, setSpecialPerson] = useState<string>('Bob Jones')
-  const [description, setDescription] = useState<string>('Bob is clebrating his 25th birthday, lets buy him some gifts');
-  const [specialDate, setSpecialDate] = useState<string>('5-10-23')
-  const [pledges, setPledges] = useState<Pledge>({ leader: 'John', friends: ['claire', 'jake'] })
+  const { id } = useParams()
 
-  const { planID } = useParams()
+  const [data, status] = fetchPlanData(id)
 
-  // const [data, status] = fetchPlanData(planID)
-
-  // if (status === loadingStatus.LOADING) {
-  //   return (
-  //     <div>
-  //       <p>loading plan</p>
-  //     </div>
-  //   )
-  // } else if (status === loadingStatus.FAILED) {
-  //   return (
-  //     <div>
-  //       <p>couldn't fetch plan</p>
-  //     </div>
-  //   )
-  // }
-
-  // setSpecialPerson(data?.specialPerson)
-  // setDescription(data?.description)
-  // setSpecialDate(data?.specialDate)
-  // setPledges(data?.pledgeList)
+  if (status === loadingStatus.LOADING || status === loadingStatus.UNLOADED) {
+    return (
+      <div>
+        <p>loading plan</p>
+      </div>
+    )
+  } else if (status === loadingStatus.FAILED) {
+    return (
+      <div>
+        <p>couldn't fetch plan</p>
+      </div>
+    )
+  }
+  const specialPerson = (data.specialPerson)
+  const description = (data.description)
+  const specialDate = (data.specialDate)
+  const members: Member = (data.members)
 
   return (
     <div>
@@ -65,7 +65,7 @@ export const Plan = (): JSX.Element => {
       <section className={styles.planSection}>
         <PlanDescription specialPerson={specialPerson} description={description} specialDate={specialDate} />
         <PlanIdeaList />
-        <Memberslist friends={pledges.friends} leader={pledges.leader} />
+        <Memberslist friends={members?.friends} leader={members?.leader} />
       </section>
     </div>
   )

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { loadingStatus } from '../../../utils/loadingStatus'
 import axios from 'axios'
 
-export const fetchPlanData = (planIdParams: any): any => {
+export const fetchPlanData = (planIdParam: any): any => {
   const [status, setStatus] = useState<loadingStatus>(loadingStatus.UNLOADED)
   const [data, setData] = useState<any>(null)
 
@@ -12,11 +12,12 @@ export const fetchPlanData = (planIdParams: any): any => {
       try {
         setStatus(loadingStatus.LOADING)
         const response = await axios.get(
-          `http://localhost:8000/api/planID/${planIdParams}`,
+          `http://localhost:8000/api/plan/${planIdParam}`,
           {
             withCredentials: true,
             signal: controller.signal
           });
+        console.log(response.data)
         setData(response.data);
         setStatus(loadingStatus.LOADED);
       } catch (err) {
@@ -32,7 +33,7 @@ export const fetchPlanData = (planIdParams: any): any => {
     return () => {
       controller.abort();
     }
-  }, [planIdParams])
+  }, [])
 
   return [data, status]
 }
