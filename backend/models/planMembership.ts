@@ -1,9 +1,9 @@
-import { InviteStatus, type PlanMembership, Role } from '@prisma/client'
+import { InviteStatus, type PlanMembership, Role, type User } from '@prisma/client'
 import prisma from '../utils/prismaClient'
 const db = prisma
 
 export default class PlanMembershipModel {
-  public static async dbCreateOnePlanMembership (data: any): Promise<PlanMembership | undefined> {
+  public static async dbCreateOnePlanMembership(data: any): Promise<PlanMembership | undefined> {
     try {
       const responseData = await db.planMembership.create({
         data: {
@@ -20,7 +20,7 @@ export default class PlanMembershipModel {
     }
   }
 
-  public static async dbCreateManyPlanMembership (data: any): Promise<any | undefined> {
+  public static async dbCreateManyPlanMembership(data: any): Promise<any | undefined> {
     try {
       const responseData = await db.planMembership.createMany({
         data: data.friends.map((friend: any) => (
@@ -35,6 +35,26 @@ export default class PlanMembershipModel {
       return responseData
     } catch (err) {
       console.error(`Error in db.planMembership.createMany: ${err}`)
+    }
+  }
+
+  public static async dbReadPlanMembers(planID: string): Promise<Array<PlanMembership & {
+    user: User
+  }
+  > | null | undefined> {
+    try {
+      const responseData = await db.planMembership.findMany({
+        where: {
+          planID
+        },
+        include: {
+          user: true
+        }
+      })
+
+      return responseData
+    } catch (err) {
+      console.error(`Error in dbReadPlanMembers: ${err}`)
     }
   }
 }

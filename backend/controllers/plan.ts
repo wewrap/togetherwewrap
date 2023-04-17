@@ -38,3 +38,17 @@ export const createPlan = async (req: any, res: any, next: NextFunction): Promis
     res.status(400).send(' error')
   }
 }
+
+export const fetchPlan = async (req: any, res: any, next: NextFunction): Promise<void> => {
+  const planID = req.params.id
+
+  try {
+    const planRecord = await PlanService.fetchPlanData(planID)
+
+    if (planRecord === null) throw new Error(`unable to fetch plan ${planID}`)
+
+    res.status(200).send(planRecord)
+  } catch (err) {
+    console.error(`Controller failure: ${err}`)
+  }
+}
