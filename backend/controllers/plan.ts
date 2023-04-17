@@ -45,10 +45,13 @@ export const fetchPlan = async (req: any, res: any, next: NextFunction): Promise
   try {
     const planRecord = await PlanService.fetchPlanData(planID)
 
-    if (planRecord === null) throw new Error(`unable to fetch plan ${planID}`)
+    if (planRecord === null) throw new Error(`unable to fetch data for planID ${planID}`)
 
     res.status(200).send(planRecord)
   } catch (err) {
-    console.error(`Controller failure: ${err}`)
+    console.log(`Controller failure: ${err}`)
+    res.status(400).send({
+      error: `unable to fetch data for planID ${planID}`
+    })
   }
 }

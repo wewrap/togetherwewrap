@@ -16,11 +16,11 @@ export default class PlanService {
     }
   }
 
-  public static async fetchPlanData(planID: string): Promise<any> {
+  public static async fetchPlanData(planID: string): Promise<any | null> {
     try {
       const plan = await PlanModel.dbReadOnePlan(planID)
 
-      if (plan === undefined) throw new Error('model response is undefined')
+      if (plan === null) throw new Error('model response is null')
 
       const planMembers = await PlanMembershipModel.dbReadPlanMembers(planID)
 
@@ -58,7 +58,7 @@ export default class PlanService {
       }
       return planData
     } catch (err) {
-      console.error(`Service failure: failed to fetch plan: ${err}`)
+      console.error(`Service failure: failed to fetch plan ${err}`)
       return null
     }
   }

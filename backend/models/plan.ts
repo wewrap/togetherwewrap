@@ -22,7 +22,7 @@ export default class PlanModel {
     }
   }
 
-  public static async dbReadOnePlan(planID: string): Promise<Plan | undefined> {
+  public static async dbReadOnePlan(planID: string): Promise<Plan | null> {
     try {
       const responseData = await db.plan.findUnique({
         where: {
@@ -30,11 +30,12 @@ export default class PlanModel {
         }
       })
 
-      if (responseData === null) throw new Error(`Plan ${planID} was not found`)
+      if (responseData === null) throw new Error(`Plan ${planID} was not found in the database`)
 
       return responseData
     } catch (err) {
       console.error(`Error in dbReadOnePlan: ${err}`)
+      return null
     }
   }
 }
