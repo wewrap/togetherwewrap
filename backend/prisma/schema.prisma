@@ -118,8 +118,7 @@ model Contact {
   owner              User                      @relation(fields: [ownerID], references: [id])
   importantDateEvent ImportantDateEvent[]
   relationships      UserContactRelationship[]
-  Plan               Plan?                     @relation(fields: [planId], references: [id])
-  planId             String?
+  Plan               Plan[]
 }
 
 model ImportantDateEvent {
