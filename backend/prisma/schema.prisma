@@ -70,8 +70,8 @@ model Plan {
   specialEventType EventType
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
-  PlanMembership   PlanMembership[]
-  Contact          Contact[]
+  planMembership   PlanMembership[]
+  contacts         Contact[]
   FinalGift        FinalGift?
 }
 
@@ -123,18 +123,18 @@ model Contact {
 }
 
 model ImportantDateEvent {
-  id        String  @id @default(uuid())
-  contact   Contact @relation(fields: [contactID], references: [id])
+  id        String    @id @default(uuid())
+  contact   Contact   @relation(fields: [contactID], references: [id])
   contactID String
   date      String
-  eventType String
+  eventType EventType @default(OTHER)
 }
 
 model UserContactRelationship {
-  id               String  @id @default(uuid())
-  contact          Contact @relation(fields: [contactID], references: [id])
+  id               String           @id @default(uuid())
+  contact          Contact          @relation(fields: [contactID], references: [id])
   contactID        String
-  relationshipType String
+  relationshipType RelationshipType @default(OTHER)
 }
 
 model GiftChoice {
@@ -162,6 +162,17 @@ enum EventType {
   ACHIEVEMENT
   HOLIDAY
   OTHER
+}
+
+enum RelationshipType {
+  FRIEND
+  FAMILY
+  SPOUSE
+  COWORKER
+  CHILD
+  PARENT
+  OTHER
+  SIGNIFICANT_OTHER
 }
 
 model PlanMembership {

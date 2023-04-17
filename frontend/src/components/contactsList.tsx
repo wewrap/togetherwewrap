@@ -48,7 +48,7 @@ export const ContactsList = () => {
         console.error(error)
       }
     }
-    // getContacts()
+    void getContacts()
   }, [])
 
   return (
