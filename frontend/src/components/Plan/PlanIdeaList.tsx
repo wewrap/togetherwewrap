@@ -6,8 +6,9 @@ export const PlanIdeaList = (): JSX.Element => {
   return (
     <div className={styles.ideaList}>
       <div className={styles.ideaListBlock}>
-      <h4 id='idea-list-heading'>Idea list</h4>
+      <h4 className='idea-list-heading'>Idea list</h4>
       <ul className={styles.wishList}>
+        {/* TODO: Create an idea list component */}
         <li>metallica shirt</li>
         <li>new books</li>
         <li>book shelf</li>

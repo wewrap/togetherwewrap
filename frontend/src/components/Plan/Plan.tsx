@@ -24,7 +24,7 @@ export interface FriendList {
 export const Plan = (): JSX.Element => {
   const { id } = useParams()
 
-  const [data, status] = fetchPlanData(id)
+  const [data, status] = fetchPlanData(id as string)
 
   if (status === loadingStatus.LOADING || status === loadingStatus.UNLOADED) {
     return (
@@ -39,10 +39,8 @@ export const Plan = (): JSX.Element => {
       </div>
     )
   }
-  const specialPerson = (data.specialPerson)
-  const description = (data.description)
-  const specialDate = (data.specialDate)
-  const members: Member = (data.members)
+
+  const { specialPerson, description, specialDate, members } = data
 
   return (
     <div>
