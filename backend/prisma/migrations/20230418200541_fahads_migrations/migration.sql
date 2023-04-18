@@ -1,11 +1,5 @@
-/*
-  Warnings:
-
-  - Added the required column `contactID` to the `Plan` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- AlterTable
-ALTER TABLE `Plan` ADD COLUMN `contactID` VARCHAR(191) NOT NULL;
+ALTER TABLE `Plan` ADD COLUMN `contactID` VARCHAR(191) NULL;
 
 -- CreateTable
 CREATE TABLE `Contact` (
@@ -62,7 +56,7 @@ CREATE TABLE `FinalGift` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Plan` ADD CONSTRAINT `Plan_contactID_fkey` FOREIGN KEY (`contactID`) REFERENCES `Contact`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Plan` ADD CONSTRAINT `Plan_contactID_fkey` FOREIGN KEY (`contactID`) REFERENCES `Contact`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Contact` ADD CONSTRAINT `Contact_ownerID_fkey` FOREIGN KEY (`ownerID`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
