@@ -6,6 +6,7 @@ import { GetUserContext } from './components/UserContext'
 import { LoginForm } from './components/loginForm'
 import { SignUp } from './components/signup'
 import { TempLandingPage } from './components/tempLandingPage'
+import { PlanForm } from './components/PlanForm'
 
 function App (): JSX.Element {
   return (
@@ -14,6 +15,7 @@ function App (): JSX.Element {
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/contactPage" element={<Contacts />} />
+            <Route path="/planForm" element={<PlanForm />} />
           </Route>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />

@@ -9,7 +9,7 @@ export const fetchUser = (): any => {
     const getUserData = async (): Promise<void> => {
       try {
         setLoadingStatus('loading')
-        const userDataResponse = await axios.get('http://localhost:8000/user-data', { withCredentials: true })
+        const userDataResponse = await axios.get('http://localhost:8000/userData/1', { withCredentials: true })
         setUser(userDataResponse.data)
         setLoadingStatus('loaded')
       } catch (error) {

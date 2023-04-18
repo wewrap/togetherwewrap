@@ -7,11 +7,13 @@ export const ProtectedRoutes = (): any => {
 
   if (user !== undefined && user !== null) {
     return (<Outlet />)
-  } else if (loadingStatus === 'unloaded' || loadingStatus === 'loading') {
-    return (<h1>Loading user data...</h1>)
-  } else if (loadingStatus === 'error') {
-    return (<h1>Error fetching user</h1>)
-  } else {
-    return (<h1>Not authorized</h1>)
   }
+  if (loadingStatus === 'unloaded' || loadingStatus === 'loading') {
+    return (<h1>Loading user data...</h1>)
+  }
+  if (loadingStatus === 'error') {
+    return (<h1>Error fetching user</h1>)
+  }
+
+  return (<h1>Not authorized</h1>)
 }

@@ -1,9 +1,7 @@
 import express from 'express'
 const userDataRouter = express.Router()
 
-userDataRouter.get('/', (req, res) => {
-  console.log('hitting user-data')
-  console.log(req.user)
+userDataRouter.get('/:id', (req, res) => {
   if (req.user !== null && req.user !== undefined) {
     res.send(req.user)
     return

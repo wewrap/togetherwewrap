@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import React, { useContext } from 'react'
 import { UserContext } from './UserContext'
 
 export const TempLandingPage = (): JSX.Element => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [user, loadingStatus] = useContext(UserContext)
+  const user = useContext(UserContext)[0]
   const navigate = useNavigate()
 
   const handleLogout = async (): Promise<void> => {
