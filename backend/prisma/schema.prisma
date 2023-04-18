@@ -71,8 +71,39 @@ model Plan {
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   planMembership   PlanMembership[]
-  contacts         Contact[]
+  contact          Contact          @relation(fields: [contactID], references: [id])
+  contactID        String
   FinalGift        FinalGift?
+}
+
+model Contact {
+  id                 String                    @id @default(uuid())
+  email              String?
+  firstName          String
+  lastName           String?
+  phoneNumber        String?
+  notes              String?
+  source             String?
+  ownerID            String
+  owner              User                      @relation(fields: [ownerID], references: [id])
+  importantDateEvent ImportantDateEvent[]
+  relationships      UserContactRelationship[]
+  Plan               Plan[]
+}
+
+model ImportantDateEvent {
+  id        String  @id @default(uuid())
+  contact   Contact @relation(fields: [contactID], references: [id])
+  contactID String
+  date      String
+  eventType String
+}
+
+model UserContactRelationship {
+  id               String  @id @default(uuid())
+  contact          Contact @relation(fields: [contactID], references: [id])
+  contactID        String
+  relationshipType String
 }
 
 model Pledge {
@@ -106,36 +137,6 @@ enum InviteStatus {
   NOT_APPLICABLE
 }
 
-model Contact {
-  id                 String                    @id @default(uuid())
-  email              String?
-  firstName          String
-  lastName           String?
-  phoneNumber        String?
-  notes              String?
-  source             String?
-  ownerID            String
-  owner              User                      @relation(fields: [ownerID], references: [id])
-  importantDateEvent ImportantDateEvent[]
-  relationships      UserContactRelationship[]
-  Plan               Plan[]
-}
-
-model ImportantDateEvent {
-  id        String    @id @default(uuid())
-  contact   Contact   @relation(fields: [contactID], references: [id])
-  contactID String
-  date      String
-  eventType EventType @default(OTHER)
-}
-
-model UserContactRelationship {
-  id               String           @id @default(uuid())
-  contact          Contact          @relation(fields: [contactID], references: [id])
-  contactID        String
-  relationshipType RelationshipType @default(OTHER)
-}
-
 model GiftChoice {
   id        String   @id @default(uuid())
   Pledge    Pledge   @relation(fields: [pledgeID], references: [id])
@@ -161,17 +162,6 @@ enum EventType {
   ACHIEVEMENT
   HOLIDAY
   OTHER
-}
-
-enum RelationshipType {
-  FRIEND
-  FAMILY
-  SPOUSE
-  COWORKER
-  CHILD
-  PARENT
-  OTHER
-  SIGNIFICANT_OTHER
 }
 
 model PlanMembership {
