@@ -36,8 +36,8 @@ app.use(cors({
   origin: 'http://localhost:3000'
 }))
 
-app.use(express.json())
 app.use(passport.initialize())
+app.use(express.json())
 
 app.use(
   expressSession({
@@ -62,10 +62,12 @@ app.use(
 app.use(passport.session())
 
 passport.serializeUser((user: any, done: any) => {
+  console.log(user)
   return done(null, user.id)
 })
 
 passport.deserializeUser(async (id: string, done: any) => {
+  console.log(id)
   try {
     const user = await db.user.findFirst({
       where: {

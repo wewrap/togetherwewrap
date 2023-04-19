@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CreateAContactForm } from './contactsForm'
 import axios from 'axios'
 
@@ -41,7 +41,7 @@ export const ContactsList = () => {
   useEffect(() => {
     const getContacts = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/contacts')
+        const response = await axios.get('http://localhost:8000/contacts', { withCredentials: true })
         const contactsData = response.data.contacts as Contact[]
         setContacts(contactsData)
       } catch (error) {
