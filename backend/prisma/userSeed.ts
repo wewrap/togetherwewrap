@@ -58,82 +58,87 @@ const testUser = {
 }
 
 const main = async (): Promise<void> => {
-  // create a test user,
-  try {
-    const salt = crypto.randomBytes(16).toString('base64');
-    crypto.pbkdf2('test', salt, 310000, 32, 'sha256', async function (err, hashedPassword) {
-      if (err !== null) throw new Error('failed to create test user')
-
-      await db.user.create({
-        data: {
-          email: testUser.email,
-          firstName: testUser.firstName,
-          lastName: testUser.lastName,
-          password: hashedPassword.toString('base64'),
-          salt
-        }
-      })
-    })
-  } catch (err) {
-    console.error(err)
-  }
-
-  // Execute 1 sec later
-  setTimeout(async () => {
-    const bobTheTestUser = await db.user.findFirstOrThrow({
-      where: {
-        firstName: testUser.firstName
+  // create a test user
+  const cryptoPromise = (): unknown => {
+    return new Promise((resolve, reject) => {
+      try {
+        const salt = crypto.randomBytes(16).toString('base64');
+        crypto.pbkdf2('test', salt, 310000, 32, 'sha256', async function (err, hashedPassword) {
+          if (err !== null) throw new Error('failed to create test user')
+          const user = await db.user.create({
+            data: {
+              email: testUser.email,
+              firstName: testUser.firstName,
+              lastName: testUser.lastName,
+              password: hashedPassword.toString('base64'),
+              salt
+            }
+          })
+          resolve(user)
+        })
+      } catch (err) {
+        console.error(err)
+        reject(err)
       }
     })
-    // create many users
-    await db.user.createMany({
-      data: realUsers
+  }
+
+  await cryptoPromise()
+
+  const bobTheTestUser = await db.user.findFirstOrThrow({
+    where: {
+      firstName: testUser.firstName
+    }
+  })
+
+  // create many users
+  await db.user.createMany({
+    data: realUsers
+  })
+
+  // bob adds a bunch of user
+  await Promise.all(realUsers.map(async user => {
+    const userInDB = await db.user.findUniqueOrThrow({
+      where: {
+        email: user.email
+      }
     })
 
-    // bob adds a bunch of user
-    realUsers.map(async user => {
-      const userInDB = await db.user.findUniqueOrThrow({
-        where: {
-          email: user.email
-        }
-      })
-
-      // bob sends friend request to a user
-      const bobFriendRequestToUser = await db.userRelationship.create({
-        data: {
-          userID: bobTheTestUser.id,
-          friendsWithID: userInDB.id,
-          relationshipStatus: RelationshipStatus.PENDING_REQUEST
-        }
-      })
-
-      // user accepts bob's friend request
-      await db.userRelationship.create({
-        data: {
-          userID: userInDB.id,
-          friendsWithID: bobTheTestUser.id,
-          relationshipStatus: RelationshipStatus.FRIEND
-        }
-      })
-
-      // update hyun relationship to 'friend'
-      await db.userRelationship.update({
-        where: {
-          id: bobFriendRequestToUser.id
-        },
-        data: {
-          relationshipStatus: RelationshipStatus.FRIEND
-        }
-      })
+    // bob sends friend request to a user
+    const bobFriendRequestToUser = await db.userRelationship.create({
+      data: {
+        userID: bobTheTestUser.id,
+        friendsWithID: userInDB.id,
+        relationshipStatus: RelationshipStatus.PENDING_REQUEST
+      }
     })
-  }, 1000)
+
+    // user accepts bob's friend request
+    await db.userRelationship.create({
+      data: {
+        userID: userInDB.id,
+        friendsWithID: bobTheTestUser.id,
+        relationshipStatus: RelationshipStatus.FRIEND
+      }
+    })
+
+    // update bob relationship to 'friend'
+    await db.userRelationship.update({
+      where: {
+        id: bobFriendRequestToUser.id
+      },
+      data: {
+        relationshipStatus: RelationshipStatus.FRIEND
+      }
+    })
+  }))
 }
 
 main()
   .then(async () => {
     console.log('Script executed successfully')
     await db.$disconnect()
-    console.log('Disconnected fom DB')
+    console.log('Disconnected from DB')
   })
   .catch(async (e: Error) => {
     console.error(`Failed seeding database, error: ${e}`)
