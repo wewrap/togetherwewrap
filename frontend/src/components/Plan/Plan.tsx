@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import styles from './Plan.module.css'
@@ -26,7 +24,7 @@ export const Plan = (): JSX.Element => {
 
   const [data, status] = fetchPlanData(id as string)
 
-  if (status === loadingStatus.LOADING || status === loadingStatus.UNLOADED) {
+  if (status === loadingStatus.LOADING || status === loadingStatus.NOT_LOADED) {
     return (
       <div>
         <p>loading plan</p>

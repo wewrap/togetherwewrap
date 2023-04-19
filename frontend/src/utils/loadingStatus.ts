@@ -1,6 +1,6 @@
 export enum loadingStatus {
   LOADING = 'LOADING',
-  UNLOADED = 'UNLOADED',
+  NOT_LOADED = 'NOT_LOADED',
   LOADED = 'LOADED',
   FAILED = 'FAILED'
 }

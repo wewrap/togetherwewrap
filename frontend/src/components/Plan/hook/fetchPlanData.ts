@@ -3,7 +3,7 @@ import { loadingStatus } from '../../../utils/loadingStatus'
 import axios from 'axios'
 
 export const fetchPlanData = (planIdParam: string): any => {
-  const [status, setStatus] = useState<loadingStatus>(loadingStatus.UNLOADED)
+  const [status, setStatus] = useState<loadingStatus>(loadingStatus.NOT_LOADED)
   const [data, setData] = useState<any>(null)
 
   useEffect(() => {
