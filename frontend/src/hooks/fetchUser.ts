@@ -8,17 +8,17 @@ export const fetchUser = (): Array<string | User | null> => {
 
   useEffect(() => {
     const getUserData = async (): Promise<void> => {
-      try {
-        setLoadingStatus('loading')
-        const userDataResponse = await axios.get('http://localhost:8000/userData/1', { withCredentials: true })
-        setUser(userDataResponse.data)
-        setLoadingStatus('loaded')
-      } catch (error) {
-        setLoadingStatus('error')
-        console.error(error)
-      }
+      setLoadingStatus('loading')
+      const userDataResponse = await axios.get('http://localhost:8000/userData/1', { withCredentials: true })
+      setUser(userDataResponse.data)
+      setLoadingStatus('loaded')
     }
-    void getUserData()
+
+    getUserData()
+      .catch(err => {
+        setLoadingStatus('error')
+        console.error(err)
+      })
   }, [])
 
   return [user, loadingStatus]
