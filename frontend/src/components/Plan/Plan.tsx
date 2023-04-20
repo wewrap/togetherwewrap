@@ -38,6 +38,7 @@ export const Plan = (): JSX.Element => {
     )
   }
 
+  // TODO: Update this data object when the backend returns right shape
   const { specialPerson, description, specialDate, members } = data
 
   return (
@@ -52,7 +53,7 @@ export const Plan = (): JSX.Element => {
           <h1 className={styles.specialPerson}>Special Person: {specialPerson}</h1>
         </div>
         <div className={styles.collectedContainer}>
-          <h4 id={styles.collectedH4}>Amount Collected: 4124</h4>
+          <h4 className={styles.collectedH4}>Amount Collected: 4124</h4>
           <button className={styles.planBtn}>
             <FontAwesomeIcon icon={icon({ name: 'plus' })} className={styles.faPlus} />
           </button>

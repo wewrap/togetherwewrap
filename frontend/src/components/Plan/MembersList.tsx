@@ -1,12 +1,12 @@
 import styles from './MembersList.module.css'
 import { type Member } from './Plan'
 
-type Props = Member
+type MemberProps = Member
 
 export const Memberslist = ({
   leader,
   friends
-}: Props): JSX.Element => {
+}: MemberProps): JSX.Element => {
   return (
     <>
       <div className={styles.membersList}>
