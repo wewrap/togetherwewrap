@@ -1,5 +1,5 @@
 import prisma from '../utils/prismaClient'
-import { RelationshipStatus } from '@prisma/client'
+import { RelationshipStatus, type User } from '@prisma/client'
 import crypto from 'crypto'
 const db = prisma
 
@@ -59,8 +59,8 @@ const testUser = {
 
 const main = async (): Promise<void> => {
   // create a test user
-  const cryptoPromise = (): unknown => {
-    return new Promise((resolve, reject) => {
+  const cryptoPromise = async (): Promise<User> => {
+    return await new Promise((resolve, reject) => {
       try {
         const salt = crypto.randomBytes(16).toString('base64');
         crypto.pbkdf2('test', salt, 310000, 32, 'sha256', async function (err, hashedPassword) {
