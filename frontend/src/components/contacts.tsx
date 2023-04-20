@@ -24,7 +24,7 @@ export const Contacts = (): JSX.Element => {
   const [phoneNumber, setPhoneNumber] = useState<string>('')
   const [notes, setNotes] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
-  const [showError, setShowError] = useState<boolean>(false)
+  const [, setShowError] = useState<boolean>(false)
   // TODO T:110 (FK) Support adding addresses
   // const [address, setAddress] = useState<string>('')
 

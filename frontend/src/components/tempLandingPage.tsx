@@ -4,8 +4,14 @@ import React, { useContext } from 'react'
 import { UserContext } from './UserContext'
 
 export const TempLandingPage = (): JSX.Element => {
-  const user = useContext(UserContext)[0]
+  const [user, loadingStatus] = useContext(UserContext)
   const navigate = useNavigate()
+
+  if (user === null || loadingStatus === 'unloaded' || loadingStatus === 'loading') {
+    return (
+      <h1> loading... </h1>
+    )
+  }
 
   const handleLogout = async (): Promise<void> => {
     try {

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
+import { type User } from '../utils/types'
 import axios from 'axios'
 
-export const fetchUser = (): any => {
-  const [user, setUser] = useState<any>(null)
+export const fetchUser = (): Array<string | User | null> => {
+  const [user, setUser] = useState<User | null>(null)
   const [loadingStatus, setLoadingStatus] = useState<string>('unloaded')
 
   useEffect(() => {
