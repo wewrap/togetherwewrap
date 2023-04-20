@@ -48,7 +48,7 @@ export const ContactsList = () => {
         console.error(error)
       }
     }
-    void getContacts()
+    getContacts().catch(console.error)
   }, [])
 
   return (
@@ -62,18 +62,18 @@ export const ContactsList = () => {
             <p>{contact.firstName} {contact.lastName}</p>
             <p>{contact.email}</p>
             <p>{contact.phoneNumber}</p>
-            {contact.relationships && (
+            {contact.relationships !== null && (
               <ul>
-                {contact.relationships.map((relationship) => (
+                {contact.relationships?.map((relationship) => (
                   <li key={relationship.id}>
                     <p>{relationship.relationshipType}</p>
                   </li>
                 ))}
               </ul>
             )}
-            {contact.importantDateEvent && (
+            {(contact.importantDateEvent !== null) && (
               <ul>
-                {contact.importantDateEvent.map((importantDateEvent) => (
+                {contact.importantDateEvent?.map((importantDateEvent) => (
                   <li key={importantDateEvent.id}>
                     <p>{importantDateEvent.date}</p>
                     <p>{importantDateEvent.eventType}</p>

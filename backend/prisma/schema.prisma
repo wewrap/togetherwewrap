@@ -22,30 +22,9 @@ model User {
   paypalUrl      String?
   profile        Profile?
   contacts       Contact[]
-  User           UserRelationship[] @relation("self")
-  friendsWith    UserRelationship[] @relation("friendsWith")
   createdAt      DateTime           @default(now())
   updatedAt      DateTime           @updatedAt
-  PlanMembership PlanMembership[]
 }
-
-model UserRelationship {
-  id                 String             @id @default(uuid())
-  User               User               @relation("self", fields: [userID], references: [id])
-  userID             String
-  friendsWith        User               @relation("friendsWith", fields: [friendsWithID], references: [id])
-  friendsWithID      String
-  relationshipStatus RelationshipStatus @default(NOT_FRIEND)
-  createdAt          DateTime           @default(now())
-  updatedAt          DateTime           @updatedAt
-}
-
-enum RelationshipStatus {
-  FRIEND
-  PENDING_REQUEST
-  NOT_FRIEND
-}
-
 model Session {
   id        String   @id
   sid       String   @unique
@@ -62,20 +41,6 @@ model Profile {
   updatedAt DateTime @updatedAt
 }
 
-model Plan {
-  id               String           @id @default(uuid())
-  description      String
-  startDate        DateTime
-  endDate          DateTime
-  specialEventType EventType
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  planMembership   PlanMembership[]
-  contact          Contact?          @relation(fields: [contactID], references: [id])
-  contactID        String?
-  FinalGift        FinalGift?
-}
-
 model Contact {
   id                 String                    @id @default(uuid())
   email              String?
@@ -88,7 +53,6 @@ model Contact {
   owner              User                      @relation(fields: [ownerID], references: [id])
   importantDateEvent ImportantDateEvent[]
   relationships      UserContactRelationship[]
-  Plan               Plan[]
 }
 
 model ImportantDateEvent {
@@ -104,73 +68,4 @@ model UserContactRelationship {
   contact          Contact @relation(fields: [contactID], references: [id])
   contactID        String
   relationshipType String
-}
-
-model Pledge {
-  id           String         @id @default(uuid())
-  status       PledgeStatus
-  pledgeAmount Int
-  pledgeDate   DateTime?
-  membership   PlanMembership @relation(fields: [membershipID], references: [id])
-  membershipID String
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  GiftChoice   GiftChoice[]
-}
-
-enum PledgeStatus {
-  SENT_MONEY
-  HAVENT_SENT_MONEY
-}
-
-enum Role {
-  PLAN_LEADER
-  FRIEND
-  SPECIAL_PERSON
-}
-
-enum InviteStatus {
-  INVITED
-  RESENT_INVITE
-  ACCEPTED
-  DENY
-  NOT_APPLICABLE
-}
-
-model GiftChoice {
-  id        String   @id @default(uuid())
-  Pledge    Pledge   @relation(fields: [pledgeID], references: [id])
-  pledgeID  String
-  giftUrl   String
-  giftName  String
-  createdAt DateTime @default(now())
-  price     Int
-}
-
-model FinalGift {
-  id     String @id @default(uuid())
-  plan   Plan   @relation(fields: [planID], references: [id])
-  planID String @unique
-}
-
-enum EventType {
-  BIRTHDAY
-  ANNIVERSARY
-  GRADUATION
-  WEDDING
-  BABY_SHOWER
-  ACHIEVEMENT
-  HOLIDAY
-  OTHER
-}
-
-model PlanMembership {
-  id           String       @id @default(uuid())
-  plan         Plan         @relation(fields: [planID], references: [id])
-  planID       String
-  user         User         @relation(fields: [userID], references: [id])
-  userID       String
-  Pledge       Pledge[]
-  inviteStatus InviteStatus
-  role         Role
 }

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState } from 'react'
 import axios from 'axios'
 
@@ -30,6 +29,8 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [showError, setShowError] = useState<boolean>(false)
   const [showForm, setShowForm] = useState<boolean>(true)
+
+  const onlyLettersRegex = /^[A-Za-z\s]*$/;
 
   const resetForm = () => {
     setFirstName('')
@@ -133,6 +134,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     try {
+      // TODO(FK) T144: change url once app deployed
       await axios.post('http://localhost:8000/contacts', {
         firstName,
         lastName,
@@ -230,7 +232,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
                   value={relationshipType}
                   onChange={(event) => {
                     const value = event.target.value
-                    if (/^[A-Za-z\s]*$/.test(value)) {
+                    if (onlyLettersRegex.test(value)) {
                       setRelationshipType(value)
                     }
                   }}
@@ -270,7 +272,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
                   value={eventType}
                   onChange={(event) => {
                     const value = event.target.value
-                    if (/^[A-Za-z\s]*$/.test(value)) {
+                    if (onlyLettersRegex.test(value)) {
                       setEventType(value)
                     }
                   }}
@@ -282,14 +284,12 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
                   <input
                     type="text"
                     value={date.date}
-                    onChange={(event) => { handleImportantEventChange(index, 'date', event.target.value) }
-                    }
+                    onChange={(event) => { handleImportantEventChange(index, 'date', event.target.value) }}
                   />
                   <input
                     type="text"
                     value={date.eventType}
-                    onChange={(event) => { handleImportantEventChange(index, 'eventType', event.target.value) }
-                    }
+                    onChange={(event) => { handleImportantEventChange(index, 'eventType', event.target.value) }}
                   />
                   <button type="button" onClick={() => { handleRemoveImportantEvent(index) }}>
                     x
@@ -298,7 +298,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
               ))}
             </div>
             <div>
-              <button className="add_contact_button" type="submit">
+              <button className="addContactButton" type="submit">
                 Add contact
               </button>
             </div>

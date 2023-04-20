@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { type User } from '@prisma/client'
 import express from 'express'
-import prisma from '../utils/prismaClient'
+import db from '../utils/prismaClient'
 
 const contactCreatorRouter = express.Router()
-const db = prisma
 
 contactCreatorRouter.get('/', async function (req, res) {
   try {
@@ -36,13 +35,13 @@ contactCreatorRouter.post('/', async function (req, res) {
       }
     })
     await db.userContactRelationship.createMany({
-      data: req.body.relationships.map((relationship: { relationshipType: any }) => ({
+      data: req.body.relationships.map((relationship: { relationshipType: string }) => ({
         relationshipType: relationship.relationshipType,
         contactID: contact.id
       }))
     })
     await db.importantDateEvent.createMany({
-      data: req.body.importantDates.map((importantDate: { date: any, eventType: any }) => ({
+      data: req.body.importantDates.map((importantDate: { date: string, eventType: string }) => ({
         date: importantDate.date,
         eventType: importantDate.eventType,
         contactID: contact.id
