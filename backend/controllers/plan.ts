@@ -51,7 +51,7 @@ export const fetchPlan = async (req: any, res: any, next: NextFunction): Promise
     res.status(200).json(planRecord)
   } catch (err) {
     console.log(`Controller failure: ${err}`)
-    res.status(400).send({
+    res.status(400).json({
       error: `unable to fetch data for planID ${planID}`
     })
   }
