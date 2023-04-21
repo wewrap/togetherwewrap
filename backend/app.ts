@@ -173,24 +173,24 @@ app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
-app.use('/api/plan', checkUserAuthorization, planRouter)
+app.use('/api/plan', planRouter)
 app.use('/signup', signUpAuth)
 
-// test route
-app.get('/api/plan/:id', (req, res) => {
-  res.send({
-    specialPerson: 'matt',
-    description: 'get this man a present',
-    specialDate: '3-4-12',
-    members: {
-      leader: 'bob',
-      friends: [{
-        firstName: 'john',
-        lastName: 'canes',
-        id: '0'
-      }]
-    }
-  })
-})
+// // test route
+// app.get('/api/plan/:id', (req, res) => {
+//   res.send({
+//     specialPerson: 'matt',
+//     description: 'get this man a present',
+//     specialDate: '3-4-12',
+//     members: {
+//       leader: 'bob',
+//       friends: [{
+//         firstName: 'john',
+//         lastName: 'canes',
+//         id: '0'
+//       }]
+//     }
+//   })
+// })
 
 export default app
