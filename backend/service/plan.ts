@@ -1,4 +1,5 @@
 import { Role, type Plan, InviteStatus } from '@prisma/client'
+import { type GeneralPlanData } from '../utils/types'
 import PlanModel from '../models/plan'
 import PlanMembershipModel from '../models/planMembership'
 
@@ -16,7 +17,7 @@ export default class PlanService {
     }
   }
 
-  public static async fetchPlanData(planID: string): Promise<any | null> {
+  public static async fetchPlanData(planID: string): Promise<GeneralPlanData | null> {
     try {
       const plan = await PlanModel.dbReadOnePlan(planID)
 
@@ -26,7 +27,7 @@ export default class PlanService {
 
       if (planMembers === null || planMembers === undefined) throw new Error('Unable to fetch plan members')
 
-      const planData: any = {
+      const planData: GeneralPlanData = {
         description: plan.description,
         specialDate: plan.endDate,
         specialPerson: null,
@@ -53,6 +54,8 @@ export default class PlanService {
             case InviteStatus.INVITED:
               planData.members.pendingMembers.push(userWithPlanMembership)
               break;
+            default:
+              throw new Error('asd')
           }
         }
       }

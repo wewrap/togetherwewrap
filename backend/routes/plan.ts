@@ -17,4 +17,5 @@ planRouter.post('/',
   createPlan)
 
 planRouter.get('/:id', fetchPlan)
+
 export default planRouter
