@@ -173,7 +173,7 @@ app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
-app.use('/api/plan', planRouter)
+app.use('/api/plan', checkUserAuthorization, planRouter)
 app.use('/signup', signUpAuth)
 
 // // test route
