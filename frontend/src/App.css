@@ -10,10 +10,12 @@
     --orange-yellow: #FFC43D;
     --black: rgb(54, 51, 66);
     --mont: 'Montserrat', sans-serif;
+    --white: #F5f5f7
 }
 
 html {
     box-sizing: border-box;
+    font-size: 80%;
 }
 
 *,

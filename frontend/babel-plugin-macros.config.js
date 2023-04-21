@@ -3,3 +3,5 @@ module.exports = {
     license: 'free'
   }
 }
+
+// TODO: check if fronts will load in prodution

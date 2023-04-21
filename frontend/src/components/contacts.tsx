@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -26,7 +24,7 @@ export const Contacts = (): JSX.Element => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [showError, setShowError] = useState<boolean>(false);
+  const [, setShowError] = useState<boolean>(false);
   // TODO T:110 (FK) Support adding addresses
   // const [address, setAddress] = useState<string>('')
 
@@ -60,7 +58,7 @@ export const Contacts = (): JSX.Element => {
     index: number,
     field: keyof Relationship,
     value: any
-  ) => {
+  ): void => {
     setRelationships((prevRelationships) =>
       prevRelationships.map((type, i) =>
         i === index ? { ...type, [field]: value } : type
@@ -68,14 +66,14 @@ export const Contacts = (): JSX.Element => {
     );
   };
 
-  const handleRemoveRelationshipType = (index: number) => {
+  const handleRemoveRelationshipType = (index: number): void => {
     setRelationships((prevRelationships) => [
       ...prevRelationships.slice(0, index),
       ...prevRelationships.slice(index + 1)
     ]);
   };
 
-  const addImportantEvent = () => {
+  const addImportantEvent = (): void => {
     if (eventDate.trim() === '' || eventType.trim() === '') {
       setShowError(true);
       return;
@@ -95,7 +93,7 @@ export const Contacts = (): JSX.Element => {
     index: number,
     field: keyof ImportantDate,
     value: any
-  ) => {
+  ): void => {
     setImportantDates((prevDates) =>
       prevDates.map((date, i) =>
         i === index ? { ...date, [field]: value } : date
@@ -103,14 +101,14 @@ export const Contacts = (): JSX.Element => {
     );
   };
 
-  const handleRemoveImportantEvent = (index: number) => {
+  const handleRemoveImportantEvent = (index: number): void => {
     setImportantDates((prevDates) => [
       ...prevDates.slice(0, index),
       ...prevDates.slice(index + 1)
     ]);
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     try {
       await axios.post('http://localhost:8000/user/contacts', {

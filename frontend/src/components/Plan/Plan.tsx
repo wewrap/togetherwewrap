@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 import styles from './Plan.module.css'
@@ -12,10 +10,10 @@ import { PlanIdeaList } from './PlanIdeaList'
 
 export interface Member {
   leader: string
-  friends: FriendList[]
+  friends: Friend[]
 }
 
-export interface FriendList {
+export interface Friend {
   firstName: string
   lastName: string
   id: string
@@ -24,9 +22,9 @@ export interface FriendList {
 export const Plan = (): JSX.Element => {
   const { id } = useParams()
 
-  const [data, status] = fetchPlanData(id)
+  const [data, status] = fetchPlanData(id as string)
 
-  if (status === loadingStatus.LOADING || status === loadingStatus.UNLOADED) {
+  if (status === loadingStatus.LOADING || status === loadingStatus.NOT_LOADED) {
     return (
       <div>
         <p>loading plan</p>
@@ -39,10 +37,9 @@ export const Plan = (): JSX.Element => {
       </div>
     )
   }
-  const specialPerson = (data.specialPerson)
-  const description = (data.description)
-  const specialDate = (data.specialDate)
-  const members: Member = (data.members)
+
+  // TODO: Update this data object when the backend returns right shape
+  const { specialPerson, description, specialDate, members } = data
 
   return (
     <div>
@@ -56,7 +53,7 @@ export const Plan = (): JSX.Element => {
           <h1 className={styles.specialPerson}>Special Person: {specialPerson}</h1>
         </div>
         <div className={styles.collectedContainer}>
-          <h4 id={styles.collectedH4}>Amount Collected: 4124</h4>
+          <h4 className={styles.collectedH4}>Amount Collected: 4124</h4>
           <button className={styles.planBtn}>
             <FontAwesomeIcon icon={icon({ name: 'plus' })} className={styles.faPlus} />
           </button>

@@ -65,17 +65,5 @@
     "prop-types": "^15.8.1",
     "storybook": "^7.0.2",
     "webpack": "^5.78.0"
-  },
-  "eslintConfig": {
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ]
   }
 }

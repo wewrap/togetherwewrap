@@ -8,7 +8,7 @@ import { PlanForm } from './components/PlanForm'
 import { Plan } from './components/Plan/Plan'
 import './App.css'
 
-function App (): JSX.Element {
+function App(): JSX.Element {
   return (
     <div>
       <Routes>
@@ -17,7 +17,7 @@ function App (): JSX.Element {
         <Route path="/tempLandingPage" element={<TempLandingPage />} />
         <Route path="/contactPage" element={<Contacts />} />
         <Route path="/planForm" element={<PlanForm />} />
-        <Route path="/planPage/:id" element={<Plan />} />
+        <Route path="/plan/:id" element={<Plan />} />
       </Routes>
     </div>
   )

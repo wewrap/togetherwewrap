@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { loadingStatus } from '../../../utils/loadingStatus'
 import axios from 'axios'
 
-export const fetchPlanData = (planIdParam: any): any => {
-  const [status, setStatus] = useState<loadingStatus>(loadingStatus.UNLOADED)
+export const fetchPlanData = (planIdParam: string): any => {
+  const [status, setStatus] = useState<loadingStatus>(loadingStatus.NOT_LOADED)
   const [data, setData] = useState<any>(null)
 
   useEffect(() => {
@@ -13,11 +13,11 @@ export const fetchPlanData = (planIdParam: any): any => {
         setStatus(loadingStatus.LOADING)
         const response = await axios.get(
           `http://localhost:8000/api/plan/${planIdParam}`,
+          // TODO: remove localhost hardcode
           {
             withCredentials: true,
             signal: controller.signal
           });
-        console.log(response.data)
         setData(response.data);
         setStatus(loadingStatus.LOADED);
       } catch (err) {

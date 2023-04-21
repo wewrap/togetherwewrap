@@ -1,6 +1,6 @@
 .ideaList {
   margin: 1rem 1rem;
-  background-color: #F5f5f7;
+  background-color: var(--white);
   border-radius: 10px;
   padding: 5px 15px;
   list-style-type: none;
@@ -16,7 +16,7 @@
   margin: 0.75rem 0 0 0.75rem;
 }
 
-.wishList > li {
+.wishList>li {
   margin-top: 1rem;
 }
 
