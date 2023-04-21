@@ -34,7 +34,7 @@ contactCreatorRouter.post('/', async function (req, res) {
         source: req.body.source
       }
     })
-    await db.userContactRelationship.createMany({
+    await db.contactRelationship.createMany({
       data: req.body.relationships.map((relationship: { relationshipType: string }) => ({
         relationshipType: relationship.relationshipType,
         contactID: contact.id

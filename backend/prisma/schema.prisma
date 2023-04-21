@@ -52,7 +52,7 @@ model Contact {
   ownerID            String
   owner              User                      @relation(fields: [ownerID], references: [id])
   importantDateEvent ImportantDateEvent[]
-  relationships      UserContactRelationship[]
+  relationships      ContactRelationship[]
 }
 
 model ImportantDateEvent {
@@ -63,9 +63,15 @@ model ImportantDateEvent {
   eventType String
 }
 
-model UserContactRelationship {
+model ContactRelationship {
   id               String  @id @default(uuid())
   contact          Contact @relation(fields: [contactID], references: [id])
   contactID        String
   relationshipType String
+}
+
+enum EventType {
+  BIRTHDAY
+  ANNIVERSARY
+  OTHER
 }
