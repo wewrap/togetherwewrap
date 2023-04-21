@@ -10,10 +10,10 @@ import { PlanIdeaList } from './PlanIdeaList'
 
 export interface Member {
   leader: string
-  friends: FriendList[]
+  friends: Friend[]
 }
 
-export interface FriendList {
+export interface Friend {
   firstName: string
   lastName: string
   id: string
