@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react';
+import axios from 'axios';
 
 interface ImportantDate {
   date: string
@@ -11,48 +11,48 @@ interface Relationship {
 }
 
 export const Contacts = (): JSX.Element => {
-  const [firstName, setFirstName] = useState<string>('')
-  const [lastName, setLastName] = useState<string>('')
-  const [relationships, setRelationships] = useState<Relationship[]>([])
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [relationships, setRelationships] = useState<Relationship[]>([]);
   const [importantDates, setImportantDates] = useState<ImportantDate[]>(
     []
-  )
-  const [eventDate, setEventDate] = useState<string>('')
-  const [eventType, setEventType] = useState<string>('')
-  const [relationshipType, setRelationshipType] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
-  const [phoneNumber, setPhoneNumber] = useState<string>('')
-  const [notes, setNotes] = useState<string>('')
-  const [errorMessage, setErrorMessage] = useState<string>('')
-  const [, setShowError] = useState<boolean>(false)
+  );
+  const [eventDate, setEventDate] = useState<string>('');
+  const [eventType, setEventType] = useState<string>('');
+  const [relationshipType, setRelationshipType] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [phoneNumber, setPhoneNumber] = useState<string>('');
+  const [notes, setNotes] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [, setShowError] = useState<boolean>(false);
   // TODO T:110 (FK) Support adding addresses
   // const [address, setAddress] = useState<string>('')
 
   const handleChange =
     (setState: React.Dispatch<React.SetStateAction<string>>) =>
       (event: React.ChangeEvent<HTMLInputElement>) => {
-        setState(event.target.value)
-      }
-  const handleFirstNameChange = handleChange(setFirstName)
-  const handleLastNameChange = handleChange(setLastName)
-  const handleEmailChange = handleChange(setEmail)
-  const handlePhoneNumberChange = handleChange(setPhoneNumber)
-  const handleNotesChange = handleChange(setNotes)
+        setState(event.target.value);
+      };
+  const handleFirstNameChange = handleChange(setFirstName);
+  const handleLastNameChange = handleChange(setLastName);
+  const handleEmailChange = handleChange(setEmail);
+  const handlePhoneNumberChange = handleChange(setPhoneNumber);
+  const handleNotesChange = handleChange(setNotes);
   // const handleAddressChange = handleChange(setAddress);
 
   const addRelationship = (): void => {
     if (relationshipType.trim() === '') {
-      setShowError(true)
-      return
+      setShowError(true);
+      return;
     }
     setRelationships((prevRelationships) => [
       ...prevRelationships,
       {
         type: relationshipType
       }
-    ])
-    setRelationshipType('')
-  }
+    ]);
+    setRelationshipType('');
+  };
 
   const handleRelationshipChange = (
     index: number,
@@ -70,13 +70,13 @@ export const Contacts = (): JSX.Element => {
     setRelationships((prevRelationships) => [
       ...prevRelationships.slice(0, index),
       ...prevRelationships.slice(index + 1)
-    ])
-  }
+    ]);
+  };
 
   const addImportantEvent = (): void => {
     if (eventDate.trim() === '' || eventType.trim() === '') {
-      setShowError(true)
-      return
+      setShowError(true);
+      return;
     }
     setImportantDates((prevDates) => [
       ...prevDates,
@@ -84,10 +84,10 @@ export const Contacts = (): JSX.Element => {
         date: eventDate,
         event: eventType
       }
-    ])
-    setEventDate('')
-    setEventType('')
-  }
+    ]);
+    setEventDate('');
+    setEventType('');
+  };
 
   const handleImportantEventChange = (
     index: number,
@@ -105,11 +105,11 @@ export const Contacts = (): JSX.Element => {
     setImportantDates((prevDates) => [
       ...prevDates.slice(0, index),
       ...prevDates.slice(index + 1)
-    ])
-  }
+    ]);
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    event.preventDefault()
+    event.preventDefault();
     try {
       await axios.post('http://localhost:8000/user/contacts', {
         firstName,
@@ -119,10 +119,10 @@ export const Contacts = (): JSX.Element => {
         email,
         phoneNumber,
         notes
-      })
+      });
     } catch (error) {
-      console.error(error)
-      setErrorMessage((error as any).response.data ?? 'Unknown error occured.')
+      console.error(error);
+      setErrorMessage((error as any).response.data ?? 'Unknown error occured.');
     }
   }
 
@@ -206,10 +206,10 @@ export const Contacts = (): JSX.Element => {
               <input
                 type="text"
                 value={type.type}
-                onChange={(event) => { handleRelationshipChange(index, 'type', event.target.value) }
+                onChange={(event) => { handleRelationshipChange(index, 'type', event.target.value); }
                 }
               />
-              <button type="button" onClick={() => { handleRemoveRelationshipType(index) }}>
+              <button type="button" onClick={() => { handleRemoveRelationshipType(index); }}>
                 x
               </button>
             </div>
@@ -221,8 +221,8 @@ export const Contacts = (): JSX.Element => {
               type="date"
               value={eventDate}
               onChange={(event) => {
-                const value = event.target.value
-                setEventDate(value)
+                const value = event.target.value;
+                setEventDate(value);
               }}
             />
           </label>
@@ -246,16 +246,16 @@ export const Contacts = (): JSX.Element => {
               <input
                 type="text"
                 value={date.date}
-                onChange={(event) => { handleImportantEventChange(index, 'date', event.target.value) }
+                onChange={(event) => { handleImportantEventChange(index, 'date', event.target.value); }
                 }
               />
               <input
                 type="text"
                 value={date.event}
-                onChange={(event) => { handleImportantEventChange(index, 'event', event.target.value) }
+                onChange={(event) => { handleImportantEventChange(index, 'event', event.target.value); }
                 }
               />
-              <button type="button" onClick={() => { handleRemoveImportantEvent(index) }}>
+              <button type="button" onClick={() => { handleRemoveImportantEvent(index); }}>
                 x
               </button>
             </div>

@@ -5,10 +5,13 @@ import { ProtectedRoutes } from './components/protectedRoutes'
 import { GetUserContext } from './components/UserContext'
 import { LoginForm } from './components/loginForm'
 import { SignUp } from './components/signup'
+import React from 'react'
 import { TempLandingPage } from './components/tempLandingPage'
 import { PlanForm } from './components/PlanForm'
+import { Plan } from './components/Plan/Plan'
+import './App.css'
 
-function App (): JSX.Element {
+function App(): JSX.Element {
   return (
     <div>
       <GetUserContext>
@@ -20,6 +23,9 @@ function App (): JSX.Element {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/tempLandingPage" element={<TempLandingPage />} />
+          <Route path="/contactPage" element={<Contacts />} />
+          <Route path="/planForm" element={<PlanForm />} />
+          <Route path="/plan/:id" element={<Plan />} />
         </Routes>
       </GetUserContext>
     </div >
