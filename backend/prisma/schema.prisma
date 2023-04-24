@@ -114,12 +114,23 @@ enum EventType {
 }
 
 model PlanMembership {
-  id           String       @id @default(uuid())
-  plan         Plan         @relation(fields: [planID], references: [id])
+  id           String           @id @default(uuid())
+  plan         Plan             @relation(fields: [planID], references: [id])
   planID       String
-  user         User         @relation(fields: [userID], references: [id])
+  user         User             @relation(fields: [userID], references: [id])
   userID       String
   Pledge       Pledge[]
   inviteStatus InviteStatus
   role         Role
+  giftIdeas    MemberGiftIdea[]
+}
+
+model MemberGiftIdea {
+  id             String         @id @default(uuid())
+  membershipID   String
+  membership     PlanMembership @relation(fields: [membershipID], references: [id])
+  productName    String
+  cost           Decimal
+  link           String
+  giftIdeasCount Int            @default(0)
 }
