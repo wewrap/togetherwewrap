@@ -5,6 +5,7 @@ import { UserContext } from './UserContext'
 export const ProtectedRoutes = (): any => {
   const [user, loadingStatus] = useContext(UserContext)
 
+  // TODO: Fix these loading status by using the enum
   if (user !== undefined && user !== null) {
     return (<Outlet />)
   }
