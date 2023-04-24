@@ -6,6 +6,7 @@ export const fetchUser = (): Array<string | User | null> => {
   const [user, setUser] = useState<User | null>(null)
   const [loadingStatus, setLoadingStatus] = useState<string>('unloaded')
 
+  // TODO: Fix these loading status by using the enum
   useEffect(() => {
     const getUserData = async (): Promise<void> => {
       setLoadingStatus('loading')
