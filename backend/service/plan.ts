@@ -38,9 +38,9 @@ export default class PlanService {
     const planData: GeneralPlanData = {
       description: plan.description,
       specialDate: plan.endDate,
-      specialPerson: null,
+      specialPerson: undefined,
       members: {
-        planLeader: null,
+        planLeader: undefined,
         acceptedMembers: [],
         pendingMembers: [],
         deniedMembers: []

@@ -3,9 +3,9 @@ import { type User } from '@prisma/client'
 export interface GeneralPlanData {
   description: string
   specialDate: Date
-  specialPerson: User | null
+  specialPerson: User | undefined
   members: {
-    planLeader: User | null
+    planLeader: User | undefined
     acceptedMembers: User[]
     pendingMembers: User[]
     deniedMembers: User[]
