@@ -59,7 +59,7 @@ export const SignUp = (): JSX.Element => {
         <div className = "container">
         <img src='./wewrap_green.png' alt='wewrap logo'></img>
         <h3 className = "weWrapTitle"> Sign Up for WeWrap </h3>
-        <p className = "createAccount" > Create a free account or&nbsp<Link to = "/login">log in </Link> </p>
+        <p className = "createAccount" > Create a free account or <Link to = "/login">log in </Link> </p>
             <form className = "signUpForm" onSubmit = {handleSubmit}>
                 <p className = "errorNotification"> {warning} </p>
                 <label htmlFor = "signUpFieldTitles"> First Name <span>*</span>
