@@ -17,7 +17,7 @@ export const SignUp = () => {
     const [hasSpecialChar, setHasSpecialChar] = useState<boolean>(false); 
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [warning, setWarning] = useState<string>(''); 
-    const specialCharRegex = /[\!\@\#\$\%\^\&\*\)\(\+\=\.\<\>\{\}\[\]\:\;\'\"\|\~\`\_\-]/g;
+    const specialCharRegex = /[^A-Za-z0-9]/;
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
