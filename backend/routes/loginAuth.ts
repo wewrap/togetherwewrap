@@ -1,20 +1,23 @@
-import { User } from "@prisma/client";
-import express from "express";
+import { type User } from '@prisma/client';
+import express from 'express';
 import passport from 'passport'
-import prisma from '../utils/prismaClient'
-
 const loginAuthRouter = express.Router()
-const db = prisma;
 
 loginAuthRouter.get('/password',
   function (req, res, next) {
-    res.render('login');
+    res.render('login')
+  })
+
+loginAuthRouter.post('/password', passport.authenticate('local'),
+  function (req, res) {
+    console.info('user from local auth: ' + (req.user as User).id);
+    res.redirect('/');
   });
 
-loginAuthRouter.post("/password", passport.authenticate('local'),
+loginAuthRouter.post('/password', passport.authenticate('local'),
   function (req, res) {
-    console.log('user from local auth: ' + (req.user as User).id);
-    res.redirect('/'); //this is not really working, the redirect is still coming from the client
+    console.info('user from local auth: ' + (req.user as User).id);
+    res.redirect('/'); // this is not really working, the redirect is still coming from the client
   });
 
 export default loginAuthRouter
