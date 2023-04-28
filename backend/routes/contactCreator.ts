@@ -5,7 +5,9 @@ import { createContact, getContacts } from '../controllers/contacts'
 
 const contactCreatorRouter = express.Router()
 
-contactCreatorRouter.get('/', getContacts)
+contactCreatorRouter.get('/',
+  handleInputErrors,
+  getContacts)
 
 contactCreatorRouter.post('/',
   body('firstName').isString(),
