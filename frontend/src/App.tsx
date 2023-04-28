@@ -1,11 +1,12 @@
 import { LoginForm } from './components/loginForm'
 import { SignUp } from './components/signup'
-import { TempLandingPage } from './components/tempLandingPage'
-import './index.css'
+import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { ContactsList } from './components/contactsList'
 import { PlanForm } from './components/PlanForm'
-import React from 'react'
+import { Plan } from './components/Plan/Plan'
+import { TempLandingPage } from './components/tempLandingPage'
+import './App.css'
 
 function App (): JSX.Element {
   return (
@@ -16,6 +17,7 @@ function App (): JSX.Element {
         <Route path="/tempLandingPage" element={<TempLandingPage />} />
         <Route path="/contactPage" element={<ContactsList />} />
         <Route path="/planForm" element={<PlanForm />} />
+        <Route path="/plan/:id" element={<Plan />} />
       </Routes>
     </div>
   )

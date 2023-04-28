@@ -178,4 +178,21 @@ app.use('/api/plan', checkUserAuthorization, planFormRouter)
 app.use('/signup', signUpAuth)
 app.use('/contacts', contactCreatorRouter)
 
+// test route
+app.get('/api/plan/:id', (req, res) => {
+  res.send({
+    specialPerson: 'matt',
+    description: 'get this man a present',
+    specialDate: '3-4-12',
+    members: {
+      leader: 'bob',
+      friends: [{
+        firstName: 'john',
+        lastName: 'canes',
+        id: '0'
+      }]
+    }
+  })
+})
+
 export default app
