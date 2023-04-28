@@ -3,7 +3,8 @@ import ContactModel from '../models/contacts'
 export default class ContactService {
   public static async createContact(data: any): Promise<any> {
     try {
-      const modelResponse = await ContactModel.dbCreateOneContact(data)
+      const { contact, relationships, importantDateEvents } = data
+      const modelResponse = await ContactModel.dbCreateOneContact(contact, relationships, importantDateEvents)
 
       if (modelResponse === undefined) throw new Error('model response is undefined')
 
@@ -13,9 +14,9 @@ export default class ContactService {
     }
   }
 
-  public static async getContacts(): Promise<any> {
+  public static async getContacts(ownerID: string): Promise<any> {
     try {
-      const modelResponse = await ContactModel.dbGetAllContacts()
+      const modelResponse = await ContactModel.dbGetAllContacts(ownerID)
 
       if (modelResponse === undefined) throw new Error('model response is undefined')
 

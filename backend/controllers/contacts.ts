@@ -39,7 +39,7 @@ export default class ContactController {
 
   public static async getContacts(req: any, res: any): Promise<void> {
     try {
-      const contacts = await ContactService.getContacts();
+      const contacts = await ContactService.getContacts(req.body.ownerID);
 
       res.status(200).json(contacts);
     } catch (err) {
