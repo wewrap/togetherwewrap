@@ -3,11 +3,11 @@ import { body } from 'express-validator'
 import { handleInputErrors } from '../modules/middleware'
 import { createContact, getContacts } from '../controllers/contacts'
 
-const contactRouter = express.Router()
+const contactCreatorRouter = express.Router()
 
-contactRouter.get('/', getContacts)
+contactCreatorRouter.get('/contact', getContacts)
 
-contactRouter.post('/',
+contactCreatorRouter.post('/',
   body('firstName').isString(),
   body('lastName').isString(),
   body('email').isEmail(),
@@ -20,4 +20,4 @@ contactRouter.post('/',
   handleInputErrors,
   createContact)
 
-export default contactRouter
+export default contactCreatorRouter
