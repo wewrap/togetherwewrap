@@ -1,18 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
-
-* {
-  font-family: 'Montserrat', sans-serif;
-  font-style: normal;
-}
-
 .login_form {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
-  background-color: #F8FFE5;
 }
 
 img {
@@ -42,7 +33,7 @@ h1 {
 
 form{
   background:#FFFFFF;
-  width: 420px;
+  width: 470px;
   height: auto;
   padding: 35px;
   border: 1px solid #D7D7D7;
@@ -100,7 +91,7 @@ span{
 }
 
 .login_button{
-  width: 420px;
+  width: 100%;
   height: 41px;
   font-style: normal;
   font-weight: 500;
@@ -148,4 +139,70 @@ a {
   color: white;
   font-size: 16px;
   text-align: center;
+}
+
+.googleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  background: #ffffff;
+  position: relative;
+  font-size: 15px;
+  cursor: pointer;
+  margin: auto;
+  border-radius: 6px;
+  border-style: solid;
+  border-color: #000000;
+  border-width: 1px;
+}
+
+
+.googleContainer p {
+  color: #000000;
+  margin-left: 10px;
+}
+
+.facebookContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 50px;
+  background: #4385f4;
+  position: relative;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 6px;
+}
+
+.facebookContainer p {
+  color: #FFFFFF;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.facebookContainer img,
+.googleContainer img {
+  height: 80%;
+  left: 4px;
+  object-fit: contain;
+  width: 12.5%;
+  margin: 0px;
+  border-radius: 3px;
+  position: absolute;
+}
+
+.orOAuth {
+  display: flex;
+  justify-content: center;
+}
+
+.orOAuth p {
+  font-size: 20px;
+  margin: 13px;
 }
