@@ -15,7 +15,7 @@ interface Props {
   handleContactCreate: (newContact: any) => void
 }
 
-export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCreate }: Props) => {
+export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCreate }: Props) => {
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [relationships, setRelationships] = useState<Relationship[]>([])
@@ -68,13 +68,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
       setShowError(true)
       return
     }
-    setRelationships((prevRelationships) => [
-      ...prevRelationships,
-      {
-        relationshipType
-      }
-    ])
-    setRelationshipType('')
+    setRelationships(relationships.concat([{ relationshipType }]))
   }
 
   const handleRelationshipChange = (
@@ -82,18 +76,19 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
     field: keyof Relationship,
     value: any
   ) => {
-    setRelationships((prevRelationships) =>
-      prevRelationships.map((type, i) =>
-        i === index ? { ...type, [field]: value } : type
-      )
-    )
+    setRelationships((prevRelationships) => {
+      const updatedRelationships = [...prevRelationships]
+      updatedRelationships.splice(index, 1, { ...updatedRelationships[index], [field]: value })
+      return updatedRelationships
+    })
   }
 
   const handleRemoveRelationshipType = (index: number) => {
-    setRelationships((prevRelationships) => [
-      ...prevRelationships.slice(0, index),
-      ...prevRelationships.slice(index + 1)
-    ])
+    setRelationships((prevRelationships) => {
+      const updatedRelationships = [...prevRelationships]
+      updatedRelationships.splice(index, 1)
+      return updatedRelationships
+    })
   }
 
   const addImportantEvent = () => {
@@ -101,15 +96,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
       setShowError(true)
       return
     }
-    setImportantDates((prevDates) => [
-      ...prevDates,
-      {
-        date: eventDate,
-        eventType
-      }
-    ])
-    setEventDate('')
-    setEventType('')
+    setImportantDates(importantDates.concat([{ date: eventDate, eventType }]))
   }
 
   const handleImportantEventChange = (
@@ -117,11 +104,11 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
     field: keyof ImportantDate,
     value: any
   ) => {
-    setImportantDates((prevDates) =>
-      prevDates.map((date, i) =>
-        i === index ? { ...date, [field]: value } : date
-      )
-    )
+    setImportantDates((prevDates) => {
+      const updatedDates = [...prevDates]
+      updatedDates.splice(index, 1, { ...updatedDates[index], [field]: value })
+      return updatedDates
+    })
   }
 
   const handleRemoveImportantEvent = (index: number) => {
@@ -179,7 +166,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
                 required
                 value={firstName}
                 onChange={handleFirstNameChange}
-              ></input>
+              />
 
               <label htmlFor="last_name">Last name</label>
               <input
@@ -190,7 +177,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
                 required
                 value={lastName}
                 onChange={handleLastNameChange}
-              ></input>
+              />
 
               <label htmlFor="email">Email</label>
               <input
@@ -201,7 +188,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
                 required
                 value={email}
                 onChange={handleEmailChange}
-              ></input>
+              />
 
               <label htmlFor="phone_number">Phone number</label>
               <input
@@ -212,7 +199,7 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
                 required
                 value={phoneNumber}
                 onChange={handlePhoneNumberChange}
-              ></input>
+              />
 
               <label htmlFor="notes">Extra Notes</label>
               <input
@@ -223,10 +210,10 @@ export const CreateAContactForm = ({ setShowCreateAContactForm, handleContactCre
                 required
                 value={notes}
                 onChange={handleNotesChange}
-              ></input>
+              />
 
               <label>
-                Relationship with Person
+                Relationship with Contact
                 <input
                   type="text"
                   value={relationshipType}

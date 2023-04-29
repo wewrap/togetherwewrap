@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { CreateAContactForm } from './contactsForm'
+import { useEffect, useState } from 'react'
+import { CreateContactForm } from './contactsForm'
 import axios from 'axios'
+// import type { Contact } from '@prisma/client'
 
 interface Contact {
   id: string
@@ -11,11 +12,11 @@ interface Contact {
   notes?: string
   source?: string
   ownerID: string
-  relationships?: UserContactRelationship[]
+  relationships?: ContactRelationship[]
   importantDateEvent?: ImportantDateEvent[]
 }
 
-interface UserContactRelationship {
+interface ContactRelationship {
   id: string
   relationshipType: string
 }
@@ -55,7 +56,7 @@ export const ContactsList = () => {
     <div>
       <h1>Contacts List</h1>
       <button onClick={toggleContactForm}>Add Contact</button>
-      {showCreateAContactForm && <CreateAContactForm setShowCreateAContactForm={setShowCreateAContactForm} handleContactCreate={handleContactCreate} />}
+      {showCreateAContactForm && <CreateContactForm setShowCreateAContactForm={setShowCreateAContactForm} handleContactCreate={handleContactCreate} />}
       <ul>
         {contacts.map((contact) => (
           <li key={contact.id}>

@@ -15,7 +15,7 @@ function App (): JSX.Element {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/tempLandingPage" element={<TempLandingPage />} />
-        <Route path="/contactPage" element={<ContactsList />} />
+        <Route path="/contacts" element={<ContactsList />} />
         <Route path="/planForm" element={<PlanForm />} />
         <Route path="/plan/:id" element={<Plan />} />
       </Routes>

@@ -4,24 +4,14 @@ import { type NextFunction } from 'express';
 export default class ContactController {
   public static async createContact(req: any, res: any, next: NextFunction): Promise<void> {
     try {
-      const {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        notes,
-        source,
-        ownerID
-      } = req.body;
-
       const contactData = {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        notes,
-        source,
-        ownerID,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        phoneNumber: req.body.phoneNumber,
+        notes: req.body.notes,
+        source: req.body.source,
+        ownerID: req.body.ownerID,
         relationships: req.body.relationships,
         importantDateEvent: req.body.importantDateEvent
       };
@@ -48,6 +38,3 @@ export default class ContactController {
     }
   }
 }
-
-export const createContact = ContactController.createContact
-export const getContacts = ContactController.getContacts

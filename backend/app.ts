@@ -176,7 +176,7 @@ app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
 app.use('/api/plan', checkUserAuthorization, planFormRouter)
 app.use('/signup', signUpAuth)
-app.use('/contacts', contactCreatorRouter)
+app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 
 // test route
 app.get('/api/plan/:id', (req, res) => {
