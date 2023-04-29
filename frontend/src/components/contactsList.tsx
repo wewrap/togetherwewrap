@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CreateContactForm } from './contactsForm'
 import axios from 'axios'
-// import type { Contact } from '@prisma/client'
 
 interface Contact {
   id: string
