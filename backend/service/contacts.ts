@@ -3,8 +3,7 @@ import ContactModel from '../models/contacts'
 export default class ContactService {
   public static async createContact(data: any): Promise<any> {
     try {
-      const { contact, relationships, importantDateEvents } = data
-      const modelResponse = await ContactModel.dbCreateOneContact(contact, relationships, importantDateEvents)
+      const modelResponse = await ContactModel.dbCreateOneContact(data)
 
       if (modelResponse === undefined) throw new Error('model response is undefined')
 

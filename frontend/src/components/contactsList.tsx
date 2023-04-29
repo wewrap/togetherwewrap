@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { CreateContactForm } from './contactsForm'
 import axios from 'axios'
 
-interface Contact {
+export interface Contact {
   id: string
   firstName: string
   lastName?: string
@@ -35,13 +35,14 @@ export const ContactsList = () => {
   }
 
   const handleContactCreate = (newContact: Contact) => {
-    setContacts((prevState) => [...prevState, newContact])
+    // setContacts((prevState) => [...prevState, newContact])
+    setContacts([newContact])
   }
 
   useEffect(() => {
     const getContacts = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/contacts', { withCredentials: true })
+        const response = await axios.get('http://localhost:8000/api/contacts', { withCredentials: true })
         const contactsData = response.data.contacts as Contact[]
         setContacts(contactsData)
       } catch (error) {
@@ -57,7 +58,7 @@ export const ContactsList = () => {
       <button onClick={toggleContactForm}>Add Contact</button>
       {showCreateAContactForm && <CreateContactForm setShowCreateAContactForm={setShowCreateAContactForm} handleContactCreate={handleContactCreate} />}
       <ul>
-        {contacts.map((contact) => (
+        {contacts?.map((contact) => (
           <li key={contact.id}>
             <p>{contact.firstName} {contact.lastName}</p>
             <p>{contact.email}</p>

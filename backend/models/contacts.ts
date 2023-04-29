@@ -1,37 +1,37 @@
 import prisma from '../utils/prismaClient'
-import { type Contact, type ContactRelationship, type ImportantDateEvent } from '@prisma/client'
+import { type Contact } from '@prisma/client'
 
 const db = prisma
 
 export default class ContactModel {
-  public static async dbCreateOneContact(contact: Contact, relationships: ContactRelationship[], importantDateEvents: ImportantDateEvent[]): Promise<Contact | undefined> {
+  public static async dbCreateOneContact(data: any): Promise<Contact | undefined> {
     try {
       const createdContact = await db.contact.create({
         data: {
-          firstName: contact.firstName,
-          lastName: contact.lastName,
-          email: contact.email,
-          phoneNumber: contact.phoneNumber,
-          notes: contact.notes,
-          ownerID: contact.ownerID,
-          source: contact.source
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phoneNumber: data.phoneNumber,
+          notes: data.notes,
+          ownerID: data.ownerID
         }
       })
       await db.contactRelationship.createMany({
-        data: relationships.map((relationship: { relationshipType: string }) => ({
+        data: data.relationships.map((relationship: { relationshipType: string }) => ({
           relationshipType: relationship.relationshipType,
-          contactID: contact.id
-        }))
-      })
-      await db.importantDateEvent.createMany({
-        data: importantDateEvents.map((importantDate: { date: string, eventType: string }) => ({
-          date: importantDate.date,
-          eventType: importantDate.eventType,
-          contactID: contact.id
+          contactID: createdContact.id
         }))
       })
 
-      if (createdContact === undefined) throw new Error(`Contact was not created: ${JSON.stringify(contact)}`)
+      await db.importantDateEvent.createMany({
+        data: data.importantDates.map((importantDate: { date: string, eventType: string }) => ({
+          date: importantDate.date,
+          eventType: importantDate.eventType,
+          contactID: createdContact.id
+        }))
+      })
+
+      if (createdContact === undefined) throw new Error(`Contact was not created: ${JSON.stringify(data)}`)
 
       return createdContact
     } catch (err) {

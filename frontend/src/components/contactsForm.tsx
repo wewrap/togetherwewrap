@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { type Contact } from './contactsList'
 
 type ImportantDate = {
   date: string
@@ -12,7 +13,7 @@ type Relationship = {
 
 interface Props {
   setShowCreateAContactForm: (value: boolean) => void
-  handleContactCreate: (newContact: any) => void
+  handleContactCreate: (newContact: Contact) => void
 }
 
 export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCreate }: Props) => {
@@ -122,7 +123,7 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
     event.preventDefault()
     try {
       // TODO(FK) T144: change url once app deployed
-      await axios.post('http://localhost:8000/contacts', {
+      const response = await axios.post('http://localhost:8000/api/contacts', {
         firstName,
         lastName,
         relationships,
@@ -134,13 +135,15 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
         withCredentials: true
       })
       handleContactCreate({
-        firstName,
-        lastName,
-        relationships,
-        importantDateEvent: importantDates,
-        email,
-        phoneNumber,
-        notes
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
+        relationships: response.data.relationships,
+        importantDateEvent: response.data.importantDates,
+        email: response.data.email,
+        phoneNumber: response.data.phoneNumber,
+        notes: response.data.notes,
+        id: response.data.id,
+        ownerID: response.data.ownerID
       })
     } catch (error) {
       console.error(error)

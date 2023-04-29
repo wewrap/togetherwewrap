@@ -10,17 +10,16 @@ export default class ContactController {
         email: req.body.email,
         phoneNumber: req.body.phoneNumber,
         notes: req.body.notes,
-        source: req.body.source,
-        ownerID: req.body.ownerID,
+        ownerID: req.user.id,
         relationships: req.body.relationships,
-        importantDateEvent: req.body.importantDateEvent
+        importantDates: req.body.importantDates
       };
 
       const contactRecord = await ContactService.createContact(contactData);
 
       if (contactRecord === undefined) throw new Error('create contact failed');
 
-      res.status(201).json(contactRecord);
+      res.status(201).json(contactData);
     } catch (err) {
       console.error('error in create contact', err);
       res.status(400).send('error');

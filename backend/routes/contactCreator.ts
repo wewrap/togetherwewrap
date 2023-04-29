@@ -15,10 +15,7 @@ contactCreatorRouter.post('/',
   body('email').isEmail(),
   body('phoneNumber').isString(),
   body('notes').isString(),
-  body('source').isString(),
-  body('ownerID').isString(),
   body('relationships').isArray(),
-  body('importantDateEvent').isArray(),
   handleInputErrors,
   ContactController.createContact)
 
