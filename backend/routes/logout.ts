@@ -2,14 +2,16 @@ import express from 'express';
 
 const logoutRouter = express.Router();
 
-logoutRouter.post('/logout', function(req, res, next) {
-  req.logout(function(err) {
+logoutRouter.post('/logout', function (req, res, next) {
+  req.logout(function (err) {
     if (err) {
-      next(err); return;
+      next(err);
+      return;
     }
-    req.session.destroy(function(err) {
+    req.session.destroy(function (err) {
       if (err) {
-        next(err); return;
+        next(err);
+        return;
       }
       res.redirect('http://localhost:3000/login');
     });

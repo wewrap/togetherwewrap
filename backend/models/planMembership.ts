@@ -3,7 +3,7 @@ import prisma from '../utils/prismaClient'
 const db = prisma
 
 export default class PlanMembershipModel {
-  public static async dbCreateOnePlanMembership(data: any): Promise<PlanMembership | undefined> {
+  public static async dbCreateOnePlanMembership(data: any): Promise<PlanMembership | null> {
     try {
       const responseData = await db.planMembership.create({
         data: {
@@ -17,6 +17,7 @@ export default class PlanMembershipModel {
       return responseData
     } catch (err) {
       console.error(`Error in db.planMembership.create: ${err}`)
+      return null
     }
   }
 
@@ -55,6 +56,7 @@ export default class PlanMembershipModel {
       return responseData
     } catch (err) {
       console.error(`Error in dbReadPlanMembers: ${err}`)
+      return null
     }
   }
 }

@@ -5,8 +5,6 @@ const signUpAuthRouter = express.Router()
 const db = prisma;
 
 signUpAuthRouter.post('/', async function(req, res, next) {
-  console.log(req.body);
-  console.log('hello');
   const existingUser = await db.user.findUnique({
     where: {
       email: req.body.email
