@@ -1,15 +1,15 @@
-import express from "express";
-const facebookOAuthRouter = express.Router()
+import express from 'express';
 import passport from 'passport'
+const facebookOAuthRouter = express.Router()
 
 facebookOAuthRouter.get('/',
-    passport.authenticate('facebook', {scope: ['email', 'public_profile']}));
+  passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
 
 facebookOAuthRouter.get('/callback',
-    passport.authenticate('facebook', { failureRedirect: '/login' }),
-    function (req, res) {
-        // Successful authentication, redirect home.
-        res.redirect('http://localhost:3000/tempLandingPage');
-    });
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('http://localhost:3000/tempLandingPage');
+  });
 
 export default facebookOAuthRouter
