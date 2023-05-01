@@ -14,10 +14,4 @@ loginAuthRouter.post('/password', passport.authenticate('local'),
     res.redirect('/');
   });
 
-loginAuthRouter.post('/password', passport.authenticate('local'),
-  function (req, res) {
-    console.info('user from local auth: ' + (req.user as User).id);
-    res.redirect('/'); // this is not really working, the redirect is still coming from the client
-  });
-
 export default loginAuthRouter
