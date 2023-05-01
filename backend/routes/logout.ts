@@ -1,20 +1,21 @@
-import express from "express";
-
+import express from 'express';
 
 const logoutRouter = express.Router();
 
-logoutRouter.post('/logout', function(req, res, next){
-    req.logout(function(err) {
+logoutRouter.post('/logout', function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      next(err);
+      return;
+    }
+    req.session.destroy(function (err) {
       if (err) {
-        return next(err);
+        next(err);
+        return;
       }
-      req.session.destroy(function(err) {
-        if (err) {
-          return next(err);
-        }
-        res.redirect('http://localhost:3000/login');
-      });
+      res.redirect('http://localhost:3000/login');
     });
   });
+});
 
-  export default logoutRouter;
+export default logoutRouter;

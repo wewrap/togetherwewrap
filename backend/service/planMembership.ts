@@ -1,6 +1,7 @@
 import PlanMembershipModel from '../models/planMembership';
 
 export default class PlanMembership {
+  // TODO: add a type for data
   public static async initiatePlanMembership(data: any): Promise<any> {
     try {
       const leaderPlanMembership = await PlanMembershipModel.dbCreateOnePlanMembership(data)

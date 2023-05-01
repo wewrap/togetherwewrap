@@ -1,6 +1,7 @@
 import PlanService from '../service/plan'
 import PlanMembership from '../service/planMembership'
 import { type NextFunction } from 'express'
+import { type GeneralPlanData } from '../utils/types'
 
 export const createPlan = async (req: any, res: any, next: NextFunction): Promise<void> => {
   try {
@@ -36,5 +37,22 @@ export const createPlan = async (req: any, res: any, next: NextFunction): Promis
     console.error('error in create plan', err)
     // placeholder for error handling
     res.status(400).send(' error')
+  }
+}
+
+export const fetchPlan = async (req: any, res: any, next: NextFunction): Promise<void> => {
+  const planID = req.params.id
+
+  try {
+    const planRecord: GeneralPlanData | null = await PlanService.fetchPlanData(planID)
+
+    if (planRecord === null) throw new Error(`unable to fetch data for planID ${planID}`)
+
+    res.status(200).json(planRecord)
+  } catch (err) {
+    console.info(`Controller failure: ${err}`)
+    res.status(400).json({
+      error: `unable to fetch data for planID ${planID}`
+    })
   }
 }

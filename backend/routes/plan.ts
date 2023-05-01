@@ -3,10 +3,10 @@ import express from 'express'
 import { EventType } from '@prisma/client'
 import { body } from 'express-validator'
 import { handleInputErrors } from '../modules/middleware'
-import { createPlan } from '../controllers/plan'
-const planFormRouter = express.Router()
+import { createPlan, fetchPlan } from '../controllers/plan'
+const planRouter = express.Router()
 
-planFormRouter.post('/',
+planRouter.post('/',
   body('description').isString(),
   body('startDate').isString(),
   body('startDate').isString(),
@@ -16,4 +16,6 @@ planFormRouter.post('/',
   handleInputErrors,
   createPlan)
 
-export default planFormRouter
+planRouter.get('/:id', fetchPlan)
+
+export default planRouter
