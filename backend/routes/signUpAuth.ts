@@ -14,6 +14,7 @@ signUpAuthRouter.post('/', async function (req, res, next) {
   if (existingUser !== null) {
     res.status(409).send('Existing email. Please use a different email.')
   } else {
+    // TODO: Abstract this sign up logic with a service & model
     const salt = crypto.randomBytes(16).toString('base64');
     crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', async function (err, hashedPassword) {
       if (err !== null) {
