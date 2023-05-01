@@ -63,8 +63,8 @@ export const Contacts = (): JSX.Element => {
       prevRelationships.map((type, i) =>
         i === index ? { ...type, [field]: value } : type
       )
-    );
-  };
+    )
+  }
 
   const handleRemoveRelationshipType = (index: number): void => {
     setRelationships((prevRelationships) => [
@@ -98,8 +98,8 @@ export const Contacts = (): JSX.Element => {
       prevDates.map((date, i) =>
         i === index ? { ...date, [field]: value } : date
       )
-    );
-  };
+    )
+  }
 
   const handleRemoveImportantEvent = (index: number): void => {
     setImportantDates((prevDates) => [
@@ -124,7 +124,7 @@ export const Contacts = (): JSX.Element => {
       console.error(error);
       setErrorMessage((error as any).response.data ?? 'Unknown error occured.');
     }
-  };
+  }
 
   return (
     <div className="contacts_form">
@@ -193,9 +193,9 @@ export const Contacts = (): JSX.Element => {
               type="text"
               value={relationshipType}
               onChange={(event) => {
-                const value = event.target.value;
+                const value = event.target.value
                 if (/^[A-Za-z\s]*$/.test(value)) {
-                  setRelationshipType(value);
+                  setRelationshipType(value)
                 }
               }}
             />
@@ -233,9 +233,9 @@ export const Contacts = (): JSX.Element => {
               type="text"
               value={eventType}
               onChange={(event) => {
-                const value = event.target.value;
+                const value = event.target.value
                 if (/^[A-Za-z\s]*$/.test(value)) {
-                  setEventType(value);
+                  setEventType(value)
                 }
               }}
             />
@@ -268,5 +268,5 @@ export const Contacts = (): JSX.Element => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}

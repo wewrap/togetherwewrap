@@ -19,6 +19,8 @@ import facebookOAuthRouter from './routes/facebookOAuth'
 import loginAuthRouter from './routes/loginAuth'
 import planFormRouter from './routes/planForm'
 import { checkUserAuthorization } from './modules/auth'
+import userDataRouter from './routes/userData'
+
 dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -33,9 +35,8 @@ app.use(morgan('dev'))
 app.use(cors({
   credentials: true,
   origin: 'http://localhost:3000'
-}))
-
-app.use(express.json())
+}));
+app.use(express.json());
 app.use(passport.initialize())
 
 app.use(
@@ -175,6 +176,7 @@ app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
 app.use('/api/plan', checkUserAuthorization, planFormRouter)
 app.use('/signup', signUpAuth)
+app.use('/userData', userDataRouter)
 
 // test route
 app.get('/api/plan/:id', (req, res) => {
