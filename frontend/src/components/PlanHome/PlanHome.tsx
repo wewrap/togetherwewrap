@@ -1,4 +1,5 @@
 import styles from './PlanHome.module.css'
+import editButton from '../../assets/editButton.png'
 
 export const PlanHome = (): JSX.Element => {
   return (
@@ -6,6 +7,7 @@ export const PlanHome = (): JSX.Element => {
       <section className={styles.plan}>
         <div className={styles.planTitleContainer}>
           <p className={styles.planTitle}>Justin's Retirement party plan</p>
+          <img src={editButton} alt='edit button' className={styles.editButton}/>
         </div>
         <div className={styles.pictureContainer}>
           picture
