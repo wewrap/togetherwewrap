@@ -1,0 +1,188 @@
+.background {
+  background: linear-gradient(180deg, #06D6A0 0%, #1B9AAA 100%);
+  width: 100%;
+  height: 900px;
+  position: absolute;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: start;
+  gap: 50px;
+
+  padding-top: 80px;
+  padding-bottom: 25px;
+  padding-left: 100px;
+}
+
+.plan {
+  display: grid;
+  grid-template-columns: repeat(3, 300px);
+  grid-auto-rows: min-content;
+  grid-auto-flow: row;
+  gap: 2rem;
+
+  width: 68%;
+
+
+}
+
+.pictureContainer {
+  box-sizing: border-box;
+  width: 379px;
+  height: 266px;
+  border: 1px solid #FFFFFF;
+  border-radius: 10px;
+}
+
+.planTitleContainer {
+  background-color: #06D6A0;
+  border: 1px solid #FFFFFF;
+  border-radius: 10px;
+  box-sizing: border-box;
+
+  position: relative;
+  width: auto;
+  height: auto;
+  grid-column: span 2;
+
+  overflow: hidden;
+}
+
+.planTitle {
+  margin-left: 30px;
+  margin-right: 30px;
+  font-weight: 800;
+  font-size: 50px;
+  line-height: 73px;
+  color: #FFFFFF;
+  display: inline-block;
+}
+
+.notesFeedContainer {
+  box-sizing: border-box;
+
+  height: 500px;
+  grid-row: span 2;
+
+  min-width: 300px;
+  max-width: 100%;
+
+  background: linear-gradient(180deg, #06D6A0 -34.18%, rgba(6, 214, 160, 0) 99.97%, #1B9AAA 99.99%);
+  opacity: 0.95;
+  border: 1px solid #FFFFFF;
+  border-radius: 10px;
+}
+
+.heading {
+  margin-top: 10px;
+  text-align: center;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 37px;
+  /* identical to box height */
+
+  color: #FFFFFF;
+
+  opacity: 0.95;
+}
+
+.memberListContainer {
+  width: auto;
+  height: auto;
+  align-self: stretch;
+
+  background: #1B9AAA;
+  border: 1px solid #FFFFFF;
+  border-radius: 10px;
+  grid-row: span 2;
+}
+
+.goalContainer {
+  width: 379px;
+
+  grid-row-start: 2;
+  grid-column-start: 3;
+
+  background: #06D6A0;
+  border: 1px solid #FFFFFF;
+  border-radius: 10px;
+}
+
+.goalAmount {
+  position: relative;
+  top: 50px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 45px;
+  line-height: 55px;
+  /* identical to box height */
+  text-align: center;
+
+
+  color: #FFFFFF;
+}
+
+.roleContainer {
+  box-sizing: border-box;
+  width: 379px;
+  height: auto;
+  background: linear-gradient(180deg, #06D6A1 23.32%, rgba(6, 214, 160, 0) 100%);
+  border: 1px solid #FFFFFF;
+  border-radius: 10px;
+}
+
+.progress {
+  display: flex;
+}
+
+.progressContainer {
+  background: linear-gradient(180deg, rgba(248, 255, 229, 0.31) 25.13%, #1B9AAA 100%);
+  border: 1px solid #FFFFFF;
+  border-radius: 10px;
+  width: 320px;
+  height: 790px;
+}
+
+.planProgressHeading {
+  font-style: normal;
+  text-align: center;
+  margin-top: 30px;
+  font-weight: 800;
+  font-size: 25px;
+  line-height: 30px;
+
+  color: #FFFFFF;
+
+  opacity: 0.85;
+}
+
+.planChoices {
+  margin-top: 40px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 23px;
+}
+
+.planChoices>button {
+  display: block;
+  background-color: var(--white);
+  border-radius: 20px;
+  border-style: none;
+  width: 277.33px;
+  height: 78.59px;
+  cursor: pointer;
+}
+
+.planChoices>button>span {
+  color: var(--black);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 23px;
+  line-height: 30px;
+}
