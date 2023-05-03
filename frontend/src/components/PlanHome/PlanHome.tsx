@@ -1,5 +1,6 @@
 import styles from './PlanHome.module.css'
 import editButton from '../../assets/editButton.png'
+import addMemberButton from '../../assets/addMemberButton.png'
 import { useParams } from 'react-router-dom'
 import { fetchPlanData } from '../Plan/hook/fetchPlanData'
 import { loadingStatus } from '../../utils/loadingStatus'
@@ -56,6 +57,12 @@ export const PlanHome = (): JSX.Element => {
           <div className={styles.whiteDivider}></div>
           <div className={`${styles.scrollable} ${styles.memberListWrapper}`}>
             <MemberList members={fakeUserData} />
+          </div>
+          <div className={styles.inviteMemberContainer}>
+            <button className={styles.addMemberBtn}> <img src={addMemberButton} /> </button>
+            <p>
+              Invite to group
+            </p>
           </div>
         </div>
 
