@@ -54,8 +54,19 @@
   font-weight: 800;
   font-size: 50px;
   line-height: 73px;
-  color: #FFFFFF;
+  color: var(--white);
   display: inline-block;
+}
+
+.giftEndDate {
+  position: absolute;
+  left: 30px;
+  bottom: 20px;
+
+  margin: 0;
+  color: var(--white);
+  font-weight: 500;
+  font-size: 20px;
 }
 
 .editButton {

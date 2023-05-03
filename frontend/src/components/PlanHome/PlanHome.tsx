@@ -35,6 +35,7 @@ export const PlanHome = (): JSX.Element => {
       <section className={styles.plan}>
         <div className={styles.planTitleContainer}>
           <p className={styles.planTitle}>Write your plan title here</p>
+          <p className={styles.giftEndDate}>Gift due by 3-20-23</p>
           <img src={editButton} alt='edit button' className={styles.editButton} />
         </div>
         <div className={styles.pictureContainer}>
