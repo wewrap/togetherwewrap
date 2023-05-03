@@ -58,12 +58,12 @@ export const PlanHome = (): JSX.Element => {
           <div className={`${styles.scrollable} ${styles.memberListWrapper}`}>
             <MemberList members={fakeUserData} />
           </div>
-          <div className={styles.inviteMemberContainer}>
-            <button className={styles.addMemberBtn}> <img src={addMemberButton} /> </button>
+          <button className={styles.inviteMemberContainer}>
+             <img src={addMemberButton} />
             <p>
               Invite to group
             </p>
-          </div>
+          </button>
         </div>
 
         <div className={styles.goalContainer}>
