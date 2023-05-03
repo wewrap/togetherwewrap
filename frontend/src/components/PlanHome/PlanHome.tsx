@@ -33,7 +33,6 @@ const planProgressCalculator = (currentStage: PlanStage): Array<planPercentage &
 }
 
 export const PlanHome = (): JSX.Element => {
-  const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
   const { id } = useParams();
 
   const [, status] = fetchPlanData(id as string)
@@ -52,6 +51,7 @@ export const PlanHome = (): JSX.Element => {
     )
   }
 
+  const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
   return (
     <div className={styles.background}>
       <section className={styles.plan}>
