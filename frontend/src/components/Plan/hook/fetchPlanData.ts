@@ -12,7 +12,7 @@ export const fetchPlanData = (planIdParam: string): any => {
       try {
         setStatus(loadingStatus.LOADING)
         const response = await axios.get(
-          `http://localhost:8000/api/plan/${planIdParam}`,
+          `/api/plan/${planIdParam}`,
           // TODO: remove localhost hardcode
           {
             withCredentials: true,

@@ -1,13 +1,38 @@
 import styles from './PlanHome.module.css'
 import editButton from '../../assets/editButton.png'
+import { useParams } from 'react-router-dom'
+import { fetchPlanData } from '../Plan/hook/fetchPlanData'
+import { loadingStatus } from '../../utils/loadingStatus'
+
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 export const PlanHome = (): JSX.Element => {
+  const progressPercentage = 30;
+  const { id } = useParams();
+
+  const [, status] = fetchPlanData(id as string)
+
+  if (status === loadingStatus.LOADING || status === loadingStatus.NOT_LOADED) {
+    return (
+      <div>
+        <p>loading plan</p>
+      </div>
+    )
+  } else if (status === loadingStatus.FAILED) {
+    return (
+      <div>
+        <p>couldn't fetch plan</p>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.background}>
       <section className={styles.plan}>
         <div className={styles.planTitleContainer}>
-          <p className={styles.planTitle}>Justin's Retirement party plan</p>
-          <img src={editButton} alt='edit button' className={styles.editButton}/>
+          <p className={styles.planTitle}>Write your plan title here</p>
+          <img src={editButton} alt='edit button' className={styles.editButton} />
         </div>
         <div className={styles.pictureContainer}>
           picture
@@ -16,7 +41,7 @@ export const PlanHome = (): JSX.Element => {
           <h3 className={styles.heading}>
             Notes Feed
           </h3>
-          <p>
+          <p className={styles.description}>
             Hey guys! Justin is retiring and we are buying him a gift.
             Please let me know if you have any questions. This Wrap will be lead by @Kevdev!
             -Adam
@@ -69,6 +94,21 @@ export const PlanHome = (): JSX.Element => {
             <button>
               <span>Delivery</span>
             </button>
+          </div>
+          <div className={styles.progressBarContainer}>
+            <p className={styles.progressStatus}>Plan has just started</p>
+            <p className={styles.itemsCompleted}>0 out of 6 completed</p>
+            <CircularProgressbar
+              value={progressPercentage}
+              text={`${progressPercentage}%`}
+              className={styles.progressBar}
+              styles={buildStyles({
+                textColor: 'white',
+                pathColor: '#FFC43D',
+                trailColor: 'white',
+                strokeLinecap: 'butt'
+              })}
+            />
           </div>
         </div>
       </section>

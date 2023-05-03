@@ -84,6 +84,12 @@
   border-radius: 10px;
 }
 
+.description {
+  margin: auto;
+  width: 80%;
+  margin-top: 20px;
+}
+
 .heading {
   margin-top: 10px;
   text-align: center;
@@ -185,7 +191,7 @@
   border-radius: 20px;
   border-style: none;
   width: 277.33px;
-  height: 78.59px;
+  height: 70px;
   cursor: pointer;
 }
 
@@ -195,4 +201,52 @@
   font-weight: 500;
   font-size: 23px;
   line-height: 30px;
+}
+
+.progressBarContainer {
+  position: relative;
+  margin: auto;
+  margin-top: 30px;
+  width: 277.33px;
+  height: 157.17px;
+
+  background: #1B9AAA;
+  border: 3px solid #FFFFFF;
+  border-radius: 20px;
+}
+
+.progressStatus {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 27px;
+
+  margin: 0;
+  width: 130px;
+  height: 70px;
+  color: var(--white);
+
+}
+
+.itemsCompleted {
+  position: absolute;
+  bottom: 50px;
+  left: 30px;
+
+  font-style: normal;
+  font-weight: 500;
+  font-size: 8px;
+  line-height: 10px;
+  color: var(--white);
+}
+
+.progressBar {
+  position: absolute;
+  width: 80.33px !important;
+  top: 40px;
+  right: 30px;
 }

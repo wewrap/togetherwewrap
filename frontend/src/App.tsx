@@ -8,7 +8,6 @@ import { SignUp } from './components/signup'
 import React from 'react'
 import { TempLandingPage } from './components/tempLandingPage'
 import { PlanForm } from './components/PlanForm'
-import { Plan } from './components/Plan/Plan'
 import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
 
@@ -26,8 +25,7 @@ function App(): JSX.Element {
           <Route path="/tempLandingPage" element={<TempLandingPage />} />
           <Route path="/contactPage" element={<Contacts />} />
           <Route path="/planForm" element={<PlanForm />} />
-          <Route path="/plan/:id" element={<Plan />} />
-          <Route path="/planhome/:id" element={<PlanHome />} />
+          <Route path="/plan/:id" element={<PlanHome />} />
         </Routes>
       </GetUserContext>
     </div >
