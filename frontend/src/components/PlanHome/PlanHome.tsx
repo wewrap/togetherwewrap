@@ -6,12 +6,34 @@ import { fetchPlanData } from '../Plan/hook/fetchPlanData'
 import { loadingStatus } from '../../utils/loadingStatus'
 import { fakeUserData } from '../PlanForm'
 import { MemberList } from './MemberList'
+import { PlanStage } from '../../utils/types'
 
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
+type planTaskCompleted = number;
+type planPercentage = number;
+
+const planProgressCalculator = (currentStage: PlanStage): Array<planPercentage & planTaskCompleted> => {
+  switch (currentStage) {
+    case PlanStage.UNINITIALIZED:
+    case PlanStage.BRAINSTORM:
+      return [0, 0]
+    case PlanStage.VOTING:
+      return [20, 1]
+    case PlanStage.POOL:
+      return [40, 2]
+    case PlanStage.PURCHASE:
+      return [60, 3]
+    case PlanStage.DELIVERY:
+      return [80, 4]
+    case PlanStage.COMPLETED:
+      return [100, 5]
+  }
+}
+
 export const PlanHome = (): JSX.Element => {
-  const progressPercentage = 20;
+  const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
   const { id } = useParams();
 
   const [, status] = fetchPlanData(id as string)
@@ -60,7 +82,7 @@ export const PlanHome = (): JSX.Element => {
             <MemberList members={fakeUserData} />
           </div>
           <button className={styles.inviteMemberContainer}>
-             <img src={addMemberButton} />
+            <img src={addMemberButton} />
             <p>
               Invite to group
             </p>
@@ -110,7 +132,7 @@ export const PlanHome = (): JSX.Element => {
           </div>
           <div className={styles.progressBarContainer}>
             <p className={styles.progressStatus}>Plan has just started</p>
-            <p className={styles.itemsCompleted}>0 out of 6 completed</p>
+            <p className={styles.itemsCompleted}>{taskCompleted} out of 5 completed</p>
             <CircularProgressbar
               value={progressPercentage}
               text={`${progressPercentage}%`}
