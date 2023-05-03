@@ -3,12 +3,14 @@ import editButton from '../../assets/editButton.png'
 import { useParams } from 'react-router-dom'
 import { fetchPlanData } from '../Plan/hook/fetchPlanData'
 import { loadingStatus } from '../../utils/loadingStatus'
+import { fakeUserData } from '../PlanForm'
+import { MemberList } from './MemberList'
 
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 export const PlanHome = (): JSX.Element => {
-  const progressPercentage = 30;
+  const progressPercentage = 20;
   const { id } = useParams();
 
   const [, status] = fetchPlanData(id as string)
@@ -51,7 +53,10 @@ export const PlanHome = (): JSX.Element => {
           <h3 className={styles.heading}>
             Group member
           </h3>
-          {/* TODO: add memberlist */}
+          <div className={styles.whiteDivider}></div>
+          <div className={`${styles.scrollable} ${styles.memberListWrapper}`}>
+            <MemberList members={fakeUserData} />
+          </div>
         </div>
 
         <div className={styles.goalContainer}>

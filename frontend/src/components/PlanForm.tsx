@@ -18,7 +18,7 @@ export interface Friend {
   firstName: string
 }
 
-const fakeUserData = [
+export const fakeUserData = [
   {
     firstName: 'john'
   },

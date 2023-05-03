@@ -104,13 +104,42 @@
 
 .memberListContainer {
   width: auto;
-  height: auto;
+  height: 500px;
   align-self: stretch;
 
   background: var(--blue);
   border: 1px solid var(--white);
   border-radius: 10px;
   grid-row: span 2;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px
+
+}
+
+.whiteDivider {
+  width: auto;
+  height: 2px;
+  background-color: var(--white);
+}
+
+.memberListWrapper {
+  height: 350px;
+}
+
+.scrollable {
+  overflow-y: scroll;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 10px;
+  background-color: none;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: var(--white);
+  border-radius: 20px;
 }
 
 .goalContainer {
