@@ -1,0 +1,8 @@
+.planFormBtn {
+  border: none;
+  background-color: var(--green);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  cursor: pointer;
+}

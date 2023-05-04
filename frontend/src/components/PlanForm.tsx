@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { SearchBarFilter } from './SearchBarFilter'
-import './PlanForm.css'
 import axios, { AxiosError } from 'axios'
+import styles from './PlanForm.module.css'
 
 enum EventType {
   BIRTHDAY = 'BIRTHDAY',
@@ -59,7 +59,7 @@ const fakeUserData = [
   }
 ]
 
-export const PlanForm = (): JSX.Element => {
+export const PlanForm = ({ onCloseFunction }: any): JSX.Element => {
   const [specialPerson, setSpecialPerson] = useState<Friend | undefined>()
   const [description, setDescription] = useState<string>('')
   const [startDate, setStartDate] = useState<string>('')
@@ -150,8 +150,9 @@ export const PlanForm = (): JSX.Element => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="form">
-        {error && <p className='error-message'> {errorMessage} </p>}
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <button className={styles.closeBtn} onClick={() => onCloseFunction(false)}>&times;</button>
+        {error && <p className={styles.errorMessage}> {errorMessage} </p>}
         <div>
           Select 1 Special Person (user or contact):
           <SearchBarFilter
@@ -189,12 +190,12 @@ export const PlanForm = (): JSX.Element => {
               onChange={handleEventSelect}
             >
               <option />
-                {Object.keys(EventType).map(event => {
-                  return (
+              {Object.keys(EventType).map(event => {
+                return (
                   <option key={event} value={event}>
                     {event}
                   </option>)
-                })}
+              })}
 
             </select>
           </label>

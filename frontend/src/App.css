@@ -40,3 +40,9 @@ h5 {
     margin: 0;
     color: var(--black);
 }
+
+#modal {
+    position: relative;
+    display: block;
+    z-index: 9999;
+}

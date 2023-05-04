@@ -9,16 +9,19 @@ import React from 'react'
 import { TempLandingPage } from './components/tempLandingPage'
 import { PlanForm } from './components/PlanForm'
 import { Plan } from './components/Plan/Plan'
+import { Hub } from './components/Hub/Hub'
 import './App.css'
 
 function App(): JSX.Element {
   return (
     <div>
+      <div id="modal"></div>
       <GetUserContext>
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/contactPage" element={<Contacts />} />
             <Route path="/planForm" element={<PlanForm />} />
+            <Route path="/hub" element={<Hub />} />
           </Route>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />

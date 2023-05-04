@@ -1,16 +1,25 @@
 .form {
+  position: relative;
+
   width: 500px;
+  height: 70%;
   margin: 40px auto;
+
   display: flex;
   flex-direction: column;
   gap: 2em;
-  height: 70%;
 }
 
-.error-message {
+.errorMessage {
   flex: 0 0 100%;
   flex-wrap: wrap;
   color: red;
   padding: 0;
   margin: 0;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
