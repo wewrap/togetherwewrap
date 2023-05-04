@@ -10,7 +10,7 @@ import signUpAuth from './routes/signUpAuth'
 import googleStrategy from 'passport-google-oauth20'
 import expressSession from 'express-session'
 import { PrismaSessionStore } from '@quixo3/prisma-session-store'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, type User } from '@prisma/client'
 import { Strategy as LocalStrategy } from 'passport-local'
 import crypto from 'crypto'
 import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL } from './utils/config'
@@ -177,5 +177,11 @@ app.use('/login', loginAuthRouter)
 app.use('/api/plan', checkUserAuthorization, planRouter)
 app.use('/signup', signUpAuth)
 app.use('/userData', userDataRouter)
+
+// For testing friends and contacts dynamic loading
+app.get('/api/friendsAndContacts', checkUserAuthorization, (req, res) => {
+  // write friends query tomorrow
+  console.log((req.user as User).id)
+})
 
 export default app
