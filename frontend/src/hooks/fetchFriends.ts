@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { loadingStatus } from '../utils/loadingStatus';
 
-export const fetchFriendsAndContacts = (): any => {
+export const fetchFriends = (): any => {
   const [status, setStatus] = useState<loadingStatus>(loadingStatus.NOT_LOADED)
   const [data, setData] = useState<any>(null)
 
@@ -12,7 +12,7 @@ export const fetchFriendsAndContacts = (): any => {
       try {
         setStatus(loadingStatus.LOADING)
         const response = await axios.get(
-          'http://localhost:8000/api/friendsAndContacts',
+          '/api/friends',
           {
             withCredentials: true,
             signal: controller.signal

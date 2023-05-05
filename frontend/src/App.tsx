@@ -10,7 +10,7 @@ import { TempLandingPage } from './components/tempLandingPage'
 import { PlanForm } from './components/PlanForm'
 import { Plan } from './components/Plan/Plan'
 import { Hub } from './components/Hub/Hub'
-import { FriendsAndUserContext } from './hooks/FriendsAndUserContext'
+import { GetFriendsContext } from './hooks/FriendsAndUserContext'
 import './App.css'
 
 function App(): JSX.Element {
@@ -18,7 +18,7 @@ function App(): JSX.Element {
     <div>
       <div id="modal"></div>
       <GetUserContext>
-        <FriendsAndUserContext>
+        <GetFriendsContext>
           <Routes>
             <Route element={<ProtectedRoutes />}>
               <Route path="/contactPage" element={<Contacts />} />
@@ -32,7 +32,7 @@ function App(): JSX.Element {
             <Route path="/planForm" element={<PlanForm />} />
             <Route path="/plan/:id" element={<Plan />} />
           </Routes>
-        </FriendsAndUserContext>
+        </GetFriendsContext>
       </GetUserContext>
     </div >
   )

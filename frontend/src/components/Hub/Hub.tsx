@@ -1,10 +1,15 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { FriendsContext } from '../../hooks/FriendsAndUserContext'
 import Modal from '../Modal'
 import { PlanForm } from '../PlanForm'
 import styles from './Hub.module.css'
 
 export const Hub = (): JSX.Element => {
   const [showPlanForm, setShowPlanForm] = useState<boolean>(false)
+
+  const [data, loading] = useContext(FriendsContext)
+
+  console.log(data, loading)
 
   return (
     <div>
@@ -14,7 +19,7 @@ export const Hub = (): JSX.Element => {
       </button>
       {showPlanForm
         ? <Modal>
-          <PlanForm onCloseFunction={setShowPlanForm}/>
+          <PlanForm onCloseFunction={setShowPlanForm} />
         </Modal>
         : null}
     </div>

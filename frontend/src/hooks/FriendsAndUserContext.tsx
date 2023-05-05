@@ -1,15 +1,15 @@
 import React, { createContext } from 'react'
-import { fetchFriendsAndContacts } from './fetchFriendsAndContacts'
+import { fetchFriends } from './fetchFriends'
 
-export const UserContext = createContext<any>(null)
+export const FriendsContext = createContext<any>(null)
 
-export const FriendsAndUserContext = ({ children }: any): JSX.Element => {
-  const user = fetchFriendsAndContacts()
+export const GetFriendsContext = ({ children }: any): JSX.Element => {
+  const friends = fetchFriends()
 
   return (
-    <UserContext.Provider value={user}>
+    <FriendsContext.Provider value={friends}>
       {children}
-    </UserContext.Provider>
+    </FriendsContext.Provider>
 
   )
 }

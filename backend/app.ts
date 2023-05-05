@@ -178,10 +178,33 @@ app.use('/api/plan', checkUserAuthorization, planRouter)
 app.use('/signup', signUpAuth)
 app.use('/userData', userDataRouter)
 
-// For testing friends and contacts dynamic loading
-app.get('/api/friendsAndContacts', checkUserAuthorization, (req, res) => {
-  // write friends query tomorrow
-  console.log((req.user as User).id)
+// For testing friends route
+app.get('/api/friends', checkUserAuthorization, async (req, res) => {
+  const friendsDbResults = await db.userRelationship.findMany({
+    where: {
+      userID: (req.user as User).id,
+      AND: {
+        relationshipStatus: 'FRIEND'
+      }
+    },
+    select: {
+      id: true,
+      friendsWith: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true
+        }
+      }
+    }
+    // this is a home-made column alias because prisma doesn't support column alias
+  }).then(
+    (results) => results.map(
+      (res) => ({ RecordId: res.id, Friend: res.friendsWith })
+    ))
+  res.status(200).json({
+    data: friendsDbResults
+  })
 })
 
 export default app
