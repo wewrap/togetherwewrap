@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import { fetchUser } from '../hooks/fetchUser'
+import { fetchUser } from './fetchUser'
 import { type User } from '../utils/types'
 
 export const UserContext = createContext<Array<string | User | null> | any>(null)

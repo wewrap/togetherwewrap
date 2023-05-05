@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Outlet } from 'react-router-dom'
-import { UserContext } from './UserContext'
+import { UserContext } from '../hooks/UserContext'
 
 export const ProtectedRoutes = (): any => {
   const [user, loadingStatus] = useContext(UserContext)

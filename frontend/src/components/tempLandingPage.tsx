@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import React, { useContext } from 'react'
-import { UserContext } from './UserContext'
+import { UserContext } from '../hooks/UserContext'
 
 export const TempLandingPage = (): JSX.Element => {
   const [user, loadingStatus] = useContext(UserContext)
