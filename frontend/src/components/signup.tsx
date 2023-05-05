@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react'
 import { useState } from 'react'
 import axios from 'axios'
@@ -5,54 +6,48 @@ import './signup.css'
 import { Link } from 'react-router-dom'
 
 export const SignUp = (): JSX.Element => {
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [isValidLength, setIsValidLength] = useState<boolean>(false); 
-    const [hasNumber, setHasNumber] = useState<boolean>(false); 
-    const [hasSpecialChar, setHasSpecialChar] = useState<boolean>(false); 
-    const [confirmPassword, setConfirmPassword] = useState<string>('');
-    const [warning, setWarning] = useState<string>(''); 
-    const specialCharRegex = /[^A-Za-z0-9]/;
-    
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isValidLength, setIsValidLength] = useState<boolean>(false);
+  const [hasNumber, setHasNumber] = useState<boolean>(false);
+  const [hasSpecialChar, setHasSpecialChar] = useState<boolean>(false);
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [warning, setWarning] = useState<string>('');
+  const specialCharRegex = /[^A-Za-z0-9]/;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
 
-        e.preventDefault(); 
+    setIsValidLength(password.length >= 8);
+    setHasNumber(/\D/.test(password));
+    setHasSpecialChar(specialCharRegex.test(password));
 
-        setIsValidLength(password.length >= 8);
-        setHasNumber(/\D/.test(password));
-        setHasSpecialChar(specialCharRegex.test(password));
-
-        if(password.length >= 8 && /\D/.test(password) && specialCharRegex.test(password)) {
-            if(password === confirmPassword) {
-                setWarning('');
-                await axios.post('http://localhost:8000/signup', {
-                    firstName,
-                    lastName,
-                    email,
-                    password, 
-                })
-                .then((res) => {
-                    setWarning('Successful submission.');
-                })
-                .catch((err) => {
-                    if(err.response.status == 409){
-                        setWarning('Existing email. Please use a different email.');
-                    }
-                    else{setWarning('Submission Error. Please try again.');}
-                })
-            }
-            
-            else{
-                setConfirmPassword(''); 
-                setWarning('Your passwords do not match.')
-            }
-        }
-
-        else{
-            setWarning('Your password does not meet the requirements.')
-        }
+    if (isValidLength && hasNumber && hasSpecialChar) {
+      if (password === confirmPassword) {
+        setWarning('');
+        await axios.post('http://localhost:8000/signup', {
+          firstName,
+          lastName,
+          email,
+          password
+        })
+          .then((res) => {
+            setWarning('Successful submission.');
+          })
+          .catch((err) => {
+            if (err.response.status === 409) {
+              setWarning('Existing email. Please use a different email.');
+            } else { setWarning('Submission Error. Please try again.'); }
+          })
+      } else {
+        setConfirmPassword('');
+        setWarning('Your passwords do not match.')
+      }
+    } else {
+      setWarning('Your password does not meet the requirements.')
+    }
   }
 
   return (

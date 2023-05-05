@@ -6,3 +6,13 @@ export interface User {
   birthDate?: Date
   password?: string
 }
+
+export enum PlanStage {
+  UNINITIALIZED = 'UNINITIALIZED',
+  BRAINSTORM = 'BRAINSTORM',
+  VOTING = 'VOTING',
+  POOL = 'POOL',
+  PURCHASE = 'PURCHASE',
+  DELIVERY = 'DELIVERY',
+  COMPLETED = 'COMPLETED',
+}
