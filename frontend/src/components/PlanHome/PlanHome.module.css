@@ -205,14 +205,12 @@
 .goalAmount {
   position: relative;
   top: 50px;
-  font-family: 'Montserrat';
   font-style: normal;
   font-weight: 700;
   font-size: 45px;
   line-height: 55px;
-  /* identical to box height */
-  text-align: center;
 
+  text-align: center;
 
   color: var(--white);
 }

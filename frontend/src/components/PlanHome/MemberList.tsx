@@ -6,7 +6,11 @@ export const MemberList = ({
   return (
     <>
       <ul className={styles.memberUl}>
-        {members.map((member: any) => (
+        {/* TODO: Fix this map function once this component receives the correct
+        and established data between the frontend and backend  */}
+        {members.map((member: {
+          firstName: string
+        }) => (
           <li>
             <div className={styles.memberContainer}>
               <p>{member.firstName}</p>

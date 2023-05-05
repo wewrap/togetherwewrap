@@ -11,10 +11,7 @@ import { PlanStage } from '../../utils/types'
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-type planTaskCompleted = number;
-type planPercentage = number;
-
-const planProgressCalculator = (currentStage: PlanStage): Array<planPercentage & planTaskCompleted> => {
+const planProgressCalculator = (currentStage: PlanStage): number[] => {
   switch (currentStage) {
     case PlanStage.UNINITIALIZED:
     case PlanStage.BRAINSTORM:
@@ -35,6 +32,7 @@ const planProgressCalculator = (currentStage: PlanStage): Array<planPercentage &
 export const PlanHome = (): JSX.Element => {
   const { id } = useParams();
 
+  // TODO: Make the component load data from backend
   const [, status] = fetchPlanData(id as string)
 
   if (status === loadingStatus.LOADING || status === loadingStatus.NOT_LOADED) {

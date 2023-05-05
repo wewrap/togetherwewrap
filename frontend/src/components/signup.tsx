@@ -24,7 +24,7 @@ export const SignUp = (): JSX.Element => {
     setHasNumber(/\D/.test(password));
     setHasSpecialChar(specialCharRegex.test(password));
 
-    if (password.length >= 8 && /\D/.test(password) && specialCharRegex.test(password)) {
+    if (isValidLength && hasNumber && hasSpecialChar) {
       if (password === confirmPassword) {
         setWarning('');
         await axios.post('http://localhost:8000/signup', {
