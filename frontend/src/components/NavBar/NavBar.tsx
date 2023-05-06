@@ -29,14 +29,14 @@ export const NavBarLoggedOut = (): JSX.Element => {
           </li>
           <li className={styles.text}>
             <NavLink
-              to='/support'>
-              Support
+              to='/About'>
+              About
             </NavLink>
           </li>
           <li className={styles.text}>
             <NavLink
-              to='/About'>
-              About
+              to='/Support'>
+              Support
             </NavLink>
           </li>
         </div>

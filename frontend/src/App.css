@@ -42,9 +42,11 @@ h5 {
 }
 
 nav .navOnlyTextActive.active {
-    background-color: #EF476F;
+    padding: 5px;
+    background-color: var(--green);
     border-radius: 7px;
     cursor: default;
+    color: var(--white);
 }
 
 nav .navOnlyTextActive.active:hover {

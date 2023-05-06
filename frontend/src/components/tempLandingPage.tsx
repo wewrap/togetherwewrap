@@ -1,10 +1,7 @@
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import React, { useContext } from 'react'
-import { UserContext } from './UserContext'
 
 export const TempLandingPage = (): JSX.Element => {
-  const user = useContext(UserContext)[0]
   const navigate = useNavigate()
 
   const handleLogout = async (): Promise<void> => {
@@ -18,7 +15,7 @@ export const TempLandingPage = (): JSX.Element => {
 
   return (
     <div>
-      <h1>WeWrap Home {user?.firstName}</h1>
+      <h1>WeWrap Home</h1>
       <button onClick={handleLogout}>Logout</button>
     </div>
   )

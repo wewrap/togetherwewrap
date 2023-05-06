@@ -20,7 +20,7 @@ export const LoginForm = (): JSX.Element => {
       }, {
         withCredentials: true
       })
-      navigate('/tempLandingPage')
+      navigate('/hub')
     } catch (error) {
       console.error(error)
       setErrorMessage((error as any).response.data ?? 'Unknown error occured.')
