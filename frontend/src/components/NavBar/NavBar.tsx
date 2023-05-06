@@ -9,7 +9,9 @@ export const NavBar = (): JSX.Element => {
   // const navLinkStyles = ({ isActive }: any): any => {
   //   return {
   //     background: isActive === true ? 'var(--pink)' : 'none',
-  //     borderRadius: isActive === true ? '5px' : 'none'
+  //     borderRadius: isActive === true ? '5px' : 'none',
+  //     cursor: isActive === true ? 'default' : 'pointer'
+
   //   }
   // }
 
@@ -26,6 +28,11 @@ export const NavBar = (): JSX.Element => {
           <li className={styles.hub}>
             <NavLink to='/hub'>
               Hub
+            </NavLink>
+          </li>
+          <li className={styles.hub}>
+            <NavLink to='/stuff'>
+              stuff
             </NavLink>
           </li>
         </div>

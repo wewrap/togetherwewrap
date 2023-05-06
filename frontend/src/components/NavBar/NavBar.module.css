@@ -1,7 +1,9 @@
 .nav {
   padding: 10px;
+  padding-right: 25px;
   height: 68.59px;
   background-color: var(--light-yellow);
+  margin-bottom: 30px;
 }
 
 .nav ul {
@@ -58,3 +60,10 @@ nav li:nth-child(1) img {
   text-decoration: underline;
 }
 
+.nav a.active {
+  background-color: aqua;
+}
+
+.active {
+  background-color: aqua;
+}

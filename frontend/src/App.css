@@ -40,3 +40,14 @@ h5 {
     margin: 0;
     color: var(--black);
 }
+
+nav a.active {
+    background-color: #EF476F;
+    border-radius: 7px;
+    cursor: default;
+}
+
+nav a.active:hover {
+    text-decoration: none;
+}
+
