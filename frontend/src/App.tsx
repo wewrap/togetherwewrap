@@ -10,10 +10,12 @@ import { TempLandingPage } from './components/tempLandingPage'
 import { PlanForm } from './components/PlanForm'
 import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
+import { NavBar } from './components/NavBar/NavBar'
 
 function App(): JSX.Element {
   return (
     <div>
+      <NavBar/>
       <GetUserContext>
         <Routes>
           <Route element={<ProtectedRoutes />}>
