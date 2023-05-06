@@ -109,15 +109,25 @@ const main = async (): Promise<void> => {
       data: {
         userID: bobTheTestUser.id,
         friendsWithID: userInDB.id,
-        relationshipStatus: RelationshipStatus.PENDING_REQUEST
+        relationshipStatus: RelationshipStatus.SENT_FRIEND_REQUEST
       }
     })
 
-    // user accepts bob's friend request
-    await db.userRelationship.create({
+    // User receives friend request from bob
+    const UserReceivesBobRequest = await db.userRelationship.create({
       data: {
-        userID: userInDB.id,
-        friendsWithID: bobTheTestUser.id,
+        userID: bobTheTestUser.id,
+        friendsWithID: userInDB.id,
+        relationshipStatus: RelationshipStatus.AWAITING_FRIEND_REQUEST
+      }
+    })
+
+    // User accepts bob friend request
+    await db.userRelationship.update({
+      where: {
+        id: UserReceivesBobRequest.id
+      },
+      data: {
         relationshipStatus: RelationshipStatus.FRIEND
       }
     })

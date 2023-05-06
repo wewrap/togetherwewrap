@@ -34,15 +34,15 @@ model UserRelationship {
   userID             String
   friendsWith        User               @relation("friendsWith", fields: [friendsWithID], references: [id])
   friendsWithID      String
-  relationshipStatus RelationshipStatus @default(NOT_FRIEND)
+  relationshipStatus RelationshipStatus 
   createdAt          DateTime           @default(now())
   updatedAt          DateTime           @updatedAt
 }
 
 enum RelationshipStatus {
   FRIEND
-  PENDING_REQUEST
-  NOT_FRIEND
+  SENT_FRIEND_REQUEST
+  AWAITING_FRIEND_REQUEST
 }
 
 model Session {
