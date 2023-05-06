@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as React from 'react'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import axios from 'axios'
 import './signup.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { UserContext } from './UserContext'
+import { LoadStatus } from '../utils/loadingStatus'
 
-export const SignUp = (): JSX.Element => {
+export const SignUp = (): JSX.Element | null => {
+  const [user, loadingStatus] = useContext(UserContext)
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -16,6 +19,15 @@ export const SignUp = (): JSX.Element => {
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [warning, setWarning] = useState<string>('');
   const specialCharRegex = /[^A-Za-z0-9]/;
+  const navigate = useNavigate()
+
+  if (loadingStatus === LoadStatus.NOT_LOADED || loadingStatus === LoadStatus.LOADING) {
+    return null
+  }
+
+  if (user !== null && loadingStatus === LoadStatus.LOADED) {
+    navigate('/')
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();

@@ -28,7 +28,7 @@ export const NavBarLoggedOut = (): JSX.Element => {
         <div className={styles.leftSide}>
           <li className={styles.home}>
             <NavLink
-              to='/tempLandingPage'>
+              to='/'>
               <img src={NavLogo} alt='nav logo' />
             </NavLink>
           </li>
@@ -71,7 +71,7 @@ export const NavBarLoggedIn = (): JSX.Element => {
         <div className={styles.leftSide}>
           <li className={styles.home}>
             <NavLink
-              to='/tempLandingPage'>
+              to='/'>
               <img src={NavLogo} alt='nav logo' />
             </NavLink>
           </li>
