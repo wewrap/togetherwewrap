@@ -15,8 +15,8 @@ import { NavBar } from './components/NavBar/NavBar'
 function App(): JSX.Element {
   return (
     <div>
-      <NavBar/>
       <GetUserContext>
+        <NavBar />
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/contactPage" element={<Contacts />} />

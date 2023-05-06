@@ -1,6 +1,6 @@
 .nav {
   padding: 10px;
-  padding-right: 25px;
+  padding-right: 40px;
   height: 68.59px;
   background-color: var(--light-yellow);
   margin-bottom: 30px;
@@ -17,7 +17,7 @@
   align-items: center;
   justify-content: center;
 
-  gap: 30px;
+  gap: 25px;
 }
 
 .nav a {
@@ -44,19 +44,18 @@ nav li:nth-child(1) img {
   margin-left: 80px;
 }
 
-.hub {
-  width: 56px;
+.text {
   margin-left: 20px;
   display: flex;
   align-items: center;
 }
 
-.hub a {
+.text a {
   font-weight: 600;
   font-size: 24px;
 }
 
-.hub a:hover {
+.text a:hover {
   text-decoration: underline;
 }
 
@@ -67,3 +66,26 @@ nav li:nth-child(1) img {
 .active {
   background-color: aqua;
 }
+
+/* NavBar for logged out user */
+
+.login a,
+.signup a  {
+  padding: 5px 30px;
+  border: 2px solid var(--green);
+  border-radius: 8px;
+}
+
+.login span {
+  color: var(--green);
+}
+
+.signup span {
+  color: var(--light-yellow);
+}
+
+.signup a {
+  background-color: var(--green);
+}
+
+

@@ -41,13 +41,13 @@ h5 {
     color: var(--black);
 }
 
-nav a.active {
+nav .navOnlyTextActive.active {
     background-color: #EF476F;
     border-radius: 7px;
     cursor: default;
 }
 
-nav a.active:hover {
+nav .navOnlyTextActive.active:hover {
     text-decoration: none;
 }
 
