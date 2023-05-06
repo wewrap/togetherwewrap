@@ -1,23 +1,23 @@
 import { useState, useEffect } from 'react'
 import { type User } from '../utils/types'
 import axios from 'axios'
+import { LoadStatus } from '../utils/loadingStatus'
 
 export const fetchUser = (): Array<string | User | null> => {
   const [user, setUser] = useState<User | null>(null)
-  const [loadingStatus, setLoadingStatus] = useState<string>('unloaded')
+  const [loadingStatus, setLoadingStatus] = useState<LoadStatus>(LoadStatus.NOT_LOADED)
 
-  // TODO: Fix these loading status by using the enum
   useEffect(() => {
     const getUserData = async (): Promise<void> => {
-      setLoadingStatus('loading')
+      setLoadingStatus(LoadStatus.LOADING)
       const userDataResponse = await axios.get('http://localhost:8000/userData/1', { withCredentials: true })
       setUser(userDataResponse.data)
-      setLoadingStatus('loaded')
+      setLoadingStatus(LoadStatus.LOADED)
     }
 
     getUserData()
       .catch(err => {
-        setLoadingStatus('error')
+        setLoadingStatus(LoadStatus.FAILED)
         console.error(err)
       })
   }, [])

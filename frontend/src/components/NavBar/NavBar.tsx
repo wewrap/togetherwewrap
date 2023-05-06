@@ -6,9 +6,14 @@ import NavProfile from '../../assets/NavProfile.png'
 import styles from './NavBar.module.css'
 import { useContext } from 'react'
 import { UserContext } from '../UserContext'
+import { LoadStatus } from '../../utils/loadingStatus'
 
 export const NavBar = (): JSX.Element | null => {
-  const user = useContext(UserContext)[0];
+  const [user, loadingStatus] = useContext(UserContext);
+
+  if (loadingStatus === LoadStatus.NOT_LOADED || loadingStatus === LoadStatus.LOADING) {
+    return null
+  }
 
   if (user !== null) {
     return <NavBarLoggedIn />
