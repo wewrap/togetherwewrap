@@ -6,15 +6,6 @@ import NavProfile from '../../assets/NavProfile.png'
 import styles from './NavBar.module.css'
 
 export const NavBar = (): JSX.Element => {
-  // const navLinkStyles = ({ isActive }: any): any => {
-  //   return {
-  //     background: isActive === true ? 'var(--pink)' : 'none',
-  //     borderRadius: isActive === true ? '5px' : 'none',
-  //     cursor: isActive === true ? 'default' : 'pointer'
-
-  //   }
-  // }
-
   return (
     <nav className={styles.nav}>
       <ul>
