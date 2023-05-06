@@ -17,9 +17,11 @@ import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, face
 import facebookStrategy from 'passport-facebook'
 import facebookOAuthRouter from './routes/facebookOAuth'
 import loginAuthRouter from './routes/loginAuth'
-import planFormRouter from './routes/planForm'
-import contactCreatorRouter from './routes/contactCreator'
+import planRouter from './routes/plan'
 import { checkUserAuthorization } from './modules/auth'
+import userDataRouter from './routes/userData'
+import contactCreatorRouter from './routes/contactCreator'
+
 dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -34,9 +36,8 @@ app.use(morgan('dev'))
 app.use(cors({
   credentials: true,
   origin: 'http://localhost:3000'
-}))
-
-app.use(express.json())
+}));
+app.use(express.json());
 app.use(passport.initialize())
 
 app.use(
@@ -174,25 +175,9 @@ app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
-app.use('/api/plan', checkUserAuthorization, planFormRouter)
+app.use('/api/plan', checkUserAuthorization, planRouter)
 app.use('/signup', signUpAuth)
 app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
-
-// test route
-app.get('/api/plan/:id', (req, res) => {
-  res.send({
-    specialPerson: 'matt',
-    description: 'get this man a present',
-    specialDate: '3-4-12',
-    members: {
-      leader: 'bob',
-      friends: [{
-        firstName: 'john',
-        lastName: 'canes',
-        id: '0'
-      }]
-    }
-  })
-})
+app.use('/userData', userDataRouter)
 
 export default app
