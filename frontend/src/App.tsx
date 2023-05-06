@@ -6,7 +6,7 @@ import { GetUserContext } from './components/UserContext'
 import { LoginForm } from './components/loginForm'
 import { SignUp } from './components/signup'
 import React from 'react'
-import { TempLandingPage } from './components/tempLandingPage'
+import { LandingPage } from './components/LandingPage/LandingPage'
 import { PlanForm } from './components/PlanForm'
 import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
@@ -24,7 +24,7 @@ function App(): JSX.Element {
           </Route>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/" element={<TempLandingPage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/contactPage" element={<Contacts />} />
           <Route path="/planForm" element={<PlanForm />} />
           <Route path="/plan/:id" element={<PlanHome />} />

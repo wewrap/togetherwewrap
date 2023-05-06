@@ -1,0 +1,77 @@
+.getStartedSection {
+  background-color: var(--green);
+  padding: 80px 10px 100px 60px;
+  height: 100vh;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.getStartedSection span {
+  color: var(--red);
+}
+
+.getStartedSection a {
+  color: var(--red);
+}
+
+.getStartedSection img {
+  margin: 0;
+  width: 820px;
+  height: 640px;
+  /* margin-bottom: 60px; */
+}
+
+
+.leftSideText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin-bottom: 60px;
+}
+
+.leftSideText h2,
+.leftSideText p {
+  color: var(--white);
+}
+
+.leftSideText h2 {
+  font-size: 55px;
+  font-weight: 500;
+}
+
+.leftSideText p {
+  margin-top: 10px;
+  line-height: 28px;
+  font-weight: 400;
+  margin-bottom: 23px;
+}
+
+.links {
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+}
+
+.links a {
+  padding: 10px 30px;
+  border: 1px solid var(--red);
+  border-radius: 8px;
+  color: var(--red);
+}
+
+.learnMore {
+  background-color: var(--white);
+}
+
+.getStarted {
+  background-color: var(--red);
+}
+
+.getStarted span {
+  color: var(--white);
+}
