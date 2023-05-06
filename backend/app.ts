@@ -20,6 +20,7 @@ import loginAuthRouter from './routes/loginAuth'
 import planRouter from './routes/plan'
 import { checkUserAuthorization } from './modules/auth'
 import userDataRouter from './routes/userData'
+import contactCreatorRouter from './routes/contactCreator'
 
 dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
@@ -83,7 +84,7 @@ passport.use(new GoogleStrategy({
   clientSecret: googleClientSecret,
   callbackURL: googleCallBackURL
 },
-async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
+async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
   try {
     const user = await db.user.findFirst({
       where: {
@@ -115,7 +116,7 @@ passport.use(new FacebookStrategy({
   callbackURL: facebookCallBackURL,
   profileFields: ['id', 'displayName', 'email'],
   enableProof: true
-}, async function verify (accessToken: any, refreshToken: any, profile: any, done: any) {
+}, async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
   try {
     const user = await db.user.findFirst({
       where: {
@@ -176,6 +177,7 @@ app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
 app.use('/api/plan', checkUserAuthorization, planRouter)
 app.use('/signup', signUpAuth)
+app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/userData', userDataRouter)
 
 export default app
