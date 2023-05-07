@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { CreateContactForm } from './contactsForm'
 import axios from 'axios'
+import './Modal.css'
+
 export interface Contact {
   id: string
   firstName: string
@@ -52,7 +54,7 @@ export const ContactsList = () => {
 
   return (
     <div>
-      <h1>Contacts List</h1>
+      <h1>Contacts Listsss</h1>
       <button onClick={toggleContactForm}>Add Contact</button>
       {showCreateAContactForm && <CreateContactForm setShowCreateAContactForm={setShowCreateAContactForm} handleContactCreate={handleContactCreate} />}
       <ul>
