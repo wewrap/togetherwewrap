@@ -28,11 +28,11 @@ interface ImportantDateEvent {
 }
 
 export const ContactsList = () => {
-  const [showCreateAContactForm, setShowCreateAContactForm] = useState<boolean>(false)
   const [contacts, setContacts] = useState<Contact[]>([])
+  const [modal, setModal] = useState<boolean>(false)
 
-  const toggleContactForm = () => {
-    setShowCreateAContactForm(!showCreateAContactForm)
+  const toggleModal = () => {
+    setModal(!modal)
   }
 
   const handleContactCreate = (newContact: Contact) => {
@@ -52,11 +52,32 @@ export const ContactsList = () => {
     getContacts().catch(console.error)
   }, [])
 
+  if (modal) {
+    document.body.classList.add('active-modal')
+  } else {
+    document.body.classList.remove('active-modal')
+  }
+
   return (
     <div>
-      <h1>Contacts Listsss</h1>
-      <button onClick={toggleContactForm}>Add Contact</button>
-      {showCreateAContactForm && <CreateContactForm setShowCreateAContactForm={setShowCreateAContactForm} handleContactCreate={handleContactCreate} />}
+      <button
+        onClick={toggleModal}
+        className="btn-modal">
+        Add Contact
+      </button>
+      {modal && (
+        <div className="modal">
+        <div onClick={toggleModal} className="overlay"></div>
+        <div className="modal-content">
+          <CreateContactForm handleContactCreate={handleContactCreate} />
+          <button
+          className='close-modal'
+          onClick={toggleModal}
+          >CLOSE</button>
+        </div>
+      </div>
+      )}
+
       <ul>
         {contacts?.map((contact) => (
           <li key={contact.id}>

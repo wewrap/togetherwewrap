@@ -12,11 +12,10 @@ type Relationship = {
 }
 
 interface Props {
-  setShowCreateAContactForm: (value: boolean) => void
   handleContactCreate: (newContact: Contact) => void
 }
 
-export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCreate }: Props) => {
+export const CreateContactForm = ({ handleContactCreate }: Props) => {
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [relationships, setRelationships] = useState<Relationship[]>([])
@@ -29,29 +28,8 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
   const [notes, setNotes] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [showError, setShowError] = useState<boolean>(false)
-  const [showForm, setShowForm] = useState<boolean>(true)
 
   const onlyLettersRegex = /^[A-Za-z\s]*$/;
-
-  const resetForm = () => {
-    setFirstName('')
-    setLastName('')
-    setEmail('')
-    setPhoneNumber('')
-    setNotes('')
-    setErrorMessage('')
-    setRelationshipType('')
-    setEventDate('')
-    setEventType('')
-    setRelationships([])
-    setImportantDates([])
-  }
-
-  const handleClose = () => {
-    setShowForm(false)
-    resetForm()
-    setShowCreateAContactForm(false)
-  }
 
   const handleChange =
     (setState: React.Dispatch<React.SetStateAction<string>>) =>
@@ -153,10 +131,9 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
 
   return (
     <div className="contacts_form">
-      {showForm && (
-        <>
+
           <form onSubmit={handleSubmit}>
-            <button type='button' onClick={handleClose}>X</button>
+            {/* <button type='button' onClick={handleClose}>X</button> */}
             {(errorMessage.length > 0) && <p className="error_message">{errorMessage}</p>}
             {<p className="show_error">{showError}</p>}
             <div className="user_input">
@@ -293,8 +270,6 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
               </button>
             </div>
           </form>
-        </>
-      )}
     </div>
   )
 }
