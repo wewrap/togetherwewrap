@@ -1,12 +1,14 @@
 .getStartedSection {
-  background-color: var(--green);
+  background-image: linear-gradient(to right, var(--green) 40%, var(--white) 70%, var(--green) 100%);
+  background-position: 400%;
+
   padding: 80px 10px 100px 60px;
   height: 100vh;
   margin: 0 auto;
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 60px;
 }
 
@@ -32,6 +34,7 @@
   justify-content: center;
 
   margin-bottom: 60px;
+  max-width: 550px;
 }
 
 .leftSideText h2,
@@ -49,6 +52,7 @@
   line-height: 28px;
   font-weight: 400;
   margin-bottom: 23px;
+  max-width: 500px;
 }
 
 .links {
@@ -59,7 +63,7 @@
 
 .links a {
   padding: 10px 30px;
-  border: 1px solid var(--red);
+  border: 1.5px solid var(--red);
   border-radius: 8px;
   color: var(--red);
 }
@@ -69,7 +73,15 @@
 }
 
 .getStarted {
-  background-color: var(--red);
+  background-image: linear-gradient(95deg, var(--red) 10%, #ff005d);
+  background-size: 600%;
+  background-position: left;
+  transition: background-position 0.4s;
+}
+
+.getStarted:hover,
+.getStarted:focus {
+  background-position: right;
 }
 
 .getStarted span {

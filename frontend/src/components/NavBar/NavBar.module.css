@@ -2,7 +2,8 @@
   padding: 10px;
   padding-right: 40px;
   height: 68.59px;
-  background-color: var(--light-yellow);
+  background-color: var(--white);
+  background: transparent;
 }
 
 .nav ul {
