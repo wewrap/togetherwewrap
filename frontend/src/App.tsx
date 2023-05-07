@@ -19,20 +19,20 @@ function App(): JSX.Element {
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/contacts" element={<ContactsList />} />
-            <Route path="/planForm" element={<PlanForm />} />
+            <Route path="/plan-form" element={<PlanForm />} />
             <Route path="/plan/:id" element={<PlanHome />} />
             <Route path="/hub" element={<h1>hub</h1>} />
-            <Route path="/support" element={<h1>Support</h1>} />
             <Route path="/calendar" element={<h1>Calendar</h1>} />
             <Route path="/profile" element={<h1>profile</h1>} />
+            <Route path="/example" element={<h1>example</h1>} />
+          </Route>
+          <Route element={<Home />}>
+            <Route path="/support" element={<p>Contact help@wewrap.com for support</p>} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/about" element={<p>About WeWrap</p>} />
           </Route>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route element={<Home />}>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/about" element={<p>About WeWrap</p>} />
-            <Route path="/support" element={<p>Contact help@wewrap.com for support</p>} />
-          </Route>
         </Routes>
       </GetUserContext>
 

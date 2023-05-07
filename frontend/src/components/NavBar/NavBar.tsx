@@ -41,7 +41,7 @@ export const NavBarLoggedOut = (): JSX.Element => {
           </li>
           <li className={styles.text}>
             <NavLink
-              to='/Support'
+              to='/support'
               className='navOnlyTextActive'>
               Support
             </NavLink>
@@ -78,8 +78,8 @@ export const NavBarLoggedIn = (): JSX.Element => {
             </NavLink>
           </li>
           <li className={styles.text}>
-            <NavLink to='/support' className='navOnlyTextActive'>
-              support
+            <NavLink to='/example' className='navOnlyTextActive'>
+            example
             </NavLink>
           </li>
         </div>
