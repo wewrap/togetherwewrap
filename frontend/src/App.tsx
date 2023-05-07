@@ -23,6 +23,9 @@ function App(): JSX.Element {
             <Route path="/plan/:id" element={<PlanHome />} />
             <Route path="/hub" element={<h1>hub</h1>} />
             <Route path="/support" element={<h1>Support</h1>} />
+            <Route path="/calendar" element={<h1>Calendar</h1>} />
+            <Route path="/contacts" element={<h1>Contacts</h1>} />
+            <Route path="/profile" element={<h1>profile</h1>} />
           </Route>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
