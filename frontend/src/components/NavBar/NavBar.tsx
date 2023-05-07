@@ -32,15 +32,17 @@ export const NavBarLoggedOut = (): JSX.Element => {
               <img src={NavLogo} alt='nav logo' />
             </NavLink>
           </li>
-          <li className={styles.text}>
+          <li className={styles.text} >
             <NavLink
-              to='/About'>
+              to='/About'
+              className='navOnlyTextActive'>
               About
             </NavLink>
           </li>
           <li className={styles.text}>
             <NavLink
-              to='/Support'>
+              to='/Support'
+              className='navOnlyTextActive'>
               Support
             </NavLink>
           </li>
@@ -71,18 +73,13 @@ export const NavBarLoggedIn = (): JSX.Element => {
         <div className={styles.leftSide}>
           <li className={styles.home}>
             <NavLink
-              to='/'>
+              to='/hub'>
               <img src={NavLogo} alt='nav logo' />
             </NavLink>
           </li>
           <li className={styles.text}>
-            <NavLink to='/hub' className='navOnlyTextActive'>
-              Hub
-            </NavLink>
-          </li>
-          <li className={styles.text}>
-            <NavLink to='/stuff' className='navOnlyTextActive'>
-              stuff
+            <NavLink to='/support' className='navOnlyTextActive'>
+              support
             </NavLink>
           </li>
         </div>

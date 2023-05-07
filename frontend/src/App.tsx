@@ -10,26 +10,30 @@ import { LandingPage } from './components/LandingPage/LandingPage'
 import { PlanForm } from './components/PlanForm'
 import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
-import { NavBar } from './components/NavBar/NavBar'
+import { Home } from './components/Home/Home'
 
 function App(): JSX.Element {
   return (
     <div>
       <GetUserContext>
-        <NavBar />
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/contactPage" element={<Contacts />} />
             <Route path="/planForm" element={<PlanForm />} />
+            <Route path="/plan/:id" element={<PlanHome />} />
+            <Route path="/hub" element={<h1>hub</h1>} />
+            <Route path="/support" element={<h1>Support</h1>} />
           </Route>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/contactPage" element={<Contacts />} />
-          <Route path="/planForm" element={<PlanForm />} />
-          <Route path="/plan/:id" element={<PlanHome />} />
+          <Route element={<Home />}>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/about" element={<p>About WeWrap</p>} />
+            <Route path="/support" element={<p>Contact help@wewrap.com for support</p>} />
+          </Route>
         </Routes>
       </GetUserContext>
+
     </div >
   )
 }
