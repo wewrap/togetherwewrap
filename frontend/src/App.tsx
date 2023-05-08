@@ -29,7 +29,8 @@ function App(): JSX.Element {
           <Route element={<Home />}>
             <Route path="/support" element={<p>Contact help@wewrap.com for support</p>} />
             <Route path="/" element={<LandingPage />} />
-            <Route path="/about" element={<p>About WeWrap</p>} />
+            <Route path="/about" element={<h1>About WeWrap</h1>} />
+            <Route path="/learn-more" element={<h1>Learn more about WeWrap</h1>} />
           </Route>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />

@@ -15,10 +15,10 @@ export const LandingPage = (): JSX.Element => {
           With WeWrap, organizing group gifts has never been easier.
         </p>
         <div className={styles.links}>
-          <Link to='/learnMore' className={styles.learnMore}>
+          <Link to='/learn-more' className={styles.learnMore}>
             <span>Learn more</span>
           </Link>
-          <Link to='/getStarted' className={styles.getStarted}>
+          <Link to='/signup' className={styles.getStarted}>
             <span>Get Started</span>
           </Link>
         </div>
