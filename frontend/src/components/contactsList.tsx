@@ -59,7 +59,7 @@ export const ContactsList = () => {
   }
 
   return (
-    <div>
+    <>
       <button
         onClick={toggleModal}
         className="btn-modal">
@@ -77,6 +77,10 @@ export const ContactsList = () => {
         </div>
       </div>
       )}
+
+      <div className="searchBar">
+        <h2>Contacts</h2>
+      </div>
 
       <ul>
         {contacts?.map((contact) => (
@@ -106,6 +110,6 @@ export const ContactsList = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   )
 }
