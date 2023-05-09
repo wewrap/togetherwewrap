@@ -6,7 +6,7 @@
     --light-yellow: #f8ffe5;
     --green: #06D5A0;
     --blue: #1B9AAA;
-    --pink: #EF476F;
+    --red: #EF476F;
     --orange-yellow: #FFC43D;
     --black: rgb(54, 51, 66);
     --mont: 'Montserrat', sans-serif;
@@ -28,7 +28,7 @@ body {
     padding: 0;
     margin: 0;
     font-family: var(--mont);
-    background-color: var(--white);;
+    background-color: var(--white);
     font-size: 1.3rem;
 }
 
@@ -40,3 +40,16 @@ h5 {
     margin: 0;
     color: var(--black);
 }
+
+nav .navOnlyTextActive.active {
+    padding: 5px;
+    background-color: var(--green);
+    border-radius: 7px;
+    cursor: default;
+    color: var(--white);
+}
+
+nav .navOnlyTextActive.active:hover {
+    text-decoration: none;
+}
+

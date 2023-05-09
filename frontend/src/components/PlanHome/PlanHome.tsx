@@ -3,7 +3,7 @@ import editButton from '../../assets/editButton.png'
 import addMemberButton from '../../assets/addMemberButton.png'
 import { useParams } from 'react-router-dom'
 import { fetchPlanData } from '../Plan/hook/fetchPlanData'
-import { loadingStatus } from '../../utils/loadingStatus'
+import { LoadStatus } from '../../utils/loadingStatus'
 import { fakeUserData } from '../PlanForm'
 import { MemberList } from './MemberList'
 import { PlanStage } from '../../utils/types'
@@ -35,13 +35,13 @@ export const PlanHome = (): JSX.Element => {
   // TODO: Make the component load data from backend
   const [, status] = fetchPlanData(id as string)
 
-  if (status === loadingStatus.LOADING || status === loadingStatus.NOT_LOADED) {
+  if (status === LoadStatus.LOADING || status === LoadStatus.NOT_LOADED) {
     return (
       <div>
         <p>loading plan</p>
       </div>
     )
-  } else if (status === loadingStatus.FAILED) {
+  } else if (status === LoadStatus.FAILED) {
     return (
       <div>
         <p>couldn't fetch plan</p>
