@@ -1,17 +1,8 @@
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import React, { useContext } from 'react'
-import { UserContext } from './UserContext'
 
 export const TempLandingPage = (): JSX.Element => {
-  const [user, loadingStatus] = useContext(UserContext)
   const navigate = useNavigate()
-
-  if (user === null || loadingStatus === 'unloaded' || loadingStatus === 'loading') {
-    return (
-      <h1> loading... </h1>
-    )
-  }
 
   const handleLogout = async (): Promise<void> => {
     try {
@@ -24,7 +15,7 @@ export const TempLandingPage = (): JSX.Element => {
 
   return (
     <div>
-      <h1>WeWrap Home {user.firstName}</h1>
+      <h1>WeWrap Home</h1>
       <button onClick={handleLogout}>Logout</button>
     </div>
   )

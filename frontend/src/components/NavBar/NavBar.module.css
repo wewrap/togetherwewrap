@@ -1,0 +1,85 @@
+.nav {
+  padding: 10px;
+  padding-right: 40px;
+  height: 68.59px;
+  background-color: var(--light-yellow);
+  margin-bottom: 30px;
+}
+
+.nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+
+  gap: 25px;
+}
+
+.nav a {
+  display: inline-block;
+}
+
+.nav a > img{
+  display: block;
+  contain: content;
+  margin: 0;
+  width: 40px;
+  height: 40px;
+}
+
+.leftSide {
+  margin-right: auto;
+  display: flex;
+  gap: 30px;
+}
+
+nav li:nth-child(1) img {
+  width: 135px;
+  height: 45.08px;
+  margin-left: 80px;
+}
+
+.text {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.text a {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.nav a.active {
+  background-color: aqua;
+}
+
+.active {
+  background-color: aqua;
+}
+
+/* NavBar for logged out user */
+
+.login a,
+.signup a  {
+  padding: 5px 30px;
+  border: 2px solid var(--green);
+  border-radius: 8px;
+}
+
+.login span {
+  color: var(--green);
+}
+
+.signup span {
+  color: var(--light-yellow);
+}
+
+.signup a {
+  background-color: var(--green);
+}
