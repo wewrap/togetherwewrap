@@ -36,7 +36,10 @@ body.active-modal {
 
 .close-modal {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 30px;
+    right: 36px;
     padding: 5px 7px;
+    width: 60px;
+    height: 35px;
+    background-color: #EF476F;
 }

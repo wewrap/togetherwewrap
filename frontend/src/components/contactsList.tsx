@@ -73,7 +73,7 @@ export const ContactsList = () => {
           <button
           className='close-modal'
           onClick={toggleModal}
-          >CLOSE</button>
+          >X</button>
         </div>
       </div>
       )}

@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { type Contact } from './contactsList'
 import './contactsForm.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faEnvelope, faPhone, faUserGroup, faCalendarDays, faStickyNote } from '@fortawesome/free-solid-svg-icons'
+import greenCircle from '../assets/greenCircle.png'
+import insertPhotoIcon from '../assets/insertPhotoIcon.png'
 
 type ImportantDate = {
   date: string
@@ -134,33 +138,44 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
     <form onSubmit={handleSubmit}>
       {(errorMessage.length > 0) && <p className="error_message">{errorMessage}</p>}
       {<p className="show_error">{showError}</p>}
-
+      <img className='addPhoto' src={insertPhotoIcon} alt="insertPhotoIcon" />
+      <img className='greenCircle' src={greenCircle} alt="greenCircle" />
+      <hr className="horizontal-line"></hr>
       <div className="userInput">
-        <div className="fullName">
-          <input
-            className="first_name"
-            name="first_name"
-            type="text"
-            placeholder='First name'
-            autoComplete="on"
-            required
-            value={firstName}
-            onChange={handleFirstNameChange}
-          />
+        <div className="contactsName">
+          <div className="userIcon">
+            <FontAwesomeIcon icon={faUser} className='userIcon' style={{ color: '#c8cbd0' }} />
+          </div>
+          <div className="fullName">
+            <input
+              className="first_name"
+              name="first_name"
+              type="text"
+              placeholder='First name'
+              autoComplete="on"
+              required
+              value={firstName}
+              onChange={handleFirstNameChange}
+            />
 
-          <input
-            className="last_name"
-            name="last_name"
-            type="text"
-            placeholder='Last name'
-            autoComplete="on"
-            required
-            value={lastName}
-            onChange={handleLastNameChange}
-          />
+            <input
+              className="last_name"
+              name="last_name"
+              type="text"
+              placeholder='Last name'
+              autoComplete="on"
+              required
+              value={lastName}
+              onChange={handleLastNameChange}
+            />
+          </div>
         </div>
 
-        <input
+        <div className="emailSection">
+          <div className="emailIcon">
+            <FontAwesomeIcon icon={faEnvelope} style={{ color: '#c8cbd0' }} />
+          </div>
+          <input
           className="email"
           name="email"
           type="text"
@@ -169,23 +184,32 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
           required
           value={email}
           onChange={handleEmailChange}
-        />
+          />
+        </div>
+        <div className="phoneSection">
+          <div className="phoneIcon">
+            <FontAwesomeIcon icon={faPhone} style={{ color: '#c8cbd0' }} />
+          </div>
+          <input
+            className="phoneNumber"
+            name="phone_number"
+            type="text"
+            placeholder='Phone number'
+            autoComplete="on"
+            required
+            value={phoneNumber}
+            onChange={handlePhoneNumberChange}
+          />
+        </div>
 
-        <input
-          className="phoneNumber"
-          name="phone_number"
-          type="text"
-          placeholder='Phone number'
-          autoComplete="on"
-          required
-          value={phoneNumber}
-          onChange={handlePhoneNumberChange}
-        />
         <div className="relationshipSection">
+          <div className="relationshipIcon">
+            <FontAwesomeIcon icon={faUserGroup} style={{ color: '#c8cbd0' }}/>
+          </div>
           <div className="relationship">
             <input
               type="text"
-              placeholder='Relationship'
+              placeholder='Enter relationship'
               value={relationshipType}
               onChange={(event) => {
                 const value = event.target.value
@@ -207,14 +231,17 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
                 onChange={(event) => { handleRelationshipChange(index, 'relationshipType', event.target.value) }
               }
               />
-              <button type= "button" onClick={() => { handleRemoveRelationshipType(index) }}>
+              <button className='addButton' type= "button" onClick={() => { handleRemoveRelationshipType(index) }}>
                 x
               </button>
             </div>
           ))}
         </div>
 
-        <div className="importantEventDate">
+        <div className="importantEventSection">
+          <div className="dateIcon">
+            <FontAwesomeIcon icon={faCalendarDays} style={{ color: '#c8cbd0' }} />
+          </div>
           <div className="importantEvent">
             <input
               type="text"
@@ -238,8 +265,10 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
               }}
             />
           </div>
+          <button className='add_button' type='button' onClick={addImportantEvent}>+</button>
+        </div>
 
-          <button type='button' onClick={addImportantEvent}>+</button>
+        <div className="addImportantEvent">
           {importantDates.map((date, index) => (
             <div key={index}>
               <input
@@ -248,6 +277,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
                 onChange={(event) => { handleImportantEventChange(index, 'date', event.target.value) }}
               />
               <input
+                className='Event'
                 type="text"
                 value={date.eventType}
                 onChange={(event) => { handleImportantEventChange(index, 'eventType', event.target.value) }}
@@ -258,8 +288,11 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
             </div>
           ))}
         </div>
-
-        <input
+        <div className="noteSection">
+            <div className="noteIcon">
+              <FontAwesomeIcon icon={faStickyNote} style={{ color: '#c8cbd0' }} />
+            </div>
+            <input
             className="notes"
             name="notes"
             type="text"
@@ -268,13 +301,11 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
             required
             value={notes}
             onChange={handleNotesChange}
-          />
-
-      </div>
-      <div>
-        <button className="addContactButton" type="submit">
-          Add contact
-        </button>
+            />
+        </div>
+          <button className="addContactButton" type="submit">
+            Save
+          </button>
       </div>
     </form>
   )
