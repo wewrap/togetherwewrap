@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PlanDescription } from './PlanDescription'
 import { Memberslist } from './MembersList'
 import { fetchPlanData } from './hook/fetchPlanData'
-import { loadingStatus } from '../../utils/loadingStatus'
+import { LoadStatus } from '../../utils/loadingStatus'
 import { PlanIdeaList } from './PlanIdeaList'
 
 export interface Member {
@@ -24,13 +24,13 @@ export const Plan = (): JSX.Element => {
 
   const [data, status] = fetchPlanData(id as string)
 
-  if (status === loadingStatus.LOADING || status === loadingStatus.NOT_LOADED) {
+  if (status === LoadStatus.LOADING || status === LoadStatus.NOT_LOADED) {
     return (
       <div>
         <p>loading plan</p>
       </div>
     )
-  } else if (status === loadingStatus.FAILED) {
+  } else if (status === LoadStatus.FAILED) {
     return (
       <div>
         <p>couldn't fetch plan</p>

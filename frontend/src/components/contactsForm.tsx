@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import { type Contact } from './contactsList'
 
-type ImportantDate = {
+interface ImportantDate {
   date: string
   eventType: string
 }
 
-type Relationship = {
+interface Relationship {
   relationshipType: string
 }
 
@@ -16,7 +16,7 @@ interface Props {
   handleContactCreate: (newContact: Contact) => void
 }
 
-export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCreate }: Props) => {
+export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCreate }: Props): JSX.Element => {
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [relationships, setRelationships] = useState<Relationship[]>([])
@@ -33,7 +33,7 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
 
   const onlyLettersRegex = /^[A-Za-z\s]*$/;
 
-  const resetForm = () => {
+  const resetForm = (): void => {
     setFirstName('')
     setLastName('')
     setEmail('')
@@ -47,7 +47,7 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
     setImportantDates([])
   }
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setShowForm(false)
     resetForm()
     setShowCreateAContactForm(false)
@@ -64,7 +64,7 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
   const handlePhoneNumberChange = handleChange(setPhoneNumber)
   const handleNotesChange = handleChange(setNotes)
 
-  const addRelationship = () => {
+  const addRelationship = (): void => {
     if (relationshipType.trim() === '') {
       setShowError(true)
       return
@@ -76,7 +76,7 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
     index: number,
     field: keyof Relationship,
     value: any
-  ) => {
+  ): void => {
     setRelationships((prevRelationships) => {
       const updatedRelationships = [...prevRelationships]
       updatedRelationships.splice(index, 1, { ...updatedRelationships[index], [field]: value })
@@ -84,7 +84,7 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
     })
   }
 
-  const handleRemoveRelationshipType = (index: number) => {
+  const handleRemoveRelationshipType = (index: number): void => {
     setRelationships((prevRelationships) => {
       const updatedRelationships = [...prevRelationships]
       updatedRelationships.splice(index, 1)
@@ -92,7 +92,7 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
     })
   }
 
-  const addImportantEvent = () => {
+  const addImportantEvent = (): void => {
     if (eventDate.trim() === '' || eventType.trim() === '') {
       setShowError(true)
       return
@@ -104,7 +104,7 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
     index: number,
     field: keyof ImportantDate,
     value: any
-  ) => {
+  ): void => {
     setImportantDates((prevDates) => {
       const updatedDates = [...prevDates]
       updatedDates.splice(index, 1, { ...updatedDates[index], [field]: value })
@@ -112,14 +112,14 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
     })
   }
 
-  const handleRemoveImportantEvent = (index: number) => {
+  const handleRemoveImportantEvent = (index: number): void => {
     setImportantDates((prevDates) => [
       ...prevDates.slice(0, index),
       ...prevDates.slice(index + 1)
     ])
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
       // TODO(FK) T144: change url once app deployed
@@ -237,7 +237,7 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
                     onChange={(event) => { handleRelationshipChange(index, 'relationshipType', event.target.value) }
                     }
                   />
-                  <button type= "button" onClick={() => { handleRemoveRelationshipType(index) }}>
+                  <button type="button" onClick={() => { handleRemoveRelationshipType(index) }}>
                     x
                   </button>
                 </div>

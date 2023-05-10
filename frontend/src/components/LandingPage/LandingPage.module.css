@@ -1,0 +1,89 @@
+.getStartedSection {
+  background-image: linear-gradient(to right, var(--green) 40%, var(--white) 70%, var(--green) 100%);
+  background-position: 400%;
+
+  padding: 80px 10px 100px 60px;
+  height: 100vh;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+}
+
+.getStartedSection span {
+  color: var(--red);
+}
+
+.getStartedSection a {
+  color: var(--red);
+}
+
+.getStartedSection img {
+  margin: 0;
+  width: 820px;
+  height: 640px;
+  /* margin-bottom: 60px; */
+}
+
+
+.leftSideText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin-bottom: 60px;
+  max-width: 550px;
+}
+
+.leftSideText h2,
+.leftSideText p {
+  color: var(--white);
+}
+
+.leftSideText h2 {
+  font-size: 55px;
+  font-weight: 500;
+}
+
+.leftSideText p {
+  margin-top: 10px;
+  line-height: 28px;
+  font-weight: 400;
+  margin-bottom: 23px;
+  max-width: 500px;
+}
+
+.links {
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+}
+
+.links a {
+  padding: 10px 30px;
+  border: 1.5px solid var(--red);
+  border-radius: 8px;
+  color: var(--red);
+}
+
+.learnMore {
+  background-color: var(--white);
+}
+
+.getStarted {
+  background-image: linear-gradient(95deg, var(--red) 10%, #ff005d);
+  background-size: 600%;
+  background-position: left;
+  transition: background-position 0.4s;
+}
+
+.getStarted:hover,
+.getStarted:focus {
+  background-position: right;
+}
+
+.getStarted span {
+  color: var(--white);
+}

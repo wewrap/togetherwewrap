@@ -1,15 +1,26 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import axios from 'axios'
 import './login.css'
 import { Link, useNavigate } from 'react-router-dom'
 import googleIcon from '../assets/googleIcon.png'
 import facebookIcon from '../assets/facebookIcon.png'
+import { UserContext } from './UserContext'
+import { LoadStatus } from '../utils/loadingStatus'
 
-export const LoginForm = (): JSX.Element => {
+export const LoginForm = (): JSX.Element | null => {
+  const [user, loadingStatus] = useContext(UserContext)
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
   const navigate = useNavigate()
+
+  if (loadingStatus === LoadStatus.NOT_LOADED || loadingStatus === LoadStatus.LOADING) {
+    return null
+  }
+
+  if (user !== null && loadingStatus === LoadStatus.LOADED) {
+    navigate('/')
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
@@ -20,7 +31,7 @@ export const LoginForm = (): JSX.Element => {
       }, {
         withCredentials: true
       })
-      navigate('/tempLandingPage')
+      window.location.href = '/hub';
     } catch (error) {
       console.error(error)
       setErrorMessage((error as any).response.data ?? 'Unknown error occured.')
