@@ -25,20 +25,20 @@ interface ImportantDateEvent {
   eventType: string
 }
 
-export const ContactsList = () => {
+export const ContactsList = (): JSX.Element => {
   const [showCreateAContactForm, setShowCreateAContactForm] = useState<boolean>(false)
   const [contacts, setContacts] = useState<Contact[]>([])
 
-  const toggleContactForm = () => {
+  const toggleContactForm = (): void => {
     setShowCreateAContactForm(!showCreateAContactForm)
   }
 
-  const handleContactCreate = (newContact: Contact) => {
+  const handleContactCreate = (newContact: Contact): void => {
     setContacts((prevContacts) => [...prevContacts, newContact]);
   }
 
   useEffect(() => {
-    const getContacts = async () => {
+    const getContacts = async (): Promise<void> => {
       try {
         const response = await axios.get('http://localhost:8000/api/contacts', { withCredentials: true })
         const contactsData = response.data as Contact[]
