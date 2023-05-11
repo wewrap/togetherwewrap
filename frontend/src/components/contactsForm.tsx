@@ -3,7 +3,7 @@ import axios from 'axios'
 import { type Contact } from './contactsList'
 import './contactsForm.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faEnvelope, faPhone, faUserGroup, faCalendarDays, faStickyNote } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faEnvelope, faPhone, faUserGroup, faStickyNote, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
 import greenCircle from '../assets/greenCircle.png'
 import insertPhotoIcon from '../assets/insertPhotoIcon.png'
 
@@ -141,8 +141,8 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
       <img className='addPhoto' src={insertPhotoIcon} alt="insertPhotoIcon" />
       <img className='greenCircle' src={greenCircle} alt="greenCircle" />
       <hr className="horizontal-line"></hr>
-      <div className="userInput">
-        <div className="contactsName">
+      <div className="userInput" >
+        <div className="contactsNameSection">
           <div className="userIcon">
             <FontAwesomeIcon icon={faUser} className='userIcon' style={{ color: '#c8cbd0' }} />
           </div>
@@ -176,7 +176,6 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
             <FontAwesomeIcon icon={faEnvelope} style={{ color: '#c8cbd0' }} />
           </div>
           <input
-          className="email"
           name="email"
           type="text"
           placeholder='Email'
@@ -186,12 +185,12 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
           onChange={handleEmailChange}
           />
         </div>
+
         <div className="phoneSection">
           <div className="phoneIcon">
             <FontAwesomeIcon icon={faPhone} style={{ color: '#c8cbd0' }} />
           </div>
           <input
-            className="phoneNumber"
             name="phone_number"
             type="text"
             placeholder='Phone number'
@@ -239,8 +238,8 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
         </div>
 
         <div className="importantEventSection">
-          <div className="dateIcon">
-            <FontAwesomeIcon icon={faCalendarDays} style={{ color: '#c8cbd0' }} />
+          <div className="importantEventIcon">
+            <FontAwesomeIcon icon={faCalendarAlt} style={{ color: '#c8cbd0' }}/>
           </div>
           <div className="importantEvent">
             <input
@@ -252,7 +251,6 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
                 setEventDate(value)
               }}
             />
-
             <input
               type="text"
               placeholder='Event'
@@ -288,12 +286,12 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
             </div>
           ))}
         </div>
+
         <div className="noteSection">
             <div className="noteIcon">
               <FontAwesomeIcon icon={faStickyNote} style={{ color: '#c8cbd0' }} />
             </div>
             <input
-            className="notes"
             name="notes"
             type="text"
             placeholder='Notes'
@@ -303,9 +301,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
             onChange={handleNotesChange}
             />
         </div>
-          <button className="addContactButton" type="submit">
-            Save
-          </button>
+          <button className="addContactButton" type="submit">Save</button>
       </div>
     </form>
   )

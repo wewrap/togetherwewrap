@@ -9,7 +9,7 @@ form {
     align-items: center;
     justify-content: center;
     height: 100%;
-    margin-top: -40px;
+    margin-top: -35px;
 }
 
 input {
@@ -19,39 +19,44 @@ input {
     border: 1px solid #D7D7D7;
     padding: 5px;
 }
-.contactsName {
+.contactsNameSection {
     display:flex;
-    gap: 17px;
-    margin-left: 3px;
+    gap: 14px;
+    margin-left: 8px;
 }
 .fullName {
     display: flex;
     gap: 30px;
     margin-bottom: 20px;
-    margin-right: 42px;
+    margin-right: 44px;
 }
 
 .fullName input {
-    width: 251px;
+    width: 250px;
 }
 
 .userIcon {
     font-size: 23px;
 }
 
-.email {
+.emailSection {
+    display:flex;
+    gap: 12px;
+    margin-right: 40px;
     margin-bottom: 20px;
 }
 
-.phoneNumber {
-    margin-bottom: 20px;
+.emailIcon {
+    font-size: 25px;
 }
+
 
 .relationshipSection {
     display: flex;
     margin-left: 48px;
-    gap: 20px;
+    gap: 10px;
     margin-bottom: 5px;
+    margin-right: 49px;
 }
 
 .relationshipSection button {
@@ -64,9 +69,13 @@ input {
     font-size: 20px;
 }
 
+.relationshipIcon {
+    font-size: 21px;
+}
+
 .addRelationship {
     display: flex;
-    margin-right: 400px;
+    margin-right: 406px;
     flex-direction: column;
     margin-bottom: 20px;
 }
@@ -84,8 +93,9 @@ input {
 
 .importantEventSection {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     margin-bottom: -15px;
+    margin-left: 2px;;
 }
 
 .importantEventSection button {
@@ -98,11 +108,14 @@ input {
     font-size: 20px;
 }
 
+.importantEventIcon {
+    font-size: 27px;
+}
+
 .importantEvent {
     display: flex;
     gap: 30px;
     margin-bottom: 20px;
-    margin-left: 50px;
 }
 
 .importantEvent input {
@@ -112,7 +125,7 @@ input {
 .addImportantEvent {
     display: flex;
     flex-direction: column;
-    margin-right: 250px;
+    margin-right: 256px;
     margin-bottom: 20px;
 }
 
@@ -124,8 +137,15 @@ input {
     margin-left: 5px;
 }
 
-.notes {
+.noteSection {
+    display: flex;
+    gap: 10px;
+    margin-right: 38px;
     margin-bottom: 20px;
+}
+
+.noteIcon {
+    font-size: 28px;
 }
 
 .addContactButton {
@@ -156,38 +176,20 @@ input {
   border: none;
   border-top: 2px solid #D7D7D7;
   margin: 10px 0;
-  /* margin-bottom: 0px; */
 }
 
-.emailIcon {
-    position: absolute;
-    font-size: 23px;
-    left: 145px;
+
+.phoneSection {
+    display: flex;
+    gap: 14px;
+    margin-right: 40px;
+    margin-bottom: 20px;
 }
 
 .phoneIcon {
-    position: absolute;
     font-size: 23px;
-    left: 145px;
 }
 
-.relationshipIcon {
-    position: absolute;
-    font-size: 23px;
-    left: 145px;
-}
-
-.dateIcon {
-    position: absolute;
-    font-size: 28px;
-    left: 145px;
-}
-
-.noteIcon {
-    position: absolute;
-    font-size: 28px;
-    left: 146px;
-}
 
 button {
     font-family: "Roboto", sans-serif;

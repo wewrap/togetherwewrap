@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { CreateContactForm } from './contactsForm'
 import axios from 'axios'
 import './Modal.css'
+import './contactsList.css'
+import contactIcon from '../assets/contactIcon.png'
 
 export interface Contact {
   id: string
@@ -60,56 +62,76 @@ export const ContactsList = () => {
 
   return (
     <>
-      <button
-        onClick={toggleModal}
-        className="btn-modal">
-        Add Contact
-      </button>
-      {modal && (
-        <div className="modal">
-        <div onClick={toggleModal} className="overlay"></div>
-        <div className="modal-content">
-          <CreateContactForm handleContactCreate={handleContactCreate} />
-          <button
-          className='close-modal'
-          onClick={toggleModal}
-          >X</button>
+      <div className="contactList">
+        <div className="header">
+          <div className="burgerToIcon">
+            <div className="burgerIcon">
+              <span className='line'></span>
+              <span className='line'></span>
+              <span className='line'></span>
+            </div>
+
+            <div className='iconAndTitle'>
+              <img className='contactIcon' src={contactIcon} alt="contactIcon" />
+              <h2>Contacts</h2>
+            </div>
+          </div>
+
+          <div className="searchBar">
+            <input type="text"
+              placeholder="Search Contacts"
+            />
+          </div>
         </div>
-      </div>
-      )}
 
-      <div className="searchBar">
-        <h2>Contacts</h2>
-      </div>
+        <button
+          onClick={toggleModal}
+          className="btn-modal">
+          Add Contact
+        </button>
+        {modal && (
+          <div className="modal">
+          <div onClick={toggleModal} className="overlay"></div>
+          <div className="modal-content">
+            <CreateContactForm handleContactCreate={handleContactCreate} />
+            <button
+            className='close-modal'
+            onClick={toggleModal}
+            >X</button>
+          </div>
+        </div>
+        )}
 
-      <ul>
-        {contacts?.map((contact) => (
-          <li key={contact.id}>
-            <p>{contact.firstName} {contact.lastName}</p>
-            <p>{contact.email}</p>
-            <p>{contact.phoneNumber}</p>
-            {contact.relationships !== null && (
-              <ul>
-                {contact.relationships?.map((relationship) => (
-                  <li key={relationship.id}>
-                    <p>{relationship.relationshipType}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-            {(contact.importantDateEvent !== null) && (
-              <ul>
-                {contact.importantDateEvent?.map((importantDateEvent) => (
-                  <li key={importantDateEvent.id}>
-                    <p>{importantDateEvent.date}</p>
-                    <p>{importantDateEvent.eventType}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ul>
+        <ul>
+          {contacts?.map((contact) => (
+            <li key={contact.id}>
+              <p>{contact.firstName} {contact.lastName}</p>
+              <p>{contact.email}</p>
+              <p>{contact.phoneNumber}</p>
+              {contact.relationships !== null && (
+                <ul>
+                  {contact.relationships?.map((relationship) => (
+                    <li key={relationship.id}>
+                      <p>{relationship.relationshipType}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {(contact.importantDateEvent !== null) && (
+                <ul>
+                  {contact.importantDateEvent?.map((importantDateEvent) => (
+                    <li key={importantDateEvent.id}>
+                      <p>{importantDateEvent.date}</p>
+                      <p>{importantDateEvent.eventType}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+
+      </div>
     </>
   )
 }

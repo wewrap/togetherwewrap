@@ -13,7 +13,7 @@ logoutRouter.post('/logout', function (req, res, next) {
         next(err);
         return;
       }
-      res.redirect('http://localhost:3000/login');
+      res.redirect('http://localhost:3000/tempLandingPage');
     });
   });
 });
