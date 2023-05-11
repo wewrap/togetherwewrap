@@ -7,12 +7,12 @@ import { faUser, faEnvelope, faPhone, faUserGroup, faStickyNote, faCalendarAlt }
 import greenCircle from '../assets/greenCircle.png'
 import insertPhotoIcon from '../assets/insertPhotoIcon.png'
 
-type ImportantDate = {
+interface ImportantDate {
   date: string
   eventType: string
 }
 
-type Relationship = {
+interface Relationship {
   relationshipType: string
 }
 
@@ -47,7 +47,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
   const handlePhoneNumberChange = handleChange(setPhoneNumber)
   const handleNotesChange = handleChange(setNotes)
 
-  const addRelationship = () => {
+  const addRelationship = (): void => {
     if (relationshipType.trim() === '') {
       setShowError(true)
       return
@@ -59,7 +59,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
     index: number,
     field: keyof Relationship,
     value: any
-  ) => {
+  ): void => {
     setRelationships((prevRelationships) => {
       const updatedRelationships = [...prevRelationships]
       updatedRelationships.splice(index, 1, { ...updatedRelationships[index], [field]: value })
@@ -67,7 +67,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
     })
   }
 
-  const handleRemoveRelationshipType = (index: number) => {
+  const handleRemoveRelationshipType = (index: number): void => {
     setRelationships((prevRelationships) => {
       const updatedRelationships = [...prevRelationships]
       updatedRelationships.splice(index, 1)
@@ -75,7 +75,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
     })
   }
 
-  const addImportantEvent = () => {
+  const addImportantEvent = (): void => {
     if (eventDate.trim() === '' || eventType.trim() === '') {
       setShowError(true)
       return
@@ -87,7 +87,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
     index: number,
     field: keyof ImportantDate,
     value: any
-  ) => {
+  ): void => {
     setImportantDates((prevDates) => {
       const updatedDates = [...prevDates]
       updatedDates.splice(index, 1, { ...updatedDates[index], [field]: value })
@@ -95,14 +95,14 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
     })
   }
 
-  const handleRemoveImportantEvent = (index: number) => {
+  const handleRemoveImportantEvent = (index: number): void => {
     setImportantDates((prevDates) => [
       ...prevDates.slice(0, index),
       ...prevDates.slice(index + 1)
     ])
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
       // TODO(FK) T144: change url once app deployed
