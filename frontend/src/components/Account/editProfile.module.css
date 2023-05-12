@@ -1,0 +1,59 @@
+.profileForm{
+    width: 410px;
+    height: 781.36px;
+    display: flex;
+    background-color: #FFFFFF;
+    border-radius: 6px; 
+    flex-direction: column; 
+    border: 1px solid #D7D7D7;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box; 
+    align-items: center;
+    gap: 1.5em;
+    margin: 3em;
+} 
+
+.profileFieldTitles {
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    width: 178px;
+    height: 19px;
+    left: 10px;
+    top: 147px;
+    font-size: 12px;
+} 
+
+.profileFields {
+    border-radius: 6px;
+    border: 1px solid #D7D7D7;
+    width: 363.08px; 
+    height: 46.25px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.editButton, .cancelButton {
+    width: 142.79px; 
+    height: 38.95px; 
+    left: 122px;
+    top: 295px;
+    border-radius: 6px;
+}
+
+.editButton {
+    border: 1px solid #EF476F;
+    background-color: #EF476F;
+    color: white;
+}
+
+.cancelButton{
+    border: 1px solid #EF476F;
+    background-color: #FFFFFF; 
+    color: black; 
+    margin-right: 3em;
+}
+
+.buttonContainer{
+    flex-direction: row;
+}

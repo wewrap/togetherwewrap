@@ -1,0 +1,12 @@
+.accountFlex{
+    display: flex; 
+    flex-direction: row;
+    background-color: #06D6A0;
+    justify-content: center;
+}
+
+.rightSide{
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}

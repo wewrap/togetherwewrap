@@ -6,6 +6,7 @@ import { TempLandingPage } from './components/tempLandingPage'
 import { Contacts } from './components/contacts'
 import { PlanForm } from './components/PlanForm'
 import { Plan } from './components/Plan/Plan'
+import {Account } from './components/accountForm'
 import './App.css'
 
 function App (): JSX.Element {
@@ -18,6 +19,7 @@ function App (): JSX.Element {
         <Route path="/contactPage" element={<Contacts />} />
         <Route path="/planForm" element={<PlanForm />} />
         <Route path="/plan/:id" element={<Plan />} />
+        <Route path="/account" element={<Account />}/>
       </Routes>
     </div>
   )
