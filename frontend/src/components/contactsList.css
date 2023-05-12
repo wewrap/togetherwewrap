@@ -1,44 +1,100 @@
-.contactList {
-    background-color: #f8ffe5;
+.background {
+    background-color: #F8FFE5;
 }
 
 .header {
     display: flex;
-    gap: 20px;
+    gap: 40px;
     align-items: center;
-    margin-left: 20px;
+    margin-left: 50px;
+    margin-bottom: 15px;
+    padding-top: 3px;
 }
 
-img, .contactIcon {
+.contactIcon {
     width: 40px;
-    height: auto;
-    /* position: fixed; */
+    height: 40px;
+    position: relative;
+    bottom: 22px;
 }
 
-.burgerIcon {
-    width: 30px;
-    height: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-  }
-
-.line {
-    width: 100%;
-    height: 2px;
-    background-color: #000;
-}
-  
 .iconAndTitle {
     display: flex;
-    /* justify-content:center;
-    align-items: center; */
-    gap: 8px;
+    justify-content:center;
+    align-items: center;
+    margin-left: 20px;
+    gap: 10px;
 }
 
-.burgerToIcon {
-    display:flex;
-    /* justify-content: center;
-    align-items: center; */
+.searchInput {
+    border-radius: 20px;
+    background-color: #cbcbcb;
+    font-size: 28px;
+    font-family: "Roboto", sans-serif;
+}
+
+.searchBar input {
+    padding-left: 50px;
+}
+
+.magIcon {
+    font-size: 28px;
+    position: relative;
+    right: 515px;
+    color: grey;
+}
+
+.leftBar {
+    display: flex;
+    flex-direction: column;
+    width: 320px;
+}
+
+.fourColorPlusSign {
+    height: 28px;
+    width: auto;
+    position: absolute;
+    top: 150px;
+    left: 35px;
+}
+
+.createContactButton {
+    display: flex;
+    padding-left: 25px;
+}
+
+.viewButtons {
+    width: 320px;
+    height: 60px;
+    font-size: 20px;
+    background-color: white;
+    color: black;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    text-transform: none;
+    padding-right: 160px;
+    border: none;
+    box-shadow: none;
+    background-color: #F8FFE5;
+}
+
+.viewButtons.clicked {
+    background-color: rgba(6, 214, 160, 0.2);
+    border-radius: 0px 90px 90px 0px;
+  }
+  
+  .viewButtons.clicked .viewIcons {
+    color: white;
+  }
+
+.viewIcons {
+    font-size: 25px;
+}
+
+.frequentView .viewButtons {
+    padding-left: 18px;
+}
+
+.favoriteView .viewButtons {
+    padding-left: 2px;
 }
