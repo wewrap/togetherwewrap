@@ -1,10 +1,6 @@
 import styles from './PlanHome.module.css'
 import editButton from '../../assets/editButton.png'
 import addMemberButton from '../../assets/addMemberButton.png'
-// import { useParams } from 'react-router-dom'
-// import { fetchPlanData } from '../Plan/hook/fetchPlanData'
-// import { LoadStatus } from '../../utils/loadingStatus'
-import { fakeUserData } from '../PlanForm'
 import { MemberList } from './MemberList'
 import { PlanStage } from '../../utils/types'
 
@@ -13,6 +9,8 @@ import 'react-circular-progressbar/dist/styles.css';
 import { useEffect, useState } from 'react'
 import { Modal } from '../Modal'
 import { removeModal } from '../../utils/removeModal'
+import { SearchBar } from './SearchBar'
+import { Tag } from './Tag'
 
 const planProgressCalculator = (currentStage: PlanStage): number[] => {
   switch (currentStage) {
@@ -32,26 +30,66 @@ const planProgressCalculator = (currentStage: PlanStage): number[] => {
   }
 }
 
+export const fakeUserData = [
+  {
+    firstName: 'john',
+    email: 'john@gmail.com'
+  },
+  {
+    firstName: 'joe',
+    email: 'john@gmail.com'
+
+  },
+  {
+    firstName: 'sarah asda sd asd as',
+    email: 'john@gmail.com'
+  },
+  {
+    firstName: 'alex',
+    email: 'john@gmail.com'
+  },
+  {
+    firstName: 'kevin',
+    email: 'john@gmail.com'
+  },
+  {
+    firstName: 'bob',
+    email: 'john@gmail.com'
+  },
+  {
+    firstName: 'jenny',
+    email: 'john@gmail.com'
+  },
+  {
+    firstName: 'kim',
+    email: 'john@gmail.com'
+  }, {
+    firstName: 'josh',
+    email: 'john@gmail.com'
+  },
+  {
+    firstName: 'edward',
+    email: 'john@gmail.com'
+  },
+  {
+    firstName: 'lisett',
+    email: 'john@gmail.com'
+  },
+  {
+    firstName: 'jordan',
+    email: 'john@gmail.com'
+  },
+  {
+    firstName: 'aden',
+    email: 'john@gmail.com'
+  }
+]
+
 export const PlanHome = (): JSX.Element => {
-  const [showInviteModal, setShowInviteModal] = useState<boolean>(false)
-  // const { id } = useParams();
-
-  // TODO: Make the component load data from backend
-  // const [, status] = fetchPlanData(id as string)
-
-  // if (status === LoadStatus.LOADING || status === LoadStatus.NOT_LOADED) {
-  //   return (
-  //     <div>
-  //       <p>loading plan</p>
-  //     </div>
-  //   )
-  // } else if (status === LoadStatus.FAILED) {
-  //   return (
-  //     <div>
-  //       <p>couldn't fetch plan</p>
-  //     </div>
-  //   )
-  // }
+  const [showInviteModal, setShowInviteModal] = useState<boolean>(true)
+  const [selectedContacts, setSelectedContacts] = useState<any>([]);
+  // TODO: keep track of max plan participants
+  // TODO: prevent plan leader from adding more participants after max participants has reached
 
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
@@ -67,17 +105,36 @@ export const PlanHome = (): JSX.Element => {
     }
   }, [showInviteModal])
 
+  const handleContactSelect = (singleContact: any) => {
+    setSelectedContacts((prev: any) => [...prev, singleContact])
+  }
+
+  const handleRemoveContactTag = (contactToBeRemoved: any) => {
+    const filteredContacts = selectedContacts.filter(
+      (currentContacts: any) =>
+        currentContacts.firstName !== contactToBeRemoved.firstName
+    )
+
+    setSelectedContacts(filteredContacts)
+  }
+
   const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
   return (
     <div className={styles.background}>
       {showInviteModal
         ? <Modal>
           <div className={`${styles.inviteModalContainer} clickOutsideOfModal`}>
-            <button onClick={() => {
-              setShowInviteModal(false);
-              removeModal()
-            }}> X </button>
-            asdasdasdasdsadasdasdasdasd
+            <button className={styles.closeButton}
+              onClick={() => {
+                setShowInviteModal(false);
+                removeModal()
+              }}> X </button>
+            <SearchBar handleSelectChangeFn={handleContactSelect} data={fakeUserData} alreadySelectedData={selectedContacts} />
+            <div className={styles.tagContainer}>
+              {selectedContacts.map((contact: any) => (
+                <Tag singleDataPoint={contact} handleRemoveTag={handleRemoveContactTag} />
+              ))}
+            </div>
           </div>
         </Modal>
         : null}

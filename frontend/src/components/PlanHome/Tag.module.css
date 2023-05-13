@@ -1,0 +1,36 @@
+.tagWrapper {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f7f9fc;
+
+  border: 0.2px solid rgb(198, 198, 198);
+  border-radius: 20px;
+
+  padding: 10px;
+  padding-left: 15px;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.tagWrapper:hover {
+  background-color: #f2f3f4;
+}
+
+.closeButton:hover {
+  background-color: #e8e8e8;
+}
+
+.tagText {
+  font-size: 14px;
+  color: rgb(0, 0, 0);
+  margin-right: 8px;
+}
+
+.closeButton {
+  cursor: pointer;
+  border: none;
+  color: rgb(135, 135, 135);
+  font-size: 15px;
+  border-radius: 25px;
+  background-color: transparent;
+}
