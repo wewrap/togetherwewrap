@@ -41,6 +41,18 @@ h5 {
     color: var(--black);
 }
 
+nav .navOnlyTextActive.active {
+    padding: 5px;
+    background-color: var(--green);
+    border-radius: 7px;
+    cursor: default;
+    color: var(--white);
+}
+
+nav .navOnlyTextActive.active:hover {
+    text-decoration: none;
+}
+
 #modal {
     position: fixed;
     box-sizing: border-box;
