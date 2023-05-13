@@ -3,6 +3,7 @@
     flex-direction: row;
     background-color: #06D6A0;
     justify-content: center;
+    margin-top: 1%; 
 }
 
 .rightSide{

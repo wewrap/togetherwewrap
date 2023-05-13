@@ -2,17 +2,29 @@
     height: 311.11px;
     width: 592px; 
     background-color: #FFFFFF; 
+    justify-content: center;
+    align-items: center;
 }
 
 .companyIcons{
     width: 50px; 
     height: 46px; 
-    /* margin: 0px;
-    text-align: center;
-    align-items: center; */
+    margin: 0px;
+    border-radius: 6px;
 }
 
 .iconButton, .xIcon{
     width:20px; 
     height: 20px;
+}
+
+.profileFields {
+    border-radius: 6px;
+    border: 1px solid #D7D7D7;
+    width: 473px; 
+    height: 81px;
+    font-size: 10px;
+    margin: 6px;
+    text-align: center; 
+    flex-direction: row;
 }

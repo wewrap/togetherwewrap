@@ -17,7 +17,9 @@ export const Account = (): JSX.Element => {
 
     return(
         <div className = {styles.accountFlex}>
-            <EditProfile />
+            <div className = {styles.leftSide}>
+              <EditProfile />
+            </div>
             <div className = {styles.rightSide}> 
             <EditPassword />
             <LinkedAccounts />

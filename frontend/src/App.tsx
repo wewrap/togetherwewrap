@@ -11,6 +11,7 @@ import { PlanForm } from './components/PlanForm'
 import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
 import { Home } from './components/Home/Home'
+import { Account } from './components/accountForm'
 
 function App(): JSX.Element {
   return (
@@ -18,6 +19,7 @@ function App(): JSX.Element {
       <GetUserContext>
         <Routes>
           <Route element={<ProtectedRoutes />}>
+            <Route path="/account" element={<Account />} />
             <Route path="/contacts" element={<ContactsList />} />
             <Route path="/plan-form" element={<PlanForm />} />
             <Route path="/plan/:id" element={<PlanHome />} />

@@ -9,19 +9,11 @@
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
     box-sizing: border-box; 
     align-items: center;
-    gap: 1.5em;
-    margin: 3em;
+    /* gap: 0.75em; */
 } 
 
 .profileFieldTitles {
-    left: 0px;
-    top: 0px;
-    position: absolute;
-    width: 178px;
-    height: 19px;
-    left: 10px;
-    top: 147px;
-    font-size: 12px;
+    font-size: 13px;
 } 
 
 .profileFields {
@@ -31,9 +23,11 @@
     height: 46.25px;
     text-align: center;
     font-size: 10px;
+    display: flex; 
+    align-items: center;
 }
 
-.editButton, .cancelButton {
+.editButton, .cancelButton, .saveButton {
     width: 142.79px; 
     height: 38.95px; 
     left: 122px;
@@ -41,10 +35,14 @@
     border-radius: 6px;
 }
 
-.editButton {
+.editButton, .saveButton {
     border: 1px solid #EF476F;
     background-color: #EF476F;
     color: white;
+}
+
+.editButton {
+    margin-left: 14em; 
 }
 
 .cancelButton{
@@ -54,6 +52,50 @@
     margin-right: 3em;
 }
 
+
 .buttonContainer{
     flex-direction: row;
+}
+
+.profileFirstNameField, .profileLastNameField {
+    border-radius: 6px;
+    border: 1px solid #D7D7D7;
+    width: 105px; 
+    height: 36.42px;
+    text-align: center;
+    display: flex; 
+}
+
+.profileBioField{
+    border-radius: 6px;
+    border: 1px solid #D7D7D7;
+    width: 363px; 
+    height: 66px;
+    text-align: center;
+    font-size: 10px;
+    display: flex; 
+}
+
+.profileUsernameField{
+    border-radius: 6px;
+    border: 1px solid #D7D7D7;
+    width: 223px; 
+    height: 34.25px;
+    text-align: center;
+    font-size: 10px;
+    display: flex; 
+}
+
+.profileNameContainer {
+    flex-direction: row;
+    flex-flow: row wrap;
+}
+
+.profileNameTitles{
+    font-size: 10px;
+}
+
+.profileNotifTitles{
+    font-size: 14px;
+    color: red; 
 }
