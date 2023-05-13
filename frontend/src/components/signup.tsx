@@ -1,77 +1,94 @@
-import * as React from 'react';
-import ReactDOM from 'react-dom/client';
-import { useState } from "react"; 
-import axios from 'axios';
-import { fchmod } from 'fs';
-import './signup.css';
-import { Link } from 'react-router-dom';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import * as React from 'react'
+import { useContext, useState } from 'react'
+import axios from 'axios'
+import './signup.css'
+import { Link, useNavigate } from 'react-router-dom'
+import { UserContext } from './UserContext'
+import { LoadStatus } from '../utils/loadingStatus'
 
-export const SignUp = () => {
+export const SignUp = (): JSX.Element | null => {
+  const [user, loadingStatus] = useContext(UserContext)
+  const [firstName, setFirstName] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isValidLength, setIsValidLength] = useState<boolean>(false);
+  const [hasNumber, setHasNumber] = useState<boolean>(false);
+  const [hasSpecialChar, setHasSpecialChar] = useState<boolean>(false);
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [warning, setWarning] = useState<string>('');
+  const specialCharRegex = /[^A-Za-z0-9]/;
+  const navigate = useNavigate()
 
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [confirmPassword, setConfirmPassword] = useState<string>('');
-    const [warning, setWarning] = useState<string>(''); 
+  if (loadingStatus === LoadStatus.NOT_LOADED || loadingStatus === LoadStatus.LOADING) {
+    return null
+  }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  if (user !== null && loadingStatus === LoadStatus.LOADED) {
+    navigate('/')
+  }
 
-        e.preventDefault(); 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
 
-            if(password === confirmPassword) {
-                setWarning('');
-                await axios.post('http://localhost:8000/signup', {
-                    firstName,
-                    lastName,
-                    email,
-                    password, 
-                })
-        
-                .then((res) => {
-                    setWarning('Successful submission.');
-                })
-        
-                .catch((err) => {
-                    if(err.response.status == 409){
-                        setWarning('Existing email. Please use a different email.');
-                    }
-                    else{setWarning('Submission Error. Please try again.');}
-                })
-            }
-            else{
-                setConfirmPassword(''); 
-                setWarning('Please use a different password.')
-            }
+    setIsValidLength(password.length >= 8);
+    setHasNumber(/\D/.test(password));
+    setHasSpecialChar(specialCharRegex.test(password));
+
+    if (isValidLength && hasNumber && hasSpecialChar) {
+      if (password === confirmPassword) {
+        setWarning('');
+        await axios.post('http://localhost:8000/signup', {
+          firstName,
+          lastName,
+          email,
+          password
+        })
+          .then((res) => {
+            setWarning('Successful submission.');
+          })
+          .catch((err) => {
+            if (err.response.status === 409) {
+              setWarning('Existing email. Please use a different email.');
+            } else { setWarning('Submission Error. Please try again.'); }
+          })
+      } else {
+        setConfirmPassword('');
+        setWarning('Your passwords do not match.')
+      }
+    } else {
+      setWarning('Your password does not meet the requirements.')
     }
+  }
 
-    return (
-        <div className = "container"> 
+  return (
+        <div className = "container">
         <img src='./wewrap_green.png' alt='wewrap logo'></img>
         <h3 className = "weWrapTitle"> Sign Up for WeWrap </h3>
-        <p className = "createAccount" > Create a free account or&nbsp;<Link to = "/login">log in </Link> </p>
-            <form className = "signUpForm" onSubmit = {handleSubmit}> 
+        <p className = "createAccount" > Create a free account or <Link to = "/login">log in </Link> </p>
+            <form className = "signUpForm" onSubmit = {handleSubmit}>
                 <p className = "errorNotification"> {warning} </p>
-                <label htmlFor = "signUpFieldTitles"> First Name <span>*</span> 
-                    <input id = "signUpFirstName" className = "signUpFields" type = "text" required value = {firstName} onChange = {(event) => setFirstName(event.target.value)}/>
+                <label htmlFor = "signUpFieldTitles"> First Name <span>*</span>
+                    <input id = "signUpFirstName" className = "signUpFields" type = "text" required value = {firstName} onChange = {(event) => { setFirstName(event.target.value) }}/>
                     </label>
-                <label htmlFor = "signUpFieldTitles"> Last Name <span>*</span> 
-                    <input className = "signUpFields" type = "text" required value = {lastName} onChange={(event) => setLastName(event.target.value)}/> 
+                <label htmlFor = "signUpFieldTitles"> Last Name <span>*</span>
+                    <input className = "signUpFields" type = "text" required value = {lastName} onChange={(event) => { setLastName(event.target.value) }}/>
                     </label>
                 <label htmlFor = "signUpFieldTitles"> Email <span>*</span>
-                    <input className = "signUpFields" type = "text" required value = {email} onChange={(event) => setEmail(event.target.value)}/>
+                    <input className = "signUpFields" type = "text" required value = {email} onChange={(event) => { setEmail(event.target.value) }}/>
                     </label>
                 <label htmlFor = "signUpFieldTitles"> Password <span>*</span>
-                    <input className = "signUpFields" type = "password" required value = {password} onChange={(event) => setPassword(event.target.value)}/> 
+                    <input className = "signUpFields" type = "password" required value = {password} onChange={(event) => { setPassword(event.target.value) }}/>
                     <p className = "passwordWarning"> Password must have a minimum of 8 characters and must contain at least one number and one special character. </p>
                     </label>
                 <label htmlFor = "signUpFieldTitles"> Confirm Password <span>*</span>
-                    <input className = "signUpFields" type  = "password" required value = {confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)}/> 
+                    <input className = "signUpFields" type = "password" required value = {confirmPassword} onChange={(event) => { setConfirmPassword(event.target.value) }}/>
                     </label>
-                <button className = "signUpButton" type = "submit"> Sign Up </button> 
+                <button className = "signUpButton" type = "submit"> Sign Up </button>
                 <p className = "termsLink"> By creating an account, you agree to WeWrap LLC's @ <a href = ""> Terms of Service </a> </p>
             </form>
             <p className = "emailLink"> Need help? Email <a href = " "> help@wewrap.com </a> </p>
         </div>
-    ); 
-};
+  )
+}

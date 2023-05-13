@@ -1,0 +1,16 @@
+.form {
+  width: 500px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  height: 70%;
+}
+
+.error-message {
+  flex: 0 0 100%;
+  flex-wrap: wrap;
+  color: red;
+  padding: 0;
+  margin: 0;
+}
