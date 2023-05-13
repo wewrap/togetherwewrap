@@ -1,6 +1,9 @@
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import CalendarDays from './calendar-days';
 import './calendar.css';
+
 
 export default function Calendar() {
   const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -8,13 +11,17 @@ export default function Calendar() {
 
   const [currentDay, setCurrentDay] = useState(new Date());
 
-  const changeCurrentDay = (day) => {
+  const changeCurrentDay = (day: { year: number; month: number; number: number | undefined; }) => {
     setCurrentDay(new Date(day.year, day.month, day.number));
   }
 
   const nextDay = () => {
     setCurrentDay(new Date(currentDay.setDate(currentDay.getDate() + 1)));
   }
+  const currently = () => {
+    setCurrentDay(new Date());
+  }
+
 
   const previousDay = () => {
     setCurrentDay(new Date(currentDay.setDate(currentDay.getDate() - 1)));
@@ -27,16 +34,14 @@ export default function Calendar() {
           <h2>{months[currentDay.getMonth()]} {currentDay.getFullYear()}</h2>
         </div>
         <div className="tools">
-          <button onClick={previousDay}>
-            <span className="material-icons">
-              arrow_back
-            </span>
+          <button className="prev-button" onClick={previousDay}>
+            <FontAwesomeIcon icon={faArrowRight} rotation={180} size="lg" />
           </button>
-          <p>{months[currentDay.getMonth()].substring(0, 3)} {currentDay.getDate()}</p>
-          <button onClick={nextDay}>
-            <span className="material-icons">
-              arrow_forward
-            </span>
+          <button className="today-button" onClick={currently}>
+            TODAY
+          </button>
+          <button className="next-button" onClick={nextDay}>
+            <FontAwesomeIcon icon={faArrowRight} size="lg" />
           </button>
         </div>
       </div>
@@ -44,12 +49,21 @@ export default function Calendar() {
         <div className="table-header">
           {
             weekdays.map((weekday) => {
-              return <div className="weekday"><p>{weekday}</p></div>
+              return weekday === 'Sun' || weekday === 'Sat'
+                ? <div className="weekday weekend"><p>{weekday}</p></div>
+                : <div className="weekday"><p>{weekday}</p></div>
             })
           }
         </div>
-        <CalendarDays day={currentDay} changeCurrentDay={changeCurrentDay} />
+        <div className="calendar-days">
+          <CalendarDays day={currentDay} changeCurrentDay={changeCurrentDay} />
+          <div className='grey-box'></div>
+        </div>
       </div>
     </div>
   )
 }
+function regular(arg0: string): import("@fortawesome/fontawesome-svg-core").IconProp {
+  throw new Error('Function not implemented.');
+}
+
