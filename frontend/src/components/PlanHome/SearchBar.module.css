@@ -7,7 +7,7 @@
   height: 50px;
   padding-left: 10px;
 
-  border: 1.4px solid var(--green);
+  border: 1.4px solid rgb(222, 222, 222);
   border-radius: 10px;
 }
 
@@ -36,7 +36,7 @@
 .searchResults {
   display: block;
   background: none;
-  background-color: rgb(233, 248, 235);
+  background-color: rgb(246, 255, 247);
   border: none;
   padding: 0;
   cursor: pointer;
@@ -51,7 +51,7 @@
 }
 
 .searchResults:hover {
-  background-color: rgb(211, 241, 214)
+  background-color: rgb(239, 248, 240)
 }
 
 .name {

@@ -41,7 +41,7 @@ export const fakeUserData = [
 
   },
   {
-    firstName: 'sarah asda sd asd as',
+    firstName: 'sarah',
     email: 'john@gmail.com'
   },
   {
@@ -130,10 +130,21 @@ export const PlanHome = (): JSX.Element => {
                 removeModal()
               }}> X </button>
             <SearchBar handleSelectChangeFn={handleContactSelect} data={fakeUserData} alreadySelectedData={selectedContacts} />
-            <div className={styles.tagContainer}>
-              {selectedContacts.map((contact: any) => (
-                <Tag singleDataPoint={contact} handleRemoveTag={handleRemoveContactTag} />
-              ))}
+            <div className={styles.tagAndMessageContainer}>
+              <div className={styles.tagContainer}>
+                {selectedContacts.map((contact: any) => (
+                  <Tag singleDataPoint={contact} handleRemoveTag={handleRemoveContactTag} />
+                ))}
+              </div>
+              <div className={styles.controls}>
+                <textarea placeholder='message' className={styles.emailMessage}>
+                </textarea>
+                <div className={styles.sendButtonContainer}>
+                  <button className={styles.sendInviteBtn}>
+                    Send
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </Modal>
