@@ -5,8 +5,9 @@ import './Modal.css'
 import './contactsList.css'
 import plusSign from '../assets/plusSign.png'
 import contactIcon from '../assets/contactIcon.png'
+import burgerIcon from '../assets/burger.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass, faUser, faClockRotateLeft, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faMagnifyingGlass, faUser, faClockRotateLeft, faStar, faCloudArrowDown, faShareFromSquare, faArrowUpWideShort } from '@fortawesome/free-solid-svg-icons'
 
 export interface Contact {
   id: string
@@ -17,8 +18,9 @@ export interface Contact {
   notes?: string
   source?: string
   ownerID: string
-  relationships?: ContactRelationship[]
+  relationships: ContactRelationship[]
   importantDateEvent?: ImportantDateEvent[]
+  isFavorite?: boolean
 }
 
 interface ContactRelationship {
@@ -35,7 +37,11 @@ interface ImportantDateEvent {
 export const ContactsList = () => {
   const [contacts, setContacts] = useState<Contact[]>([])
   const [modal, setModal] = useState<boolean>(false)
-  const [buttonStates, setButtonStates] = useState<boolean[]>([false, false, false])
+  const [buttonStates, setButtonStates] = useState<boolean[]>([true, false, false])
+
+  const handleContactCreate = (newContact: Contact): void => {
+    setContacts((prevContacts) => [...prevContacts, newContact]);
+  }
 
   const handleButtonClick = (index: number) => {
     const updatedButtonStates = buttonStates.map((state: boolean, i: number) => i === index ? !state : false);
@@ -45,12 +51,19 @@ export const ContactsList = () => {
     setButtonStates(updatedButtonStates);
   }
 
-  const toggleModal = () => {
-    setModal(!modal)
-  }
-
-  const handleContactCreate = (newContact: Contact): void => {
-    setContacts((prevContacts) => [...prevContacts, newContact]);
+  const handleToggleFavorite = (contactID: string) => {
+    setContacts((prevContacts) =>
+      prevContacts.map((contact) => {
+        if (contact.id === contactID) {
+          const isFavorite = contact.isFavorite ?? false
+          return {
+            ...contact,
+            isFavorite: !isFavorite
+          }
+        }
+        return contact
+      })
+    )
   }
 
   useEffect(() => {
@@ -66,6 +79,10 @@ export const ContactsList = () => {
     getContacts().catch(console.error)
   }, [])
 
+  const toggleModal = () => {
+    setModal(!modal)
+  }
+
   if (modal) {
     document.body.classList.add('active-modal')
   } else {
@@ -75,6 +92,7 @@ export const ContactsList = () => {
   return (
     <div className='background'>
       <div className="header">
+          <img className='burgerIcon' src={burgerIcon} alt="burgerIcon" />
           <div className='iconAndTitle'>
             <img className='contactIcon' src={contactIcon} alt="contactIcon" />
             <h2>Contacts</h2>
@@ -103,7 +121,7 @@ export const ContactsList = () => {
                   <div className="modal-content">
                     <CreateContactForm handleContactCreate={handleContactCreate} />
                     <button
-                    className='close-modal'
+                    className='close-modal buttonStyle'
                     onClick={toggleModal}
                     >X</button>
                   </div>
@@ -132,40 +150,59 @@ export const ContactsList = () => {
                 Favorite
               </button>
             </div>
+          </div>
+        </div>
 
+        <div className="rightBar">
+          <div className="rightBarHeader">
+            <p className='pName'>Name</p>
+            <p className='pEmail'>Email</p>
+            <p>Phone number</p>
+            <p>Relationship</p>
+            <div className="navigationButtons">
+              <button className='navButtons'>
+                <FontAwesomeIcon icon={faCloudArrowDown} style={{ color: '#8C8787' }} />
+              </button>
+              <button className='navButtons'>
+                <FontAwesomeIcon icon={faShareFromSquare} style={{ color: '#8C8787' }} />
+              </button>
+              <button className='navButtons'>
+                <FontAwesomeIcon icon={faArrowUpWideShort} style={{ color: '#8C8787' }} />
+              </button>
+            </div>
+          </div>
+          <hr className="mainHorizontalLine"></hr>
+
+          <div className="listOfContacts">
+            {contacts?.map((contact) => (
+              <div key={contact.id} className="contactItem">
+                <img className="contactIcon" src={contactIcon} alt="contactIcon" />
+                  <div className="contactInfo">
+                    <div className='dName'> {contact.firstName} {contact.lastName}</div>
+                    <div className='dEmail'> {contact.email}</div>
+                    <div className='dPhone'> {contact.phoneNumber}</div>
+                    {contact.relationships !== null && (
+                      <div className="dRelationship">
+                        {contact.relationships?.map((relationship) => (
+                          <div key={relationship.id}> {relationship.relationshipType}</div>
+                        ))}
+                      </div>
+                    )}
+                    <div className="favoriteIcon" onClick={() => { handleToggleFavorite(contact.id); }}>
+                      {contact.isFavorite !== null && contact.isFavorite !== undefined && contact.isFavorite
+                        ? (
+                        <FontAwesomeIcon icon={faStar} style={{ color: '#F9C80E' }} />
+                          )
+                        : (
+                        <FontAwesomeIcon icon={faStar} style={{ color: '#c8cbd0' }} />
+                          )}
+                    </div>
+                  </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-
-      <ul>
-        {contacts?.map((contact) => (
-          <li key={contact.id}>
-            <img className='contactIcon' src={contactIcon} alt="contactIcon" />              <p>{contact.firstName} {contact.lastName}</p>
-            <p>{contact.email}</p>
-            <p>{contact.phoneNumber}</p>
-            {contact.relationships !== null && (
-              <ul>
-                {contact.relationships?.map((relationship) => (
-                  <li key={relationship.id}>
-                    <p>{relationship.relationshipType}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-            {(contact.importantDateEvent !== null) && (
-              <ul>
-                {contact.importantDateEvent?.map((importantDateEvent) => (
-                  <li key={importantDateEvent.id}>
-                    <p>{importantDateEvent.date}</p>
-                    <p>{importantDateEvent.eventType}</p>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ul>
-
     </div>
   )
 }

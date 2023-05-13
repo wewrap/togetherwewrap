@@ -4,11 +4,19 @@
 
 .header {
     display: flex;
-    gap: 40px;
+    gap: 28px;
     align-items: center;
-    margin-left: 50px;
-    margin-bottom: 15px;
+    margin-left: 90px;
+    margin-bottom: 14px;
     padding-top: 3px;
+}
+
+.burgerIcon {
+    width: 40px;
+    height: auto;
+    position: absolute;
+    left: 32px;
+    top: 58px;
 }
 
 .contactIcon {
@@ -27,20 +35,26 @@
 }
 
 .searchInput {
-    border-radius: 20px;
-    background-color: #cbcbcb;
-    font-size: 28px;
+    width: 600px;
+    height: 45px;
+    background-color: #D9D9D9;
+    font-size: 30px;
     font-family: "Roboto", sans-serif;
+    border-radius: 90px;
+    border: none;
+    box-shadow: none;
+    padding-left: 45px;
 }
 
-.searchBar input {
-    padding-left: 50px;
+.searchBar {
+    padding-left: 34px;
 }
 
 .magIcon {
-    font-size: 28px;
-    position: relative;
-    right: 515px;
+    font-size: 27px;
+    position: absolute;
+    left: 350px;
+    top: 110px;
     color: grey;
 }
 
@@ -48,6 +62,7 @@
     display: flex;
     flex-direction: column;
     width: 320px;
+    height: 605px;
 }
 
 .fourColorPlusSign {
@@ -76,6 +91,8 @@
     border: none;
     box-shadow: none;
     background-color: #F8FFE5;
+    cursor: pointer;
+    border-radius: 0px 90px 90px 0px;
 }
 
 .viewButtons.clicked {
@@ -83,10 +100,6 @@
     border-radius: 0px 90px 90px 0px;
   }
   
-  .viewButtons.clicked .viewIcons {
-    color: white;
-  }
-
 .viewIcons {
     font-size: 25px;
 }
@@ -98,3 +111,90 @@
 .favoriteView .viewButtons {
     padding-left: 2px;
 }
+
+
+.navigationButtons {
+    display: flex;
+    gap: 6px;
+    height: 30px;
+    margin-top: 12px;
+}
+
+.navButtons {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.navButtons:focus {
+    outline: none;
+}
+
+.rightBar {
+    /* border: red solid 1px; */
+    display: flex;
+    flex-direction: column;
+    margin-left: 25px;
+}
+
+.contactList {
+    display: flex;
+}
+
+.rightBarHeader {
+    display: flex;
+    gap: 70px;
+}
+
+.pName {
+    padding-right: 130px;
+}
+
+.pEmail {
+    padding-right: 210px;
+}
+
+.mainHorizontalLine {
+    width: 1085px;
+    margin-right: 10px;
+}
+
+.favoriteIcon {
+    cursor: pointer;
+    font-size: 28px;
+}
+
+.contactItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Montserrat';
+}
+
+.contactInfo {
+    display: flex;
+    font-size: 18px;
+    font-family: 'Montserrat';
+    padding-top: 5px;
+}
+
+.dName {
+    width: 198px;
+}
+
+.dEmail {
+    width: 332px;
+}
+
+.dPhone {
+    width: 198px;
+}
+
+.dRelationship {
+    width: 200px;
+}
+
+

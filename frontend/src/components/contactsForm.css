@@ -1,18 +1,23 @@
-form {
+.contactForm {
     width: 900px;
-    height: 750px;
+    height: 760px;
+}
+
+.scrollable {
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .userInput {
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
-    margin-top: -35px;
+    height: 600px;
+    margin-top: 30px;
+    margin-left: 115px;
 }
 
-input {
+.contactInput {
     width: 530px;
     height: 40px;
     border-radius: 5px;
@@ -22,7 +27,7 @@ input {
 .contactsNameSection {
     display:flex;
     gap: 14px;
-    margin-left: 8px;
+    margin-left: 2px;
 }
 .fullName {
     display: flex;
@@ -50,10 +55,8 @@ input {
     font-size: 25px;
 }
 
-
 .relationshipSection {
     display: flex;
-    margin-left: 48px;
     gap: 10px;
     margin-bottom: 5px;
     margin-right: 49px;
@@ -84,7 +87,9 @@ input {
     border-radius: 5px;
     border: 1px solid #d9d9d9;
     padding: 5px;
-    width: 100px;
+    width: 150px;
+    height: 40px;
+    margin-left: 36px;
 }
 
 .addRelationship button {
@@ -130,7 +135,12 @@ input {
 }
 
 .addImportantEvent input {
-    width: 125px;
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    padding: 5px;
+    width: 107px;
+    height: 40px;
+    margin-left: 36px;
 }
 
 .addImportantEvent button {
@@ -151,7 +161,8 @@ input {
 .addContactButton {
     width: 100px;
     height: 40px;
-    margin-left: 430px;
+    margin-left: 466px;
+    margin-bottom: 20px;
 }
  
 .greenCircle {
@@ -178,7 +189,6 @@ input {
   margin: 10px 0;
 }
 
-
 .phoneSection {
     display: flex;
     gap: 14px;
@@ -190,8 +200,7 @@ input {
     font-size: 23px;
 }
 
-
-button {
+.buttonStyle {
     font-family: "Roboto", sans-serif;
     font-weight: bold;
     background-color: #06D6A0;
@@ -202,15 +211,52 @@ button {
     text-transform: uppercase;
     color: #fff;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
     -webkit-transition-property: box-shadow, transform;
     transition-property: box-shadow, transform;
 }
 
-.button:hover, .button:focus, button:active {
+.buttonStyle:hover, .buttonStyle:focus, button:active {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     -webkit-transform: scale(1.05);
     transform: scale(1.08);
+}
+/* 
+.addContactSection {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 36px;
+} */
+
+.successMessage {
+    position: relative;
+    bottom: 55px;
+    left: 200px;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    animation: popAnimation 1s ease-in-out;
+    transform-origin: center;
+    color: #1B9AAA;
+    font-size: large;
+}
+
+@keyframes popAnimation {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+}
+  
+.successMessage.hide {
+    opacity: 0;
 }

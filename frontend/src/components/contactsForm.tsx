@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { type Contact } from './contactsList'
 import './contactsForm.css'
@@ -33,6 +33,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
   const [notes, setNotes] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [showError, setShowError] = useState<boolean>(false)
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const onlyLettersRegex = /^[A-Za-z\s]*$/;
 
@@ -102,6 +103,14 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
     ])
   }
 
+  useEffect(() => {
+    if (isSubmitted) {
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 4000);
+    }
+  }, [isSubmitted]);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
@@ -128,6 +137,19 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
         id: response.data.id,
         ownerID: response.data.ownerID
       })
+      setFirstName('');
+      setLastName('');
+      setRelationships([]);
+      setImportantDates([]);
+      setEventDate('');
+      setEventType('');
+      setRelationshipType('');
+      setEmail('');
+      setPhoneNumber('');
+      setNotes('');
+      setErrorMessage('');
+      setShowError(false);
+      setIsSubmitted(true);
     } catch (error) {
       console.error(error)
       setErrorMessage((error as any).response.data ?? 'Unknown error occured.')
@@ -135,20 +157,20 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='contactForm' onSubmit={handleSubmit}>
       {(errorMessage.length > 0) && <p className="error_message">{errorMessage}</p>}
       {<p className="show_error">{showError}</p>}
       <img className='addPhoto' src={insertPhotoIcon} alt="insertPhotoIcon" />
       <img className='greenCircle' src={greenCircle} alt="greenCircle" />
       <hr className="horizontal-line"></hr>
-      <div className="userInput" >
+      <div className="userInput scrollable" >
         <div className="contactsNameSection">
           <div className="userIcon">
             <FontAwesomeIcon icon={faUser} className='userIcon' style={{ color: '#c8cbd0' }} />
           </div>
           <div className="fullName">
             <input
-              className="first_name"
+              className="first_name contactInput"
               name="first_name"
               type="text"
               placeholder='First name'
@@ -159,7 +181,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
             />
 
             <input
-              className="last_name"
+              className="last_name contactInput "
               name="last_name"
               type="text"
               placeholder='Last name'
@@ -176,6 +198,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
             <FontAwesomeIcon icon={faEnvelope} style={{ color: '#c8cbd0' }} />
           </div>
           <input
+          className='contactInput'
           name="email"
           type="text"
           placeholder='Email'
@@ -191,6 +214,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
             <FontAwesomeIcon icon={faPhone} style={{ color: '#c8cbd0' }} />
           </div>
           <input
+            className='contactInput'
             name="phone_number"
             type="text"
             placeholder='Phone number'
@@ -207,6 +231,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
           </div>
           <div className="relationship">
             <input
+              className='contactInput'
               type="text"
               placeholder='Enter relationship'
               value={relationshipType}
@@ -218,7 +243,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
               }}
             />
           </div>
-          <button type="button" onClick={addRelationship}>+</button>
+          <button type="button" className= 'buttonStyle' onClick={addRelationship}>+</button>
         </div>
 
         <div className="addRelationship">
@@ -230,7 +255,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
                 onChange={(event) => { handleRelationshipChange(index, 'relationshipType', event.target.value) }
               }
               />
-              <button className='addButton' type= "button" onClick={() => { handleRemoveRelationshipType(index) }}>
+              <button className='addButton buttonStyle' type= "button" onClick={() => { handleRemoveRelationshipType(index) }}>
                 x
               </button>
             </div>
@@ -243,6 +268,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
           </div>
           <div className="importantEvent">
             <input
+              className='contactInput'
               type="text"
               placeholder='Date'
               value={eventDate}
@@ -252,6 +278,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
               }}
             />
             <input
+              className='contactInput'
               type="text"
               placeholder='Event'
               value={eventType}
@@ -263,7 +290,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
               }}
             />
           </div>
-          <button className='add_button' type='button' onClick={addImportantEvent}>+</button>
+          <button className='buttonStyle' type='button' onClick={addImportantEvent}>+</button>
         </div>
 
         <div className="addImportantEvent">
@@ -275,12 +302,11 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
                 onChange={(event) => { handleImportantEventChange(index, 'date', event.target.value) }}
               />
               <input
-                className='Event'
                 type="text"
                 value={date.eventType}
                 onChange={(event) => { handleImportantEventChange(index, 'eventType', event.target.value) }}
               />
-              <button type="button" onClick={() => { handleRemoveImportantEvent(index) }}>
+              <button type="button" className='buttonStyle' onClick={() => { handleRemoveImportantEvent(index) }}>
                 x
               </button>
             </div>
@@ -292,6 +318,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
               <FontAwesomeIcon icon={faStickyNote} style={{ color: '#c8cbd0' }} />
             </div>
             <input
+            className='contactInput'
             name="notes"
             type="text"
             placeholder='Notes'
@@ -301,7 +328,12 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
             onChange={handleNotesChange}
             />
         </div>
-          <button className="addContactButton" type="submit">Save</button>
+          <button className="addContactButton buttonStyle" type="submit">Save</button>
+          {isSubmitted && (
+            <div className="successMessage">
+              Contact added successfully!
+            </div>
+          )}
       </div>
     </form>
   )
