@@ -1,15 +1,18 @@
 import styles from './PlanHome.module.css'
 import editButton from '../../assets/editButton.png'
 import addMemberButton from '../../assets/addMemberButton.png'
-import { useParams } from 'react-router-dom'
-import { fetchPlanData } from '../Plan/hook/fetchPlanData'
-import { LoadStatus } from '../../utils/loadingStatus'
+// import { useParams } from 'react-router-dom'
+// import { fetchPlanData } from '../Plan/hook/fetchPlanData'
+// import { LoadStatus } from '../../utils/loadingStatus'
 import { fakeUserData } from '../PlanForm'
 import { MemberList } from './MemberList'
 import { PlanStage } from '../../utils/types'
 
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { useEffect, useState } from 'react'
+import { Modal } from '../Modal'
+import { removeModal } from '../../utils/removeModal'
 
 const planProgressCalculator = (currentStage: PlanStage): number[] => {
   switch (currentStage) {
@@ -30,28 +33,54 @@ const planProgressCalculator = (currentStage: PlanStage): number[] => {
 }
 
 export const PlanHome = (): JSX.Element => {
-  const { id } = useParams();
+  const [showInviteModal, setShowInviteModal] = useState<boolean>(false)
+  // const { id } = useParams();
 
   // TODO: Make the component load data from backend
-  const [, status] = fetchPlanData(id as string)
+  // const [, status] = fetchPlanData(id as string)
 
-  if (status === LoadStatus.LOADING || status === LoadStatus.NOT_LOADED) {
-    return (
-      <div>
-        <p>loading plan</p>
-      </div>
-    )
-  } else if (status === LoadStatus.FAILED) {
-    return (
-      <div>
-        <p>couldn't fetch plan</p>
-      </div>
-    )
-  }
+  // if (status === LoadStatus.LOADING || status === LoadStatus.NOT_LOADED) {
+  //   return (
+  //     <div>
+  //       <p>loading plan</p>
+  //     </div>
+  //   )
+  // } else if (status === LoadStatus.FAILED) {
+  //   return (
+  //     <div>
+  //       <p>couldn't fetch plan</p>
+  //     </div>
+  //   )
+  // }
+
+  useEffect(() => {
+    const handleClickOutsideOfModal = (event: any) => {
+      if (showInviteModal && event.target.closest('.clickOutsideOfModal') === null) {
+        setShowInviteModal(false)
+        removeModal()
+      }
+    }
+    if (showInviteModal) {
+      document.addEventListener('mousedown', handleClickOutsideOfModal)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutsideOfModal)
+    }
+  }, [showInviteModal])
 
   const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
   return (
     <div className={styles.background}>
+      {showInviteModal
+        ? <Modal>
+          <div className={`${styles.inviteModalContainer} clickOutsideOfModal`}>
+            <button onClick={() => {
+              setShowInviteModal(false);
+              removeModal()
+            }}> X </button>
+            asdasdasdasdsadasdasdasdasd
+          </div>
+        </Modal>
+        : null}
       <section className={styles.plan}>
         <div className={styles.planTitleContainer}>
           <p className={styles.planTitle}>Write your plan title here</p>
@@ -79,7 +108,7 @@ export const PlanHome = (): JSX.Element => {
           <div className={`${styles.scrollable} ${styles.memberListWrapper}`}>
             <MemberList members={fakeUserData} />
           </div>
-          <button className={styles.inviteMemberContainer}>
+          <button className={styles.inviteMemberContainer} onClick={() => { setShowInviteModal(!showInviteModal); }}>
             <img src={addMemberButton} />
             <p>
               Invite to group
@@ -145,6 +174,9 @@ export const PlanHome = (): JSX.Element => {
           </div>
         </div>
       </section>
+      {/* <Modal>
+        <p> hi </p>
+      </Modal> */}
     </div>
   )
 }

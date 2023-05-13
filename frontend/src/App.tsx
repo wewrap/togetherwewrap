@@ -15,6 +15,7 @@ import { Home } from './components/Home/Home'
 function App(): JSX.Element {
   return (
     <div>
+      <div id="modal"></div>
       <GetUserContext>
         <Routes>
           <Route element={<ProtectedRoutes />}>
