@@ -2,7 +2,7 @@ import express from 'express';
 
 const logoutRouter = express.Router();
 
-logoutRouter.post('/logout', function (req, res, next) {
+logoutRouter.post('/', function (req, res, next) {
   req.logout(function (err) {
     if (err) {
       next(err);
@@ -13,6 +13,7 @@ logoutRouter.post('/logout', function (req, res, next) {
         next(err);
         return;
       }
+      res.clearCookie('connect.sid')
       res.redirect('http://localhost:3000/login');
     });
   });
