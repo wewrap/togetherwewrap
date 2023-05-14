@@ -11,6 +11,7 @@ import { removeModal } from '../../utils/removeModal'
 import { SearchBar } from './SearchBar'
 import { Tag } from './Tag'
 import axios, { AxiosError } from 'axios'
+import { contactsMockData } from '../../utils/mockData'
 
 const planProgressCalculator = (currentStage: PlanStage): number[] => {
   switch (currentStage) {
@@ -29,96 +30,6 @@ const planProgressCalculator = (currentStage: PlanStage): number[] => {
       return [100, 5]
   }
 }
-
-export const fakeUserData: Contact[] = [
-  {
-    firstName: 'john',
-    lastName: 'doe',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '1'
-  },
-  {
-    firstName: 'joe',
-    lastName: 'doe',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '2'
-
-  },
-  {
-    firstName: 'sarah',
-    lastName: 'doe',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '3'
-  },
-  {
-    firstName: 'alex',
-    lastName: 'doe',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '4'
-  },
-  {
-    firstName: 'kevin',
-    lastName: 'doe',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '5'
-  },
-  {
-    firstName: 'bob',
-    lastName: 'doe',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '6'
-  },
-  {
-    firstName: 'jenny',
-    lastName: 'doe',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '7'
-  },
-  {
-    firstName: 'kim',
-    lastName: 'doe',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '8'
-  }, {
-    firstName: 'josh',
-    lastName: 'doe',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '9'
-  },
-  {
-    firstName: 'edward',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '10'
-  },
-  {
-    firstName: 'syd',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '11'
-  },
-  {
-    firstName: 'jordan',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '12'
-  },
-  {
-    firstName: 'aden',
-    email: 'john@gmail.com',
-    ownerID: '1',
-    id: '13'
-  }
-]
 
 export const PlanHome = (): JSX.Element => {
   const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
@@ -177,8 +88,7 @@ export const PlanHome = (): JSX.Element => {
       })
     } catch (error) {
       if (error instanceof AxiosError) {
-        handleError('Fail to submit form. Please retry.')
-        console.error(error?.response?.status)
+        handleError('Fail to send. Please retry.')
         console.error(error?.response?.data)
       }
     }
@@ -211,7 +121,7 @@ export const PlanHome = (): JSX.Element => {
 
             <SearchBar
               handleSelectChangeFn={handleContactSelect}
-              data={fakeUserData}
+              data={contactsMockData}
               alreadySelectedData={selectedContacts}
             />
 
@@ -265,7 +175,7 @@ export const PlanHome = (): JSX.Element => {
           </h3>
           <div className={styles.whiteDivider}></div>
           <div className={`${styles.scrollable} ${styles.memberListWrapper}`}>
-            <MemberList members={fakeUserData} />
+            <MemberList members={contactsMockData} />
           </div>
           <button className={styles.inviteMemberContainer} onClick={() => { setShowInviteModal(!showInviteModal); }}>
             <img src={addMemberButton} />
@@ -333,9 +243,6 @@ export const PlanHome = (): JSX.Element => {
           </div>
         </div>
       </section>
-      {/* <Modal>
-        <p> hi </p>
-      </Modal> */}
     </div>
   )
 }
