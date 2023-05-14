@@ -7,14 +7,13 @@ import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useEffect, useState } from 'react'
 import { Modal } from '../Modal'
-import { removeModal } from '../../utils/removeModal'
+import { removeModal } from '../../utils/helpers'
 import { SearchBar } from './SearchBar'
 import { Tag } from './Tag'
 import axios, { AxiosError } from 'axios'
 import { contactsMockData } from '../../utils/mockData'
 import { fetchPlanAndContactsData } from '../Plan/hook/fetchPlanAndContactsData'
 import { useParams } from 'react-router-dom'
-// import { LoadStatus } from '../../utils/loadingStatus'
 
 const planProgressCalculator = (currentStage: PlanStage): number[] => {
   switch (currentStage) {
@@ -35,6 +34,8 @@ const planProgressCalculator = (currentStage: PlanStage): number[] => {
 }
 
 export const PlanHome = (): JSX.Element => {
+  // TODO: keep track of max plan participants
+  // TODO: prevent plan leader from adding more participants after max participants has reached
   const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
   const [showInviteModal, setShowInviteModal] = useState<boolean>(false)
   const [selectedContacts, setSelectedContacts] = useState<Contact[] | []>([]);
@@ -45,8 +46,6 @@ export const PlanHome = (): JSX.Element => {
     planData,
     contactData
   } = fetchPlanAndContactsData(id as string)
-  // TODO: keep track of max plan participants
-  // TODO: prevent plan leader from adding more participants after max participants has reached
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
       if (showInviteModal && event.target.closest('.clickOutsideOfModal') === null) {
