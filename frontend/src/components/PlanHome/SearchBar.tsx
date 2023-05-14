@@ -20,11 +20,17 @@ export const SearchBar = ({
     const inputString: string = event.target.value
     setQuery(inputString)
 
-    const filteredSearchResult = data.filter(
+    const filteredSearchByQuery = data.filter(
       (contact: Contact) => contact.email.toLowerCase().startsWith(inputString)
     )
 
-    setSearchResult(filteredSearchResult)
+    const filteredSearchByAlreadySelected = filteredSearchByQuery.filter(
+      (contact: Contact) => !alreadySelectedData.includes(contact)
+    )
+
+    console.log(filteredSearchByAlreadySelected)
+
+    setSearchResult(filteredSearchByAlreadySelected)
   }
 
   const handleClearResults = () => {

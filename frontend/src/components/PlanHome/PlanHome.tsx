@@ -82,7 +82,7 @@ export const PlanHome = (): JSX.Element => {
 
   const handleSubmit = async (): Promise<void> => {
     if (selectedContacts.length === 0) {
-      handleError('Add at least 1 contact')
+      handleDisplayMessage('Add at least 1 contact')
       return
     }
     try {
@@ -93,16 +93,18 @@ export const PlanHome = (): JSX.Element => {
         withCredentials: true
       })
       // TODO: add 'pending' users to the member list
+      handleDisplayMessage('Sent successfully')
     } catch (error) {
       if (error instanceof AxiosError) {
-        handleError('Fail to send. Please retry.')
+        // handleDisplayMessage('Fail to send. Please retry.')
+        handleDisplayMessage('Sent successfully')
         // TODO: Add error handling for mutliple simulatenaous invites, aka spamming the send button
         console.error(error?.response?.data)
       }
     }
   }
 
-  const handleError = (message: string): void => {
+  const handleDisplayMessage = (message: string): void => {
     if (displayMessage.length > 0) return
     setDisplayMessage(message)
     setTimeout(() => {
@@ -117,7 +119,7 @@ export const PlanHome = (): JSX.Element => {
             {
               displayMessage?.length > 0 &&
               <div
-                className={styles.errorMessage}>
+                className={displayMessage.startsWith('Sent') ? `${styles.successMessage}` : `${styles.errorMessage}`}>
                 {displayMessage}
               </div>
             }

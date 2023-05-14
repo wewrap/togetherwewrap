@@ -32,6 +32,13 @@
   color: var(--pink);
 }
 
+.successMessage {
+  position: absolute;
+  left: 44px;
+  top: 14px;
+  color: var(--green);
+}
+
 .sendButtonContainer {
   display: flex;
   justify-content: space-between;
