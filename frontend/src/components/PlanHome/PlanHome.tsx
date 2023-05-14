@@ -2,8 +2,7 @@ import styles from './PlanHome.module.css'
 import editButton from '../../assets/editButton.png'
 import addMemberButton from '../../assets/addMemberButton.png'
 import { MemberList } from './MemberList'
-import { PlanStage } from '../../utils/types'
-
+import { type Contact, PlanStage } from '../../utils/types'
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useEffect, useState } from 'react'
@@ -11,6 +10,7 @@ import { Modal } from '../Modal'
 import { removeModal } from '../../utils/removeModal'
 import { SearchBar } from './SearchBar'
 import { Tag } from './Tag'
+import axios, { AxiosError } from 'axios'
 
 const planProgressCalculator = (currentStage: PlanStage): number[] => {
   switch (currentStage) {
@@ -30,72 +30,110 @@ const planProgressCalculator = (currentStage: PlanStage): number[] => {
   }
 }
 
-export const fakeUserData = [
+export const fakeUserData: Contact[] = [
   {
     firstName: 'john',
-    email: 'john@gmail.com'
+    lastName: 'doe',
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '1'
   },
   {
     firstName: 'joe',
-    email: 'john@gmail.com'
+    lastName: 'doe',
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '2'
 
   },
   {
     firstName: 'sarah',
-    email: 'john@gmail.com'
+    lastName: 'doe',
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '3'
   },
   {
     firstName: 'alex',
-    email: 'john@gmail.com'
+    lastName: 'doe',
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '4'
   },
   {
     firstName: 'kevin',
-    email: 'john@gmail.com'
+    lastName: 'doe',
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '5'
   },
   {
     firstName: 'bob',
-    email: 'john@gmail.com'
+    lastName: 'doe',
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '6'
   },
   {
     firstName: 'jenny',
-    email: 'john@gmail.com'
+    lastName: 'doe',
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '7'
   },
   {
     firstName: 'kim',
-    email: 'john@gmail.com'
+    lastName: 'doe',
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '8'
   }, {
     firstName: 'josh',
-    email: 'john@gmail.com'
+    lastName: 'doe',
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '9'
   },
   {
     firstName: 'edward',
-    email: 'john@gmail.com'
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '10'
   },
   {
-    firstName: 'lisett',
-    email: 'john@gmail.com'
+    firstName: 'syd',
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '11'
   },
   {
     firstName: 'jordan',
-    email: 'john@gmail.com'
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '12'
   },
   {
     firstName: 'aden',
-    email: 'john@gmail.com'
+    email: 'john@gmail.com',
+    ownerID: '1',
+    id: '13'
   }
 ]
 
 export const PlanHome = (): JSX.Element => {
+  const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
   const [showInviteModal, setShowInviteModal] = useState<boolean>(true)
-  const [selectedContacts, setSelectedContacts] = useState<any>([]);
+  const [selectedContacts, setSelectedContacts] = useState<Contact[] | []>([]);
+  const [message, setMessage] = useState<string | undefined>()
+  const [errorMessage, setErrorMessage] = useState<string>('');
   // TODO: keep track of max plan participants
   // TODO: prevent plan leader from adding more participants after max participants has reached
+  // TODO: Add getPlanData and getUserContactList
 
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
       if (showInviteModal && event.target.closest('.clickOutsideOfModal') === null) {
-        setShowInviteModal(false)
-        removeModal()
+        handleDiscardModal()
       }
     }
     if (showInviteModal) {
@@ -105,42 +143,95 @@ export const PlanHome = (): JSX.Element => {
     }
   }, [showInviteModal])
 
-  const handleContactSelect = (singleContact: any) => {
-    setSelectedContacts((prev: any) => [...prev, singleContact])
+  const handleContactSelect = (singleContact: Contact): void => {
+    setSelectedContacts((prev: Contact[]) => [...prev, singleContact])
   }
 
-  const handleRemoveContactTag = (contactToBeRemoved: any) => {
+  const handleRemoveContactTag = (contactToBeRemoved: Contact) => {
     const filteredContacts = selectedContacts.filter(
-      (currentContacts: any) =>
-        currentContacts.firstName !== contactToBeRemoved.firstName
+      (currentContacts: Contact) =>
+        currentContacts.id !== contactToBeRemoved.id
     )
 
     setSelectedContacts(filteredContacts)
   }
 
-  const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
+  const handleDiscardModal = () => {
+    setSelectedContacts([])
+    setShowInviteModal(false)
+    setMessage(undefined)
+    removeModal()
+  }
+
+  const handleSubmit = async (): Promise<void> => {
+    if (selectedContacts.length === 0) {
+      handleError('Add at least 1 contact')
+      return
+    }
+    try {
+      await axios.post('/api/inviteContacts', {
+        selectedContacts,
+        message
+      }, {
+        withCredentials: true
+      })
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        handleError('Fail to submit form. Please retry.')
+        console.error(error?.response?.status)
+        console.error(error?.response?.data)
+      }
+    }
+  }
+
+  const handleError = (message: string): void => {
+    if (errorMessage.length > 0) return
+    setErrorMessage(message)
+    setTimeout(() => {
+      setErrorMessage('')
+    }, 3000)
+  }
   return (
     <div className={styles.background}>
       {showInviteModal
         ? <Modal>
           <div className={`${styles.inviteModalContainer} clickOutsideOfModal`}>
+            {
+              errorMessage?.length > 0 &&
+              <div
+                className={styles.errorMessage}>
+                {errorMessage}
+              </div>
+            }
+
             <button className={styles.closeButton}
               onClick={() => {
-                setShowInviteModal(false);
-                removeModal()
-              }}> X </button>
-            <SearchBar handleSelectChangeFn={handleContactSelect} data={fakeUserData} alreadySelectedData={selectedContacts} />
+                handleDiscardModal()
+              }}>&times;</button>
+
+            <SearchBar
+              handleSelectChangeFn={handleContactSelect}
+              data={fakeUserData}
+              alreadySelectedData={selectedContacts}
+            />
+
             <div className={styles.tagAndMessageContainer}>
               <div className={styles.tagContainer}>
-                {selectedContacts.map((contact: any) => (
-                  <Tag singleDataPoint={contact} handleRemoveTag={handleRemoveContactTag} />
+                {selectedContacts.map((contact: Contact) => (
+                  <Tag
+                    data={contact}
+                    handleRemoveTag={handleRemoveContactTag}
+                  />
                 ))}
               </div>
               <div className={styles.controls}>
-                <textarea placeholder='message' className={styles.emailMessage}>
+                <textarea placeholder='message' className={styles.emailMessage} value={message} onChange={(e) => { setMessage(e.target.value); }}>
                 </textarea>
                 <div className={styles.sendButtonContainer}>
-                  <button className={styles.sendInviteBtn}>
+                  <button className={`${styles.modalPlanButton} ${styles.cancelButton}`} onClick={handleDiscardModal}>
+                    Cancel
+                  </button>
+                  <button className={`${styles.modalPlanButton} ${styles.inviteButton}`} onClick={handleSubmit}>
                     Send
                   </button>
                 </div>

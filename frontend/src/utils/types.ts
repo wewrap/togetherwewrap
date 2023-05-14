@@ -16,3 +16,13 @@ export enum PlanStage {
   DELIVERY = 'DELIVERY',
   COMPLETED = 'COMPLETED',
 }
+
+export interface Contact {
+  firstName: string
+  lastName?: string
+  email: string
+  phoneNumber?: string
+  notes?: string
+  ownerID: string
+  id: string
+}

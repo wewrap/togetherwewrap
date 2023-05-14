@@ -1,13 +1,20 @@
 import { useState } from 'react'
+import { type Contact } from '../../utils/types'
 import styles from './SearchBar.module.css'
+
+interface Props {
+  handleSelectChangeFn: (data: Contact) => void
+  data: Contact[]
+  alreadySelectedData: Contact[]
+}
 
 export const SearchBar = ({
   handleSelectChangeFn,
   data,
   alreadySelectedData
-}: any): JSX.Element => {
+}: Props): JSX.Element => {
   const [query, setQuery] = useState<string>('')
-  const [searchResult, setSearchResult] = useState<any>(data)
+  const [searchResult, setSearchResult] = useState<Contact[]>(data)
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputString: string = event.target.value
@@ -20,8 +27,7 @@ export const SearchBar = ({
     setSearchResult(filteredSearchResult)
   }
 
-  const handleSelect = (contact: any) => {
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  const handleSelect = (contact: Contact) => {
     if (alreadySelectedData.includes(contact)) {
       return
     }
