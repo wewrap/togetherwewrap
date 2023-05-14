@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { type Plan, type Contact, LoadStatus } from '../../../utils/types'
 import axios from 'axios'
 
-export const fetchAllPlanData = (planIdParam: string): any => {
+export const fetchPlanAndContactsData = (planIdParam: string): any => {
   const [status, setStatus] = useState<LoadStatus>(LoadStatus.NOT_LOADED)
   const [planData, setPlanData] = useState<Plan | undefined>(undefined)
   const [contactData, setContactData] = useState<Contact[] | undefined>(undefined)

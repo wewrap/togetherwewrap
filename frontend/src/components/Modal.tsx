@@ -1,6 +1,5 @@
 import { createPortal } from 'react-dom';
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const Modal = ({ children }: { children: JSX.Element }) => {
   const modalRoot = document.getElementById('modal') as HTMLElement;
   modalRoot.style.display = 'block'

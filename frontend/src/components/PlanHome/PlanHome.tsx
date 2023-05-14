@@ -12,7 +12,7 @@ import { SearchBar } from './SearchBar'
 import { Tag } from './Tag'
 import axios, { AxiosError } from 'axios'
 import { contactsMockData } from '../../utils/mockData'
-import { fetchAllPlanData } from '../Plan/hook/fetchAllPlanData'
+import { fetchPlanAndContactsData } from '../Plan/hook/fetchPlanAndContactsData'
 import { useParams } from 'react-router-dom'
 // import { LoadStatus } from '../../utils/loadingStatus'
 
@@ -44,7 +44,7 @@ export const PlanHome = (): JSX.Element => {
   const {
     planData,
     contactData
-  } = fetchAllPlanData(id as string)
+  } = fetchPlanAndContactsData(id as string)
   // TODO: keep track of max plan participants
   // TODO: prevent plan leader from adding more participants after max participants has reached
   useEffect(() => {
