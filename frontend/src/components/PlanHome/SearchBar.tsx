@@ -21,10 +21,14 @@ export const SearchBar = ({
     setQuery(inputString)
 
     const filteredSearchResult = data.filter(
-      (search: any) => search.firstName.toLowerCase().includes(inputString)
+      (contact: Contact) => contact.email.toLowerCase().startsWith(inputString)
     )
 
     setSearchResult(filteredSearchResult)
+  }
+
+  const handleClearResults = () => {
+    setQuery('')
   }
 
   const handleSelect = (contact: Contact) => {
@@ -39,20 +43,25 @@ export const SearchBar = ({
         type="text"
         placeholder="Search by contact email"
         className={styles.searchBar}
-        onChange={handleQueryChange} />
+        onChange={handleQueryChange}
+        value={query}/>
+      {query.length > 0 &&
+        <button className={styles.clear} onClick={handleClearResults}>clear</button>
+      }
       <div className={`${styles.searchResultContainer} ${styles.scrollable}`}>
-        {query.length > 0 && (
-          searchResult.map((contact: any) => (
+        {query.length > 0 &&
+          searchResult.map((contact: Contact) => (
             <button
               className={styles.searchResults}
               onClick={() => {
                 handleSelect(contact)
+                handleClearResults()
               }}
               key={contact.firstName}>
-              <div className={styles.name}> {contact.firstName} </div>
+              <div className={styles.name}> {contact.firstName} {contact?.lastName}</div>
               <div className={styles.email}> {contact.email} </div>
             </button>))
-        )}
+        }
       </div>
     </div>
   )

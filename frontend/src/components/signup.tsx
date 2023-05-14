@@ -5,7 +5,7 @@ import axios from 'axios'
 import './signup.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from './UserContext'
-import { LoadStatus } from '../utils/loadingStatus'
+import { LoadStatus } from '../utils/types'
 
 export const SignUp = (): JSX.Element | null => {
   const [user, loadingStatus] = useContext(UserContext)

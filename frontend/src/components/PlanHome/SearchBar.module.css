@@ -12,6 +12,16 @@
   border-radius: 10px;
 }
 
+.clear {
+  position: absolute;
+  top: 59px;
+  right: 75px;
+
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 .searchResultContainer {
   margin: 0;
   margin-top: 2px;

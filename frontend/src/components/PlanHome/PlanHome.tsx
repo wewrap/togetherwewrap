@@ -12,6 +12,9 @@ import { SearchBar } from './SearchBar'
 import { Tag } from './Tag'
 import axios, { AxiosError } from 'axios'
 import { contactsMockData } from '../../utils/mockData'
+import { fetchAllPlanData } from '../Plan/hook/fetchAllPlanData'
+import { useParams } from 'react-router-dom'
+// import { LoadStatus } from '../../utils/loadingStatus'
 
 const planProgressCalculator = (currentStage: PlanStage): number[] => {
   switch (currentStage) {
@@ -36,11 +39,14 @@ export const PlanHome = (): JSX.Element => {
   const [showInviteModal, setShowInviteModal] = useState<boolean>(true)
   const [selectedContacts, setSelectedContacts] = useState<Contact[] | []>([]);
   const [message, setMessage] = useState<string | undefined>()
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [displayMessage, setDisplayMessage] = useState<string>('');
+  const { id } = useParams();
+  const {
+    planData,
+    contactData
+  } = fetchAllPlanData(id as string)
   // TODO: keep track of max plan participants
   // TODO: prevent plan leader from adding more participants after max participants has reached
-  // TODO: Add getPlanData and getUserContactList
-
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
       if (showInviteModal && event.target.closest('.clickOutsideOfModal') === null) {
@@ -86,19 +92,21 @@ export const PlanHome = (): JSX.Element => {
       }, {
         withCredentials: true
       })
+      // TODO: add 'pending' users to the member list
     } catch (error) {
       if (error instanceof AxiosError) {
         handleError('Fail to send. Please retry.')
+        // TODO: Add error handling for mutliple simulatenaous invites, aka spamming the send button
         console.error(error?.response?.data)
       }
     }
   }
 
   const handleError = (message: string): void => {
-    if (errorMessage.length > 0) return
-    setErrorMessage(message)
+    if (displayMessage.length > 0) return
+    setDisplayMessage(message)
     setTimeout(() => {
-      setErrorMessage('')
+      setDisplayMessage('')
     }, 3000)
   }
   return (
@@ -107,10 +115,10 @@ export const PlanHome = (): JSX.Element => {
         ? <Modal>
           <div className={`${styles.inviteModalContainer} clickOutsideOfModal`}>
             {
-              errorMessage?.length > 0 &&
+              displayMessage?.length > 0 &&
               <div
                 className={styles.errorMessage}>
-                {errorMessage}
+                {displayMessage}
               </div>
             }
 
@@ -121,15 +129,15 @@ export const PlanHome = (): JSX.Element => {
 
             <SearchBar
               handleSelectChangeFn={handleContactSelect}
-              data={contactsMockData}
+              data={contactData}
               alreadySelectedData={selectedContacts}
             />
 
             <div className={styles.tagAndMessageContainer}>
               <div className={styles.tagContainer}>
                 {selectedContacts.map((contact: Contact) => (
-                  <Tag
-                    data={contact}
+                  <Tag key={contact.id}
+                    contact={contact}
                     handleRemoveTag={handleRemoveContactTag}
                   />
                 ))}
@@ -164,9 +172,7 @@ export const PlanHome = (): JSX.Element => {
             Notes Feed
           </h3>
           <p className={styles.description}>
-            Hey guys! Justin is retiring and we are buying him a gift.
-            Please let me know if you have any questions. This Wrap will be lead by @Kevdev!
-            -Adam
+            {planData?.description}
           </p>
         </div>
         <div className={styles.memberListContainer}>
