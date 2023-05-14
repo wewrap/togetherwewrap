@@ -36,7 +36,7 @@ const planProgressCalculator = (currentStage: PlanStage): number[] => {
 
 export const PlanHome = (): JSX.Element => {
   const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
-  const [showInviteModal, setShowInviteModal] = useState<boolean>(true)
+  const [showInviteModal, setShowInviteModal] = useState<boolean>(false)
   const [selectedContacts, setSelectedContacts] = useState<Contact[] | []>([]);
   const [message, setMessage] = useState<string | undefined>()
   const [displayMessage, setDisplayMessage] = useState<string>('');
@@ -85,6 +85,12 @@ export const PlanHome = (): JSX.Element => {
       handleDisplayMessage('Add at least 1 contact')
       return
     }
+
+    if (message === undefined) {
+      handleDisplayMessage('Add a message')
+      return
+    }
+
     try {
       await axios.post('/api/inviteContacts', {
         selectedContacts,
@@ -96,8 +102,7 @@ export const PlanHome = (): JSX.Element => {
       handleDisplayMessage('Sent successfully')
     } catch (error) {
       if (error instanceof AxiosError) {
-        // handleDisplayMessage('Fail to send. Please retry.')
-        handleDisplayMessage('Sent successfully')
+        handleDisplayMessage('Fail to send. Please retry.')
         // TODO: Add error handling for mutliple simulatenaous invites, aka spamming the send button
         console.error(error?.response?.data)
       }
