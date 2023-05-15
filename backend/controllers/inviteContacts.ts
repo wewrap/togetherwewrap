@@ -10,7 +10,7 @@ export default class InviteContactController {
         planId
       } = req.body
 
-      await InviteContactService.setupEmailInviteToContacts(planId, contacts, message)
+      await InviteContactService.setupEmailInviteToContacts(req.user, planId, contacts, message)
     } catch (error) {
 
     }

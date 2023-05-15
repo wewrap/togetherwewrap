@@ -1,8 +1,9 @@
-import { type Contact } from '@prisma/client';
+import { type User, type Contact } from '@prisma/client';
+import SesService from '../awsSes/SesService';
 import PlanInviteModel from '../models/planInvite';
 
 export default class InviteContactService {
-  public static async setupEmailInviteToContacts(planId: string, contactsArray: Contact[], message: string) {
+  public static async setupEmailInviteToContacts(planLeader: User, planId: string, contactsArray: Contact[], message: string) {
     // TODO: make contact email required
     try {
       contactsArray.forEach(async (contact: Contact) => {
@@ -12,7 +13,7 @@ export default class InviteContactService {
 
         const url = InviteContactService.generateInviteLink(planInviteResponse.id);
 
-        await InviteContactService.sendEmailInviteToContact(url, contact.email as string, message)
+        await InviteContactService.sendEmailInviteToContact(planLeader, url, contact.email as string, message)
       })
     } catch (error: any) {
       console.error(error)
@@ -24,7 +25,11 @@ export default class InviteContactService {
     return `/plan-invite/${planInviteID}`
   }
 
-  private static async sendEmailInviteToContact(url: string, email: string, message: string) {
-
+  private static async sendEmailInviteToContact(planLeader: User, url: string, email: string, message: string) {
+    try {
+      await SesService.sendMail(planLeader, url, email, message);
+    } catch (error) {
+      console.log(`send email failed: ${error}`)
+    }
   }
 }
