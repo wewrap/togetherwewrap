@@ -93,7 +93,8 @@ export const PlanHome = (): JSX.Element => {
     try {
       await axios.post('/api/inviteContacts', {
         selectedContacts,
-        message
+        message,
+        planID: id
       }, {
         withCredentials: true
       })

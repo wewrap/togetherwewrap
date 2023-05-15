@@ -28,8 +28,6 @@ export const SearchBar = ({
       (contact: Contact) => !alreadySelectedData.includes(contact)
     )
 
-    console.log(filteredSearchByAlreadySelected)
-
     setSearchResult(filteredSearchByAlreadySelected)
   }
 
