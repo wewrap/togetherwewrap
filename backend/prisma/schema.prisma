@@ -45,6 +45,7 @@ enum RelationshipStatus {
   PENDING_REQUEST
   NOT_FRIEND
 }
+
 model Session {
   id        String   @id
   sid       String   @unique
@@ -70,10 +71,11 @@ model Plan {
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   PlanMembership   PlanMembership[]
+  PlanInvite       PlanInvite[]
 }
 
 model Contact {
-  id                 String                    @id @default(uuid())
+  id                 String                @id @default(uuid())
   email              String?
   firstName          String
   lastName           String?
@@ -81,7 +83,7 @@ model Contact {
   notes              String?
   source             String?
   ownerID            String
-  owner              User                      @relation(fields: [ownerID], references: [id])
+  owner              User                  @relation(fields: [ownerID], references: [id])
   importantDateEvent ImportantDateEvent[]
   relationships      ContactRelationship[]
 }
@@ -96,7 +98,6 @@ model Pledge {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 }
-
 
 model ImportantDateEvent {
   id        String  @id @default(uuid())
@@ -152,4 +153,14 @@ model PlanMembership {
   Pledge       Pledge[]
   inviteStatus InviteStatus
   role         Role
+}
+
+model PlanInvite {
+  id        String   @id @default(uuid())
+  plan      Plan     @relation(fields: [planID], references: [id])
+  planID    String
+  inviteeEmail String
+  expiration DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -181,5 +181,6 @@ app.use('/signup', signUpAuth)
 app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/userData', userDataRouter)
 app.use('/logout', logoutRouter)
+app.use('/api/inviteContacts', inviteContactsRouter)
 
 export default app
