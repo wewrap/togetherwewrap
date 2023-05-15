@@ -4,6 +4,7 @@ import AWS from 'aws-sdk'
 AWS.config.update({ region: 'us-west-1' });
 export default class SesService {
   public static async sendMail(planLeader: User, url: string, email: string, message: string) {
+    const baseURL = 'http://localhost:3000'
     const planLeaderFullName = `${planLeader.firstName} ${planLeader.lastName}`
     const params = {
       Destination: {
@@ -18,10 +19,14 @@ export default class SesService {
             Data: `<h3>
             Hello, ${email}! You have been invited to join ${planLeaderFullName}'s super secret plan 🤫 !
             </h3>
-            <h3>${planLeaderFullName} said: ${message}</h3>
-            <a href=${url}>
-              Join Plan
-            </a>
+            <h3>
+            ${planLeaderFullName} said: ${message}
+            </h3>
+            <button>
+              <a href=${baseURL}${url}>
+                Join Plan
+              </a>
+            </button>
             `
           }
         },
@@ -35,6 +40,7 @@ export default class SesService {
         'kevinvong0129@gmail.com'
       ]
     };
+
     const sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendEmail(params).promise();
 
     sendPromise.then(

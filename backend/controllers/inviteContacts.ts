@@ -7,12 +7,17 @@ export default class InviteContactController {
       const {
         message,
         selectedContacts: contacts,
-        planId
+        planID
       } = req.body
+      // add function to check if an invite has already been sent
+      await InviteContactService.setupEmailInviteToContacts(req.user, planID, contacts, message)
 
-      await InviteContactService.setupEmailInviteToContacts(req.user, planId, contacts, message)
+      res.status(201)
     } catch (error) {
-
+      console.error(error)
+      res.status(400).json({
+        error: `unable to send invitations: ${error}}`
+      })
     }
   }
 }

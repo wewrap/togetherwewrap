@@ -29,7 +29,7 @@ export default class InviteContactService {
     try {
       await SesService.sendMail(planLeader, url, email, message);
     } catch (error) {
-      console.log(`send email failed: ${error}`)
+      console.error(`send email failed: ${error}`)
     }
   }
 }
