@@ -38,6 +38,7 @@ export const ContactsList = () => {
   const [contacts, setContacts] = useState<Contact[]>([])
   const [modal, setModal] = useState<boolean>(false)
   const [buttonStates, setButtonStates] = useState<boolean[]>([true, false, false])
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleContactCreate = (newContact: Contact): void => {
     setContacts((prevContacts) => [...prevContacts, newContact]);
@@ -89,6 +90,16 @@ export const ContactsList = () => {
     document.body.classList.remove('active-modal')
   }
 
+  const filteredContacts = contacts.filter((contact) =>
+    contact.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    ((contact.lastName?.toLowerCase().includes(searchQuery.toLowerCase())) ?? false) ||
+    ((contact.email?.toLowerCase().includes(searchQuery.toLowerCase())) ?? false) ||
+    ((contact.phoneNumber?.toLowerCase().includes(searchQuery.toLowerCase())) ?? false) ||
+    contact.relationships.some((relationship) =>
+      relationship.relationshipType.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  )
+
   return (
     <div className='background'>
       <div className="contactsHeader">
@@ -101,6 +112,8 @@ export const ContactsList = () => {
             <input type="text"
               placeholder="Search"
               className='searchInput'
+              value={searchQuery}
+              onChange={(e) => { setSearchQuery(e.target.value); }}
             />
             <FontAwesomeIcon className='magIcon' icon={faMagnifyingGlass} />
           </div>
@@ -174,7 +187,7 @@ export const ContactsList = () => {
           <hr className="mainHorizontalLine"></hr>
 
           <div className="listOfContacts">
-            {contacts?.map((contact) => (
+            {filteredContacts?.map((contact) => (
               <div key={contact.id} className="contactItem">
                 <img className="contactIcon" src={contactIcon} alt="contactIcon" />
                   <div className="contactInfo">
