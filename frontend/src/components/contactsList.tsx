@@ -91,7 +91,7 @@ export const ContactsList = () => {
 
   return (
     <div className='background'>
-      <div className="header">
+      <div className="contactsHeader">
           <img className='burgerIcon' src={burgerIcon} alt="burgerIcon" />
           <div className='iconAndTitle'>
             <img className='contactIcon' src={contactIcon} alt="contactIcon" />

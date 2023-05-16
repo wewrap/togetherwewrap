@@ -3,13 +3,13 @@
     height: 100vh;
 }
 
-.header {
+.contactsHeader {
     display: flex;
     gap: 28px;
     align-items: center;
     margin-left: 90px;
     margin-bottom: 14px;
-    padding-top: 3px;
+    padding-top: 40px;
 }
 
 .burgerIcon {
@@ -17,14 +17,14 @@
     height: auto;
     position: absolute;
     left: 32px;
-    top: 58px;
+    top: 120px;
 }
 
 .contactIcon {
     width: 40px;
     height: 40px;
     position: relative;
-    bottom: 22px;
+    top: 4px;
 }
 
 .iconAndTitle {
@@ -55,7 +55,7 @@
     font-size: 27px;
     position: absolute;
     left: 350px;
-    top: 110px;
+    top: 121px;
     color: grey;
 }
 
@@ -70,7 +70,7 @@
     height: 28px;
     width: auto;
     position: absolute;
-    top: 150px;
+    top: 222px;
     left: 35px;
 }
 
@@ -143,6 +143,7 @@
 
 .contactList {
     display: flex;
+    margin-top: 50px;
 }
 
 .rightBarHeader {
@@ -173,13 +174,15 @@
     align-items: center;
     gap: 12px;
     font-family: 'Montserrat';
+    margin-bottom: 50px;
+    margin-top: 20px;
 }
 
 .contactInfo {
     display: flex;
     font-size: 18px;
     font-family: 'Montserrat';
-    padding-top: 5px;
+    padding-top: 8px;
 }
 
 .dName {
