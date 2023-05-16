@@ -3,24 +3,62 @@ import prisma from '../utils/prismaClient'
 const db = prisma
 
 export default class PlanInviteModel {
-  public static async dbCreateOnePlanInvite(planID: string, email: string): Promise<PlanInvite | null> {
-    // expiration date is Date now + 1 day. 24h for expiration
-    try {
-      const today = new Date()
-      const tomorrow = new Date(today)
-      tomorrow.setDate(tomorrow.getDate() + 2)
+  private static getNthDateFromToday(numOfDay: number): Date {
+    const today = new Date()
+    const nthDayFromToday = new Date(today)
+    nthDayFromToday.setDate(nthDayFromToday.getDate() + numOfDay)
 
+    return nthDayFromToday
+  }
+
+  public static async dbCreateOnePlanInvite(planID: string, email: string): Promise<PlanInvite | null> {
+    try {
       const responseData = await db.planInvite.create({
         data: {
           inviteeEmail: email,
           planID,
-          expiration: tomorrow
+          expiration: PlanInviteModel.getNthDateFromToday(1)
         }
       })
 
       return responseData
     } catch (error) {
       console.error(`Error in dbCreateOnePlanInvite: ${error}`)
+      return null
+    }
+  }
+
+  public static async updatePlanInviteExpiration(planInviteID: string): Promise<PlanInvite | null> {
+    try {
+      const responseData = await db.planInvite.update({
+        data: {
+          expiration: PlanInviteModel.getNthDateFromToday(1)
+        },
+        where: {
+          id: planInviteID
+        }
+      })
+      return responseData
+    } catch (error) {
+      console.log(error)
+      return null
+    }
+  }
+
+  public static async readOnePlanInvite(planID: string, email: string): Promise<PlanInvite | null> {
+    try {
+      const responseData = await db.planInvite.findFirst({
+        where: {
+          planID,
+          inviteeEmail: email
+        }
+      })
+
+      if (responseData === null) throw new Error(`Unable to find a matching plan invite with ${planID} and ${email} in database`)
+
+      return responseData;
+    } catch (error) {
+      console.error(error)
       return null
     }
   }
