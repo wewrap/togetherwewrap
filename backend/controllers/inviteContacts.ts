@@ -1,4 +1,3 @@
-import { InviteStatus } from '@prisma/client';
 import { type NextFunction } from 'express';
 import InviteContactService from '../service/inviteContact';
 
@@ -10,8 +9,7 @@ export default class InviteContactController {
         selectedContacts: contacts,
         planID
       } = req.body
-      // add function to check if an invite has already been sent
-      // InviteContactService.checkInviteHasSent(req.user, planID, contacts, message)
+
       InviteContactService.setupEmailInviteToContacts(req.user, planID, contacts, message)
 
       res.status(201)

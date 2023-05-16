@@ -13,7 +13,7 @@ export default class InviteContactService {
   static setupEmailInviteToContacts(planLeader: User, planID: string, contactsArray: Contact[], message: string): Contact[] | undefined {
     // TODO: make contact email required in the contacts model
     try {
-      const hasInvitedContacts: Contact[] = []
+      const alreadyInvitedContacts: Contact[] = []
       contactsArray.forEach(async (contact: Contact) => {
         const contactEmail = contact.email as string;
 
@@ -44,12 +44,12 @@ export default class InviteContactService {
 
             break;
           case PlanInviteStatus.HAS_INVITED:
-            hasInvitedContacts.push(contact)
+            alreadyInvitedContacts.push(contact)
             break;
         }
       })
 
-      return hasInvitedContacts
+      return alreadyInvitedContacts
     } catch (error: any) {
       console.error(error)
       console.error(error.stack)
