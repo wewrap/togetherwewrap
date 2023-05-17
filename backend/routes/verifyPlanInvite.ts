@@ -1,6 +1,7 @@
 import express from 'express'
-const verifyPlanInviterouter = express.Router()
+import PlanInviteController from '../controllers/verifyPlan';
+const verifyPlanInviteRouter = express.Router()
 
-verifyPlanInviterouter.get('/:id', )
+verifyPlanInviteRouter.post('/:id', PlanInviteController.verifyPlanInvite)
 
-export default verifyPlanInviterouter;
+export default verifyPlanInviteRouter;

@@ -23,6 +23,7 @@ import userDataRouter from './routes/userData'
 import contactCreatorRouter from './routes/contactCreator'
 import logoutRouter from './routes/logout'
 import inviteContactsRouter from './routes/inviteContactsRouter'
+import verifyPlanInviteRouter from './routes/verifyPlanInvite'
 
 dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
@@ -183,6 +184,6 @@ app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/userData', userDataRouter)
 app.use('/logout', logoutRouter)
 app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
-app.use('/verify-plan-invite', verifyPlanInviterouter)
+app.use('/verify-plan-invite', verifyPlanInviteRouter)
 
 export default app
