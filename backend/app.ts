@@ -183,5 +183,6 @@ app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/userData', userDataRouter)
 app.use('/logout', logoutRouter)
 app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
+app.use('/verify-plan-invite', verifyPlanInviterouter)
 
 export default app
