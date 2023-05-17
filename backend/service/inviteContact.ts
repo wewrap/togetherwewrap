@@ -10,7 +10,7 @@ enum PlanInviteStatus {
 }
 
 export default class InviteContactService {
-  static setupEmailInviteToContacts(planLeader: User, planID: string, contactsArray: Contact[], message: string): Contact[] | undefined {
+  static setupEmailInviteToContacts(planLeader: User, planID: string, contactsArray: Contact[], message: string): Contact[] | null {
     // TODO: make contact email required in the contacts model
     try {
       const alreadyInvitedContacts: Contact[] = []
@@ -44,7 +44,7 @@ export default class InviteContactService {
 
             break;
           case PlanInviteStatus.HAS_INVITED:
-            alreadyInvitedContacts.push(contact)
+            alreadyInvitedContacts.push()
             break;
         }
       })
@@ -53,7 +53,7 @@ export default class InviteContactService {
     } catch (error: any) {
       console.error(error)
       console.error(error.stack)
-      return undefined
+      return null
     }
   }
 
