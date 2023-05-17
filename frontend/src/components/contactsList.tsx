@@ -128,7 +128,6 @@ export const ContactsList = () => {
               </div>
             )}
           </div>
-
           <div className="views">
             <div className="contactView">
               <button className={`viewButtons ${buttonStates[0] ? 'clicked' : ''}`} onClick={() => { handleButtonClick(0) }}>
@@ -140,7 +139,7 @@ export const ContactsList = () => {
             <div className="frequentView">
               <button className={`viewButtons ${buttonStates[1] ? 'clicked' : ''}`} onClick={() => { handleButtonClick(1) }}>
                 <FontAwesomeIcon icon={faClockRotateLeft} className='viewIcons' style={{ color: '#c8cbd0', marginRight: '5px' }} />
-                Frequent
+                Recent
               </button>
             </div>
 
