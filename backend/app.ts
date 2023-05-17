@@ -179,5 +179,6 @@ app.use('/api/plan', checkUserAuthorization, planRouter)
 app.use('/signup', signUpAuth)
 app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/userData', userDataRouter)
+app.use('/verify-plan-invite', verifyPlanInviterouter)
 
 export default app
