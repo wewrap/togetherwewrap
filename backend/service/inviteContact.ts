@@ -10,11 +10,11 @@ enum PlanInviteStatus {
 }
 
 export default class InviteContactService {
-  static setupEmailInviteToContacts(planLeader: User, planID: string, contactsArray: Contact[], message: string): Contact[] | null {
+  static async setupEmailInviteToContacts(planLeader: User, planID: string, contactsArray: Contact[], message: string): Promise<Contact[] | null> {
     // TODO: make contact email required in the contacts model
     try {
       const alreadyInvitedContacts: Contact[] = []
-      contactsArray.forEach(async (contact: Contact) => {
+      await Promise.all(contactsArray.map(async (contact: Contact) => {
         const contactEmail = contact.email as string;
 
         switch (await InviteContactService.checkPlanInviteStatus(planID, contactEmail)) {
@@ -44,10 +44,11 @@ export default class InviteContactService {
 
             break;
           case PlanInviteStatus.HAS_INVITED:
-            alreadyInvitedContacts.push()
+
+            alreadyInvitedContacts.push(contact)
             break;
         }
-      })
+      }))
 
       return alreadyInvitedContacts
     } catch (error: any) {
