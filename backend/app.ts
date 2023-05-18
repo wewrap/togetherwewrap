@@ -175,6 +175,7 @@ passport.use(
   ))
 
 app.use('/', testRouter)
+app.use('/verify-plan-invite', verifyPlanInviteRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
@@ -184,6 +185,5 @@ app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/userData', userDataRouter)
 app.use('/logout', logoutRouter)
 app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
-app.use('/verify-plan-invite', verifyPlanInviteRouter)
 
 export default app

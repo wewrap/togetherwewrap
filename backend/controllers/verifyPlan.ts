@@ -1,27 +1,38 @@
 import { InviteStatus, Role, type User } from '@prisma/client';
-import { type NextFunction } from 'express';
+import { type Response, type NextFunction } from 'express';
 import prisma from '../utils/prismaClient';
 const db = prisma
 
 export default class PlanInviteController {
-  static async verifyPlanInvite(req: any, res: any, next: NextFunction): Promise<void> {
+  static async verifyPlanInvite(req: any, res: Response, next: NextFunction): Promise<void> {
     try {
       const planInviteID = req.params.id
       console.log(req.params.id)
+      console.log(req.user)
       // if cookie, check for user id matches invitee email
 
+      if (req.user === null || req.user === undefined) {
+        res.status(200).json({
+          status: 'NOT_LOGGED_IN',
+          planInviteID
+        })
+        return
+      }
+
       if (req.user !== null || req.user !== undefined) {
-        const isEmailMatch = await this.isUserEmailMatchPlanInviteEmail(req.user, planInviteID)
+        const isEmailMatch = await PlanInviteController.isUserEmailMatchPlanInviteEmail(req.user, planInviteID)
 
         if (isEmailMatch === null) throw new Error('fail to run isUserEmailMatchPlanInviteEmail')
 
         if (isEmailMatch) {
-          const planID = await this.setUpPlanMembership(planInviteID, req.user)
-          res.redirect(`http://localhost:3000/plan/${planID}`)
+          const planID = await PlanInviteController.setUpPlanMembership(planInviteID, req.user)
+          console.log('email match')
+          res.status(200).json({
+            status: 'LOGGED_IN_AND_EMAIL_MATCH',
+            planID
+          })
         }
       }
-
-      res.redirect(`http://localhost:3000/login/${planInviteID}`)
       // if no cookie, redirect to login/:id
     } catch (error) {
       console.error(error)

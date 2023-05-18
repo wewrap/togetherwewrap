@@ -12,6 +12,7 @@ import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
 import { Home } from './components/Home/Home'
 import { PlanInviteVerification } from './PlanInviteVerification'
+import { LoginPlanInvite } from './components/LoginPlanInvite'
 
 function App(): JSX.Element {
   return (
@@ -37,10 +38,12 @@ function App(): JSX.Element {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/plan-invite/:id" element={<PlanInviteVerification />} />
-          <Route path="/login/:id" element={<LoginForm />} />
-          <Route path="/signup/:id" element={<SignUp />} />
         </Routes>
       </GetUserContext>
+      <Routes>
+        <Route path="/login/:id" element={<LoginPlanInvite />} />
+        <Route path="/signup/:id" element={<SignUp />} />
+      </Routes>
 
     </div >
   )
