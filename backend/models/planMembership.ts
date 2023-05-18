@@ -39,6 +39,17 @@ export default class PlanMembershipModel {
     }
   }
 
+  public static async dbReadOnePlanMembership(planID: string, userID: string) {
+    const responseData = await db.planMembership.findFirst({
+      where: {
+        planID,
+        userID
+      }
+    })
+
+    return responseData
+  }
+
   public static async dbReadPlanMembers(planID: string): Promise<Array<PlanMembership & {
     user: User
   }

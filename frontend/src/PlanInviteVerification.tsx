@@ -1,15 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios'
-import { useEffect } from 'react'
-import { useParams, redirect } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export const PlanInviteVerification = (): JSX.Element => {
   const { id: planInviteID } = useParams()
-  // const navigate = useNavigate()
+  const [isWrongEmail, setIsWrongEmail] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const sendTokenToBackend = async () => {
       try {
-        const response = await axios.get(`/verify-plan-invite/${planInviteID}`)
+        const response = await axios.get(`/verify-plan-invite/${planInviteID}`, { withCredentials: true })
+        console.log(response)
         return response
       } catch (error) {
         console.error(error)
@@ -17,19 +20,21 @@ export const PlanInviteVerification = (): JSX.Element => {
       }
     }
 
-    const THREE_SECONDS = 3000;
+    const TWO_SECONDS = 2000;
 
     const delayLoading = async () => {
-      await new Promise((resolve) => setTimeout(resolve, THREE_SECONDS));
+      await new Promise((resolve) => setTimeout(resolve, TWO_SECONDS));
       sendTokenToBackend()
         .then((response: any) => {
           console.info(response)
           if (response.data.status === 'NOT_LOGGED_IN') {
             const planInviteID = response.data.planInviteID
-            redirect(`/login/${planInviteID}`)
+            window.location.href = `/login/${planInviteID}`
           } else if (response.data.status === 'LOGGED_IN_AND_EMAIL_MATCH') {
             const planID = response.data.planID
-            redirect(`/plan/${planID}`)
+            window.location.href = `/plan/${planID}`
+          } else if (response.data.status === 'LOGGED_IN_AND_EMAIL_DONT_MATCH') {
+            setIsWrongEmail(true)
           }
         })
         .catch((response) => {
@@ -43,7 +48,7 @@ export const PlanInviteVerification = (): JSX.Element => {
   }, [])
   return (
     <div>
-      Loading...
+      {isWrongEmail ? <h1> Unauthorized acess: Log into the correct account email </h1> : <h1>Loading...</h1>}
     </div>
   )
 }

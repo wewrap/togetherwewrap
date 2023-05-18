@@ -38,11 +38,11 @@ function App(): JSX.Element {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/plan-invite/:id" element={<PlanInviteVerification />} />
+          <Route path="/login/:id" element={<LoginPlanInvite />} />
+          <Route path="/signup/:id" element={<SignUp />} />
         </Routes>
       </GetUserContext>
       <Routes>
-        <Route path="/login/:id" element={<LoginPlanInvite />} />
-        <Route path="/signup/:id" element={<SignUp />} />
       </Routes>
 
     </div >
