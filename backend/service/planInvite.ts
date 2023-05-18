@@ -24,7 +24,7 @@ export default class PlanInviteService {
     await db.planMembership.create({
       data: {
         planID,
-        inviteStatus: InviteStatus.NOT_APPLICABLE,
+        inviteStatus: InviteStatus.ACCEPTED,
         role: Role.FRIEND,
         userID: user.id
       }
@@ -64,5 +64,20 @@ export default class PlanInviteService {
       console.error(error)
       return null
     }
+  }
+
+  static async getPlanID(planInviteID: string): Promise<string | null> {
+    const res = await db.planInvite.findFirst({
+      where: {
+        id: planInviteID
+      },
+      select: {
+        planID: true
+      }
+    });
+
+    if (res === null) throw new Error('unable to find plan')
+
+    return res.planID
   }
 }

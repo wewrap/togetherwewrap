@@ -1,7 +1,7 @@
 import express from 'express'
-import PlanInviteController from '../controllers/verifyPlan';
+import InviteContactController from '../controllers/inviteContacts';
 const verifyPlanInviteRouter = express.Router()
 
-verifyPlanInviteRouter.get('/:id', PlanInviteController.verifyPlanInvite)
+verifyPlanInviteRouter.get('/:id', InviteContactController.verifyPlanInvite)
 
 export default verifyPlanInviteRouter;

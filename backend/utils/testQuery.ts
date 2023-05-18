@@ -3,9 +3,8 @@ import prisma from './prismaClient';
 const db = prisma
 
 const main = async (): Promise<void> => {
-  const res = await db.planInvite.deleteMany({
+  const res = await db.planMembership.deleteMany({
     where: {
-      inviteeEmail: 'kevinvong0129@gmail.com',
       planID: '1'
     }
   })
