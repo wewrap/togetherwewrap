@@ -82,6 +82,7 @@ model Contact {
   source             String?
   ownerID            String
   owner              User                      @relation(fields: [ownerID], references: [id])
+  createdAt          DateTime                  @default(now())
   importantDateEvent ImportantDateEvent[]
   relationships      ContactRelationship[]
 }
