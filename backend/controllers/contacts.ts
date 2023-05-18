@@ -12,7 +12,8 @@ export default class ContactController {
         notes: req.body.notes,
         ownerID: req.user.id,
         relationships: req.body.relationships,
-        importantDates: req.body.importantDates
+        importantDates: req.body.importantDates,
+        createdAt: new Date()
       };
 
       const contactRecord = await ContactService.createContact(contactData);
