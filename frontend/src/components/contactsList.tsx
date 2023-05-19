@@ -20,7 +20,7 @@ export interface Contact {
   ownerID: string
   relationships: ContactRelationship[]
   importantDateEvent?: ImportantDateEvent[]
-  isFavorite?: boolean
+  createdAt: Date
 }
 
 interface ContactRelationship {
