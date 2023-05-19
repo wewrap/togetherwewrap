@@ -13,7 +13,8 @@ export default class ContactModel {
           email: data.email,
           phoneNumber: data.phoneNumber,
           notes: data.notes,
-          ownerID: data.ownerID
+          ownerID: data.ownerID,
+          createdAt: new Date()
         }
       })
       await db.contactRelationship.createMany({

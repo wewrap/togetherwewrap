@@ -84,6 +84,7 @@ model Contact {
   owner              User                      @relation(fields: [ownerID], references: [id])
   importantDateEvent ImportantDateEvent[]
   relationships      ContactRelationship[]
+  createdAt         DateTime                  @default(now())
 }
 
 model Pledge {
