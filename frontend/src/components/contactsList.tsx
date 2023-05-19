@@ -12,6 +12,7 @@ export interface Contact {
   ownerID: string
   relationships?: ContactRelationship[]
   importantDateEvent?: ImportantDateEvent[]
+  createdAt: Date
 }
 
 interface ContactRelationship {
