@@ -12,15 +12,14 @@ export default class ContactController {
         notes: req.body.notes,
         ownerID: req.user.id,
         relationships: req.body.relationships,
-        importantDates: req.body.importantDates,
-        createdAt: new Date()
+        importantDates: req.body.importantDates
       };
 
       const contactRecord = await ContactService.createContact(contactData);
 
       if (contactRecord === undefined) throw new Error('create contact failed');
 
-      res.status(201).json(contactData);
+      res.status(201).send(contactRecord);
     } catch (err) {
       console.error('error in create contact', err);
       res.status(400).send('error');

@@ -81,10 +81,10 @@ model Contact {
   notes              String?
   source             String?
   ownerID            String
+  createdAt          DateTime                  @default(now())
   owner              User                      @relation(fields: [ownerID], references: [id])
   importantDateEvent ImportantDateEvent[]
   relationships      ContactRelationship[]
-  createdAt         DateTime                  @default(now())
 }
 
 model Pledge {
