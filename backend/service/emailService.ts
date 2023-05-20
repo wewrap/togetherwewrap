@@ -3,7 +3,7 @@ import AWS from 'aws-sdk'
 
 AWS.config.update({ region: 'us-west-1' });
 export default class EmailService {
-  public static async sendMail(planLeader: User, url: string, email: string, message: string) {
+  public static async sendPlanInviteEmail(planLeader: User, url: string, email: string, message: string) {
     const baseURL = 'http://localhost:3000'
     const planLeaderFullName = `${planLeader.firstName} ${planLeader.lastName}`
     const params = {
@@ -32,7 +32,7 @@ export default class EmailService {
         },
         Subject: {
           Charset: 'UTF-8',
-          Data: `${planLeaderFullName} has sent you an invite to a Wewrap plan!`
+          Data: `${planLeaderFullName} has sent you an invite to a WeWrap plan!`
         }
       },
       Source: 'kevinvong0129@gmail.com',

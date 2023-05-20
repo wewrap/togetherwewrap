@@ -49,6 +49,7 @@ export default class InviteContactService {
         }
       }))
 
+      // returns an array of contacts that were already invited
       return alreadyInvitedContacts
     } catch (error: any) {
       console.error(error)
@@ -80,7 +81,7 @@ export default class InviteContactService {
 
   private static async sendEmailInviteToContact(planLeader: User, url: string, email: string, message: string) {
     try {
-      await EmailService.sendMail(planLeader, url, email, message);
+      await EmailService.sendPlanInviteEmail(planLeader, url, email, message);
     } catch (error) {
       console.error(`send email failed: ${error}`)
     }

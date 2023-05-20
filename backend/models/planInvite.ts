@@ -1,23 +1,16 @@
 import { type PlanInvite } from '@prisma/client'
 import prisma from '../utils/prismaClient'
+import { getNthDateFromToday } from '../utils/date'
 const db = prisma
 
 export default class PlanInviteModel {
-  private static getNthDateFromToday(numOfDay: number): Date {
-    const today = new Date()
-    const nthDayFromToday = new Date(today)
-    nthDayFromToday.setDate(nthDayFromToday.getDate() + numOfDay)
-
-    return nthDayFromToday
-  }
-
   public static async dbCreateOnePlanInvite(planID: string, email: string): Promise<PlanInvite | null> {
     try {
       const responseData = await db.planInvite.create({
         data: {
           inviteeEmail: email,
           planID,
-          expiration: PlanInviteModel.getNthDateFromToday(1)
+          expiration: getNthDateFromToday(1)
         }
       })
 
@@ -32,7 +25,7 @@ export default class PlanInviteModel {
     try {
       const responseData = await db.planInvite.update({
         data: {
-          expiration: PlanInviteModel.getNthDateFromToday(1)
+          expiration: getNthDateFromToday(1)
         },
         where: {
           id: planInviteID

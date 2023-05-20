@@ -1,8 +1,9 @@
-import { type NextFunction } from 'express';
+import { type User } from '@prisma/client';
+import { type Response, type NextFunction, type Request } from 'express';
 import InviteContactService from '../service/inviteContact';
 
 export default class InviteContactController {
-  public static async inviteContacts(req: any, res: any, next: NextFunction): Promise<void> {
+  public static async inviteContacts(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const {
         message,
@@ -10,7 +11,7 @@ export default class InviteContactController {
         planID
       } = req.body
 
-      const inviteContactsRes = await InviteContactService.sendEmailToNotInvitedAndExpiredInvitedContacts(req.user, planID, contacts, message)
+      const inviteContactsRes = await InviteContactService.sendEmailToNotInvitedAndExpiredInvitedContacts((req.user as User), planID, contacts, message)
 
       if (inviteContactsRes === null) throw new Error('Unable to send invites to all contacts')
 
@@ -18,12 +19,12 @@ export default class InviteContactController {
         console.log({
           contactsNotInvited: inviteContactsRes
         })
-        res.status(201).json({
+        res.status(200).json({
           data: `${inviteContactsRes.length} were already invited, please try again later`,
           contactsNotInvited: inviteContactsRes
         })
       } else {
-        res.status(201).json({
+        res.status(200).json({
           success: 'Sucessfully sent email to all contacts'
         })
       }
