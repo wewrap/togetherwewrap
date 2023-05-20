@@ -36,8 +36,9 @@ export const LoginPlanInvite = (): JSX.Element | null => {
 
   return (
     <div className='login_form'>
-      <img src='./wewrap_green.png' alt='wewrap logo'></img>
-      <h1>Someone has invited you a plan, please log in with the correct email</h1>
+      <img src='/wewrap_green.png' alt='wewrap logo'></img>
+      <h1>You have been invited to a Plan!</h1>
+      <p>Please log in or sign up using your invited email adress</p>
       <p className='subheader'>Don't have an account? <Link to="/signup"> Sign up </Link> </p>
       <form action="/login/password" method="post" onSubmit={handleSubmit}>
         {(errorMessage !== '') && <p className='error_message'>{errorMessage}</p>}
