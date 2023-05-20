@@ -49,36 +49,36 @@ export default class InviteContactController {
         return
       }
 
-      const isEmailMatch = await PlanInviteService.isUserEmailMatchPlanInviteEmail(req.user, planInviteID)
+      const isEmailMatch = await PlanInviteService.isUserEmailMatchPlanInviteEmail(req?.user?.email, planInviteID)
 
       if (isEmailMatch === null) throw new Error('fail to run isUserEmailMatchPlanInviteEmail')
 
-      if (isEmailMatch) {
-        // check if user is already a plan member, guard against multiple attempt to 'join' the plan
-        if (await PlanInviteService.isUserAlreadyPlanMember(planInviteID, req.user.id)) {
-          const planIDResponse = await PlanInviteService.getPlanID(planInviteID)
-
-          if (planIDResponse === null) throw new Error(`Unable to identify planID with the following planInviteID: ${planInviteID}`)
-
-          res.status(200).json({
-            reason: 'USER_ALREADY_A_PLAN_MEMBER',
-            planID: planIDResponse
-          })
-          return
-        }
-
-        const planID = await PlanInviteService.setUpInviteePlanMembership(planInviteID, req.user)
-        console.log('email match')
+      if (!isEmailMatch) {
         res.status(200).json({
-          reason: 'LOGGED_IN_AND_EMAIL_MATCH',
-          planID
+          reason: 'LOGGED_IN_AND_EMAIL_DONT_MATCH'
+        })
+      }
+      // check if user is already a plan member, guard against multiple attempt to 'join' the plan
+      const isUserAlreadyPlanMember = await PlanInviteService.isUserAlreadyPlanMember(planInviteID, req.user.id)
+      if (isUserAlreadyPlanMember) {
+        const planIDResponse = await PlanInviteService.getPlanID(planInviteID)
+
+        if (planIDResponse === null) throw new Error(`Unable to identify planID with the following planInviteID: ${planInviteID}`)
+
+        res.status(200).json({
+          reason: 'USER_ALREADY_A_PLAN_MEMBER',
+          planID: planIDResponse
         })
         return
       }
 
+      const planID = await PlanInviteService.setUpInviteePlanMembership(planInviteID, req.user)
+      console.log('email match')
       res.status(200).json({
-        reason: 'LOGGED_IN_AND_EMAIL_DONT_MATCH'
+        reason: 'LOGGED_IN_AND_EMAIL_MATCH',
+        planID
       })
+      return
     } catch (error) {
       console.error(error)
     }

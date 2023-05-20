@@ -2,6 +2,13 @@ import { type PlanInvite } from '@prisma/client'
 import prisma from '../utils/prismaClient'
 const db = prisma
 
+export interface PlanInviteModelReadInput extends Partial<PlanInvite> {
+  /**
+  This is for the purpose of making all the fields in the PlanInvite model optional
+  and also to allow the user to pass in any number of fields to the readOnePlanInvite method
+   */
+}
+
 export default class PlanInviteModel {
   private static getNthDateFromToday(numOfDay: number): Date {
     const today = new Date()
@@ -45,20 +52,17 @@ export default class PlanInviteModel {
     }
   }
 
-  public static async readOnePlanInvite(planID: string, email: string): Promise<PlanInvite | null> {
+  public static async readOnePlanInvite(params: PlanInviteModelReadInput): Promise<PlanInvite | null> {
     try {
       const responseData = await db.planInvite.findFirst({
         where: {
-          planID,
-          inviteeEmail: email
+          ...params
         }
       })
 
-      if (responseData === null) return null
+      if (responseData === null) throw new Error(`Unable to find a matching plan invite with in the database${JSON.stringify(params)}`)
 
-      // throw new Error(`Unable to find a matching plan invite with ${planID} and ${email} in database`)
-
-      return responseData;
+      return responseData
     } catch (error) {
       console.error(error)
       return null

@@ -1,36 +1,31 @@
 import { type User, InviteStatus, Role } from '@prisma/client';
 import PlanMembershipModel from '../models/planMembership';
 import prisma from '../utils/prismaClient';
+import PlanInviteModel, { type PlanInviteModelReadInput } from '../models/planInvite';
 const db = prisma
 
 export default class PlanInviteService {
   static async setUpInviteePlanMembership(planInviteID: string, user: User): Promise<string> {
-    // get plan ID
-    const plan = await db.planInvite.findFirst({
-      where: {
-        id: planInviteID
-      },
-      select: {
-        planID: true
-      }
-    });
+    const inputParams: PlanInviteModelReadInput = {
+      id: planInviteID
+    }
 
-    if (plan === null) throw new Error('fail to fetch planID from planInvite model');
+    const planInviteData = await PlanInviteModel.readOnePlanInvite(inputParams)
 
-    const planID = plan?.planID;
+    if (planInviteData === null) throw new Error('fail to fetch planID from planInvite model');
 
     // create plan membership
 
     await db.planMembership.create({
       data: {
-        planID,
+        planID: planInviteData.planID,
         inviteStatus: InviteStatus.ACCEPTED,
         role: Role.FRIEND,
         userID: user.id
       }
     });
 
-    return planID
+    return planInviteData.planID
   }
 
   static async isUserAlreadyPlanMember(planInviteID: string, userID: string) {
@@ -49,13 +44,11 @@ export default class PlanInviteService {
     return true
   }
 
-  static async isUserEmailMatchPlanInviteEmail(user: User, planInviteID: string): Promise<boolean | null> {
+  static async isUserEmailMatchPlanInviteEmail(inviteeEmail: string, planInviteID: string): Promise<boolean | null> {
     try {
-      const res = await db.planInvite.findFirst({
-        where: {
-          inviteeEmail: user.email,
-          id: planInviteID
-        }
+      const res = await PlanInviteModel.readOnePlanInvite({
+        inviteeEmail,
+        id: planInviteID
       })
       if (res === null) return false
 
@@ -67,17 +60,17 @@ export default class PlanInviteService {
   }
 
   static async getPlanID(planInviteID: string): Promise<string | null> {
-    const res = await db.planInvite.findFirst({
-      where: {
+    try {
+      const res = await PlanInviteModel.readOnePlanInvite({
         id: planInviteID
-      },
-      select: {
-        planID: true
-      }
-    });
+      })
 
-    if (res === null) throw new Error('unable to find plan')
+      if (res === null) throw new Error('unable to find plan')
 
-    return res.planID
+      return res.planID
+    } catch (error) {
+      console.error(error)
+      return null
+    }
   }
 }
