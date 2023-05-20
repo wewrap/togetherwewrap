@@ -49,6 +49,10 @@ export const ContactsList = () => {
       return;
     }
     setButtonStates(updatedButtonStates);
+    if (index === 2) {
+      const favoriteContacts = contacts.filter((contact) => contact.isFavorite);
+      setContacts(favoriteContacts);
+    }
   }
 
   const handleToggleFavorite = (contactID: string) => {
