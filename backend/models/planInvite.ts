@@ -4,11 +4,11 @@ import { getNthDateFromToday } from '../utils/date'
 const db = prisma
 
 export default class PlanInviteModel {
-  public static async dbCreateOnePlanInvite(planID: string, email: string): Promise<PlanInvite | null> {
+  public static async dbCreateOnePlanInvite(planID: string, inviteeEmail: string): Promise<PlanInvite | null> {
     try {
       const responseData = await db.planInvite.create({
         data: {
-          inviteeEmail: email,
+          inviteeEmail,
           planID,
           expiration: getNthDateFromToday(1)
         }
