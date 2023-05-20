@@ -10,7 +10,7 @@ export default class InviteContactController {
         planID
       } = req.body
 
-      const inviteContactsRes = await InviteContactService.setupEmailInviteToContacts(req.user, planID, contacts, message)
+      const inviteContactsRes = await InviteContactService.sendEmailToNotInvitedAndExpiredInvitedContacts(req.user, planID, contacts, message)
 
       if (inviteContactsRes === null) throw new Error('Unable to send invites to all contacts')
 

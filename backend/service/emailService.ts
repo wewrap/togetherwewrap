@@ -2,14 +2,14 @@ import { type User } from '@prisma/client';
 import AWS from 'aws-sdk'
 
 AWS.config.update({ region: 'us-west-1' });
-export default class SesService {
+export default class EmailService {
   public static async sendMail(planLeader: User, url: string, email: string, message: string) {
     const baseURL = 'http://localhost:3000'
     const planLeaderFullName = `${planLeader.firstName} ${planLeader.lastName}`
     const params = {
       Destination: {
         ToAddresses: [
-          `${email}`
+          email
         ]
       },
       Message: {
@@ -23,7 +23,7 @@ export default class SesService {
             ${planLeaderFullName} said: ${message}
             </h3>
             <button>
-              <a href=${baseURL}${url}>
+              <a href=${baseURL}/${url}>
                 Join Plan
               </a>
             </button>

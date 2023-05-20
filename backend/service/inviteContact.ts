@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { type User, type Contact } from '@prisma/client';
-import SesService from '../awsSes/SesService';
+import EmailService from './emailService'
 import PlanInviteModel from '../models/planInvite';
 
 enum PlanInviteStatus {
@@ -10,7 +10,7 @@ enum PlanInviteStatus {
 }
 
 export default class InviteContactService {
-  static async setupEmailInviteToContacts(planLeader: User, planID: string, contactsArray: Contact[], message: string): Promise<Contact[] | null> {
+  static async sendEmailToNotInvitedAndExpiredInvitedContacts(planLeader: User, planID: string, contactsArray: Contact[], message: string): Promise<Contact[] | null> {
     // TODO: make contact email required in the contacts model
     try {
       const alreadyInvitedContacts: Contact[] = []
@@ -44,7 +44,6 @@ export default class InviteContactService {
 
             break;
           case PlanInviteStatus.HAS_INVITED:
-
             alreadyInvitedContacts.push(contact)
             break;
         }
@@ -64,7 +63,7 @@ export default class InviteContactService {
       return PlanInviteStatus.NOT_INVITED
     }
 
-    if (isPlanInviteExpired(planInvite.expiration)) {
+    if (this.isPlanInviteExpired(planInvite.expiration)) {
       return PlanInviteStatus.INVITE_EXPIRED
     }
 
@@ -72,17 +71,16 @@ export default class InviteContactService {
   }
 
   private static isPlanInviteExpired(expiration: Date, comparisonTime: Date = new Date()): boolean {
-
     return expiration < comparisonTime
   }
 
   private static generateInviteLink(planInviteID: string): string {
-    return `/plan-invite/${planInviteID}`
+    return `plan-invite/${planInviteID}`
   }
 
   private static async sendEmailInviteToContact(planLeader: User, url: string, email: string, message: string) {
     try {
-      await SesService.sendMail(planLeader, url, email, message);
+      await EmailService.sendMail(planLeader, url, email, message);
     } catch (error) {
       console.error(`send email failed: ${error}`)
     }
