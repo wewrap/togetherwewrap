@@ -50,18 +50,18 @@ export const ContactsList = () => {
       return;
     }
     setButtonStates(updatedButtonStates);
-    if (index === 1) {
-      const sortedContacts = [...contacts].sort((a, b) => {
-        const createdAtA = new Date(a.createdAt).getTime();
-        const createdAtB = new Date(b.createdAt).getTime();
-        return createdAtB - createdAtA;
-      });
-      setContacts(sortedContacts);
-    } else if (index === 0) {
+    if (index === 0) {
       const sortedContacts = [...contacts].sort((a, b) => {
         const createdAtA = new Date(a.createdAt).getTime();
         const createdAtB = new Date(b.createdAt).getTime();
         return createdAtA - createdAtB;
+      });
+      setContacts(sortedContacts);
+    } else if (index === 1) {
+      const sortedContacts = [...contacts].sort((a, b) => {
+        const createdAtA = new Date(a.createdAt).getTime();
+        const createdAtB = new Date(b.createdAt).getTime();
+        return createdAtB - createdAtA;
       });
       setContacts(sortedContacts);
     }
