@@ -88,6 +88,15 @@ export const ContactsList = () => {
         const response = await axios.get('http://localhost:8000/api/contacts', { withCredentials: true })
         const contactsData = response.data as Contact[]
         setContacts(contactsData)
+        // makes sure when the page is first loaded that it will be sorted based off of the Contact view
+        if (buttonStates[0]) {
+          const sortedContacts = [...contactsData].sort((a, b) => {
+            const createdAtA = new Date(a.createdAt).getTime();
+            const createdAtB = new Date(b.createdAt).getTime();
+            return createdAtA - createdAtB;
+          });
+          setContacts(sortedContacts);
+        }
       } catch (error) {
         console.error(error)
       }
