@@ -13,7 +13,8 @@ logoutRouter.post('/', function (req, res, next) {
         next(err);
         return;
       }
-      res.clearCookie('connect.sid')
+      const cookieName = 'connect.sid'
+      res.clearCookie(cookieName)
       res.redirect('http://localhost:3000/login');
     });
   });
