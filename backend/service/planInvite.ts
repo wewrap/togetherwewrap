@@ -29,15 +29,13 @@ export default class PlanInviteService {
   }
 
   static async isUserAlreadyPlanMember(planInviteID: string, userID: string) {
-    const plan = await db.planInvite.findFirst({
-      where: {
-        id: planInviteID
-      }
+    const planInviteData = await PlanInviteModel.readOnePlanInvite({
+      id: planInviteID
     })
 
-    if (plan === null) throw new Error('unable to find plan')
+    if (planInviteData === null) throw new Error('unable to find plan')
 
-    const isUserInPlan = await PlanMembershipModel.dbReadOnePlanMembership(plan.planID, userID)
+    const isUserInPlan = await PlanMembershipModel.dbReadOnePlanMembership(planInviteData.planID, userID)
 
     if (isUserInPlan === null) return false
 
