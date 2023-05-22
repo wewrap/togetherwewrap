@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { type Plan, type Contact, LoadStatus } from '../../../utils/types'
+import { type Plan, type Contact, LoadStatus, type User } from '../../../utils/types'
 import axios from 'axios'
+import { usersMockData } from '../../../utils/mockData'
 
 export const fetchPlanAndContactsData = (planIdParam: string): any => {
   const [status, setStatus] = useState<LoadStatus>(LoadStatus.NOT_LOADED)
   const [planData, setPlanData] = useState<Plan | undefined>(undefined)
   const [contactData, setContactData] = useState<Contact[] | undefined>(undefined)
+  const [membersListData, setMembersListData] = useState<User[] | undefined>(undefined)
   const [hasFetched, setHasFetched] = useState<boolean>(false)
 
   useEffect(() => {
@@ -35,6 +37,10 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
             .then(res => res.data)
         )
 
+        setMembersListData(
+          usersMockData
+        )
+
         setStatus(LoadStatus.LOADED);
         setHasFetched(true)
       } catch (err) {
@@ -52,5 +58,5 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
     }
   }, [])
 
-  return { planData, contactData, status }
+  return { planData, contactData, status, membersListData }
 }

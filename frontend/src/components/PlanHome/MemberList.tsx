@@ -1,19 +1,22 @@
+import { type User } from '../../utils/types'
 import styles from './MemberList.module.css'
+
+interface MemberListProps {
+  members: User[]
+}
 
 export const MemberList = ({
   members
-}: any): JSX.Element => {
+}: MemberListProps): JSX.Element => {
   return (
     <>
       <ul className={styles.memberUl}>
         {/* TODO: Fix this map function once this component receives the correct
         and established data between the frontend and backend  */}
-        {members.map((member: {
-          firstName: string
-        }) => (
-          <li>
+        {members?.map((member: User) => (
+          <li key={member.id}>
             <div className={styles.memberContainer}>
-              <p>{member.firstName}</p>
+              <p>{member.firstName} {member.lastName}</p>
             </div>
           </li>
         ))}

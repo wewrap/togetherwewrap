@@ -1,4 +1,4 @@
-import { type Contact } from './types';
+import { type User, type Contact } from './types';
 
 export const contactsMockData: Contact[] = [
   {
@@ -87,5 +87,68 @@ export const contactsMockData: Contact[] = [
     email: 'john@gmail.com',
     ownerID: '1',
     id: '13'
+  }
+]
+
+export const usersMockData: User[] = [
+  {
+    id: 't3RKLEP',
+    firstName: 'Emyle',
+    lastName: 'Abercrombie',
+    email: 'eabercrombie0@shinystat.com'
+  },
+  {
+    id: 'fM76EmwRYa',
+    firstName: 'Gale',
+    lastName: 'Agnew',
+    email: 'gagnew1@hubpages.com'
+  },
+  {
+    id: 'BFkDKen7m3',
+    firstName: 'Herc',
+    lastName: 'Fuente',
+    email: 'hfuente2@auda.org.au'
+  },
+  {
+    id: '08C1Tkk5Naj6',
+    firstName: 'Isadore',
+    lastName: 'Sheekey',
+    email: 'isheekey3@360.cn'
+  },
+  {
+    id: '4oVnasezACE',
+    firstName: 'Marj',
+    lastName: 'Mallalieu',
+    email: 'mmallalieu4@deviantart.com'
+  },
+  {
+    id: 'hzhKMTASNuay',
+    firstName: 'Courtney',
+    lastName: 'Keyser',
+    email: 'ckeyser5@unicef.org'
+  },
+  {
+    id: '6kiZoZ',
+    firstName: 'Glen',
+    lastName: 'Kilminster',
+    email: 'gkilminster6@zdnet.com'
+  },
+  {
+    id: 'JtPiMLv',
+    firstName: 'Fransisco',
+    lastName: 'Gibbard',
+    email: 'fgibbard7@hc360.com'
+  },
+  {
+    id: 'J8jKiP',
+    firstName: 'Blinnie',
+    lastName: 'Beltzner',
+    email: 'bbeltzner8@irs.gov'
+  },
+  {
+    id: 'sC2hfFKedVc',
+    firstName: 'Darlleen',
+    lastName: 'Stafford',
+    email: 'dstafford9@ucoz.ru'
   }
 ]
