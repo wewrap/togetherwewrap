@@ -59,7 +59,10 @@ export default class InviteContactService {
   }
 
   private static async checkPlanInviteStatus(planID: string, email: string) {
-    if (await PlanInviteModel.readOnePlanInvite(planID, email) === null) {
+    if (await PlanInviteModel.readOnePlanInvite({
+      planID,
+      inviteeEmail: email
+    }) === null) {
       return PlanInviteStatus.NOT_INVITED
     }
 
@@ -73,7 +76,10 @@ export default class InviteContactService {
   private static async isPlanInviteExpired(planID: string, email: string): Promise<boolean> {
     const today = new Date()
 
-    const planInviteRes = await PlanInviteModel.readOnePlanInvite(planID, email);
+    const planInviteRes = await PlanInviteModel.readOnePlanInvite({
+      planID,
+      inviteeEmail: email
+    });
 
     if (planInviteRes === null) throw new Error('Unable to find plan invite')
 

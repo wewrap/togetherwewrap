@@ -17,16 +17,15 @@ export const PlanInviteVerification = (): JSX.Element => {
       }
     }
 
-    const TWO_SECONDS = 2000;
+    const ONE_SECONDS = 1000;
 
     const delayLoading = async () => {
-      await new Promise((resolve) => setTimeout(resolve, TWO_SECONDS));
+      await new Promise((resolve) => setTimeout(resolve, ONE_SECONDS));
       sendTokenToBackend()
         .then((response: any) => {
           switch (response.data.reason) {
             case 'NOT_LOGGED_IN':
-              const planInviteID = response.data.planInviteID
-              window.location.href = `/login/${planInviteID}`
+              window.location.href = '/plan-invite-login-request'
               break;
             case 'USER_ALREADY_A_PLAN_MEMBER':
             case 'LOGGED_IN_AND_EMAIL_MATCH':
@@ -47,9 +46,17 @@ export const PlanInviteVerification = (): JSX.Element => {
     void delayLoading();
 
   }, [])
+
+  const style = {
+    padding: '20px',
+    marginTop: '40px',
+    fontSize: '40px'
+  }
   return (
     <div>
-      {isWrongEmail ? <h1> Unauthorized acess: Log into the correct account email </h1> : <h1>Loading...</h1>}
+      {isWrongEmail
+        ? <h1 style={style}> Unauthorized acess: Please log into the account with the correct email address </h1>
+        : <h1 style={style}>Loading...</h1>}
     </div>
   )
 }

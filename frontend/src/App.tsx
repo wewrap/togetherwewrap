@@ -12,7 +12,7 @@ import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
 import { Home } from './components/Home/Home'
 import { PlanInviteVerification } from './PlanInviteVerification'
-import { LoginPlanInvite } from './components/LoginPlanInvite'
+import { PlanInviteLogInRequest } from './components/PlanInviteLogInRequest'
 
 function App(): JSX.Element {
   return (
@@ -34,12 +34,11 @@ function App(): JSX.Element {
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<h1>About WeWrap</h1>} />
             <Route path="/learn-more" element={<h1>Learn more about WeWrap</h1>} />
+            <Route path="/plan-invite-login-request" element={<PlanInviteLogInRequest />} />
           </Route>
+          <Route path="/plan-invite/:id" element={<PlanInviteVerification />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/plan-invite/:id" element={<PlanInviteVerification />} />
-          <Route path="/login/:id" element={<LoginPlanInvite />} />
-          <Route path="/signup/:id" element={<SignUp />} />
         </Routes>
       </GetUserContext>
       <Routes>
