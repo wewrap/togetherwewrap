@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { type Plan, type Contact, LoadStatus, type User } from '../../../utils/types'
 import axios from 'axios'
-import { usersMockData } from '../../../utils/mockData'
 
 export const fetchPlanAndContactsData = (planIdParam: string): any => {
   const [status, setStatus] = useState<LoadStatus>(LoadStatus.NOT_LOADED)
@@ -18,6 +17,7 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
         setStatus(LoadStatus.LOADING)
 
         setPlanData(
+          // TODO: add error handling when a user enters a planId in the url that isn't their plan
           await axios.get(
             `/api/plan/${planIdParam}`,
             {
@@ -38,7 +38,13 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
         )
 
         setMembersListData(
-          usersMockData
+          await axios.get(
+            `/api/memberList?planId=${planIdParam}}`,
+            {
+              withCredentials: true,
+              signal: controller.signal
+            })
+            .then(res => res.data)
         )
 
         setStatus(LoadStatus.LOADED);
