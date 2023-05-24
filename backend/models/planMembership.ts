@@ -2,6 +2,9 @@ import { InviteStatus, type PlanMembership, Role, type User } from '@prisma/clie
 import prisma from '../utils/prismaClient'
 const db = prisma
 
+export interface ReadPlanMembersInput extends Partial<PlanMembership> {
+
+}
 export default class PlanMembershipModel {
   public static async dbCreateOnePlanMembership(data: any): Promise<PlanMembership | null> {
     try {
@@ -39,14 +42,14 @@ export default class PlanMembershipModel {
     }
   }
 
-  public static async dbReadPlanMembers(planID: string): Promise<Array<PlanMembership & {
+  public static async dbReadPlanMembers(params: ReadPlanMembersInput): Promise<Array<PlanMembership & {
     user: User
   }
   > | null | undefined> {
     try {
       const responseData = await db.planMembership.findMany({
         where: {
-          planID
+          ...params
         },
         include: {
           user: true

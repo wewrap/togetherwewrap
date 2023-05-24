@@ -16,4 +16,13 @@ export default class PlanMembership {
       console.error(`failed to initiatePlanMembership ${err}`)
     }
   }
+
+  public static async getPlanMembers(planID: string): Promise<any> {
+    try {
+      const planMembers = await PlanMembershipModel.dbReadPlanMembers({ planID })
+      return planMembers
+    } catch (err) {
+      console.error(`failed to getPlanMembers ${err}`)
+    }
+  }
 }
