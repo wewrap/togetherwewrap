@@ -30,7 +30,10 @@ export default class InviteContactService {
             break;
           case PlanInviteStatus.INVITE_EXPIRED:
             // resend invite
-            const expiredPlanInviteResponse = await PlanInviteModel.readOnePlanInvite(planID, contactEmail);
+            const expiredPlanInviteResponse = await PlanInviteModel.readOnePlanInvite({
+              planID,
+              inviteeEmail: contactEmail
+            });
 
             if (expiredPlanInviteResponse === null) throw new Error('expiredPlanInviteResponse is null')
 
@@ -59,7 +62,10 @@ export default class InviteContactService {
   }
 
   private static async checkPlanInviteStatus(planID: string, email: string) {
-    const planInvite = await PlanInviteModel.readOnePlanInvite(planID, email)
+    const planInvite = await PlanInviteModel.readOnePlanInvite({
+      planID,
+      inviteeEmail: email
+    })
     if (planInvite === null) {
       return PlanInviteStatus.NOT_INVITED
     }

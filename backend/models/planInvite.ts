@@ -3,6 +3,13 @@ import prisma from '../utils/prismaClient'
 import { getNthDateFromToday } from '../utils/date'
 const db = prisma
 
+export interface PlanInviteModelReadInput extends Partial<PlanInvite> {
+  /**
+  This is for the purpose of making all the fields in the PlanInvite model optional
+  and also to allow the user to pass in any number of fields to the readOnePlanInvite method
+   */
+}
+
 export default class PlanInviteModel {
   public static async dbCreateOnePlanInvite(planID: string, inviteeEmail: string): Promise<PlanInvite | null> {
     try {
@@ -38,12 +45,11 @@ export default class PlanInviteModel {
     }
   }
 
-  public static async readOnePlanInvite(planID: string, email: string): Promise<PlanInvite | null> {
+  public static async readOnePlanInvite(params: PlanInviteModelReadInput): Promise<PlanInvite | null> {
     try {
       const responseData = await db.planInvite.findFirst({
         where: {
-          planID,
-          inviteeEmail: email
+          ...params
         }
       })
 
