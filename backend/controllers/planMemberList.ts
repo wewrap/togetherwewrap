@@ -7,7 +7,9 @@ export default class PlanMemberListController {
       res.status(200).json(planMemberList)
     } catch (err) {
       console.error('error in get plan member list', err)
-      res.status(400).send('error')
+      res.status(400).json({
+        error: `unable to get plan member list for planID: ${req.query.planId}}`
+      })
     }
   }
 }

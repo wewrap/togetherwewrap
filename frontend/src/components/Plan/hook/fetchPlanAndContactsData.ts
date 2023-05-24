@@ -39,7 +39,7 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
 
         setMembersListData(
           await axios.get(
-            `/api/memberList?planId=${planIdParam}}`,
+            `/api/memberList?planId=${planIdParam}`,
             {
               withCredentials: true,
               signal: controller.signal
@@ -63,6 +63,6 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
       controller.abort();
     }
   }, [])
-
+  console.log(membersListData)
   return { planData, contactData, status, membersListData }
 }

@@ -1,3 +1,4 @@
+import { type User } from '@prisma/client';
 import PlanMembershipModel from '../models/planMembership';
 
 export default class PlanMembership {
@@ -17,12 +18,23 @@ export default class PlanMembership {
     }
   }
 
-  public static async getPlanMembers(planID: string): Promise<any> {
+  public static async getPlanMembers(planID: string): Promise<User[]> {
     try {
       const planMembers = await PlanMembershipModel.dbReadPlanMembers({ planID })
-      return planMembers
+
+      if (planMembers === undefined || planMembers === null) throw new Error('plan membership model failed')
+
+      const memberList = planMembers.map(
+        (planMember:
+        (PlanMembership & {
+          user: User
+        })
+        ) => planMember.user)
+
+      return memberList
     } catch (err) {
       console.error(`failed to getPlanMembers ${err}`)
+      throw new Error(err as string)
     }
   }
 }
