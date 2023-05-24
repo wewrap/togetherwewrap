@@ -143,7 +143,8 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
         phoneNumber: response.data.phoneNumber,
         notes: response.data.notes,
         id: response.data.id,
-        ownerID: response.data.ownerID
+        ownerID: response.data.ownerID,
+        createdAt: response.data.createdAt
       })
     } catch (error) {
       console.error(error)
