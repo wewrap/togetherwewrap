@@ -47,7 +47,7 @@ export default class PlanInviteModel {
         }
       })
 
-      if (responseData === null) throw new Error(`Unable to find a matching plan invite with ${planID} and ${email} in database`)
+      if (responseData === null) throw new Error(`Unable to find a matching plan invite with in the database${JSON.stringify(params)}`)
 
       return responseData;
     } catch (error) {
