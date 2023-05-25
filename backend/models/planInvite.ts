@@ -45,29 +45,16 @@ export default class PlanInviteModel {
     }
   }
 
-  public static async readOnePlanInvite(params: PlanInviteModelReadInput, options?: 'AND' | 'OR'): Promise<PlanInvite | null> {
+  public static async readOnePlanInvite(params: PlanInviteModelReadInput, options: 'AND' | 'OR' = 'AND'): Promise<PlanInvite | null> {
     try {
-      if (options === 'OR') {
-        const responseData = await db.planInvite.findFirst({
-          where: {
-            OR: {
-              ...params
-            }
-          }
-        })
-
-        if (responseData === null) throw new Error(`Unable to find a matching plan invite with in the database${JSON.stringify(params)}`)
-
-        return responseData;
-      }
-
       const responseData = await db.planInvite.findFirst({
         where: {
-          AND: {
+          [options]: {
             ...params
           }
         }
       })
+
       if (responseData === null) throw new Error(`Unable to find a matching plan invite with in the database${JSON.stringify(params)}`)
 
       return responseData;
