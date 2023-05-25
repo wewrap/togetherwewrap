@@ -204,4 +204,45 @@
 .popOverContent {
     display: flex;
     flex-direction: column;
+    background-color: white;
+    padding: 20px;
+    padding-right: 30px;
+    border-radius: 35px;
+}
+
+.radioButton1 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.radioButton2 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Hide the default radio button */
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+/* Customize the appearance of the checked radio button */
+input[type="radio"]:checked {
+  border-color: var(--blue);
+  background-color: var(--green);
+}
+
+/* Style the label for the radio button */
+label {
+  margin-left: 5px;
+  cursor: pointer;
 }

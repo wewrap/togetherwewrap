@@ -192,13 +192,14 @@ export const ContactsList = () => {
                 <div className='popOverContent'>
                   <div className='radioButton1'>
                     <input
+                      className='radioButtons'
                       type='radio'
                       name='filterButtons'
                       value='Alphabetical A-Z'
                       checked={selectedRadioButtonForFilters === 'Alphabetical A-Z'}
                       onChange={(e) => { setSelectedRadioButtonForFilters(e.target.value) }}
                     />
-                    <span>Alphabetical A-Z</span>
+                    <p>Alphabetical A-Z</p>
                   </div>
                   <div className='radioButton2'>
                     <input
@@ -208,7 +209,7 @@ export const ContactsList = () => {
                       checked={selectedRadioButtonForFilters === 'Alphabetical Z-A'}
                       onChange={(e) => { setSelectedRadioButtonForFilters(e.target.value) }}
                     />
-                    <span>Alphabetical Z-A</span>
+                    <p>Alphabetical Z-A</p>
                   </div>
                 </div>}
               >
