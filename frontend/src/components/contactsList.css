@@ -201,4 +201,7 @@
     width: 200px;
 }
 
-
+.popOverContent {
+    display: flex;
+    flex-direction: column;
+}

@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CreateContactForm } from './contactsForm'
 import axios from 'axios'
-import './Modal.css'
+import './contactsFormModal.css'
 import './contactsList.css'
 import plusSign from '../assets/plusSign.png'
 import contactIcon from '../assets/contactIcon.png'
 import burgerIcon from '../assets/burger.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faUser, faClockRotateLeft, faStar, faCloudArrowDown, faShareFromSquare, faArrowUpWideShort } from '@fortawesome/free-solid-svg-icons'
+import { Popover } from 'react-tiny-popover'
+// import prisma from '../utils/prismaClient'
 
 export interface Contact {
   id: string
@@ -36,14 +38,16 @@ interface ImportantDateEvent {
 
 export const ContactsList = () => {
   const [contacts, setContacts] = useState<Contact[]>([])
-  const [modal, setModal] = useState<boolean>(false)
+  const [formModal, setFormModal] = useState<boolean>(false)
   const [buttonStates, setButtonStates] = useState<boolean[]>([true, false, false])
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false)
+  const [selectedRadioButtonForFilters, setSelectedRadioButtonForFilters] = useState<string>('')
 
   const handleContactCreate = (newContact: Contact): void => {
     setContacts((prevContacts) => [...prevContacts, newContact]);
   }
 
-  const handleButtonClick = (index: number) => {
+  const handleViewClick = (index: number) => {
     const updatedButtonStates = buttonStates.map((state: boolean, i: number) => i === index ? !state : false);
     if (buttonStates[index]) {
       return;
@@ -79,11 +83,25 @@ export const ContactsList = () => {
     getContacts().catch(console.error)
   }, [])
 
-  const toggleModal = () => {
-    setModal(!modal)
+  useEffect(() => {
+    const sortContacts = (): void => {
+      const sortedContacts = [...contacts]
+      if (selectedRadioButtonForFilters === 'Alphabetical A-Z') {
+        sortedContacts.sort((a, b) => a.firstName.localeCompare(b.firstName, 'en', { sensitivity: 'base' }))
+      } else if (selectedRadioButtonForFilters === 'Alphabetical Z-A') {
+        sortedContacts.sort((a, b) => b.firstName.localeCompare(a.firstName, 'en', { sensitivity: 'base' }))
+      }
+      setContacts(sortedContacts)
+    }
+
+    sortContacts()
+  }, [selectedRadioButtonForFilters])
+
+  const toggleFormModal = () => {
+    setFormModal(!formModal)
   }
 
-  if (modal) {
+  if (formModal) {
     document.body.classList.add('active-modal')
   } else {
     document.body.classList.remove('active-modal')
@@ -110,19 +128,19 @@ export const ContactsList = () => {
         <div className="leftBar">
           <div className="createContactButton">
             <button
-            onClick={toggleModal}
+            onClick={toggleFormModal}
             className="btn-modal">
             Create contact
             </button>
             <img className='fourColorPlusSign' src={plusSign} alt="plusSign" />
-            {modal && (
+            {formModal && (
               <div className="modal">
-                <div onClick={toggleModal} className="overlay"></div>
+                <div onClick={toggleFormModal} className="overlay"></div>
                   <div className="modal-content">
                     <CreateContactForm handleContactCreate={handleContactCreate} />
                     <button
                     className='close-modal buttonStyle'
-                    onClick={toggleModal}
+                    onClick={toggleFormModal}
                     >X</button>
                   </div>
               </div>
@@ -130,21 +148,21 @@ export const ContactsList = () => {
           </div>
           <div className="views">
             <div className="contactView">
-              <button className={`viewButtons ${buttonStates[0] ? 'clicked' : ''}`} onClick={() => { handleButtonClick(0) }}>
+              <button className={`viewButtons ${buttonStates[0] ? 'clicked' : ''}`} onClick={() => { handleViewClick(0) }}>
                 <FontAwesomeIcon icon={faUser} className='viewIcons' style={{ color: '#c8cbd0', marginRight: '8px' }} />
                 Contact
               </button>
             </div>
 
             <div className="recentView">
-              <button className={`viewButtons ${buttonStates[1] ? 'clicked' : ''}`} onClick={() => { handleButtonClick(1) }}>
+              <button className={`viewButtons ${buttonStates[1] ? 'clicked' : ''}`} onClick={() => { handleViewClick(1) }}>
                 <FontAwesomeIcon icon={faClockRotateLeft} className='viewIcons' style={{ color: '#c8cbd0', marginRight: '5px' }} />
                 Recent
               </button>
             </div>
 
             <div className="favoriteView">
-              <button className={`viewButtons ${buttonStates[2] ? 'clicked' : ''}`} onClick={() => { handleButtonClick(2) }}>
+              <button className={`viewButtons ${buttonStates[2] ? 'clicked' : ''}`} onClick={() => { handleViewClick(2) }}>
                 <FontAwesomeIcon icon={faStar} className='viewIcons' style={{ color: '#c8cbd0', marginRight: '4px' }} />
                 Favorite
               </button>
@@ -165,13 +183,42 @@ export const ContactsList = () => {
               <button className='navButtons'>
                 <FontAwesomeIcon icon={faShareFromSquare} style={{ color: '#8C8787' }} />
               </button>
-              <button className='navButtons'>
-                <FontAwesomeIcon icon={faArrowUpWideShort} style={{ color: '#8C8787' }} />
-              </button>
+              <Popover
+                isOpen={isPopoverOpen}
+                positions={['bottom']}
+                reposition={true}
+                onClickOutside={() => { setIsPopoverOpen(false) }}
+                content={
+                <div className='popOverContent'>
+                  <div className='radioButton1'>
+                    <input
+                      type='radio'
+                      name='filterButtons'
+                      value='Alphabetical A-Z'
+                      checked={selectedRadioButtonForFilters === 'Alphabetical A-Z'}
+                      onChange={(e) => { setSelectedRadioButtonForFilters(e.target.value) }}
+                    />
+                    <span>Alphabetical A-Z</span>
+                  </div>
+                  <div className='radioButton2'>
+                    <input
+                      type='radio'
+                      name='filterButtons'
+                      value='Alphabetical Z-A'
+                      checked={selectedRadioButtonForFilters === 'Alphabetical Z-A'}
+                      onChange={(e) => { setSelectedRadioButtonForFilters(e.target.value) }}
+                    />
+                    <span>Alphabetical Z-A</span>
+                  </div>
+                </div>}
+              >
+                <button className='navButtons' onClick={() => { setIsPopoverOpen(!isPopoverOpen) }}>
+                  <FontAwesomeIcon icon={faArrowUpWideShort} style={{ color: '#8C8787' }} />
+                </button>
+              </Popover>
             </div>
           </div>
           <hr className="mainHorizontalLine"></hr>
-
           <div className="listOfContacts">
             {contacts?.map((contact) => (
               <div key={contact.id} className="contactItem">
