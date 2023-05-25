@@ -1,5 +1,10 @@
 import styles from './PlanHome.module.css'
 import editButton from '../../assets/editButton.png'
+import brainstormIcon from '../../assets/Brainstorm_icon.png'
+import voteIcon from '../../assets/Vote_icon.png'
+import poolIcon from '../../assets/poolMoney_icon.png'
+import purchaseGiftIcon from '../../assets/purchaseGift_icon.png'
+import deliveryIcon from '../../assets/delivery_icon.png'
 import addMemberButton from '../../assets/addMemberButton.png'
 import { useParams } from 'react-router-dom'
 import { fetchPlanData } from '../Plan/hook/fetchPlanData'
@@ -171,22 +176,27 @@ export const PlanHome = (): JSX.Element => {
           <div className={styles.planChoices}>
             <button onClick={() => { handlePlanStageViewChange(PlanStageView.BRAINSTORM); }}
               className={currentPlanStageView === PlanStageView.BRAINSTORM ? styles.isActivePlanStage : undefined}>
+                <img src={brainstormIcon} alt='brainstorm icon' />
               <span>BrainStorm</span>
             </button>
             <button onClick={() => { handlePlanStageViewChange(PlanStageView.VOTING); }}
               className={currentPlanStageView === PlanStageView.VOTING ? styles.isActivePlanStage : undefined}>
+              <img src={voteIcon} alt='voting icon' />
               <span>Voting</span>
             </button>
             <button onClick={() => { handlePlanStageViewChange(PlanStageView.POOL); }}
               className={currentPlanStageView === PlanStageView.POOL ? styles.isActivePlanStage : undefined}>
+              <img src={poolIcon} alt='pool icon' />
               <span>Pool</span>
             </button>
             <button onClick={() => { handlePlanStageViewChange(PlanStageView.PURCHASE); }}
               className={currentPlanStageView === PlanStageView.PURCHASE ? styles.isActivePlanStage : undefined}>
+              <img src={purchaseGiftIcon} alt='purchase icon' />
               <span>Purchase</span>
             </button>
             <button onClick={() => { handlePlanStageViewChange(PlanStageView.DELIVERY); }}
               className={currentPlanStageView === PlanStageView.DELIVERY ? styles.isActivePlanStage : undefined}>
+              <img src={deliveryIcon} alt='delivery icon' />
               <span>Delivery</span>
             </button>
           </div>

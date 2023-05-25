@@ -280,7 +280,7 @@
 }
 
 button.isActivePlanStage {
-  background-color: var(--blue);
+  background-color: var(--orange-yellow);
 }
 
 .planChoices>button>span {
@@ -292,6 +292,15 @@ button.isActivePlanStage {
   font-style: normal;
   font-weight: 500;
   font-size: 23px;
+}
+
+.planChoices>button>img {
+  position: absolute;
+  top: 7px;
+  left: 10px;
+
+  width: 53px;
+  height: 56px;
 }
 
 .progressBarContainer {
