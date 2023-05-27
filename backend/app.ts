@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
@@ -22,7 +21,6 @@ import { checkUserAuthorization } from './modules/auth'
 import userDataRouter from './routes/userData'
 import contactCreatorRouter from './routes/contactCreator'
 
-dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
 const app = express()

@@ -1,3 +1,5 @@
+import dotenv from 'dotenv'
+dotenv.config()
 
 const secretcode = process.env.SESSION_SECRET as string
 const googleClientID = process.env.GOOGLE_CLIENT_ID as string
@@ -11,20 +13,16 @@ const googleCallBackURL = process.env.GOOGLE_CALLBACK_URL as string
 
 process.env.NODE_ENV = process.env.NODE_ENV ?? 'development'
 
-let envConfig: Record<string, unknown>;
+let port: number | string | undefined;
 if (process.env.NODE_ENV === 'development') {
-  envConfig = {
-    port: 3000
-  }
+  port = 3000
 } else if (process.env.NODE_ENV === 'production') {
-  envConfig = {
-    port: process.env.PORT
-  }
+  port = process.env.PORT
 }
 
 export {
   secretcode, googleClientID,
   googleClientSecret, facebookAppSecret,
   facebookClientID, facebookCallBackURL,
-  googleCallBackURL, envConfig
+  googleCallBackURL, port
 }

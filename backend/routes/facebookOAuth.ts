@@ -1,5 +1,6 @@
 import express from 'express';
 import passport from 'passport'
+import { port } from '../utils/config';
 const facebookOAuthRouter = express.Router()
 
 facebookOAuthRouter.get('/',
@@ -9,7 +10,7 @@ facebookOAuthRouter.get('/callback',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect('http://localhost:3000/tempLandingPage');
+    res.redirect(`http://localhost:${port}/`);
   });
 
 export default facebookOAuthRouter
