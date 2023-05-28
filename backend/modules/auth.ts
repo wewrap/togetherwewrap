@@ -4,6 +4,7 @@ export const checkUserAuthorization = (req: Request, res: Response, next: NextFu
   if (req.user === null || req.user === undefined) {
     res.status(401).json({ error: 'Not Authorized' }).redirect('http://localhost:3000/')
   } else {
+    console.info('auth successfull')
     next()
   }
 }

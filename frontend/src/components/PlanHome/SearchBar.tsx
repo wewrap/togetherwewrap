@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { type Contact } from '../../utils/types'
 import styles from './SearchBar.module.css'
+import classNames from 'classnames'
+classNames()
 
-interface Props {
+interface SearchBarProps {
   handleSelectChangeFn: (data: Contact) => void
   data: Contact[]
   alreadySelectedData: Contact[]
@@ -12,7 +14,7 @@ export const SearchBar = ({
   handleSelectChangeFn,
   data,
   alreadySelectedData
-}: Props): JSX.Element => {
+}: SearchBarProps): JSX.Element => {
   const [query, setQuery] = useState<string>('')
   const [searchResult, setSearchResult] = useState<Contact[]>(data)
 
@@ -52,7 +54,7 @@ export const SearchBar = ({
       {query.length > 0 &&
         <button className={styles.clear} onClick={handleClearResults}>clear</button>
       }
-      <div className={`${styles.searchResultContainer} ${styles.scrollable}`}>
+      <div className={classNames(styles.searchResultContainer, styles.scrollable)}>
         {query.length > 0 &&
           searchResult.map((contact: Contact) => (
             <button

@@ -67,16 +67,7 @@ export const PlanForm = (): JSX.Element => {
   const [friends] = useState<Friend[]>([])
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
-  // const [maxFriends] = useState<number>(3)
   const [eventType, setEventType] = useState<EventType>()
-
-  // const handleSpecialPersonChange = (friend: Friend): void => {
-  //   setSpecialPerson(friend)
-  // }
-
-  // const handleSpecialPersonRemove = (friend: Friend[] | undefined): void => {
-  //   friend !== undefined && setSpecialPerson(friend[0])
-  // }
 
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setDescription(event.target.value)
@@ -97,18 +88,6 @@ export const PlanForm = (): JSX.Element => {
   const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setEventType(e.target.value as EventType)
   }
-
-  // const handleFriendsChange = (friend: Friend): void => {
-  //   if (friends.length >= maxFriends) {
-  //     handleError(`Only a max of ${maxFriends} friends are allowed`)
-  //   } else if (!friends.includes(friend)) {
-  //     setFriends(friends => [...friends, friend])
-  //   }
-  // }
-
-  // const hanldeRemoveFriends = (friend: Friend[]): void => {
-  //   setFriends(friend)
-  // }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
