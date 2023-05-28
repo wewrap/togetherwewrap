@@ -16,6 +16,7 @@ import { PlanInviteVerification } from './PlanInviteVerification'
 function App(): JSX.Element {
   return (
     <div>
+      <div id="modal"></div>
       <GetUserContext>
         <Routes>
           <Route element={<ProtectedRoutes />}>

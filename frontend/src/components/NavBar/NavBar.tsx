@@ -6,7 +6,7 @@ import NavProfile from '../../assets/NavProfile.png'
 import styles from './NavBar.module.css'
 import { useContext } from 'react'
 import { UserContext } from '../UserContext'
-import { LoadStatus } from '../../utils/loadingStatus'
+import { LoadStatus } from '../../utils/types'
 
 export const NavBar = (): JSX.Element | null => {
   const [user, loadingStatus] = useContext(UserContext);

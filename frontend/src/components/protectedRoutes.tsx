@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { LoadStatus } from '../utils/loadingStatus'
+import { LoadStatus } from '../utils/types'
 import { NavBarLoggedIn } from './NavBar/NavBar'
 import { UserContext } from './UserContext'
 
