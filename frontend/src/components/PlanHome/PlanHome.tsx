@@ -1,10 +1,13 @@
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import classNames from 'classnames';
+import { useParams } from 'react-router-dom'
 import styles from './PlanHome.module.css'
+import inviteModalStyles from './InviteModal.module.css'
 import editButton from '../../assets/editButton.png'
 import addMemberButton from '../../assets/addMemberButton.png'
 import { MemberList } from './MemberList'
 import { type Contact, PlanStage } from '../../utils/types'
-import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
 import { useEffect, useState } from 'react'
 import { Modal } from '../Modal'
 import { removeModal } from '../../utils/helpers'
@@ -13,7 +16,6 @@ import { Tag } from './Tag'
 import axios, { AxiosError } from 'axios'
 import { contactsMockData } from '../../utils/mockData'
 import { fetchPlanAndContactsData } from '../Plan/hook/fetchPlanAndContactsData'
-import { useParams } from 'react-router-dom'
 
 const planProgressCalculator = (currentStage: PlanStage): number[] => {
   switch (currentStage) {
@@ -81,12 +83,12 @@ export const PlanHome = (): JSX.Element => {
 
   const handleSubmit = async (): Promise<void> => {
     if (selectedContacts.length === 0) {
-      handleDisplayMessage('Add at least 1 contact')
+      showDisplayMessage('Add at least 1 contact')
       return
     }
 
     if (message === undefined) {
-      handleDisplayMessage('Add a message')
+      showDisplayMessage('Add a message')
       return
     }
 
@@ -99,18 +101,19 @@ export const PlanHome = (): JSX.Element => {
         withCredentials: true
       })
       // TODO: add 'pending' users to the member list
-      handleDisplayMessage('Sent successfully')
+      showDisplayMessage('Sent successfully')
     } catch (error) {
       if (error instanceof AxiosError) {
-        handleDisplayMessage('Fail to send. Please retry.')
+        showDisplayMessage('Fail to send. Please retry.')
         // TODO: Add error handling for mutliple simulatenaous invites, aka spamming the send button
         console.error(error?.response?.data)
       }
     }
   }
 
-  const handleDisplayMessage = (message: string): void => {
-    if (displayMessage.length > 0) return
+  // Display a success or error message for 3 seconds
+  const showDisplayMessage = (message: string): void => {
+    if (displayMessage.length > 0) return // prevent spamming of the display message
     setDisplayMessage(message)
     setTimeout(() => {
       setDisplayMessage('')
@@ -118,18 +121,22 @@ export const PlanHome = (): JSX.Element => {
   }
   return (
     <div className={styles.background}>
-      {showInviteModal
-        ? <Modal>
-          <div className={`${styles.inviteModalContainer} clickOutsideOfModal`}>
+      {showInviteModal &&
+        <Modal>
+          <div className={classNames(inviteModalStyles.inviteModalContainer, 'clickOutsideOfModal')}>
             {
               displayMessage?.length > 0 &&
               <div
-                className={displayMessage.startsWith('Sent') ? `${styles.successMessage}` : `${styles.errorMessage}`}>
+                // className={displayMessage.startsWith('Sent') ? `${inviteModalStyles.successMessage}` : `${inviteModalStyles.errorMessage}`}
+                className={classNames({
+                  [inviteModalStyles.successMessage]: displayMessage.includes('successfully'),
+                  [inviteModalStyles.errorMessage]: !displayMessage.includes('successfully')
+                })}>
                 {displayMessage}
               </div>
             }
 
-            <button className={styles.closeButton}
+            <button className={inviteModalStyles.closeButton}
               onClick={() => {
                 handleDiscardModal()
               }}>&times;</button>
@@ -140,8 +147,8 @@ export const PlanHome = (): JSX.Element => {
               alreadySelectedData={selectedContacts}
             />
 
-            <div className={styles.tagAndMessageContainer}>
-              <div className={styles.tagContainer}>
+            <div className={inviteModalStyles.tagAndMessageContainer}>
+              <div className={inviteModalStyles.tagContainer}>
                 {selectedContacts.map((contact: Contact) => (
                   <Tag key={contact.id}
                     contact={contact}
@@ -149,22 +156,21 @@ export const PlanHome = (): JSX.Element => {
                   />
                 ))}
               </div>
-              <div className={styles.controls}>
-                <textarea placeholder='message' className={styles.emailMessage} value={message} onChange={(e) => { setMessage(e.target.value); }}>
+              <div className={inviteModalStyles.controls}>
+                <textarea placeholder='message' className={inviteModalStyles.emailMessage} value={message} onChange={(e) => { setMessage(e.target.value); }}>
                 </textarea>
-                <div className={styles.sendButtonContainer}>
-                  <button className={`${styles.modalPlanButton} ${styles.cancelButton}`} onClick={handleDiscardModal}>
+                <div className={inviteModalStyles.sendButtonContainer}>
+                  <button className={classNames(inviteModalStyles.modalPlanButton, inviteModalStyles.cancelButton)} onClick={handleDiscardModal}>
                     Cancel
                   </button>
-                  <button className={`${styles.modalPlanButton} ${styles.inviteButton}`} onClick={handleSubmit}>
+                  <button className={classNames(inviteModalStyles.modalPlanButton, inviteModalStyles.inviteButton)} onClick={handleSubmit}>
                     Send
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        </Modal>
-        : null}
+        </Modal>}
       <section className={styles.plan}>
         <div className={styles.planTitleContainer}>
           <p className={styles.planTitle}>Write your plan title here</p>
@@ -178,9 +184,11 @@ export const PlanHome = (): JSX.Element => {
           <h3 className={styles.heading}>
             Notes Feed
           </h3>
-          <p className={styles.description}>
-            {planData?.description}
-          </p>
+          {planData?.description !== undefined &&
+            <p className={styles.description}>
+              {planData.description}
+            </p>
+          }
         </div>
         <div className={styles.memberListContainer}>
           <h3 className={styles.heading}>

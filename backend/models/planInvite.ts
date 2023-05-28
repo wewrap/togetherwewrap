@@ -1,5 +1,6 @@
 import { type PlanInvite } from '@prisma/client'
 import prisma from '../utils/prismaClient'
+import { getNthDateFromToday } from '../utils/date'
 const db = prisma
 
 export interface PlanInviteModelReadInput extends Partial<PlanInvite> {
@@ -10,21 +11,13 @@ export interface PlanInviteModelReadInput extends Partial<PlanInvite> {
 }
 
 export default class PlanInviteModel {
-  private static getNthDateFromToday(numOfDay: number): Date {
-    const today = new Date()
-    const nthDayFromToday = new Date(today)
-    nthDayFromToday.setDate(nthDayFromToday.getDate() + numOfDay)
-
-    return nthDayFromToday
-  }
-
-  public static async dbCreateOnePlanInvite(planID: string, email: string): Promise<PlanInvite | null> {
+  public static async dbCreateOnePlanInvite(planID: string, inviteeEmail: string): Promise<PlanInvite | null> {
     try {
       const responseData = await db.planInvite.create({
         data: {
-          inviteeEmail: email,
+          inviteeEmail,
           planID,
-          expiration: PlanInviteModel.getNthDateFromToday(1)
+          expiration: getNthDateFromToday(1)
         }
       })
 
@@ -39,7 +32,7 @@ export default class PlanInviteModel {
     try {
       const responseData = await db.planInvite.update({
         data: {
-          expiration: PlanInviteModel.getNthDateFromToday(1)
+          expiration: getNthDateFromToday(1)
         },
         where: {
           id: planInviteID
@@ -52,17 +45,19 @@ export default class PlanInviteModel {
     }
   }
 
-  public static async readOnePlanInvite(params: PlanInviteModelReadInput): Promise<PlanInvite | null> {
+  public static async readOnePlanInvite(params: PlanInviteModelReadInput, options: 'AND' | 'OR' = 'AND'): Promise<PlanInvite | null> {
     try {
       const responseData = await db.planInvite.findFirst({
         where: {
-          ...params
+          [options]: {
+            ...params
+          }
         }
       })
 
       if (responseData === null) throw new Error(`Unable to find a matching plan invite with in the database${JSON.stringify(params)}`)
 
-      return responseData
+      return responseData;
     } catch (error) {
       console.error(error)
       return null

@@ -13,11 +13,11 @@
 }
 
 .getStartedSection span {
-  color: var(--red);
+  color: var(--pink);
 }
 
 .getStartedSection a {
-  color: var(--red);
+  color: var(--pink);
 }
 
 .getStartedSection img {
@@ -63,9 +63,9 @@
 
 .links a {
   padding: 10px 30px;
-  border: 1.5px solid var(--red);
+  border: 1.5px solid var(--pink);
   border-radius: 8px;
-  color: var(--red);
+  color: var(--pink);
 }
 
 .learnMore {
@@ -73,7 +73,7 @@
 }
 
 .getStarted {
-  background-image: linear-gradient(95deg, var(--red) 10%, #ff005d);
+  background-image: linear-gradient(95deg, var(--pink) 10%, #ff005d);
   background-size: 600%;
   background-position: left;
   transition: background-position 0.4s;

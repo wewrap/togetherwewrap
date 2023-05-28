@@ -10,9 +10,9 @@ inviteContactsRouter.post('/',
   body('selectedContacts')
     .custom((value: any[]) => {
       return value.every((contact) => {
-        return 'id' in contact &&
-          'firstName' in contact &&
-          'ownerID' in contact
+        return Object.hasOwn(contact, 'id') &&
+          Object.hasOwn(contact, 'firstName') &&
+          Object.hasOwn(contact, 'ownerID')
       })
     }),
   handleInputErrors,

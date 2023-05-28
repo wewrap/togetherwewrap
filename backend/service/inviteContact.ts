@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { type User, type Contact } from '@prisma/client';
-import SesService from '../awsSes/SesService';
+import EmailService from './emailService'
 import PlanInviteModel from '../models/planInvite';
 
 enum PlanInviteStatus {
@@ -10,7 +10,7 @@ enum PlanInviteStatus {
 }
 
 export default class InviteContactService {
-  static async setupEmailInviteToContacts(planLeader: User, planID: string, contactsArray: Contact[], message: string): Promise<Contact[] | null> {
+  static async sendEmailToNotInvitedAndExpiredInvitedContacts(planLeader: User, planID: string, contactsArray: Contact[], message: string): Promise<Contact[] | null> {
     // TODO: make contact email required in the contacts model
     try {
       const alreadyInvitedContacts: Contact[] = []
@@ -30,7 +30,10 @@ export default class InviteContactService {
             break;
           case PlanInviteStatus.INVITE_EXPIRED:
             // resend invite
-            const expiredPlanInviteResponse = await PlanInviteModel.readOnePlanInvite({ planID, inviteeEmail: contactEmail });
+            const expiredPlanInviteResponse = await PlanInviteModel.readOnePlanInvite({
+              planID,
+              inviteeEmail: contactEmail
+            });
 
             if (expiredPlanInviteResponse === null) throw new Error('expiredPlanInviteResponse is null')
 
@@ -44,12 +47,12 @@ export default class InviteContactService {
 
             break;
           case PlanInviteStatus.HAS_INVITED:
-
             alreadyInvitedContacts.push(contact)
             break;
         }
       }))
 
+      // returns an array of contacts that were already invited
       return alreadyInvitedContacts
     } catch (error: any) {
       console.error(error)
@@ -59,40 +62,32 @@ export default class InviteContactService {
   }
 
   private static async checkPlanInviteStatus(planID: string, email: string) {
-    if (await PlanInviteModel.readOnePlanInvite({
+    const planInvite = await PlanInviteModel.readOnePlanInvite({
       planID,
       inviteeEmail: email
-    }) === null) {
+    })
+    if (planInvite === null) {
       return PlanInviteStatus.NOT_INVITED
     }
 
-    if ((await InviteContactService.isPlanInviteExpired(planID, email))) {
+    if (this.isPlanInviteExpired(planInvite.expiration)) {
       return PlanInviteStatus.INVITE_EXPIRED
     }
 
     return PlanInviteStatus.HAS_INVITED
   }
 
-  private static async isPlanInviteExpired(planID: string, email: string): Promise<boolean> {
-    const today = new Date()
-
-    const planInviteRes = await PlanInviteModel.readOnePlanInvite({
-      planID,
-      inviteeEmail: email
-    });
-
-    if (planInviteRes === null) throw new Error('Unable to find plan invite')
-
-    return planInviteRes.expiration < today
+  private static isPlanInviteExpired(expiration: Date, comparisonTime: Date = new Date()): boolean {
+    return expiration < comparisonTime
   }
 
   private static generateInviteLink(planInviteID: string): string {
-    return `/plan-invite/${planInviteID}`
+    return `plan-invite/${planInviteID}`
   }
 
   private static async sendEmailInviteToContact(planLeader: User, url: string, email: string, message: string) {
     try {
-      await SesService.sendMail(planLeader, url, email, message);
+      await EmailService.sendPlanInviteEmail(planLeader, url, email, message);
     } catch (error) {
       console.error(`send email failed: ${error}`)
     }
