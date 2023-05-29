@@ -1,47 +1,23 @@
-import { InviteStatus, Role } from '@prisma/client';
+// import { InviteStatus, Role } from '@prisma/client';
 import prisma from './prismaClient';
 const db = prisma
 
 const main = async (): Promise<void> => {
-  const planMembers = await db.planMembership.findMany({
+  const responseData = await db.planInvite.findFirst({
     where: {
-      planID: 'e11be841-c85e-4fd4-911e-d8f58cdaa4cf'
-    },
-    include: {
-      user: true
+      planID: '1',
+      inviteeEmail: 'kevinvong0129@gmail.com'
     }
-  })
+  });
+  if (responseData === null) return
 
-  const planMembersObject: any = {
-    specialPerson: {},
-    members: {
-      planLeader: {},
-      acceptedMembers: [],
-      pendingMembers: [],
-      deniedMembers: []
-    }
-  }
+  const today = new Date()
+  const twoDayFromCreatedDate = new Date(today)
+  twoDayFromCreatedDate.setDate(twoDayFromCreatedDate.getDate() + 2)
 
-  for (const member of planMembers) {
-    if (member.role === Role.SPECIAL_PERSON) planMembersObject.specialPerson = member.user
-    else if (member.role === Role.PLAN_LEADER) planMembersObject.members.planLeader = member.user
-    else if (member.role === Role.FRIEND) {
-      switch (member.inviteStatus) {
-        case InviteStatus.DENY:
-          planMembersObject.members.deniedMembers.push(member.user)
-          break;
-        case InviteStatus.ACCEPTED:
-          console.log('accepted: ', member.user);
-          planMembersObject.members.acceptedMembers.push(member.user)
-          break;
-        case InviteStatus.INVITED:
-          planMembersObject.members.pendingMembers.push(member.user)
-          break;
-      }
-    }
-  }
+  const expired = responseData.expiration < twoDayFromCreatedDate
 
-  console.log(planMembersObject);
+  console.log(expired)
 }
 
 void main();
