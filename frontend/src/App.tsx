@@ -11,6 +11,7 @@ import { PlanForm } from './components/PlanForm'
 import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
 import { Home } from './components/Home/Home'
+import { Calendar } from './components/Calendar/calendar'
 
 function App(): JSX.Element {
   return (
@@ -23,7 +24,7 @@ function App(): JSX.Element {
             <Route path="/plan-form" element={<PlanForm />} />
             <Route path="/plan/:id" element={<PlanHome />} />
             <Route path="/hub" element={<h1>hub</h1>} />
-            <Route path="/calendar" element={<h1>Calendar</h1>} />
+            <Route path="/calendar" element={<Calendar />} />
             <Route path="/profile" element={<h1>profile</h1>} />
             <Route path="/example" element={<h1>example</h1>} />
           </Route>
