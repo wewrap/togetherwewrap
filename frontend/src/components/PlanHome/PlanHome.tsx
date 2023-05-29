@@ -1,4 +1,20 @@
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import classNames from 'classnames';
+import { useParams } from 'react-router-dom'
 import styles from './PlanHome.module.css'
+import inviteModalStyles from './InviteModal.module.css'
+import { MemberList } from './MemberList'
+import { type Contact, PlanStage, PlanStageView } from '../../utils/types'
+import { useEffect, useState } from 'react'
+import { Modal } from '../Modal'
+import { removeModal } from '../../utils/helpers'
+import { SearchBar } from './SearchBar'
+import { Tag } from './Tag'
+import axios, { AxiosError } from 'axios'
+import { contactsMockData } from '../../utils/mockData'
+import { fetchPlanAndContactsData } from '../Plan/hook/fetchPlanAndContactsData'
+
 import editButton from '../../assets/editButton.png'
 import brainstormIcon from '../../assets/Brainstorm_icon.png'
 import voteIcon from '../../assets/Vote_icon.png'
@@ -6,16 +22,7 @@ import poolIcon from '../../assets/poolMoney_icon.png'
 import purchaseGiftIcon from '../../assets/purchaseGift_icon.png'
 import deliveryIcon from '../../assets/delivery_icon.png'
 import addMemberButton from '../../assets/addMemberButton.png'
-import { useParams } from 'react-router-dom'
-import { fetchPlanData } from '../Plan/hook/fetchPlanData'
-import { LoadStatus } from '../../utils/loadingStatus'
-import { fakeUserData } from '../PlanForm'
-import { MemberList } from './MemberList'
-import { PlanStage, PlanStageView } from '../../utils/types'
 
-import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import { useState } from 'react'
 import { Brainstorm } from './PlanStage/Brainstorm'
 import { Voting } from './PlanStage/Voting'
 import { Pool } from './PlanStage/Pool'
@@ -42,24 +49,33 @@ const planProgressCalculator = (currentStage: PlanStage): number[] => {
 
 export const PlanHome = (): JSX.Element => {
   const [currentPlanStageView, setCurrentPlanStageView] = useState<PlanStageView>(PlanStageView.HOME)
+  // TODO: keep track of max plan participants
+  // TODO: prevent plan leader from adding more participants after max participants has reached
   const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
+  const [showInviteModal, setShowInviteModal] = useState<boolean>(false)
+  const [selectedContacts, setSelectedContacts] = useState<Contact[] | []>([]);
+  const [message, setMessage] = useState<string | undefined>()
+  const [displayMessage, setDisplayMessage] = useState<string>('');
   const { id } = useParams();
+  const {
+    planData,
+    contactData
+  } = fetchPlanAndContactsData(id as string)
+  useEffect(() => {
+    const handleClickOutsideOfModal = (event: any) => {
+      if (showInviteModal && event.target.closest('.clickOutsideOfModal') === null) {
+        handleDiscardModal()
+      }
+    }
+    if (showInviteModal) {
+      document.addEventListener('mousedown', handleClickOutsideOfModal)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutsideOfModal)
+    }
+  }, [showInviteModal])
 
-  // TODO: Make the component load data from backend
-  const [, status] = fetchPlanData(id as string)
-
-  if (status === LoadStatus.LOADING || status === LoadStatus.NOT_LOADED) {
-    return (
-      <div>
-        <p>loading plan</p>
-      </div>
-    )
-  } else if (status === LoadStatus.FAILED) {
-    return (
-      <div>
-        <p>couldn't fetch plan</p>
-      </div>
-    )
+  const handleContactSelect = (singleContact: Contact): void => {
+    setSelectedContacts((prev: Contact[]) => [...prev, singleContact])
   }
   const handlePlanStageViewChange = (newStage: PlanStageView) => {
     setCurrentPlanStageView(newStage)
@@ -107,67 +123,169 @@ export const PlanHome = (): JSX.Element => {
       currentStageRender = null // home view
   }
 
+  const handleRemoveContactTag = (contactToBeRemoved: Contact) => {
+    const filteredContacts = selectedContacts.filter(
+      (currentContacts: Contact) =>
+        currentContacts.id !== contactToBeRemoved.id
+    )
+
+    setSelectedContacts(filteredContacts)
+  }
+
+  const handleDiscardModal = () => {
+    setSelectedContacts([])
+    setShowInviteModal(false)
+    setMessage(undefined)
+    removeModal()
+  }
+
+  const handleSubmit = async (): Promise<void> => {
+    if (selectedContacts.length === 0) {
+      showDisplayMessage('Add at least 1 contact')
+      return
+    }
+
+    if (message === undefined) {
+      showDisplayMessage('Add a message')
+      return
+    }
+
+    try {
+      await axios.post('/api/inviteContacts', {
+        selectedContacts,
+        message,
+        planID: id
+      }, {
+        withCredentials: true
+      })
+      // TODO: add 'pending' users to the member list
+      showDisplayMessage('Sent successfully')
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        showDisplayMessage('Fail to send. Please retry.')
+        // TODO: Add error handling for mutliple simulatenaous invites, aka spamming the send button
+        console.error(error?.response?.data)
+      }
+    }
+  }
+
+  // Display a success or error message for 3 seconds
+  const showDisplayMessage = (message: string): void => {
+    if (displayMessage.length > 0) return // prevent spamming of the display message
+    setDisplayMessage(message)
+    setTimeout(() => {
+      setDisplayMessage('')
+    }, 3000)
+  }
   return (
     <div className={styles.background}>
-      {
-        currentStageRender ??
-        (
-          <section className={styles.plan}>
-            <div className={styles.planTitleContainer}>
-              <p className={styles.planTitle}>Write your plan title here</p>
-              <p className={styles.giftEndDate}>Gift due by 3-20-23</p>
-              <img src={editButton} alt='edit button' className={styles.editButton} />
-            </div>
-            <div className={styles.pictureContainer}>
-              picture
-            </div>
-            <div className={styles.notesFeedContainer}>
-              <h3 className={styles.heading}>
-                Notes Feed
-              </h3>
-              <p className={styles.description}>
-                Hey guys! Justin is retiring and we are buying him a gift.
-                Please let me know if you have any questions. This Wrap will be lead by @Kevdev!
-                -Adam
-              </p>
-            </div>
-            <div className={styles.memberListContainer}>
-              <h3 className={styles.heading}>
-                Group member
-              </h3>
-              <div className={styles.whiteDivider}></div>
-              <div className={`${styles.scrollable} ${styles.memberListWrapper}`}>
-                <MemberList members={fakeUserData} />
+      {showInviteModal &&
+        <Modal>
+          <div className={classNames(inviteModalStyles.inviteModalContainer, 'clickOutsideOfModal')}>
+            {
+              displayMessage?.length > 0 &&
+              <div
+                // className={displayMessage.startsWith('Sent') ? `${inviteModalStyles.successMessage}` : `${inviteModalStyles.errorMessage}`}
+                className={classNames({
+                  [inviteModalStyles.successMessage]: displayMessage.includes('successfully'),
+                  [inviteModalStyles.errorMessage]: !displayMessage.includes('successfully')
+                })}>
+                {displayMessage}
               </div>
-              <button className={styles.inviteMemberContainer}>
-                <img src={addMemberButton} />
-                <p>
-                  Invite to group
-                </p>
-              </button>
+            }
+
+            <button className={inviteModalStyles.closeButton}
+              onClick={() => {
+                handleDiscardModal()
+              }}>&times;</button>
+
+            <SearchBar
+              handleSelectChangeFn={handleContactSelect}
+              data={contactData}
+              alreadySelectedData={selectedContacts}
+            />
+
+            <div className={inviteModalStyles.tagAndMessageContainer}>
+              <div className={inviteModalStyles.tagContainer}>
+                {selectedContacts.map((contact: Contact) => (
+                  <Tag key={contact.id}
+                    contact={contact}
+                    handleRemoveTag={handleRemoveContactTag}
+                  />
+                ))}
+              </div>
+              <div className={inviteModalStyles.controls}>
+                <textarea placeholder='message' className={inviteModalStyles.emailMessage} value={message} onChange={(e) => { setMessage(e.target.value); }}>
+                </textarea>
+                <div className={inviteModalStyles.sendButtonContainer}>
+                  <button className={classNames(inviteModalStyles.modalPlanButton, inviteModalStyles.cancelButton)} onClick={handleDiscardModal}>
+                    Cancel
+                  </button>
+                  <button className={classNames(inviteModalStyles.modalPlanButton, inviteModalStyles.inviteButton)} onClick={handleSubmit}>
+                    Send
+                  </button>
+                </div>
+              </div>
             </div>
-
-            <div className={styles.goalContainer}>
-              <h3 className={styles.heading}>
-                Goal
-              </h3>
-              <h3 className={styles.goalAmount}>
-                $340
-              </h3>
+          </div>
+        </Modal>}
+      {currentStageRender ?? (
+        <section className={styles.plan}>
+          <div className={styles.planTitleContainer}>
+            <p className={styles.planTitle}>Write your plan title here</p>
+            <p className={styles.giftEndDate}>Gift due by 3-20-23</p>
+            <img src={editButton} alt='edit button' className={styles.editButton} />
+          </div>
+          <div className={styles.pictureContainer}>
+            picture
+          </div>
+          <div className={styles.notesFeedContainer}>
+            <h3 className={styles.heading}>
+              Notes Feed
+            </h3>
+            {planData?.description !== undefined &&
+              <p className={styles.description}>
+                {planData.description}
+              </p>
+            }
+          </div>
+          <div className={styles.memberListContainer}>
+            <h3 className={styles.heading}>
+              Group member
+            </h3>
+            <div className={styles.whiteDivider}></div>
+            <div className={`${styles.scrollable} ${styles.memberListWrapper}`}>
+              <MemberList members={contactsMockData} />
             </div>
+            <button className={styles.inviteMemberContainer} onClick={() => { setShowInviteModal(!showInviteModal); }}>
+              <img src={addMemberButton} />
+              <p>
+                Invite to group
+              </p>
+            </button>
+          </div>
 
-            <div className={styles.roleContainer}>
-              <h3 className={styles.heading}>
-                Role
-              </h3>
+          <div className={styles.goalContainer}>
+            <h3 className={styles.heading}>
+              Goal
+            </h3>
+            <h3 className={styles.goalAmount}>
+              $340
+            </h3>
+          </div>
 
-              <h5>
-                You are Leader
-              </h5>
+          <div className={styles.roleContainer}>
+            <h3 className={styles.heading}>
+              Role
+            </h3>
 
-            </div>
-          </section>
-        )
+            <h5>
+              You are Leader
+            </h5>
+
+          </div>
+        </section>
+      )
       }
       <section className={styles.progress}>
         <div className={styles.progressContainer}>
@@ -176,7 +294,7 @@ export const PlanHome = (): JSX.Element => {
           <div className={styles.planChoices}>
             <button onClick={() => { handlePlanStageViewChange(PlanStageView.BRAINSTORM); }}
               className={currentPlanStageView === PlanStageView.BRAINSTORM ? styles.isActivePlanStage : undefined}>
-                <img src={brainstormIcon} alt='brainstorm icon' />
+              <img src={brainstormIcon} alt='brainstorm icon' />
               <span>BrainStorm</span>
             </button>
             <button onClick={() => { handlePlanStageViewChange(PlanStageView.VOTING); }}

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { SearchBarFilter } from './SearchBarFilter'
 import './PlanForm.css'
 import axios, { AxiosError } from 'axios'
 
@@ -60,24 +59,15 @@ export const fakeUserData = [
 ]
 
 export const PlanForm = (): JSX.Element => {
-  const [specialPerson, setSpecialPerson] = useState<Friend | undefined>()
+  const [specialPerson] = useState<Friend | undefined>()
   const [description, setDescription] = useState<string>('')
   const [startDate, setStartDate] = useState<string>('')
   const [endDate, setEndDate] = useState<string>('')
   const [specialDate, setSpecialDate] = useState<string>('')
-  const [friends, setFriends] = useState<Friend[]>([])
+  const [friends] = useState<Friend[]>([])
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
-  const [maxFriends] = useState<number>(3)
   const [eventType, setEventType] = useState<EventType>()
-
-  const handleSpecialPersonChange = (friend: Friend): void => {
-    setSpecialPerson(friend)
-  }
-
-  const handleSpecialPersonRemove = (friend: Friend[] | undefined): void => {
-    friend !== undefined && setSpecialPerson(friend[0])
-  }
 
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setDescription(event.target.value)
@@ -97,18 +87,6 @@ export const PlanForm = (): JSX.Element => {
 
   const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>): void => {
     setEventType(e.target.value as EventType)
-  }
-
-  const handleFriendsChange = (friend: Friend): void => {
-    if (friends.length >= maxFriends) {
-      handleError(`Only a max of ${maxFriends} friends are allowed`)
-    } else if (!friends.includes(friend)) {
-      setFriends(friends => [...friends, friend])
-    }
-  }
-
-  const hanldeRemoveFriends = (friend: Friend[]): void => {
-    setFriends(friend)
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -154,12 +132,6 @@ export const PlanForm = (): JSX.Element => {
         {error && <p className='error-message'> {errorMessage} </p>}
         <div>
           Select 1 Special Person (user or contact):
-          <SearchBarFilter
-            friendArray={fakeUserData}
-            handleSelectChange={handleSpecialPersonChange}
-            handleRemoveTag={handleSpecialPersonRemove}
-            numOfSelect={1}
-          />
         </div>
         <div>
           <label htmlFor='description'>Description: </label>
@@ -189,12 +161,12 @@ export const PlanForm = (): JSX.Element => {
               onChange={handleEventSelect}
             >
               <option />
-                {Object.keys(EventType).map(event => {
-                  return (
+              {Object.keys(EventType).map(event => {
+                return (
                   <option key={event} value={event}>
                     {event}
                   </option>)
-                })}
+              })}
 
             </select>
           </label>
@@ -220,13 +192,7 @@ export const PlanForm = (): JSX.Element => {
           />
         </div>
         <div>
-          Add Friends: <SearchBarFilter
-            friendArray={fakeUserData}
-            handleSelectChange={handleFriendsChange}
-            handleRemoveTag={hanldeRemoveFriends}
-            numOfSelect={maxFriends}
-            setSelectError={handleFriendsChange}
-          />
+          Add Friends:
         </div>
         <div>
           <button type='submit'>Create Plan</button>

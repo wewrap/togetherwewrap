@@ -12,7 +12,6 @@ export const LandingPage = (): JSX.Element => {
         <p>
           Say goodbye to the hassle of coordinating group gifts and hello to a seamless
           and efficient way to celebrate special occasions together.
-          With WeWrap, organizing group gifts has never been easier.
         </p>
         <div className={styles.links}>
           <Link to='/learn-more' className={styles.learnMore}>

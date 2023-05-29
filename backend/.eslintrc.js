@@ -23,7 +23,8 @@ module.exports = {
     '@typescript-eslint/semi': 'off',
     '@typescript-eslint/restrict-template-expressions': 'off',
     '@typescript-eslint/space-before-function-paren': 'off',
-    '@typescript-eslint/no-extraneous-class': 'off'
+    '@typescript-eslint/no-extraneous-class': 'off',
+    '@typescript-eslint/strict-boolean-expressions': 'off'
   },
 
   ignorePatterns: ['frontend/src/stories/*']
