@@ -58,6 +58,7 @@ export default class InviteContactController {
         res.status(200).json({
           reason: 'LOGGED_IN_AND_EMAIL_DONT_MATCH'
         })
+        return
       }
       // check if user is already a plan member, guard against multiple attempt to 'join' the plan
       const isUserAlreadyPlanMember = await PlanInviteService.isUserAlreadyPlanMember(planInviteID, req.user.id)

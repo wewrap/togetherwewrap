@@ -11,7 +11,7 @@ import { PlanForm } from './components/PlanForm'
 import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
 import { Home } from './components/Home/Home'
-import { PlanInviteVerification } from './PlanInviteVerification'
+import { PlanInviteVerification } from './components/PlanInviteVerification'
 import { PlanInviteLogInRequest } from './components/PlanInviteLogInRequest'
 
 function App(): JSX.Element {
