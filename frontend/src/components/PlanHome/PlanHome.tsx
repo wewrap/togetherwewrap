@@ -81,48 +81,6 @@ export const PlanHome = (): JSX.Element => {
     setCurrentPlanStageView(newStage)
   }
 
-  let currentStageRender;
-
-  switch (currentPlanStageView) {
-    case PlanStageView.BRAINSTORM:
-      currentStageRender = (
-        <div className={styles.defaultPlanView}>
-          <Brainstorm />
-        </div>
-      )
-      break;
-    case PlanStageView.VOTING:
-      currentStageRender = (
-        <div className={styles.defaultPlanView}>
-          <Voting />
-        </div>
-      )
-      break;
-    case PlanStageView.POOL:
-      currentStageRender = (
-        <div className={styles.defaultPlanView}>
-          <Pool />
-        </div>
-      )
-      break;
-    case PlanStageView.PURCHASE:
-      currentStageRender = (
-        <div className={styles.defaultPlanView}>
-          <Purchase />
-        </div>
-      )
-      break;
-    case PlanStageView.DELIVERY:
-      currentStageRender = (
-        <div className={styles.defaultPlanView}>
-          <Delivery />
-        </div>
-      )
-      break;
-    case PlanStageView.HOME:
-      currentStageRender = null // home view
-  }
-
   const handleRemoveContactTag = (contactToBeRemoved: Contact) => {
     const filteredContacts = selectedContacts.filter(
       (currentContacts: Contact) =>
@@ -177,6 +135,49 @@ export const PlanHome = (): JSX.Element => {
       setDisplayMessage('')
     }, 3000)
   }
+
+  let currentStageRender;
+
+  switch (currentPlanStageView) {
+    case PlanStageView.BRAINSTORM:
+      currentStageRender = (
+        <div className={styles.defaultPlanView}>
+          <Brainstorm />
+        </div>
+      )
+      break;
+    case PlanStageView.VOTING:
+      currentStageRender = (
+        <div className={styles.defaultPlanView}>
+          <Voting />
+        </div>
+      )
+      break;
+    case PlanStageView.POOL:
+      currentStageRender = (
+        <div className={styles.defaultPlanView}>
+          <Pool />
+        </div>
+      )
+      break;
+    case PlanStageView.PURCHASE:
+      currentStageRender = (
+        <div className={styles.defaultPlanView}>
+          <Purchase />
+        </div>
+      )
+      break;
+    case PlanStageView.DELIVERY:
+      currentStageRender = (
+        <div className={styles.defaultPlanView}>
+          <Delivery />
+        </div>
+      )
+      break;
+    case PlanStageView.HOME:
+      currentStageRender = null // home view
+  }
+
   return (
     <div className={styles.background}>
       {showInviteModal &&
