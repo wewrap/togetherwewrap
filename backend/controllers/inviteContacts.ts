@@ -63,17 +63,18 @@ export default class InviteContactController {
       // check if user is already a plan member, guard against multiple attempt to 'join' the plan
       const isUserAlreadyPlanMember = await PlanInviteService.isUserAlreadyPlanMember(planInviteID, req.user.id)
       if (isUserAlreadyPlanMember) {
-        const planIDResponse = await PlanInviteService.getPlanID(planInviteID)
+        const planID = await PlanInviteService.getPlanID(planInviteID)
 
-        if (planIDResponse === null) throw new Error(`Unable to identify planID with the following planInviteID: ${planInviteID}`)
+        if (planID === null) throw new Error(`Unable to identify planID with the following planInviteID: ${planInviteID}`)
 
         res.status(200).json({
           reason: 'USER_ALREADY_A_PLAN_MEMBER',
-          planID: planIDResponse
+          planID
         })
         return
       }
 
+      // cookie is present, email match, set up plan membership
       const planID = await PlanInviteService.setUpInviteePlanMembership(planInviteID, req.user)
       console.log('email match')
       res.status(200).json({
@@ -83,6 +84,9 @@ export default class InviteContactController {
       return
     } catch (error) {
       console.error(error)
+      res.status(400).json({
+        error: `Verify plan invite controller failed: ${error}}`
+      })
     }
   }
 }
