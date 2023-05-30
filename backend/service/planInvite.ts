@@ -1,30 +1,22 @@
 import { type User, InviteStatus, Role } from '@prisma/client';
 import PlanMembershipModel from '../models/planMembership';
-import prisma from '../utils/prismaClient';
-import PlanInviteModel, { type PlanInviteModelReadInput } from '../models/planInvite';
-const db = prisma
+import PlanInviteModel from '../models/planInvite';
 
 export default class PlanInviteService {
   static async setUpInviteePlanMembership(planInviteID: string, user: User): Promise<string> {
-    const inputParams: PlanInviteModelReadInput = {
-      id: planInviteID
-    }
-
-    const planInviteData = await PlanInviteModel.readOnePlanInvite(inputParams)
+    const planInviteData = await PlanInviteModel.readOnePlanInvite({ id: planInviteID })
 
     if (planInviteData === null) throw new Error('fail to fetch planID from planInvite model');
 
     // create plan membership
+    await PlanMembershipModel.dbCreateOnePlanMembership({
+      planID: planInviteData.planID,
+      userID: user.id,
+      inviteStatus: InviteStatus.ACCEPTED,
+      role: Role.FRIEND
+    })
 
-    await db.planMembership.create({
-      data: {
-        planID: planInviteData.planID,
-        inviteStatus: InviteStatus.ACCEPTED,
-        role: Role.FRIEND,
-        userID: user.id
-      }
-    });
-
+    // return plan id
     return planInviteData.planID
   }
 
