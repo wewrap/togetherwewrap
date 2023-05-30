@@ -281,7 +281,7 @@
 }
 
 button.isActivePlanStage {
-  background-color: var(--orange-yellow);
+  background-color: #3bdcf1;
 }
 
 .planChoices>button>span {
