@@ -83,12 +83,12 @@ export const PlanHome = (): JSX.Element => {
 
   const handleSubmit = async (): Promise<void> => {
     if (selectedContacts.length === 0) {
-      handleDisplayMessage('Add at least 1 contact')
+      showDisplayMessage('Add at least 1 contact')
       return
     }
 
     if (message === undefined) {
-      handleDisplayMessage('Add a message')
+      showDisplayMessage('Add a message')
       return
     }
 
@@ -101,18 +101,19 @@ export const PlanHome = (): JSX.Element => {
         withCredentials: true
       })
       // TODO: add 'pending' users to the member list
-      handleDisplayMessage('Sent successfully')
+      showDisplayMessage('Sent successfully')
     } catch (error) {
       if (error instanceof AxiosError) {
-        handleDisplayMessage('Fail to send. Please retry.')
+        showDisplayMessage('Fail to send. Please retry.')
         // TODO: Add error handling for mutliple simulatenaous invites, aka spamming the send button
         console.error(error?.response?.data)
       }
     }
   }
 
-  const handleDisplayMessage = (message: string): void => {
-    if (displayMessage.length > 0) return
+  // Display a success or error message for 3 seconds
+  const showDisplayMessage = (message: string): void => {
+    if (displayMessage.length > 0) return // prevent spamming of the display message
     setDisplayMessage(message)
     setTimeout(() => {
       setDisplayMessage('')
@@ -126,7 +127,11 @@ export const PlanHome = (): JSX.Element => {
             {
               displayMessage?.length > 0 &&
               <div
-                className={displayMessage.startsWith('Sent') ? `${inviteModalStyles.successMessage}` : `${inviteModalStyles.errorMessage}`}>
+                // className={displayMessage.startsWith('Sent') ? `${inviteModalStyles.successMessage}` : `${inviteModalStyles.errorMessage}`}
+                className={classNames({
+                  [inviteModalStyles.successMessage]: displayMessage.includes('successfully'),
+                  [inviteModalStyles.errorMessage]: !displayMessage.includes('successfully')
+                })}>
                 {displayMessage}
               </div>
             }

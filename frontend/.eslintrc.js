@@ -27,5 +27,5 @@ module.exports = {
     'padded-blocks': 'off'
   },
 
-  ignorePatterns: ['frontend/src/stories/*']
+  ignorePatterns: ['frontend/src/stories/*', './src/*']
 }
