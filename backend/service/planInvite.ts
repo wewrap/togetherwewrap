@@ -36,10 +36,13 @@ export default class PlanInviteService {
 
   static async isUserEmailMatchPlanInviteEmail(inviteeEmail: string, planInviteID: string): Promise<boolean | null> {
     try {
+      // search the PlanInvite model to see if there is a record of the inviteeEmail and planInviteID
       const res = await PlanInviteModel.readOnePlanInvite({
         inviteeEmail,
         id: planInviteID
       })
+
+      // if no record is found, then email does not match
       if (res === null) return false
 
       return true
