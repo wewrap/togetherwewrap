@@ -27,8 +27,9 @@ export default class PlanInviteService {
 
     if (planInviteData === null) throw new Error('unable to find plan')
 
-    const isUserInPlan = await PlanMembershipModel.dbReadOnePlanMembership(planInviteData.planID, userID)
+    const isUserInPlan = await PlanMembershipModel.dbReadOnePlanMembership({ planID: planInviteData.planID, userID })
 
+    // if no record is found, then user is not in plan
     if (isUserInPlan === null) return false
 
     return true

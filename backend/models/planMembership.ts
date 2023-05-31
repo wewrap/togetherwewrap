@@ -2,15 +2,19 @@ import { InviteStatus, type PlanMembership, Role, type User } from '@prisma/clie
 import prisma from '../utils/prismaClient'
 const db = prisma
 
-interface dbPlanMembershipInput extends Partial<PlanMembership> {
+interface dbPlanMembershipCreateInput extends Partial<PlanMembership> {
   planID: string
   userID: string
   inviteStatus: InviteStatus
   role: Role
 }
 
+interface dbPlanMembershipReadInput extends Partial<PlanMembership> {
+
+}
+
 export default class PlanMembershipModel {
-  public static async dbCreateOnePlanMembership(params: dbPlanMembershipInput): Promise<PlanMembership | null> {
+  public static async dbCreateOnePlanMembership(params: dbPlanMembershipCreateInput): Promise<PlanMembership | null> {
     try {
       const responseData = await db.planMembership.create({
         data: {
@@ -43,11 +47,10 @@ export default class PlanMembershipModel {
     }
   }
 
-  public static async dbReadOnePlanMembership(planID: string, userID: string) {
+  public static async dbReadOnePlanMembership(params: dbPlanMembershipReadInput) {
     const responseData = await db.planMembership.findFirst({
       where: {
-        planID,
-        userID
+        ...params
       }
     })
 
