@@ -12,9 +12,6 @@ import { Routes, Route } from 'react-router-dom';
 import {fetchAccountData} from './Account/fetchAccountData';
 
 export const Account = (): JSX.Element => {
-
-// const[data, loadingStatus] = fetchAccountData(); 
-
     return(
         <div className = {styles.accountFlex}>
             <div className = {styles.leftSide}>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { LoadStatus } from '../../utils/loadingStatus'
+import { LoadStatus } from '../../utils/types'
 import axios from 'axios'
 
 export const fetchAccountData = (accountIdParam: string): any => {

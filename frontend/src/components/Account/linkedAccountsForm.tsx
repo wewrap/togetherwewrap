@@ -5,7 +5,6 @@ import cashappIcon from '../../assets/cashappIcon.jpg'
 import paypalIcon from '../../assets/payIcon.png'
 import xIcon from '../../assets/xIcon.png'
 import styles from './linkedAccount.module.css'
-import {useRemoveAccount} from './useRemoveAccount'
 
 export const LinkedAccounts = (): JSX.Element => {
   const [venmo, setVenmo] = useState<string>('');
@@ -26,7 +25,7 @@ export const LinkedAccounts = (): JSX.Element => {
                     {venmo}
                     </a> 
                     <p> Log in with Venmo </p>
-                <img src = {xIcon} onClick = {(venmo) => {useRemoveAccount}} alt = 'xIcon' className = {styles.xIcon}/>
+                <img src = {xIcon} onClick = {(venmo) => {}} alt = 'xIcon' className = {styles.xIcon}/>
             </div>
             <div className = {styles.profileFields}>
                 <label className = {styles.labelFields}> 
@@ -35,7 +34,7 @@ export const LinkedAccounts = (): JSX.Element => {
                     {cashapp}
                 </a>
                 <p> Log in with Cashapp </p>
-                    <img src = {xIcon} onClick = {(cashapp) => {useRemoveAccount}} alt = 'xIcon' className = {styles.xIcon} />
+                    <img src = {xIcon} onClick = {(cashapp) => {}} alt = 'xIcon' className = {styles.xIcon} />
                 </label>
             </div>
             <div className = {styles.profileFields}>
@@ -45,7 +44,7 @@ export const LinkedAccounts = (): JSX.Element => {
                         {paypal}
                 </a>
                 <p> Log in with Paypal </p>
-                    <img src = {xIcon} onClick = {(paypal) => {useRemoveAccount}} alt = 'xIcon' className = {styles.xIcon}/>
+                    <img src = {xIcon} onClick = {(paypal) => {}} alt = 'xIcon' className = {styles.xIcon}/>
                 </label> 
             </div>
         </form>
