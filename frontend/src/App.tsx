@@ -16,6 +16,7 @@ import { Account } from './components/accountForm'
 function App(): JSX.Element {
   return (
     <div>
+      <div id="modal"></div>
       <GetUserContext>
         <Routes>
           <Route element={<ProtectedRoutes />}>
