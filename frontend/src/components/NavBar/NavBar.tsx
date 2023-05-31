@@ -98,7 +98,7 @@ export const NavBarLoggedIn = (): JSX.Element => {
             </NavLink>
           </li>
           <li className={styles.profile}>
-            <NavLink to='/profile'>
+            <NavLink to='/account'>
               <img src={NavProfile} />
             </NavLink>
           </li>
