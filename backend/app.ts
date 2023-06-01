@@ -12,7 +12,7 @@ import { PrismaSessionStore } from '@quixo3/prisma-session-store'
 import { PrismaClient } from '@prisma/client'
 import { Strategy as LocalStrategy } from 'passport-local'
 import crypto from 'crypto'
-import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL, port } from './utils/config'
+import { secretcode, googleClientID, googleClientSecret, facebookAppSecret, facebookClientID, facebookCallBackURL, googleCallBackURL } from './utils/config'
 import facebookStrategy from 'passport-facebook'
 import facebookOAuthRouter from './routes/facebookOAuth'
 import loginAuthRouter from './routes/loginAuth'
@@ -35,7 +35,7 @@ app.use(morgan('dev'))
 
 app.use(cors({
   credentials: true,
-  origin: `http://localhost:${port}}`
+  // origin: 'http://localhost:3000'
 }));
 app.use(express.json());
 app.use(passport.initialize())
