@@ -20,6 +20,8 @@ import planRouter from './routes/plan'
 import { checkUserAuthorization } from './modules/auth'
 import userDataRouter from './routes/userData'
 import contactCreatorRouter from './routes/contactCreator'
+import logoutRouter from './routes/logout'
+import inviteContactsRouter from './routes/inviteContactsRouter'
 
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -177,5 +179,7 @@ app.use('/api/plan', checkUserAuthorization, planRouter)
 app.use('/signup', signUpAuth)
 app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/userData', userDataRouter)
+app.use('/logout', logoutRouter)
+app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
 
 export default app

@@ -11,14 +11,16 @@ import { PlanForm } from './components/PlanForm'
 import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
 import { Home } from './components/Home/Home'
-import { PlanInviteVerification } from './PlanInviteVerification'
+import { Account } from './components/accountForm'
 
 function App(): JSX.Element {
   return (
     <div>
+      <div id="modal"></div>
       <GetUserContext>
         <Routes>
           <Route element={<ProtectedRoutes />}>
+            <Route path="/account" element={<Account />} />
             <Route path="/contacts" element={<ContactsList />} />
             <Route path="/plan-form" element={<PlanForm />} />
             <Route path="/plan/:id" element={<PlanHome />} />
@@ -35,9 +37,6 @@ function App(): JSX.Element {
           </Route>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/plan-invite/:id" element={<PlanInviteVerification />} />
-          <Route path="/login/:id" element={<LoginForm />} />
-          <Route path="/signup/:id" element={<SignUp />} />
         </Routes>
       </GetUserContext>
 

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import { LoadStatus } from '../../../utils/loadingStatus'
+import { LoadStatus } from '../../utils/types'
 import axios from 'axios'
 
-export const fetchPlanData = (planIdParam: string): any => {
+export const fetchAccountData = (accountIdParam: string): any => {
   const [status, setStatus] = useState<LoadStatus>(LoadStatus.NOT_LOADED)
   const [data, setData] = useState<any>(null)
 
@@ -12,7 +12,7 @@ export const fetchPlanData = (planIdParam: string): any => {
       try {
         setStatus(LoadStatus.LOADING)
         const response = await axios.get(
-          `/api/plan/${planIdParam}`,
+          `/api/account/${accountIdParam}`,
           {
             withCredentials: true,
             signal: controller.signal

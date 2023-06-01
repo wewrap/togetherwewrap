@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import googleIcon from '../assets/googleIcon.png'
 import facebookIcon from '../assets/facebookIcon.png'
 import { UserContext } from './UserContext'
-import { LoadStatus } from '../utils/loadingStatus'
+import { LoadStatus } from '../utils/types'
 
 export const LoginForm = (): JSX.Element | null => {
   const [user, loadingStatus] = useContext(UserContext)
