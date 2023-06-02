@@ -136,46 +136,46 @@ export const PlanHome = (): JSX.Element => {
     }, 3000)
   }
 
-  let currentStageRender;
+  let currentStageViewComponent;
 
   switch (currentPlanStageView) {
     case PlanStageView.BRAINSTORM:
-      currentStageRender = (
+      currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
           <Brainstorm />
         </div>
       )
       break;
     case PlanStageView.VOTING:
-      currentStageRender = (
+      currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
           <Voting />
         </div>
       )
       break;
     case PlanStageView.POOL:
-      currentStageRender = (
+      currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
           <Pool />
         </div>
       )
       break;
     case PlanStageView.PURCHASE:
-      currentStageRender = (
+      currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
           <Purchase />
         </div>
       )
       break;
     case PlanStageView.DELIVERY:
-      currentStageRender = (
+      currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
           <Delivery />
         </div>
       )
       break;
     case PlanStageView.HOME:
-      currentStageRender = null // home view
+      currentStageViewComponent = null // home view
   }
 
   return (
@@ -230,7 +230,7 @@ export const PlanHome = (): JSX.Element => {
             </div>
           </div>
         </Modal>}
-      {currentStageRender ?? (
+      {currentStageViewComponent ?? ( // if null display the home view, otherwise display the current stage view
         <section className={styles.plan}>
           <div className={styles.planTitleContainer}>
             <p className={styles.planTitle}>Write your plan title here</p>
