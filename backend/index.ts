@@ -1,5 +1,4 @@
 /* Index ts is responsible for connecting the app to local port */
-
 import app from './app';
 import http from 'http';
 import { port } from './utils/config';

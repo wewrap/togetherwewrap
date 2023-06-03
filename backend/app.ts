@@ -34,7 +34,7 @@ const TWO_MINUTES = 1000 * 60 * 2
 app.use(morgan('dev'))
 
 app.use(cors({
-  credentials: true,
+  credentials: true
   // origin: 'http://localhost:3000'
 }));
 app.use(express.json());
