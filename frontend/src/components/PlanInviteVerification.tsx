@@ -22,7 +22,6 @@ export const PlanInviteVerification = (): JSX.Element => {
         // redirect the user based on server planInviteID verification
         switch (response.data.reason) {
           case 'NOT_LOGGED_IN':
-            window.location.href = '/plan-invite-login-request'
             break;
           case 'USER_ALREADY_A_PLAN_MEMBER':
           case 'LOGGED_IN_AND_EMAIL_MATCH':
@@ -36,6 +35,7 @@ export const PlanInviteVerification = (): JSX.Element => {
       })
       .catch((response) => {
         console.error(`unable to verify token ${response}`)
+        window.location.href = '/plan-invite-login-request'
       })
   }, [])
 
