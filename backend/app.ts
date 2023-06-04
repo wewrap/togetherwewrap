@@ -175,7 +175,7 @@ passport.use(
   ))
 
 app.use('/', testRouter)
-app.use('/verify-plan-invite', verifyPlanInviteRouter)
+app.use('/verify-plan-invite', checkUserAuthorization, verifyPlanInviteRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)

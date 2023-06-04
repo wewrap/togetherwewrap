@@ -17,9 +17,6 @@ export default class InviteContactController {
       if (inviteContactsRes === null) throw new Error('Unable to send invites to all contacts')
 
       if (inviteContactsRes.length !== 0) {
-        console.log({
-          contactsNotInvited: inviteContactsRes
-        })
         res.status(200).json({
           data: `${inviteContactsRes.length} were already invited, please try again later`,
           contactsNotInvited: inviteContactsRes
@@ -43,7 +40,7 @@ export default class InviteContactController {
 
       // if no cookie, redirect to log in
       if (req.user === null || req.user === undefined) {
-        res.status(200).json({
+        res.status(401).json({
           reason: 'NOT_LOGGED_IN',
           planInviteID
         })
@@ -51,8 +48,6 @@ export default class InviteContactController {
       }
 
       const isEmailMatch = await PlanInviteService.isUserEmailMatchPlanInviteEmail(req?.user?.email, planInviteID)
-
-      if (isEmailMatch === null) throw new Error('fail to run isUserEmailMatchPlanInviteEmail')
 
       if (!isEmailMatch) {
         res.status(200).json({
@@ -76,7 +71,6 @@ export default class InviteContactController {
 
       // cookie is present, email match, set up plan membership
       const planID = await PlanInviteService.setUpInviteePlanMembership(planInviteID, req.user)
-      console.log('email match')
       res.status(200).json({
         reason: 'LOGGED_IN_AND_EMAIL_MATCH',
         planID

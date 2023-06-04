@@ -30,9 +30,7 @@ export default class PlanInviteService {
     const isUserInPlan = await PlanMembershipModel.dbReadOnePlanMembership({ planID: planInviteData.planID, userID })
 
     // if no record is found, then user is not in plan
-    if (isUserInPlan === null) return false
-
-    return true
+    return !!isUserInPlan
   }
 
   static async isUserEmailMatchPlanInviteEmail(inviteeEmail: string, planInviteID: string): Promise<boolean | null> {
@@ -44,9 +42,7 @@ export default class PlanInviteService {
       })
 
       // if no record is found, then email does not match
-      if (res === null) return false
-
-      return true
+      return !!res
     } catch (error) {
       console.error(error)
       return null
