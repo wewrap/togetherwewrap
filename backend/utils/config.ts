@@ -15,7 +15,7 @@ process.env.NODE_ENV = process.env.NODE_ENV ?? 'development'
 
 let port: number | string | undefined;
 if (process.env.NODE_ENV === 'development') {
-  port = 3000
+  port = 8000
 } else if (process.env.NODE_ENV === 'production') {
   port = process.env.PORT
 }

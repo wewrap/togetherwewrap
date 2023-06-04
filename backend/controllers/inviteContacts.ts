@@ -16,6 +16,8 @@ export default class InviteContactController {
 
       if (inviteContactsRes === null) throw new Error('Unable to send invites to all contacts')
 
+      // FIX: this status message is incorrect. It should be 200 if all contacts were invited, 400 if not all contacts were invited.
+      // Another fix would be to have the UI display only invitable contacts, and not display contacts that are already invited.
       if (inviteContactsRes.length !== 0) {
         res.status(200).json({
           data: `${inviteContactsRes.length} were already invited, please try again later`,
