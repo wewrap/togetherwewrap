@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
@@ -25,7 +24,6 @@ import logoutRouter from './routes/logout'
 import inviteContactsRouter from './routes/inviteContactsRouter'
 import verifyPlanInviteRouter from './routes/verifyPlanInvite'
 
-dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
 const app = express()
@@ -38,7 +36,7 @@ app.use(morgan('dev'))
 
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:3000'
+  // origin: 'http://localhost:3000'
 }));
 app.use(express.json());
 app.use(passport.initialize())
