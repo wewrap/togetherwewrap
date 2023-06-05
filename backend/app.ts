@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
@@ -24,7 +23,6 @@ import contactCreatorRouter from './routes/contactCreator'
 import logoutRouter from './routes/logout'
 import inviteContactsRouter from './routes/inviteContactsRouter'
 
-dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
 const app = express()
