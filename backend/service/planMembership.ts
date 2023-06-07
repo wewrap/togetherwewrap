@@ -24,14 +24,10 @@ export default class PlanMembership {
 
       if (planMembers === undefined || planMembers === null) throw new Error('plan membership model failed')
 
-      const memberList = planMembers.map(
-        (planMember:
-        (PlanMembership & {
-          user: User
-        })
-        ) => planMember.user)
+      // map through planMembers and return an array of user object
+      const arrayOfUsers = planMembers.map(planMember => planMember.user)
 
-      return memberList
+      return arrayOfUsers
     } catch (err) {
       console.error(`failed to getPlanMembers ${err}`)
       throw new Error(err as string)

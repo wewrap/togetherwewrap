@@ -2,9 +2,6 @@ import { InviteStatus, type PlanMembership, Role, type User } from '@prisma/clie
 import prisma from '../utils/prismaClient'
 const db = prisma
 
-export interface ReadPlanMembersInput extends Partial<PlanMembership> {
-
-}
 interface dbPlanMembershipCreateInput extends Partial<PlanMembership> {
   planID: string
   userID: string
