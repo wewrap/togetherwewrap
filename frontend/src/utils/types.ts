@@ -17,6 +17,15 @@ export enum PlanStage {
   COMPLETED = 'COMPLETED',
 }
 
+export enum PlanStageView {
+  HOME = 'HOME',
+  BRAINSTORM = 'BRAINSTORM',
+  VOTING = 'VOTING',
+  POOL = 'POOL',
+  PURCHASE = 'PURCHASE',
+  DELIVERY = 'DELIVERY',
+  COMPLETED = 'COMPLETED',
+}
 export interface Contact {
   firstName: string
   lastName?: string

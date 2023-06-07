@@ -24,7 +24,8 @@ module.exports = {
     '@typescript-eslint/restrict-template-expressions': 'off',
     '@typescript-eslint/space-before-function-paren': 'off',
     '@typescript-eslint/no-extraneous-class': 'off',
-    'padded-blocks': 'off'
+    'padded-blocks': 'off',
+    'no-case-declarations': 'off'
   },
 
   ignorePatterns: ['frontend/src/stories/*', './src/*']
