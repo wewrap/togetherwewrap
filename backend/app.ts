@@ -22,6 +22,7 @@ import userDataRouter from './routes/userData'
 import contactCreatorRouter from './routes/contactCreator'
 import logoutRouter from './routes/logout'
 import inviteContactsRouter from './routes/inviteContactsRouter'
+import verifyPlanInviteRouter from './routes/verifyPlanInvite'
 
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -35,6 +36,7 @@ app.use(morgan('dev'))
 
 app.use(cors({
   credentials: true,
+  // origin property w/ localhost is required for local development
   origin: 'http://localhost:3000'
 }));
 app.use(express.json());
@@ -172,6 +174,7 @@ passport.use(
   ))
 
 app.use('/', testRouter)
+app.use('/verify-plan-invite', checkUserAuthorization, verifyPlanInviteRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
