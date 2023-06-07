@@ -27,6 +27,6 @@ module.exports = {
     'padded-blocks': 'off',
     'no-case-declarations': 'off'
   },
-
+  // ignorePatterns is not working
   ignorePatterns: ['frontend/src/stories/*', './src/*']
 }
