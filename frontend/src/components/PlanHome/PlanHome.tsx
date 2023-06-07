@@ -12,7 +12,6 @@ import { removeModal } from '../../utils/helpers'
 import { SearchBar } from './SearchBar'
 import { Tag } from './Tag'
 import axios, { AxiosError } from 'axios'
-import { contactsMockData } from '../../utils/mockData'
 import { fetchPlanAndContactsData } from '../Plan/hook/fetchPlanAndContactsData'
 
 import editButton from '../../assets/editButton.png'
@@ -59,7 +58,8 @@ export const PlanHome = (): JSX.Element => {
   const { id } = useParams();
   const {
     planData,
-    contactData
+    contactData,
+    membersListData
   } = fetchPlanAndContactsData(id as string)
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
@@ -256,7 +256,7 @@ export const PlanHome = (): JSX.Element => {
             </h3>
             <div className={styles.whiteDivider}></div>
             <div className={`${styles.scrollable} ${styles.memberListWrapper}`}>
-              <MemberList members={contactsMockData} />
+              <MemberList members={membersListData} />
             </div>
             <button className={styles.inviteMemberContainer} onClick={() => { setShowInviteModal(!showInviteModal); }}>
               <img src={addMemberButton} />

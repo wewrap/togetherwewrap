@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { type Plan, type Contact, LoadStatus } from '../../../utils/types'
+import { type Plan, type Contact, LoadStatus, type User } from '../../../utils/types'
 import axios from 'axios'
 
 export const fetchPlanAndContactsData = (planIdParam: string): any => {
   const [status, setStatus] = useState<LoadStatus>(LoadStatus.NOT_LOADED)
   const [planData, setPlanData] = useState<Plan | undefined>(undefined)
   const [contactData, setContactData] = useState<Contact[] | undefined>(undefined)
+  const [membersListData, setMembersListData] = useState<User[] | undefined>(undefined)
   const [hasFetched, setHasFetched] = useState<boolean>(false)
 
   useEffect(() => {
@@ -16,6 +17,7 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
         setStatus(LoadStatus.LOADING)
 
         setPlanData(
+          // TODO: add error handling when a user enters a planId in the url that isn't their plan
           await axios.get(
             `/api/plan/${planIdParam}`,
             {
@@ -28,6 +30,16 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
         setContactData(
           await axios.get(
             '/api/contacts',
+            {
+              withCredentials: true,
+              signal: controller.signal
+            })
+            .then(res => res.data)
+        )
+
+        setMembersListData(
+          await axios.get(
+            `/api/memberList?planId=${planIdParam}`,
             {
               withCredentials: true,
               signal: controller.signal
@@ -52,5 +64,5 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
     }
   }, [])
 
-  return { planData, contactData, status }
+  return { planData, contactData, status, membersListData }
 }
