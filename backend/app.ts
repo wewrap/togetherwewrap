@@ -32,7 +32,7 @@ const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
 const TWO_MINUTES = 1000 * 60 * 2
 
 app.use(morgan('dev'))
-app.use(express.static('public'))
+app.use(express.static('build'))
 
 app.use(cors({
   credentials: true
