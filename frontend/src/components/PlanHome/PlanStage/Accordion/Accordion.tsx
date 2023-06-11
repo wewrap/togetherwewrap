@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import styles from './Accordion.module.css'
 import classNames from 'classnames'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
 export interface AccordionProps {
   title: JSX.Element
@@ -24,7 +26,7 @@ export const Accordion = ({
     }>
       <div className={styles.title} onClick={() => { setIsOpen(!isOpen); }}>
         {title}
-        <button> open </button>
+        <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} className={styles.chevron}/>
       </div>
       {isOpen && (
         <div className={styles.content}>

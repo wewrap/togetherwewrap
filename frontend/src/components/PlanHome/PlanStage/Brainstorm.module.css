@@ -1,8 +1,8 @@
 .stageBackground {
   background-color: aliceblue;
   height: 790px;
-  border-radius: 10px;
   width: 100%;
+  border-radius: 10px;
   padding: 20px;
 }
 
@@ -15,4 +15,74 @@
   background-color: blueviolet;
   width: 100%;
   height: 100%;
+}
+
+.closeView {
+  width: 765px;
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+  align-items: center;
+}
+
+.logo {
+  width: 71px;
+  height: 71px;
+}
+
+.username {
+  margin-left: auto;
+}
+
+.textarea {
+  resize: none;
+  width: 100%;
+
+  height: 400px;
+  font-size: 25px;
+  font-family: var(--mont);
+
+  margin: 20px 0;
+  overflow-x: hidden;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
+
+.saveButtonDiv {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.save {
+  padding: 18px 35px;
+  border-radius: 20px;
+  border: 1px solid #FFFFFF;
+
+  border: none;
+
+  font-size: 20px;
+  font-weight: 800;
+
+  color: var(--white);
+  background-color: var(--green);
+}
+
+.save:hover {
+  cursor: pointer;
+}
+
+.scrollable {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 10px;
+  background-color: none;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #B9B9B9;
+  border-radius: 20px;
 }
