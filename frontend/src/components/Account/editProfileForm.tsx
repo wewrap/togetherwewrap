@@ -1,4 +1,3 @@
-import { render } from '@testing-library/react';
 import * as React from 'react';
 import { useState } from 'react';
 import axios from 'axios'
@@ -25,44 +24,44 @@ export const EditProfile = (): JSX.Element => {
   const [bio, setBio] = useState<string>();
   const [notification, setNotification] = useState<string>();
   const [showCancel, setShowCancel] = useState<boolean>(false);
-  const [toggleEdit, hasToggledEdit] = useState<boolean>(true); 
+  const [toggleEdit, hasToggledEdit] = useState<boolean>(true);
 
   const handleEditProfile = () => {
-    setShowCancel(true); 
-    hasToggledEdit(false); 
+    setShowCancel(true);
+    hasToggledEdit(false);
   };
 
   const handleCancel = () => {
-    setShowCancel(false); 
-    hasToggledEdit(true); 
+    setShowCancel(false);
+    hasToggledEdit(true);
   }
-  
+
   const handleSaveChanges = () => {
-    handleEditProfile(); 
+    handleEditProfile();
   }
 
   const handleSubmit = async(e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     await axios.post('http://localhost:8000/api/account', {
-          firstName,
-          lastName,
-          username,
-          URL,
-          email,
-          phoneNumber,
-          address,
-          birthDate,
-          timezone,
-          bio,
-        })
-          .then((res) => {
-            setNotification('Successful submission.');
-            setShowCancel(false);
-          })
-          .catch((err) => {
-            setNotification('Error occured. Please try again.')
-          })
+      firstName,
+      lastName,
+      username,
+      URL,
+      email,
+      phoneNumber,
+      address,
+      birthDate,
+      timezone,
+      bio
+    })
+      .then((res) => {
+        setNotification('Successful submission.');
+        setShowCancel(false);
+      })
+      .catch((err) => {
+        setNotification(`Error occured. Please try again. error: ${err}`)
+      })
   }
 
   return (
@@ -77,13 +76,13 @@ export const EditProfile = (): JSX.Element => {
                 <label className = {styles.profileNameTitles}> last name </label>
                     <input id = "profileLastName" readOnly = {toggleEdit} className = {styles.profileLastNameField} type = "text" value = {lastName} onChange = {(event) => { setLastName(event.target.value) }}/>
             </div>
-            <div className = {styles.profileContainer}> 
+            <div className = {styles.profileContainer}>
                 <label className = {styles.profileNameTitles}> username </label>
                     <input id = "profileUsername" readOnly = {toggleEdit} className = {styles.profileUsernameField} type = "text" value = {username} onChange = {(event) => { setUsername(event.target.value) }}/>
             </div>
             <div className = {styles.profileContainer}>
                 <label className = {styles.profileFieldTitles}> URL  </label>
-                    <input id = "profileURL"  readOnly = {toggleEdit} className = {styles.profileFields} type = "text" value = {URL} onChange = {(event) => { setURL(event.target.value) }}/>
+                    <input id = "profileURL" readOnly = {toggleEdit} className = {styles.profileFields} type = "text" value = {URL} onChange = {(event) => { setURL(event.target.value) }}/>
             </div>
             <div className = {styles.profileContainer}>
                 <label className = {styles.profileFieldTitles}> email </label>
@@ -102,7 +101,7 @@ export const EditProfile = (): JSX.Element => {
                 <input id = "profileBirthDate" readOnly = {toggleEdit} className = {styles.profileFields} type = "text" value = {birthDate} onChange = {(event) => { setBirthDate(event.target.value) }}/>
             </div>
             <div className = {styles.profileContainer}>
-            <label className  = {styles.profileFieldTitles}> time-zone </label>
+            <label className = {styles.profileFieldTitles}> time-zone </label>
                 <input id = "profileTimezone" readOnly = {toggleEdit} className = {styles.profileFields} type = "text" value = {timezone} onChange = {(event) => { setTimezone(event.target.value) }}/>
             </div>
             <div className = {styles.profileContainer}>
@@ -110,18 +109,18 @@ export const EditProfile = (): JSX.Element => {
                 <input id = "profileTimezone" readOnly = {toggleEdit} className = {styles.profileBioField} type = "text" value = {bio} onChange = {(event) => { setBio(event.target.value) }}/>
             </div>
             <div className = "buttonContainer">
-                    {!showCancel ? (
+                    {!showCancel
+                      ? (
                         <button id = {styles.edit} onClick ={handleEditProfile} className = {styles.editButton} type = "submit"> edit profile </button>
-                    )
-                     : (
-                        <div> 
+                        )
+                      : (
+                        <div>
                           <button id = {styles.cancel} onClick = {handleCancel} className = {styles.cancelButton} type = "submit"> cancel </button>
                           <button id = {styles.cancel} onClick = {handleSaveChanges} className = {styles.saveButton} type = "submit"> save changes </button>
-                        </div> 
-                      )}
+                        </div>
+                        )}
              </div>
         </form>
         </div>
-   )
+  )
 }
-
