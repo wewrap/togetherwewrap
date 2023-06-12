@@ -46,6 +46,8 @@
   overflow-x: hidden;
   padding: 10px 15px;
   border-radius: 10px;
+  border: 0.5px solid #B9B9B9;
+
 }
 
 .saveButtonDiv {
@@ -125,7 +127,7 @@
   margin: 20px 0;
   overflow-x: hidden;
   padding: 5px 10px;
-  border-radius: 10px;
+  border: 0.5px solid #B9B9B9;
 }
 
 .itemLink {
