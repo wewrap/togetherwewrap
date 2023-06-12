@@ -3,34 +3,52 @@ import styles from './Brainstorm.module.css'
 import logoCircleIcon from '../../../assets/logoCircleIcon.png'
 import classNames from 'classnames'
 import { brainstormIdeasMockData } from '../../../utils/mockData'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../UserContext'
 import axios from 'axios'
+import { type BrainstormIdeaPost } from '../../../utils/types'
 
 export const Brainstorm = (): JSX.Element | null => {
-  const [description, setDescription] = useState<string>('')
+  // const [description, setDescription] = useState<string>('asdasdasdasd')
+  const [currentUserPost, setCurrentUserPost] = useState<BrainstormIdeaPost>({
+    id: '',
+    authorId: '',
+    item: '',
+    description: '',
+    itemLink: '',
+    firstName: '',
+    lastName: ''
+
+  })
   // if current user is not owner of accordion, then don't show the save button
   const currentUser = useContext(UserContext)[0]
+
+  useEffect(() => {
+    const currentUserIdeaPost: BrainstormIdeaPost | undefined = brainstormIdeasMockData.find(ideaPost => currentUser.id === ideaPost.authorId);
+    if (currentUserIdeaPost !== undefined) setCurrentUserPost(prev => currentUserIdeaPost ?? prev)
+    console.log(currentUserIdeaPost)
+  }, [currentUser])
 
   const handleDescriptionSave = (ideaPostId: string) => async () => {
     try {
       const response = await axios.put(`/api/brainstorm/${ideaPostId}`, {
-        description
+        currentUserPost
       })
-      setDescription(response.data.description)
+      setCurrentUserPost(response.data.description)
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
   return (
     <div className={classNames(styles.scrollable, styles.stageBackground)}>
       <div className={styles.buttonControls}>
-        <button>
+        <button className={styles.addBtn}>
           Add
         </button>
       </div>
       {brainstormIdeasMockData.map(ideaPost => {
+        const isCurrentUserPost: boolean = currentUser.id === ideaPost.authorId
         return (
           <Accordion title={
             <div className={styles.closeView}>
@@ -41,17 +59,25 @@ export const Brainstorm = (): JSX.Element | null => {
           }
             content={
               <div className={styles.openView}>
-                <h2>Description:</h2>
+                <h2>Description</h2>
                 {/* if current user is the author, then allow the ability to edit/save on an ideaPost post */}
-                {currentUser !== null && currentUser.id === ideaPost.userId
+                {isCurrentUserPost
                   ? (
                     <div key={ideaPost.id}>
                       <textarea className={styles.textarea}
-                        value={ideaPost.description}
+                        value={currentUserPost.description}
                         maxLength={300}
                         onChange={(e) => {
-                          setDescription(e.target.value)
-                        }}></textarea>
+                          setCurrentUserPost(prev => ({ ...prev, description: e.target.value }))
+                        }}>
+
+                      </textarea>
+                      <h2>Link</h2>
+                      <input
+                        className={styles.itemLinkInput} type="text"
+                        value={currentUserPost.itemLink}
+                        onChange={(e) => { setCurrentUserPost(prev => ({ ...prev, itemLink: e.target.value })); }
+                        } />
                       <div className={styles.saveButtonDiv}>
                         <button className={styles.save} onClick={handleDescriptionSave(ideaPost.id)}>Save</button>
                       </div>
@@ -59,7 +85,15 @@ export const Brainstorm = (): JSX.Element | null => {
                     )
                   : (
                     <div key={ideaPost.id}>
-                      <h3 className={styles.textarea}> {ideaPost.description}</h3>
+                      <h3 className={styles.ideaPost}> {ideaPost.description}</h3>
+                      <h2>Link</h2>
+                      <a
+                        href={ideaPost.itemLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.itemLink}>
+                        {ideaPost.itemLink}
+                      </a>
                     </div>
                     )}
               </div>
