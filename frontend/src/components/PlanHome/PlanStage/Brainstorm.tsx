@@ -7,9 +7,12 @@ import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../UserContext'
 import axios from 'axios'
 import { type BrainstormIdeaPost } from '../../../utils/types'
+import { Modal } from '../../Modal'
+import { removeModal } from '../../../utils/helpers'
+import addButton from '../../../assets/addButton.png'
 
 export const Brainstorm = (): JSX.Element | null => {
-  // const [description, setDescription] = useState<string>('asdasdasdasd')
+  const [showAddItemModal, setShowAddItemModal] = useState<boolean>(false)
   const [currentUserPost, setCurrentUserPost] = useState<BrainstormIdeaPost>({
     id: '',
     authorId: '',
@@ -20,6 +23,11 @@ export const Brainstorm = (): JSX.Element | null => {
     lastName: ''
 
   })
+  const [ideaPostSubmission, setIdeaPostSubmission] = useState<any>({
+    item: '',
+    description: '',
+    itemLink: ''
+  })
   // if current user is not owner of accordion, then don't show the save button
   const currentUser = useContext(UserContext)[0]
 
@@ -28,6 +36,20 @@ export const Brainstorm = (): JSX.Element | null => {
     if (currentUserIdeaPost !== undefined) setCurrentUserPost(prev => currentUserIdeaPost ?? prev)
     console.log(currentUserIdeaPost)
   }, [currentUser])
+
+  // When user click mouse outside of modal, close the modal
+  useEffect(() => {
+    const handleClickOutsideOfModal = (event: any) => {
+      if (showAddItemModal && event.target.closest('.clickOutsideOfModal') === null) {
+        handleDiscardModal()
+      }
+    }
+    if (showAddItemModal) {
+      document.addEventListener('mousedown', handleClickOutsideOfModal)
+    } else {
+      document.removeEventListener('mousedown', handleClickOutsideOfModal)
+    }
+  }, [showAddItemModal])
 
   const handleDescriptionSave = (ideaPostId: string) => async () => {
     try {
@@ -40,13 +62,76 @@ export const Brainstorm = (): JSX.Element | null => {
     }
   }
 
+  function handleDiscardModal() {
+    removeModal()
+  }
+
+  const handleSubmitNewIdeaPost = async () => {
+    try {
+      // TODO: implement this
+      await axios.post('/api/brainstorm', {
+        ideaPostSubmission
+      })
+
+      // TODO: create accordion for new idea post
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <div className={classNames(styles.scrollable, styles.stageBackground)}>
-      <div className={styles.buttonControls}>
-        <button className={styles.addBtn}>
+      {showAddItemModal && (
+        <Modal>
+          <div className={classNames(styles.addItemModalContainer, 'clickOutsideOfModal')}>
+
+            <button
+              onClick={() => {
+                handleDiscardModal()
+              }}
+              className={styles.closeModalBtn}
+              >&times;
+              </button>
+
+            <h1 className={styles.modalTitle}>Add Your Idea!</h1>
+
+            <h2 className={styles.modalSubtitle}>What is your idea?</h2>
+            <input
+              className={styles.itemLinkInput} type="text"
+              value={ideaPostSubmission.item}
+              onChange={(e) => { setIdeaPostSubmission((prev: any) => ({ ...prev, item: e.target.value })); }
+              } />
+
+            <h2 className={styles.modalSubtitle}>Give a description</h2>
+
+            <textarea className={styles.textarea}
+              value={ideaPostSubmission.description}
+              maxLength={300}
+              onChange={(e) => {
+                setIdeaPostSubmission((prev: any) => ({ ...prev, description: e.target.value }))
+              }}>
+            </textarea>
+
+            <h2 className={styles.modalSubtitle}>Link</h2>
+
+            <input
+              className={styles.itemLinkInput} type="text"
+              value={ideaPostSubmission.itemLink}
+              onChange={(e) => { setIdeaPostSubmission((prev: any) => ({ ...prev, itemLink: e.target.value })); }
+              } />
+
+            <button className={styles.saveBtn} onClick={handleSubmitNewIdeaPost}>
+              Add
+            </button>
+          </div>
+        </Modal>
+      )}
+
+      {/* <div className={styles.buttonControls}>
+        <button className={styles.addBtn} onClick={() => { setShowAddItemModal(prev => !prev); }}>
           Add
         </button>
-      </div>
+      </div> */}
       {brainstormIdeasMockData.map(ideaPost => {
         const isCurrentUserPost: boolean = currentUser.id === ideaPost.authorId
         return (
@@ -100,6 +185,10 @@ export const Brainstorm = (): JSX.Element | null => {
             } />
         )
       })}
+
+      <div className={styles.addAccordion} onClick={() => { setShowAddItemModal(!showAddItemModal); }}>
+        <img src={addButton} className={styles.addButtonImg} />
+      </div>
     </div>
   )
 }
