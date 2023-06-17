@@ -1,0 +1,262 @@
+.contactForm {
+    width: 900px;
+    height: 760px;
+}
+
+.scrollable {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.userInput {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
+    margin-top: 30px;
+    margin-left: 115px;
+}
+
+.contactInput {
+    width: 530px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #D7D7D7;
+    padding: 5px;
+}
+.contactsNameSection {
+    display:flex;
+    gap: 14px;
+    margin-left: 2px;
+}
+.fullName {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+    margin-right: 44px;
+}
+
+.fullName input {
+    width: 250px;
+}
+
+.userIcon {
+    font-size: 23px;
+}
+
+.emailSection {
+    display:flex;
+    gap: 12px;
+    margin-right: 40px;
+    margin-bottom: 20px;
+}
+
+.emailIcon {
+    font-size: 25px;
+}
+
+.relationshipSection {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 5px;
+    margin-right: 49px;
+}
+
+.relationshipSection button {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+    align-items: center;
+    font-size: 20px;
+}
+
+.relationshipIcon {
+    font-size: 21px;
+}
+
+.addRelationship {
+    display: flex;
+    margin-right: 406px;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.addRelationship input {
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    padding: 5px;
+    width: 150px;
+    height: 40px;
+    margin-left: 36px;
+}
+
+.addRelationship button {
+    margin-left: 5px;
+}
+
+.importantEventSection {
+    display: flex;
+    gap: 10px;
+    margin-bottom: -15px;
+    margin-left: 2px;;
+}
+
+.importantEventSection button {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+    align-items: center;
+    font-size: 20px;
+}
+
+.importantEventIcon {
+    font-size: 27px;
+}
+
+.importantEvent {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.importantEvent input {
+    width: 250px;
+}
+
+.addImportantEvent {
+    display: flex;
+    flex-direction: column;
+    margin-right: 256px;
+    margin-bottom: 20px;
+}
+
+.addImportantEvent input {
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    padding: 5px;
+    width: 107px;
+    height: 40px;
+    margin-left: 36px;
+}
+
+.addImportantEvent button {
+    margin-left: 5px;
+}
+
+.noteSection {
+    display: flex;
+    gap: 10px;
+    margin-right: 38px;
+    margin-bottom: 20px;
+}
+
+.noteIcon {
+    font-size: 28px;
+}
+
+.addContactButton {
+    width: 100px;
+    height: 40px;
+    margin-left: 466px;
+    margin-bottom: 20px;
+}
+ 
+.greenCircle {
+    height: auto;
+    width: 150px;
+    margin-left: 150px;
+    margin-top: 10px;
+}
+
+.addPhoto {
+    height: auto;
+    width: 75px;
+    margin-top: 100px;
+    margin-left: 125px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    left: 100px;
+}
+
+.horizontal-line {
+  border: none;
+  border-top: 2px solid #D7D7D7;
+  margin: 10px 0;
+}
+
+.phoneSection {
+    display: flex;
+    gap: 14px;
+    margin-right: 40px;
+    margin-bottom: 20px;
+}
+
+.phoneIcon {
+    font-size: 23px;
+}
+
+.buttonStyle {
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    background-color: #06D6A0;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #D7D7D7;
+    text-transform: uppercase;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: box-shadow, transform;
+    transition-property: box-shadow, transform;
+}
+
+.buttonStyle:hover, .buttonStyle:focus, button:active {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    -webkit-transform: scale(1.05);
+    transform: scale(1.08);
+}
+/* 
+.addContactSection {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 36px;
+} */
+
+.successMessage {
+    position: relative;
+    bottom: 55px;
+    left: 200px;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    animation: popAnimation 1s ease-in-out;
+    transform-origin: center;
+    color: #1B9AAA;
+    font-size: large;
+}
+
+@keyframes popAnimation {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+}
+  
+.successMessage.hide {
+    opacity: 0;
+}
