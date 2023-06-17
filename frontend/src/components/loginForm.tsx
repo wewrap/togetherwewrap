@@ -14,6 +14,13 @@ export const LoginForm = (): JSX.Element | null => {
   const [errorMessage, setErrorMessage] = useState<string>('')
   const navigate = useNavigate()
 
+  let oauthRedirectUrl;
+  if (process.env.NODE_ENV === 'development') {
+    oauthRedirectUrl = 'http://localhost:8000'
+  } else {
+    oauthRedirectUrl = 'https://www.wewrap.app'
+  }
+
   if (loadingStatus === LoadStatus.NOT_LOADED || loadingStatus === LoadStatus.LOADING) {
     return null
   }
@@ -74,11 +81,11 @@ export const LoginForm = (): JSX.Element | null => {
         <div className='orOAuth'>
           <p>OR</p>
         </div>
-        <a className='googleContainer' href='/auth/google'>
+        <a className='googleContainer' href={`${oauthRedirectUrl}/auth/google`}>
           <img src={googleIcon} alt='googleIcon' />
           <p>Log in with Google</p>
         </a>
-        <a className='facebookContainer' href='/auth/facebook'>
+        <a className='facebookContainer' href={`${oauthRedirectUrl}/auth/facebook`}>
           <img src={facebookIcon} alt='googleIcon' />
           <p>Log in with Facebook</p>
         </a>

@@ -1,4 +1,5 @@
 import express from 'express';
+import { redirectURL } from '../utils/config'
 
 const logoutRouter = express.Router();
 
@@ -15,7 +16,7 @@ logoutRouter.post('/', function (req, res, next) {
       }
       const cookieName = 'connect.sid'
       res.clearCookie(cookieName)
-      res.redirect('/login');
+      res.redirect(`${redirectURL}/login`);
     });
   });
 });

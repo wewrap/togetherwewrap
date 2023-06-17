@@ -1,5 +1,6 @@
 import express from 'express';
 import passport from 'passport'
+import { redirectURL } from '../utils/config'
 const loginAuthRouter = express.Router()
 
 loginAuthRouter.get('/password',
@@ -9,7 +10,7 @@ loginAuthRouter.get('/password',
 
 loginAuthRouter.post('/password', passport.authenticate('local'),
   function (req, res) {
-    res.redirect('/')
+    res.redirect(`${redirectURL}/`)
   })
 
 export default loginAuthRouter
