@@ -175,12 +175,12 @@ passport.use(
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
-app.use('/login', loginAuthRouter)
+app.use('/api/login', loginAuthRouter)
 app.use('/api/plan', checkUserAuthorization, planRouter)
-app.use('/signup', signUpAuth)
+app.use('/api/signup', signUpAuth)
 app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
-app.use('/userData', userDataRouter)
-app.use('/logout', logoutRouter)
+app.use('/api/userData', userDataRouter)
+app.use('/api/logout', logoutRouter)
 app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
 
 export default app

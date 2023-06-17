@@ -39,7 +39,7 @@ export const SignUp = (): JSX.Element | null => {
     if (isValidLength && hasNumber && hasSpecialChar) {
       if (password === confirmPassword) {
         setWarning('');
-        await axios.post('/signup', {
+        await axios.post('api/signup', {
           firstName,
           lastName,
           email,

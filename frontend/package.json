@@ -29,7 +29,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && cp -R build ../backend",
+    "clean": "rm -rf ../backend/build",
+    "build": "npx prisma generate && npm run clean && react-scripts build && cp -R build ../backend",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/ --ext .tsx",

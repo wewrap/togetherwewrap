@@ -25,7 +25,7 @@ export const LoginForm = (): JSX.Element | null => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
-      await axios.post('/login/password', {
+      await axios.post('/api/login/password', {
         email,
         password
       }, {
