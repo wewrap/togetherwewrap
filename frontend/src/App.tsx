@@ -12,6 +12,7 @@ import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
 import { Home } from './components/Home/Home'
 import { Account } from './components/accountForm'
+import { NotFoundPage } from './components/NotFoundPage'
 
 function App(): JSX.Element {
   return (
@@ -37,6 +38,7 @@ function App(): JSX.Element {
           </Route>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route element={<NotFoundPage />} />
         </Routes>
       </GetUserContext>
 

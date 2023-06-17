@@ -31,7 +31,7 @@
     "start": "NODE_ENV=production react-scripts start",
     "start-local": "NODE_ENV=development react-scripts start",
     "clean": "rm -rf ../backend/build",
-    "build": "npx prisma generate && npm run clean && react-scripts build && cp -R build ../backend",
+    "build": "npm run clean && react-scripts build && cp -R build ../backend",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/ --ext .tsx",

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node ./dist/index.js",
+    "start": "npx prisma migrate dev && NODE_ENV=production node ./dist/index.js",
     "build": "npx prisma generate && npm run clean && tsc",
     "clean": "rm -rf ./dist",
     "deploy": "eb deploy",
