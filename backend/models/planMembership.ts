@@ -2,15 +2,23 @@ import { InviteStatus, type PlanMembership, Role, type User } from '@prisma/clie
 import prisma from '../utils/prismaClient'
 const db = prisma
 
+interface dbPlanMembershipCreateInput extends Partial<PlanMembership> {
+  planID: string
+  userID: string
+  inviteStatus: InviteStatus
+  role: Role
+}
+
+interface dbPlanMembershipReadInput extends Partial<PlanMembership> {
+
+}
+
 export default class PlanMembershipModel {
-  public static async dbCreateOnePlanMembership(data: any): Promise<PlanMembership | null> {
+  public static async dbCreateOnePlanMembership(params: dbPlanMembershipCreateInput): Promise<PlanMembership | null> {
     try {
       const responseData = await db.planMembership.create({
         data: {
-          role: Role.PLAN_LEADER,
-          inviteStatus: InviteStatus.NOT_APPLICABLE,
-          userID: data.userID,
-          planID: data.planID
+          ...params
         }
       })
 
@@ -37,6 +45,16 @@ export default class PlanMembershipModel {
     } catch (err) {
       console.error(`Error in db.planMembership.createMany: ${err}`)
     }
+  }
+
+  public static async dbReadOnePlanMembership(params: dbPlanMembershipReadInput) {
+    const responseData = await db.planMembership.findFirst({
+      where: {
+        ...params
+      }
+    })
+
+    return responseData
   }
 
   public static async dbReadPlanMembers(planID: string): Promise<Array<PlanMembership & {

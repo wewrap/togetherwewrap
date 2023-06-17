@@ -135,7 +135,8 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
         phoneNumber: response.data.phoneNumber,
         notes: response.data.notes,
         id: response.data.id,
-        ownerID: response.data.ownerID
+        ownerID: response.data.ownerID,
+        createdAt: response.data.createdAt
       })
       setFirstName('');
       setLastName('');

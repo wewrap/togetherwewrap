@@ -21,6 +21,7 @@ export interface Contact {
   relationships: ContactRelationship[]
   importantDateEvent?: ImportantDateEvent[]
   isFavorite?: boolean
+  createdAt: Date
 }
 
 interface ContactRelationship {

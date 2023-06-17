@@ -1,4 +1,3 @@
-import * as dotenv from 'dotenv'
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
@@ -21,8 +20,10 @@ import planRouter from './routes/plan'
 import { checkUserAuthorization } from './modules/auth'
 import userDataRouter from './routes/userData'
 import contactCreatorRouter from './routes/contactCreator'
+import logoutRouter from './routes/logout'
+import inviteContactsRouter from './routes/inviteContactsRouter'
+import verifyPlanInviteRouter from './routes/verifyPlanInvite'
 
-dotenv.config()
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
 const app = express()
@@ -35,6 +36,7 @@ app.use(morgan('dev'))
 
 app.use(cors({
   credentials: true,
+  // origin property w/ localhost is required for local development
   origin: 'http://localhost:3000'
 }));
 app.use(express.json());
@@ -172,6 +174,7 @@ passport.use(
   ))
 
 app.use('/', testRouter)
+app.use('/verify-plan-invite', checkUserAuthorization, verifyPlanInviteRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/login', loginAuthRouter)
@@ -179,5 +182,7 @@ app.use('/api/plan', checkUserAuthorization, planRouter)
 app.use('/signup', signUpAuth)
 app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/userData', userDataRouter)
+app.use('/logout', logoutRouter)
+app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
 
 export default app

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import { type User } from '../utils/types'
+import { LoadStatus, type User } from '../utils/types'
 import axios from 'axios'
-import { LoadStatus } from '../utils/loadingStatus'
 
 export const fetchUser = (): Array<string | User | null> => {
   const [user, setUser] = useState<User | null>(null)
