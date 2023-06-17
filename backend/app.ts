@@ -34,9 +34,10 @@ const TWO_MINUTES = 1000 * 60 * 2
 app.use(morgan('dev'))
 app.use(express.static('build'))
 
+const originConfig = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.wewrap.app'
 app.use(cors({
+  origin: originConfig,
   credentials: true
-  // origin: 'http://localhost:3000'
 }));
 app.use(express.json());
 app.use(passport.initialize())
@@ -85,31 +86,31 @@ passport.use(new GoogleStrategy({
   clientSecret: googleClientSecret,
   callbackURL: googleCallBackURL
 },
-async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
-  try {
-    const user = await db.user.findFirst({
-      where: {
-        googleID: profile.id
-      }
-    })
-
-    if (user === null) {
-      const newUser = await db.user.create({
-        data: {
-          firstName: profile._json.given_name,
-          lastName: profile._json.family_name,
-          googleID: profile.id,
-          email: profile.emails[0].value
+  async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
+    try {
+      const user = await db.user.findFirst({
+        where: {
+          googleID: profile.id
         }
       })
-      done(null, newUser)
-    } else {
-      done(null, user)
+
+      if (user === null) {
+        const newUser = await db.user.create({
+          data: {
+            firstName: profile._json.given_name,
+            lastName: profile._json.family_name,
+            googleID: profile.id,
+            email: profile.emails[0].value
+          }
+        })
+        done(null, newUser)
+      } else {
+        done(null, user)
+      }
+    } catch (error) {
+      done(error, null)
     }
-  } catch (error) {
-    done(error, null)
-  }
-}))
+  }))
 
 passport.use(new FacebookStrategy({
   clientID: facebookClientID,
@@ -151,25 +152,25 @@ passport.use(
     passReqToCallback: true
 
   },
-  async function (req, email, password, done) {
-    const user = await db.user.findUnique({
-      where: {
-        email
+    async function (req, email, password, done) {
+      const user = await db.user.findUnique({
+        where: {
+          email
+        }
+      })
+
+      if ((user === null) || (user.salt === null)) {
+        done(null, false)
+        return
       }
-    })
 
-    if ((user === null) || (user.salt === null)) {
-      done(null, false)
-      return
+      const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64')
+      if (user.password !== hashedPassword) {
+        done(null, false)
+      } else {
+        done(null, user)
+      }
     }
-
-    const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64')
-    if (user.password !== hashedPassword) {
-      done(null, false)
-    } else {
-      done(null, user)
-    }
-  }
   ))
 
 app.use('/', testRouter)
