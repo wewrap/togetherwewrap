@@ -105,8 +105,8 @@
     font-size: 25px;
 }
 
-.frequentView .viewButtons {
-    padding-left: 18px;
+.recentView .viewButtons {
+    padding-right: 170px;
 }
 
 .favoriteView .viewButtons {
