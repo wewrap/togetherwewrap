@@ -10,6 +10,8 @@ loginAuthRouter.get('/password',
 
 loginAuthRouter.post('/password', passport.authenticate('local'),
   function (req, res) {
+    console.log('done authenticating...')
+    console.log('attempting to redirect...')
     res.redirect(`${redirectURL}/`)
   })
 

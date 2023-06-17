@@ -22,6 +22,7 @@ import userDataRouter from './routes/userData'
 import contactCreatorRouter from './routes/contactCreator'
 import logoutRouter from './routes/logout'
 import inviteContactsRouter from './routes/inviteContactsRouter'
+import path from 'path'
 
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -86,31 +87,31 @@ passport.use(new GoogleStrategy({
   clientSecret: googleClientSecret,
   callbackURL: googleCallBackURL
 },
-  async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
-    try {
-      const user = await db.user.findFirst({
-        where: {
-          googleID: profile.id
+async function verify(accessToken: any, refreshToken: any, profile: any, done: any) {
+  try {
+    const user = await db.user.findFirst({
+      where: {
+        googleID: profile.id
+      }
+    })
+
+    if (user === null) {
+      const newUser = await db.user.create({
+        data: {
+          firstName: profile._json.given_name,
+          lastName: profile._json.family_name,
+          googleID: profile.id,
+          email: profile.emails[0].value
         }
       })
-
-      if (user === null) {
-        const newUser = await db.user.create({
-          data: {
-            firstName: profile._json.given_name,
-            lastName: profile._json.family_name,
-            googleID: profile.id,
-            email: profile.emails[0].value
-          }
-        })
-        done(null, newUser)
-      } else {
-        done(null, user)
-      }
-    } catch (error) {
-      done(error, null)
+      done(null, newUser)
+    } else {
+      done(null, user)
     }
-  }))
+  } catch (error) {
+    done(error, null)
+  }
+}))
 
 passport.use(new FacebookStrategy({
   clientID: facebookClientID,
@@ -152,26 +153,34 @@ passport.use(
     passReqToCallback: true
 
   },
-    async function (req, email, password, done) {
-      const user = await db.user.findUnique({
-        where: {
-          email
-        }
-      })
-
-      if ((user === null) || (user.salt === null)) {
-        done(null, false)
-        return
+  async function (req, email, password, done) {
+    console.log('Passport start authentication')
+    const user = await db.user.findUnique({
+      where: {
+        email
       }
+    })
 
-      const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64')
-      if (user.password !== hashedPassword) {
-        done(null, false)
-      } else {
-        done(null, user)
-      }
+    if ((user === null) || (user.salt === null)) {
+      console.log('Authentication failed')
+      done(null, false)
+      return
     }
+
+    const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64')
+    if (user.password !== hashedPassword) {
+      console.log('Authentication failed')
+      done(null, false)
+    } else {
+      console.log('Authentication successful')
+      done(null, user)
+    }
+  }
   ))
+
+app.get('/api/test', (req, res) => {
+  res.send('Hello World!')
+})
 
 app.use('/', testRouter)
 app.use('/auth/google', googleOAuthRouter)
@@ -183,5 +192,9 @@ app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/api/userData', userDataRouter)
 app.use('/api/logout', logoutRouter)
 app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 export default app

@@ -17,7 +17,7 @@ let port: number | string | undefined;
 let redirectURL: string | undefined;
 if (process.env.NODE_ENV === 'development') {
   port = 8000
-  redirectURL = 'http://localhost:3000'
+  redirectURL = 'http://localhost:8000'
 } else if (process.env.NODE_ENV === 'production') {
   port = process.env.PORT
   facebookCallBackURL = 'https://www.wewrap.app/auth/facebook/callback'

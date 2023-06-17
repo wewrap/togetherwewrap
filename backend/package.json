@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node ./dist/index.js",
-    "build": "npm run clean && tsc",
+    "build": "npx prisma generate && npm run clean && tsc",
     "clean": "rm -rf ./dist",
     "deploy": "eb deploy",
     "lint": "eslint . --fix --ext .ts",
