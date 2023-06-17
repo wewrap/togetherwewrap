@@ -187,6 +187,7 @@
 .addAccordion:hover {
   cursor: pointer;
   transform: scale(1.008);
+  transform:  ;
 }
 
 .addButtonImg {
