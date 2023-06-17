@@ -96,7 +96,7 @@ export const PlanForm = (): JSX.Element => {
       return
     }
     try {
-      await axios.post('http://localhost:8000/api/planForm', {
+      await axios.post('/api/planForm', {
         specialPerson,
         description,
         startDate,

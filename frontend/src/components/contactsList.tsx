@@ -41,7 +41,7 @@ export const ContactsList = (): JSX.Element => {
   useEffect(() => {
     const getContacts = async (): Promise<void> => {
       try {
-        const response = await axios.get('http://localhost:8000/api/contacts', { withCredentials: true })
+        const response = await axios.get('/api/contacts', { withCredentials: true })
         const contactsData = response.data as Contact[]
         setContacts(contactsData)
       } catch (error) {

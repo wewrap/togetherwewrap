@@ -25,7 +25,7 @@ export const LoginForm = (): JSX.Element | null => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
-      await axios.post('http://localhost:8000/login/password', {
+      await axios.post('/login/password', {
         email,
         password
       }, {
@@ -74,11 +74,11 @@ export const LoginForm = (): JSX.Element | null => {
         <div className='orOAuth'>
           <p>OR</p>
         </div>
-        <a className='googleContainer' href='http://localhost:8000/auth/google'>
+        <a className='googleContainer' href='/auth/google'>
           <img src={googleIcon} alt='googleIcon' />
           <p>Log in with Google</p>
         </a>
-        <a className='facebookContainer' href='http://localhost:8000/auth/facebook'>
+        <a className='facebookContainer' href='/auth/facebook'>
           <img src={facebookIcon} alt='googleIcon' />
           <p>Log in with Facebook</p>
         </a>
