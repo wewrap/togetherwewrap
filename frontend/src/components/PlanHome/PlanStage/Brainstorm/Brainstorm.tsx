@@ -2,18 +2,21 @@
 /* eslint-disable @typescript-eslint/indent */
 import { Accordion } from './Accordion/Accordion'
 import styles from './Brainstorm.module.css'
-import logoCircleIcon from '../../../assets/logoCircleIcon.png'
+import logoCircleIcon from '../../../../assets/logoCircleIcon.png'
 import classNames from 'classnames'
-import { brainstormIdeasMockData } from '../../../utils/mockData'
+// import { brainstormIdeasMockData } from '../../../../utils/mockData'
 import { useContext, useEffect, useState } from 'react'
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../../UserContext'
 import axios from 'axios'
-import { type BrainstormIdeaPost } from '../../../utils/types'
-import { Modal } from '../../Modal'
-import { removeModal } from '../../../utils/helpers'
-import addButton from '../../../assets/addButton.png'
+import { type BrainstormIdeaPost } from '../../../../utils/types'
+import { Modal } from '../../../Modal'
+import { removeModal } from '../../../../utils/helpers'
+import addButton from '../../../../assets/addButton.png'
+import { fetchBrainStormData } from './fetchBrainStormData'
 
-export const Brainstorm = (): JSX.Element | null => {
+export const Brainstorm = ({
+  planId
+}: any): JSX.Element | null => {
   const [showAddItemModal, setShowAddItemModal] = useState<boolean>(false)
   const [currentUserPost, setCurrentUserPost] = useState<BrainstormIdeaPost>({
     id: '',
@@ -22,8 +25,9 @@ export const Brainstorm = (): JSX.Element | null => {
     description: '',
     itemLink: '',
     firstName: '',
-    lastName: ''
-
+    lastName: '',
+    createdAt: '',
+    updatedAt: ''
   })
   const [ideaPostSubmission, setIdeaPostSubmission] = useState<any>({
     item: '',
@@ -31,15 +35,31 @@ export const Brainstorm = (): JSX.Element | null => {
     itemLink: ''
   })
   const [submissionLoading, setSubmissionLoading] = useState<boolean>(false);
-
   // if current user is not owner of accordion, then don't show the save button
   const currentUser = useContext(UserContext)[0]
 
+  const {
+    ideaPostsData
+  } = fetchBrainStormData(planId)
+
   useEffect(() => {
-    const currentUserIdeaPost: BrainstormIdeaPost | undefined = brainstormIdeasMockData.find(ideaPost => currentUser.id === ideaPost.authorId);
+    const currentUserIdeaPost = ideaPostsData?.find(ideaPost => currentUser.id === ideaPost.authorId);
     if (currentUserIdeaPost !== undefined) setCurrentUserPost(prev => currentUserIdeaPost ?? prev)
-    console.log(currentUserIdeaPost)
-  }, [currentUser])
+
+    console.log(ideaPostsData)
+    if (ideaPostsData !== undefined) {
+      ideaPostsData?.sort((a, b) => {
+        if (a.createdAt < b.createdAt) {
+          return -1;
+        }
+        if (a.item > b.item) {
+          return 1;
+        }
+        return 0;
+      })
+    }
+    console.log(ideaPostsData)
+  }, [ideaPostsData])
 
   // When user click mouse outside of modal, close the modal
   useEffect(() => {
@@ -139,7 +159,7 @@ export const Brainstorm = (): JSX.Element | null => {
           Add
         </button>
       </div> */}
-      {brainstormIdeasMockData.map(ideaPost => {
+      {ideaPostsData?.map(ideaPost => {
         const isCurrentUserPost: boolean = currentUser.id === ideaPost.authorId
         return (
           <Accordion title={
@@ -189,7 +209,9 @@ export const Brainstorm = (): JSX.Element | null => {
                     </div>
                   )}
               </div>
-            } />
+            }
+            key={ideaPost.id}
+          />
         )
       })}
 

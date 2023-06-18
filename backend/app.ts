@@ -23,6 +23,7 @@ import contactCreatorRouter from './routes/contactCreator'
 import logoutRouter from './routes/logout'
 import inviteContactsRouter from './routes/inviteContactsRouter'
 import verifyPlanInviteRouter from './routes/verifyPlanInvite'
+import brainstormRouter from './routes/brainStorm'
 
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -184,5 +185,6 @@ app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/userData', userDataRouter)
 app.use('/logout', logoutRouter)
 app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
+app.use('/api/brainstorm', checkUserAuthorization, brainstormRouter)
 
 export default app

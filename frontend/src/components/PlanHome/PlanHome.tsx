@@ -22,7 +22,7 @@ import purchaseGiftIcon from '../../assets/purchaseGift_icon.png'
 import deliveryIcon from '../../assets/delivery_icon.png'
 import addButton from '../../assets/addButton.png'
 
-import { Brainstorm } from './PlanStage/Brainstorm'
+import { Brainstorm } from './PlanStage/Brainstorm/Brainstorm'
 import { Voting } from './PlanStage/Voting'
 import { Pool } from './PlanStage/Pool'
 import { Purchase } from './PlanStage/Purchase'
