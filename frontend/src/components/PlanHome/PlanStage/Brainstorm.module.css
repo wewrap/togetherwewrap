@@ -9,8 +9,8 @@
   background-color: var(--white);
 
   position: relative;
-  top: 20%;
-  left: 35%;
+  top: 15%;
+  left: 25%;
 
   border-radius: 10px;
 }
@@ -21,6 +21,12 @@
   /* left: 20px; */
   display: block;
   top: 20px;
+}
+
+.addBtnContainer {
+  display: flex;
+  justify-content: end;
+  margin-right: 20px;
 }
 
 
@@ -187,7 +193,6 @@
 .addAccordion:hover {
   cursor: pointer;
   transform: scale(1.008);
-  transform:  ;
 }
 
 .addButtonImg {

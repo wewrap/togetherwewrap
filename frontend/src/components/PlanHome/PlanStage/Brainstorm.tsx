@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
+/* eslint-disable @typescript-eslint/indent */
 import { Accordion } from './Accordion/Accordion'
 import styles from './Brainstorm.module.css'
 import logoCircleIcon from '../../../assets/logoCircleIcon.png'
@@ -28,6 +30,8 @@ export const Brainstorm = (): JSX.Element | null => {
     description: '',
     itemLink: ''
   })
+  const [submissionLoading, setSubmissionLoading] = useState<boolean>(false);
+
   // if current user is not owner of accordion, then don't show the save button
   const currentUser = useContext(UserContext)[0]
 
@@ -67,12 +71,14 @@ export const Brainstorm = (): JSX.Element | null => {
   }
 
   const handleSubmitNewIdeaPost = async () => {
+    setSubmissionLoading(true)
     try {
       // TODO: implement this
       await axios.post('/api/brainstorm', {
         ideaPostSubmission
       })
 
+      setIdeaPostSubmission(false)
       // TODO: create accordion for new idea post
     } catch (error) {
       console.error(error)
@@ -84,14 +90,13 @@ export const Brainstorm = (): JSX.Element | null => {
       {showAddItemModal && (
         <Modal>
           <div className={classNames(styles.addItemModalContainer, 'clickOutsideOfModal')}>
-
             <button
               onClick={() => {
                 handleDiscardModal()
               }}
               className={styles.closeModalBtn}
-              >&times;
-              </button>
+            >&times;
+            </button>
 
             <h1 className={styles.modalTitle}>Add Your Idea!</h1>
 
@@ -120,9 +125,11 @@ export const Brainstorm = (): JSX.Element | null => {
               onChange={(e) => { setIdeaPostSubmission((prev: any) => ({ ...prev, itemLink: e.target.value })); }
               } />
 
-            <button className={styles.saveBtn} onClick={handleSubmitNewIdeaPost}>
-              Add
-            </button>
+            <div className={styles.addBtnContainer}>
+              <button className={styles.addBtn} onClick={handleSubmitNewIdeaPost}>
+                {submissionLoading ? 'loading...' : 'Add'}
+              </button>
+            </div>
           </div>
         </Modal>
       )}
@@ -167,7 +174,7 @@ export const Brainstorm = (): JSX.Element | null => {
                         <button className={styles.save} onClick={handleDescriptionSave(ideaPost.id)}>Save</button>
                       </div>
                     </div>
-                    )
+                  )
                   : (
                     <div key={ideaPost.id}>
                       <h3 className={styles.ideaPost}> {ideaPost.description}</h3>
@@ -180,7 +187,7 @@ export const Brainstorm = (): JSX.Element | null => {
                         {ideaPost.itemLink}
                       </a>
                     </div>
-                    )}
+                  )}
               </div>
             } />
         )
