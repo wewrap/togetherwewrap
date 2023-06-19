@@ -14,9 +14,11 @@ import { removeModal } from '../../../../utils/helpers'
 import addButton from '../../../../assets/addButton.png'
 import { fetchBrainStormData } from './fetchBrainStormData'
 
-export const Brainstorm = ({
-  planId
-}: any): JSX.Element | null => {
+// interface BrainstormProps {
+//   planId: string
+// }
+
+export const Brainstorm = ({ planID }: any): JSX.Element | null => {
   const [showAddItemModal, setShowAddItemModal] = useState<boolean>(false)
   const [currentUserPost, setCurrentUserPost] = useState<BrainstormIdeaPost>({
     id: '',
@@ -26,8 +28,8 @@ export const Brainstorm = ({
     itemLink: '',
     firstName: '',
     lastName: '',
-    createdAt: '',
-    updatedAt: ''
+    createdAt: new Date(),
+    updatedAt: new Date()
   })
   const [ideaPostSubmission, setIdeaPostSubmission] = useState<any>({
     item: '',
@@ -40,13 +42,12 @@ export const Brainstorm = ({
 
   const {
     ideaPostsData
-  } = fetchBrainStormData(planId)
+  } = fetchBrainStormData(planID)
 
   useEffect(() => {
     const currentUserIdeaPost = ideaPostsData?.find(ideaPost => currentUser.id === ideaPost.authorId);
     if (currentUserIdeaPost !== undefined) setCurrentUserPost(prev => currentUserIdeaPost ?? prev)
 
-    console.log(ideaPostsData)
     if (ideaPostsData !== undefined) {
       ideaPostsData?.sort((a, b) => {
         if (a.createdAt < b.createdAt) {
@@ -58,7 +59,6 @@ export const Brainstorm = ({
         return 0;
       })
     }
-    console.log(ideaPostsData)
   }, [ideaPostsData])
 
   // When user click mouse outside of modal, close the modal
@@ -87,18 +87,32 @@ export const Brainstorm = ({
   }
 
   function handleDiscardModal() {
+    setSubmissionLoading(false)
+    setShowAddItemModal(false)
     removeModal()
+  }
+
+  function handleUpdateIdeaPosts(newIdeaPosts: any) {
+    // replace the old idea posts with the new idea posts that was created from the form submission
+    ideaPostsData?.map((ideaPost: any) => {
+      if (ideaPost.id === newIdeaPosts.id) {
+        return newIdeaPosts
+      }
+      return ideaPost
+    })
   }
 
   const handleSubmitNewIdeaPost = async () => {
     setSubmissionLoading(true)
+    if (ideaPostSubmission.item === '' || ideaPostSubmission.description === '' || ideaPostSubmission.itemLink === '') {
+      alert('Please fill out all fields')
+      setSubmissionLoading(false)
+      return
+    }
     try {
-      // TODO: implement this
-      await axios.post('/api/brainstorm', {
-        ideaPostSubmission
-      })
-
-      setIdeaPostSubmission(false)
+      const response = await axios.post('/api/brainstorm', ideaPostSubmission, { withCredentials: true })
+      handleDiscardModal()
+      handleUpdateIdeaPosts(response.data)
       // TODO: create accordion for new idea post
     } catch (error) {
       console.error(error)

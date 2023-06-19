@@ -1,4 +1,5 @@
-import BrainstormModel from '../models/brainstorm'
+import { type PlanBrainstorm } from '@prisma/client'
+import BrainstormModel, { type DbBrainstormCreateInput } from '../models/brainstorm'
 import PlanMembershipModel from '../models/planMembership'
 import { type BrainstormIdeaPost } from '../utils/types'
 
@@ -35,6 +36,23 @@ export class BrainstormIdeaPostService {
       return res
     } catch (error) {
       throw Error(`Error in BrainstormIdeaPostService.getAllBrainstormIdeaPosts: ${error}`)
+    }
+  }
+
+  static async createBrainstormIdeaPost(planID: string, userID: string, data: { description: string, item: string, itemLink: string }): Promise<PlanBrainstorm> {
+    try {
+      // get plan membership using user id
+      const planMembership = await PlanMembershipModel.dbReadOnePlanMembership({ planID, userID })
+
+      if (!planMembership) throw Error('No plan membership found')
+
+      const createBrainstormIdeaPostData: DbBrainstormCreateInput = { ...data, planMembershipID: planMembership.id }
+
+      const res = await BrainstormModel.dbCreateOneBrainstorm(createBrainstormIdeaPostData)
+
+      return res
+    } catch (error) {
+      throw new Error(`Error in BrainstormIdeaPostService.createBrainstormIdeaPost: ${error}`)
     }
   }
 }

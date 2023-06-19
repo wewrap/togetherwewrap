@@ -55,16 +55,17 @@ export const PlanHome = (): JSX.Element => {
   const [selectedContacts, setSelectedContacts] = useState<Contact[] | []>([]);
   const [message, setMessage] = useState<string | undefined>()
   const [displayMessage, setDisplayMessage] = useState<string>('');
-  const { id } = useParams();
+  const { id: planID } = useParams();
   const {
     planData,
     contactData,
     membersListData
-  } = fetchPlanAndContactsData(id as string)
+  } = fetchPlanAndContactsData(planID as string)
+
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
       if (showInviteModal && event.target.closest('.clickOutsideOfModal') === null) {
-        handleDiscardModal()
+        handleModalClose()
       }
     }
     if (showInviteModal) {
@@ -90,7 +91,7 @@ export const PlanHome = (): JSX.Element => {
     setSelectedContacts(filteredContacts)
   }
 
-  const handleDiscardModal = () => {
+  const handleModalClose = () => {
     setSelectedContacts([])
     setShowInviteModal(false)
     setMessage(undefined)
@@ -112,7 +113,7 @@ export const PlanHome = (): JSX.Element => {
       await axios.post('/api/inviteContacts', {
         selectedContacts,
         message,
-        planID: id
+        planID
       }, {
         withCredentials: true
       })
@@ -142,7 +143,7 @@ export const PlanHome = (): JSX.Element => {
     case PlanStageView.BRAINSTORM:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
-          <Brainstorm />
+          <Brainstorm planID={planID} />
         </div>
       )
       break;
@@ -197,7 +198,7 @@ export const PlanHome = (): JSX.Element => {
 
             <button className={inviteModalStyles.closeButton}
               onClick={() => {
-                handleDiscardModal()
+                handleModalClose()
               }}>&times;</button>
 
             <SearchBar
@@ -219,7 +220,7 @@ export const PlanHome = (): JSX.Element => {
                 <textarea placeholder='message' className={inviteModalStyles.emailMessage} value={message} onChange={(e) => { setMessage(e.target.value); }}>
                 </textarea>
                 <div className={inviteModalStyles.sendButtonContainer}>
-                  <button className={classNames(inviteModalStyles.modalPlanButton, inviteModalStyles.cancelButton)} onClick={handleDiscardModal}>
+                  <button className={classNames(inviteModalStyles.modalPlanButton, inviteModalStyles.cancelButton)} onClick={handleModalClose}>
                     Cancel
                   </button>
                   <button className={classNames(inviteModalStyles.modalPlanButton, inviteModalStyles.inviteButton)} onClick={handleSubmit}>

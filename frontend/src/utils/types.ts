@@ -60,6 +60,6 @@ export interface BrainstormIdeaPost {
   item: string
   itemLink: string
   authorId: string
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
 }

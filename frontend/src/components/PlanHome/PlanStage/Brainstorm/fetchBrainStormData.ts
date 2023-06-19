@@ -13,10 +13,9 @@ export const fetchBrainStormData = (planID: string) => {
     const fetchData = async (): Promise<void> => {
       try {
         setStatus(LoadStatus.LOADING)
-
         setIdeaPostsData(
           await axios.get(
-            `/api/brainstorm/${planID}}`,
+            `/api/brainstorm/?planID=${planID}`,
             {
               withCredentials: true,
               signal: controller.signal
@@ -41,5 +40,5 @@ export const fetchBrainStormData = (planID: string) => {
     }
   }, [])
 
-  return { status, ideaPostsData }
+  return { status, ideaPostsData, setIdeaPostsData }
 }
