@@ -177,6 +177,7 @@ export const ContactsList = () => {
           <hr className="mainHorizontalLine"></hr>
 
           <div className="listOfContacts">
+            {/* test */}
             {contacts?.map((contact) => (
               <div key={contact.id} className="contactItem">
                 <img className="contactIcon" src={contactIcon} alt="contactIcon" />
