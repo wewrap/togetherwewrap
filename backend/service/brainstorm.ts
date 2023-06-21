@@ -14,7 +14,7 @@ export class BrainstormIdeaPostService {
   static async getAllBrainstormIdeaPosts(planID: string) {
     try {
       // get all plan memberships for the plan using planID
-      const planMemberships = await PlanMembershipModel.dbReadPlanMembers(planID)
+      const planMemberships = await PlanMembershipModel.dbReadPlanMembers({ planID })
 
       if (!planMemberships) throw Error('No plan membership found')
 
