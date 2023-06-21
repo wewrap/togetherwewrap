@@ -21,6 +21,7 @@ import { checkUserAuthorization } from './modules/auth'
 import userDataRouter from './routes/userData'
 import contactCreatorRouter from './routes/contactCreator'
 import logoutRouter from './routes/logout'
+import planMemberListRouter from './routes/planMemberList'
 import inviteContactsRouter from './routes/inviteContactsRouter'
 import verifyPlanInviteRouter from './routes/verifyPlanInvite'
 
@@ -183,6 +184,7 @@ app.use('/signup', signUpAuth)
 app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/userData', userDataRouter)
 app.use('/logout', logoutRouter)
+app.use('/api/memberList', checkUserAuthorization, planMemberListRouter)
 app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
 
 export default app
