@@ -11,6 +11,8 @@ import { PlanForm } from './components/PlanForm'
 import './App.css'
 import { PlanHome } from './components/PlanHome/PlanHome'
 import { Home } from './components/Home/Home'
+import { PlanInviteVerification } from './components/PlanInviteVerification'
+import { PlanInviteLogInRequest } from './components/PlanInviteLogInRequest'
 import { Account } from './components/accountForm'
 import { NotFoundPage } from './components/NotFoundPage'
 
@@ -35,12 +37,16 @@ function App(): JSX.Element {
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<h1>About WeWrap</h1>} />
             <Route path="/learn-more" element={<h1>Learn more about WeWrap</h1>} />
+            <Route path="/plan-invite-login-request" element={<PlanInviteLogInRequest />} />
           </Route>
+          <Route path="/plan-invite/:id" element={<PlanInviteVerification />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUp />} />
           <Route element={<NotFoundPage />} />
         </Routes>
       </GetUserContext>
+      <Routes>
+      </Routes>
 
     </div >
   )

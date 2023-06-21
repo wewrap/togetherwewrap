@@ -40,7 +40,7 @@ export const EditProfile = (): JSX.Element => {
     handleEditProfile();
   }
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     await axios.post('/api/account', {

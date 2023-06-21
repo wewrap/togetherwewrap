@@ -147,14 +147,15 @@ enum EventType {
 }
 
 model PlanMembership {
-  id           String       @id @default(uuid())
-  plan         Plan         @relation(fields: [planID], references: [id])
-  planID       String
-  user         User         @relation(fields: [userID], references: [id])
-  userID       String
-  Pledge       Pledge[]
-  inviteStatus InviteStatus
-  role         Role
+  id             String           @id @default(uuid())
+  plan           Plan             @relation(fields: [planID], references: [id])
+  planID         String
+  user           User             @relation(fields: [userID], references: [id])
+  userID         String
+  Pledge         Pledge[]
+  inviteStatus   InviteStatus
+  role           Role
+  PlanBrainstorm PlanBrainstorm[]
 }
 
 model PlanInvite {
@@ -165,4 +166,15 @@ model PlanInvite {
   expiration   DateTime
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+model PlanBrainstorm {
+  id               String         @id @default(uuid())
+  planMembership   PlanMembership @relation(fields: [planMembershipID], references: [id])
+  planMembershipID String
+  description      String
+  item             String
+  itemLink         String
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 }

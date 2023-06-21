@@ -12,8 +12,14 @@
   justify-content: center;
   gap: 70px;
 
-  padding-top: 80px;
+  padding-top: 45px;
   padding-bottom: 25px;
+}
+
+.defaultPlanView {
+  display: grid;
+  gap: 2rem;
+  width: 940px;
 }
 
 .plan {
@@ -260,7 +266,8 @@
   gap: 23px;
 }
 
-.planChoices>button {
+
+.planChoices button {
   position: relative;
 
   display: block;
@@ -272,6 +279,10 @@
   cursor: pointer;
 }
 
+button.isActivePlanStage {
+  background-color: #FFEC3D;
+}
+
 .planChoices>button>span {
   position: absolute;
   top: 20px;
@@ -281,6 +292,15 @@
   font-style: normal;
   font-weight: 500;
   font-size: 23px;
+}
+
+.planChoices>button>img {
+  position: absolute;
+  top: 7px;
+  left: 10px;
+
+  width: 53px;
+  height: 56px;
 }
 
 .progressBarContainer {

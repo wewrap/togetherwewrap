@@ -1,6 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { type Contact } from './contactsList'
+import './contactsForm.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faEnvelope, faPhone, faUserGroup, faStickyNote, faCalendarAlt } from '@fortawesome/free-solid-svg-icons'
+import greenCircle from '../assets/greenCircle.png'
+import insertPhotoIcon from '../assets/insertPhotoIcon.png'
 
 interface ImportantDate {
   date: string
@@ -12,11 +17,10 @@ interface Relationship {
 }
 
 interface Props {
-  setShowCreateAContactForm: (value: boolean) => void
   handleContactCreate: (newContact: Contact) => void
 }
 
-export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCreate }: Props): JSX.Element => {
+export const CreateContactForm = ({ handleContactCreate }: Props) => {
   const [firstName, setFirstName] = useState<string>('')
   const [lastName, setLastName] = useState<string>('')
   const [relationships, setRelationships] = useState<Relationship[]>([])
@@ -29,29 +33,9 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
   const [notes, setNotes] = useState<string>('')
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [showError, setShowError] = useState<boolean>(false)
-  const [showForm, setShowForm] = useState<boolean>(true)
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const onlyLettersRegex = /^[A-Za-z\s]*$/;
-
-  const resetForm = (): void => {
-    setFirstName('')
-    setLastName('')
-    setEmail('')
-    setPhoneNumber('')
-    setNotes('')
-    setErrorMessage('')
-    setRelationshipType('')
-    setEventDate('')
-    setEventType('')
-    setRelationships([])
-    setImportantDates([])
-  }
-
-  const handleClose = (): void => {
-    setShowForm(false)
-    resetForm()
-    setShowCreateAContactForm(false)
-  }
 
   const handleChange =
     (setState: React.Dispatch<React.SetStateAction<string>>) =>
@@ -119,6 +103,14 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
     ])
   }
 
+  useEffect(() => {
+    if (isSubmitted) {
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 4000);
+    }
+  }, [isSubmitted]);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     try {
@@ -146,6 +138,19 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
         ownerID: response.data.ownerID,
         createdAt: response.data.createdAt
       })
+      setFirstName('');
+      setLastName('');
+      setRelationships([]);
+      setImportantDates([]);
+      setEventDate('');
+      setEventType('');
+      setRelationshipType('');
+      setEmail('');
+      setPhoneNumber('');
+      setNotes('');
+      setErrorMessage('');
+      setShowError(false);
+      setIsSubmitted(true);
     } catch (error) {
       console.error(error)
       setErrorMessage((error as any).response.data ?? 'Unknown error occured.')
@@ -153,149 +158,184 @@ export const CreateContactForm = ({ setShowCreateAContactForm, handleContactCrea
   }
 
   return (
-    <div className="contacts_form">
-      {showForm && (
-        <>
-          <form onSubmit={handleSubmit}>
-            <button type='button' onClick={handleClose}>X</button>
-            {(errorMessage.length > 0) && <p className="error_message">{errorMessage}</p>}
-            {<p className="show_error">{showError}</p>}
-            <div className="user_input">
-              <label htmlFor="first_name">First name</label>
+    <form className='contactForm' onSubmit={handleSubmit}>
+      {(errorMessage.length > 0) && <p className="error_message">{errorMessage}</p>}
+      {<p className="show_error">{showError}</p>}
+      <img className='addPhoto' src={insertPhotoIcon} alt="insertPhotoIcon" />
+      <img className='greenCircle' src={greenCircle} alt="greenCircle" />
+      <hr className="horizontal-line"></hr>
+      <div className="userInput scrollable" >
+        <div className="contactsNameSection">
+          <div className="userIcon">
+            <FontAwesomeIcon icon={faUser} className='userIcon' style={{ color: '#c8cbd0' }} />
+          </div>
+          <div className="fullName">
+            <input
+              className="first_name contactInput"
+              name="first_name"
+              type="text"
+              placeholder='First name'
+              autoComplete="on"
+              required
+              value={firstName}
+              onChange={handleFirstNameChange}
+            />
+
+            <input
+              className="last_name contactInput "
+              name="last_name"
+              type="text"
+              placeholder='Last name'
+              autoComplete="on"
+              required
+              value={lastName}
+              onChange={handleLastNameChange}
+            />
+          </div>
+        </div>
+
+        <div className="emailSection">
+          <div className="emailIcon">
+            <FontAwesomeIcon icon={faEnvelope} style={{ color: '#c8cbd0' }} />
+          </div>
+          <input
+          className='contactInput'
+          name="email"
+          type="text"
+          placeholder='Email'
+          autoComplete="on"
+          required
+          value={email}
+          onChange={handleEmailChange}
+          />
+        </div>
+
+        <div className="phoneSection">
+          <div className="phoneIcon">
+            <FontAwesomeIcon icon={faPhone} style={{ color: '#c8cbd0' }} />
+          </div>
+          <input
+            className='contactInput'
+            name="phone_number"
+            type="text"
+            placeholder='Phone number'
+            autoComplete="on"
+            required
+            value={phoneNumber}
+            onChange={handlePhoneNumberChange}
+          />
+        </div>
+
+        <div className="relationshipSection">
+          <div className="relationshipIcon">
+            <FontAwesomeIcon icon={faUserGroup} style={{ color: '#c8cbd0' }}/>
+          </div>
+          <div className="relationship">
+            <input
+              className='contactInput'
+              type="text"
+              placeholder='Enter relationship'
+              value={relationshipType}
+              onChange={(event) => {
+                const value = event.target.value
+                if (onlyLettersRegex.test(value)) {
+                  setRelationshipType(value)
+                }
+              }}
+            />
+          </div>
+          <button type="button" className= 'buttonStyle' onClick={addRelationship}>+</button>
+        </div>
+
+        <div className="addRelationship">
+          {relationships.map((type, index) => (
+            <div key={index}>
               <input
-                className="first_name"
-                name="first_name"
                 type="text"
-                autoComplete="on"
-                required
-                value={firstName}
-                onChange={handleFirstNameChange}
+                value={type.relationshipType}
+                onChange={(event) => { handleRelationshipChange(index, 'relationshipType', event.target.value) }
+              }
               />
-
-              <label htmlFor="last_name">Last name</label>
-              <input
-                className="last_name"
-                name="last_name"
-                type="text"
-                autoComplete="on"
-                required
-                value={lastName}
-                onChange={handleLastNameChange}
-              />
-
-              <label htmlFor="email">Email</label>
-              <input
-                className="email"
-                name="email"
-                type="text"
-                autoComplete="on"
-                required
-                value={email}
-                onChange={handleEmailChange}
-              />
-
-              <label htmlFor="phone_number">Phone number</label>
-              <input
-                className="phone_number"
-                name="phone_number"
-                type="text"
-                autoComplete="on"
-                required
-                value={phoneNumber}
-                onChange={handlePhoneNumberChange}
-              />
-
-              <label htmlFor="notes">Extra Notes</label>
-              <input
-                className="notes"
-                name="notes"
-                type="text"
-                autoComplete="on"
-                required
-                value={notes}
-                onChange={handleNotesChange}
-              />
-
-              <label>
-                Relationship with Contact
-                <input
-                  type="text"
-                  value={relationshipType}
-                  onChange={(event) => {
-                    const value = event.target.value
-                    if (onlyLettersRegex.test(value)) {
-                      setRelationshipType(value)
-                    }
-                  }}
-                />
-              </label>
-              <button type="button" onClick={addRelationship}>Add</button>
-              {relationships.map((type, index) => (
-                <div key={index}>
-                  <input
-                    type="text"
-                    value={type.relationshipType}
-                    onChange={(event) => { handleRelationshipChange(index, 'relationshipType', event.target.value) }
-                    }
-                  />
-                  <button type="button" onClick={() => { handleRemoveRelationshipType(index) }}>
-                    x
-                  </button>
-                </div>
-              ))}
-
-              <label>
-                Date:
-                <input
-                  type="text"
-                  value={eventDate}
-                  onChange={(event) => {
-                    const value = event.target.value
-                    setEventDate(value)
-                  }}
-                />
-              </label>
-
-              <label>
-                Event:
-                <input
-                  type="text"
-                  value={eventType}
-                  onChange={(event) => {
-                    const value = event.target.value
-                    if (onlyLettersRegex.test(value)) {
-                      setEventType(value)
-                    }
-                  }}
-                />
-              </label>
-              <button type='button' onClick={addImportantEvent}>Add</button>
-              {importantDates.map((date, index) => (
-                <div key={index}>
-                  <input
-                    type="text"
-                    value={date.date}
-                    onChange={(event) => { handleImportantEventChange(index, 'date', event.target.value) }}
-                  />
-                  <input
-                    type="text"
-                    value={date.eventType}
-                    onChange={(event) => { handleImportantEventChange(index, 'eventType', event.target.value) }}
-                  />
-                  <button type="button" onClick={() => { handleRemoveImportantEvent(index) }}>
-                    x
-                  </button>
-                </div>
-              ))}
-            </div>
-            <div>
-              <button className="addContactButton" type="submit">
-                Add contact
+              <button className='addButton buttonStyle' type= "button" onClick={() => { handleRemoveRelationshipType(index) }}>
+                x
               </button>
             </div>
-          </form>
-        </>
-      )}
-    </div>
+          ))}
+        </div>
+
+        <div className="importantEventSection">
+          <div className="importantEventIcon">
+            <FontAwesomeIcon icon={faCalendarAlt} style={{ color: '#c8cbd0' }}/>
+          </div>
+          <div className="importantEvent">
+            <input
+              className='contactInput'
+              type="text"
+              placeholder='Date'
+              value={eventDate}
+              onChange={(event) => {
+                const value = event.target.value
+                setEventDate(value)
+              }}
+            />
+            <input
+              className='contactInput'
+              type="text"
+              placeholder='Event'
+              value={eventType}
+              onChange={(event) => {
+                const value = event.target.value
+                if (onlyLettersRegex.test(value)) {
+                  setEventType(value)
+                }
+              }}
+            />
+          </div>
+          <button className='buttonStyle' type='button' onClick={addImportantEvent}>+</button>
+        </div>
+
+        <div className="addImportantEvent">
+          {importantDates.map((date, index) => (
+            <div key={index}>
+              <input
+                type="text"
+                value={date.date}
+                onChange={(event) => { handleImportantEventChange(index, 'date', event.target.value) }}
+              />
+              <input
+                type="text"
+                value={date.eventType}
+                onChange={(event) => { handleImportantEventChange(index, 'eventType', event.target.value) }}
+              />
+              <button type="button" className='buttonStyle' onClick={() => { handleRemoveImportantEvent(index) }}>
+                x
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="noteSection">
+            <div className="noteIcon">
+              <FontAwesomeIcon icon={faStickyNote} style={{ color: '#c8cbd0' }} />
+            </div>
+            <input
+            className='contactInput'
+            name="notes"
+            type="text"
+            placeholder='Notes'
+            autoComplete="on"
+            required
+            value={notes}
+            onChange={handleNotesChange}
+            />
+        </div>
+          <button className="addContactButton buttonStyle" type="submit">Save</button>
+          {isSubmitted && (
+            <div className="successMessage">
+              Contact added successfully!
+            </div>
+          )}
+      </div>
+    </form>
   )
 }

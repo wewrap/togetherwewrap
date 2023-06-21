@@ -11,3 +11,15 @@ export interface GeneralPlanData {
     deniedMembers: User[]
   }
 }
+
+export interface BrainstormIdeaPostOutput {
+  id: string
+  firstName: string
+  lastName: string
+  description: string
+  item: string
+  itemLink: string
+  authorId: string
+  createdAt: Date
+  updatedAt: Date
+}

@@ -46,7 +46,7 @@ export const EditPassword = (): JSX.Element => {
             setNotification('Successful submission.');
           })
           .catch((err) => {
-            setNotification(`Submission Error. Please try again. error ${err}`);
+            setNotification(`Submission Error. Please try again. Error: ${err}`);
           })
       } else {
         setConfirmPassword('');

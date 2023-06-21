@@ -23,6 +23,8 @@ import contactCreatorRouter from './routes/contactCreator'
 import logoutRouter from './routes/logout'
 import inviteContactsRouter from './routes/inviteContactsRouter'
 import path from 'path'
+import verifyPlanInviteRouter from './routes/verifyPlanInvite'
+import brainstormRouter from './routes/brainStorm'
 
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -183,6 +185,7 @@ app.get('/api/test', (req, res) => {
 })
 
 app.use('/', testRouter)
+app.use('/verify-plan-invite', checkUserAuthorization, verifyPlanInviteRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
 app.use('/api/login', loginAuthRouter)
@@ -192,6 +195,7 @@ app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
 app.use('/api/userData', userDataRouter)
 app.use('/api/logout', logoutRouter)
 app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
+app.use('/api/brainstorm', checkUserAuthorization, brainstormRouter)
 
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));

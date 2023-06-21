@@ -17,6 +17,15 @@ export enum PlanStage {
   COMPLETED = 'COMPLETED',
 }
 
+export enum PlanStageView {
+  HOME = 'HOME',
+  BRAINSTORM = 'BRAINSTORM',
+  VOTING = 'VOTING',
+  POOL = 'POOL',
+  PURCHASE = 'PURCHASE',
+  DELIVERY = 'DELIVERY',
+  COMPLETED = 'COMPLETED',
+}
 export interface Contact {
   firstName: string
   lastName?: string
@@ -41,4 +50,16 @@ export enum LoadStatus {
   NOT_LOADED = 'NOT_LOADED',
   LOADED = 'LOADED',
   FAILED = 'FAILED'
+}
+
+export interface BrainstormIdeaPost {
+  id: string
+  firstName: string
+  lastName: string
+  description: string
+  item: string
+  itemLink: string
+  authorId: string
+  createdAt: Date
+  updatedAt: Date
 }
