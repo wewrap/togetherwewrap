@@ -18,13 +18,6 @@ const LOCAL_DB_PASS = process.env.LOCAL_DB_PASS
 
 const LOCAL_DATABASE_URL = `mysql://${LOCAL_DB_USERNAME}:${LOCAL_DB_PASS}@${LOCAL_DB_HOST}/${LOCAL_DB_DBNAME}`;
 
-const LOCAL_DB_USERNAME = process.env.LOCAL_DB_USERNAME
-const LOCAL_DB_HOST = process.env.LOCAL_DB_HOST
-const LOCAL_DB_DBNAME = process.env.LOCAL_DB_DBNAME
-const LOCAL_DB_PASS = process.env.LOCAL_DB_PASS
-
-const LOCAL_DATABASE_URL = `mysql://${LOCAL_DB_USERNAME}:${LOCAL_DB_PASS}@${LOCAL_DB_HOST}/${LOCAL_DB_DBNAME}`;
-
 process.env.NODE_ENV = process.env.NODE_ENV ?? 'development'
 
 let port: number | string | undefined;
