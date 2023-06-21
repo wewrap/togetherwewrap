@@ -57,14 +57,14 @@ export default class PlanMembershipModel {
     return responseData
   }
 
-  public static async dbReadPlanMembers(planID: string): Promise<Array<PlanMembership & {
+  public static async dbReadPlanMembers(params: dbPlanMembershipReadInput): Promise<Array<PlanMembership & {
     user: User
   }
   > | null | undefined> {
     try {
       const responseData = await db.planMembership.findMany({
         where: {
-          planID
+          ...params
         },
         include: {
           user: true
