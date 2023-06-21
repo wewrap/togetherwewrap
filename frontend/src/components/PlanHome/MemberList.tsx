@@ -10,9 +10,7 @@ export const MemberList = ({
 }: MemberListProps): JSX.Element => {
   return (
     <>
-      <ul className={styles.memberUl}>
-        {/* TODO: Fix this map function once this component receives the correct
-        and established data between the frontend and backend  */}
+      {/* <ul className={styles.memberUl}>
         {members?.map((member: User) => (
           <li key={member.id}>
             <div className={styles.memberContainer}>
@@ -20,7 +18,7 @@ export const MemberList = ({
             </div>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </>
   )
 }

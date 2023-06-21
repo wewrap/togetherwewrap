@@ -24,7 +24,7 @@ import logoutRouter from './routes/logout'
 import inviteContactsRouter from './routes/inviteContactsRouter'
 import path from 'path'
 import verifyPlanInviteRouter from './routes/verifyPlanInvite'
-import brainstormRouter from './routes/brainStorm'
+import brainstormRouter from './routes/brainstorm'
 
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
