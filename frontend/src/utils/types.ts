@@ -51,3 +51,15 @@ export enum LoadStatus {
   LOADED = 'LOADED',
   FAILED = 'FAILED'
 }
+
+export interface BrainstormIdeaPost {
+  id: string
+  firstName: string
+  lastName: string
+  description: string
+  item: string
+  itemLink: string
+  authorId: string
+  createdAt: Date
+  updatedAt: Date
+}
