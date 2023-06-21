@@ -23,7 +23,7 @@ export default class PlanService {
 
       if (plan === null) throw new Error('model response is null')
 
-      const planMembers = await PlanMembershipModel.dbReadPlanMembers(planID)
+      const planMembers = await PlanMembershipModel.dbReadPlanMembers({ planID })
 
       if (planMembers === null || planMembers === undefined) throw new Error('Unable to fetch plan members')
 
