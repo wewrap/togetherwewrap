@@ -12,7 +12,7 @@ export interface GeneralPlanData {
   }
 }
 
-export interface BrainstormIdeaPost {
+export interface BrainstormIdeaPostOutput {
   id: string
   firstName: string
   lastName: string

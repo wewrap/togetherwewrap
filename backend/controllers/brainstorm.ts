@@ -27,11 +27,42 @@ export class BrainstormStageController {
 
       const { planID, ...createBrainstormIdeaPostData } = req.body;
 
-      const brainStormIdeaPost = await BrainstormIdeaPostService.createBrainstormIdeaPost(planID, user.id, createBrainstormIdeaPostData)
+      const brainStormIdeaPost = await BrainstormIdeaPostService.createBrainstormIdeaPost(planID, user, createBrainstormIdeaPostData)
 
       res.status(200).json(brainStormIdeaPost)
     } catch (error) {
 
+    }
+  }
+
+  static async updateBrainstormIdea(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const user = req.user as User;
+      const brainstormIdeaPostID = req.params.id;
+
+      const { planID, ...updateBrainstormIdeaPostData } = req.body;
+
+      // add the brainstormIdeaPostID to the updateBrainstormIdeaPostData object
+      updateBrainstormIdeaPostData.id = brainstormIdeaPostID
+
+      const brainStormIdeaPost = await BrainstormIdeaPostService.updateBrainstormIdeaPost(planID, user, updateBrainstormIdeaPostData)
+
+      res.status(200).json(brainStormIdeaPost)
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ error: 'Error updating brainstorm idea post' })
+    }
+  }
+
+  static async deleteBrainstormIdeas(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const brainstormIdeaPostID = req.params.id;
+
+      const brainStormIdeaPost = await BrainstormIdeaPostService.deleteBrainstormIdeaPost(brainstormIdeaPostID)
+      res.status(200).json(brainStormIdeaPost)
+    } catch (error) {
+      console.log(error)
+      res.status(400).json({ error: 'Error deleting brainstorm idea post' })
     }
   }
 }

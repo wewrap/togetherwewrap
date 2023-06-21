@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { type BrainstormIdeaPost, LoadStatus } from '../../../../utils/types'
 import axios from 'axios'
 
-export const fetchBrainStormData = (planID: string) => {
+export const fetchBrainStormData = (planID: string | undefined) => {
   const [status, setStatus] = useState<LoadStatus>(LoadStatus.NOT_LOADED)
-  const [ideaPostsData, setIdeaPostsData] = useState<BrainstormIdeaPost[] | undefined>(undefined)
+  const [ideaPostsData, setIdeaPostsData] = useState<BrainstormIdeaPost[] | []>([])
   const [hasFetched, setHasFetched] = useState<boolean>(false)
 
   useEffect(() => {

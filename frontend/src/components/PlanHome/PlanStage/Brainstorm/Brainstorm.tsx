@@ -14,23 +14,12 @@ import { removeModal } from '../../../../utils/helpers'
 import addButton from '../../../../assets/addButton.png'
 import { fetchBrainStormData } from './fetchBrainStormData'
 
-// interface BrainstormProps {
-//   planId: string
-// }
+interface BrainstormProps {
+  planID: string | undefined
+}
 
-export const Brainstorm = ({ planID }: any): JSX.Element | null => {
+export const Brainstorm = ({ planID }: BrainstormProps): JSX.Element | null => {
   const [showAddItemModal, setShowAddItemModal] = useState<boolean>(false)
-  const [currentUserPost, setCurrentUserPost] = useState<BrainstormIdeaPost>({
-    id: '',
-    authorId: '',
-    item: '',
-    description: '',
-    itemLink: '',
-    firstName: '',
-    lastName: '',
-    createdAt: new Date(),
-    updatedAt: new Date()
-  })
   const [ideaPostSubmission, setIdeaPostSubmission] = useState<any>({
     item: '',
     description: '',
@@ -40,13 +29,15 @@ export const Brainstorm = ({ planID }: any): JSX.Element | null => {
   // if current user is not owner of accordion, then don't show the save button
   const currentUser = useContext(UserContext)[0]
 
-  const {
-    ideaPostsData
-  } = fetchBrainStormData(planID)
+  const { ideaPostsData } = fetchBrainStormData(planID)
+  const [ideaPosts, setIdeaPosts] = useState<BrainstormIdeaPost[]>([])
+  const [test, setTest] = useState<BrainstormIdeaPost[]>([])
 
   useEffect(() => {
-    const currentUserIdeaPost = ideaPostsData?.find(ideaPost => currentUser.id === ideaPost.authorId);
-    if (currentUserIdeaPost !== undefined) setCurrentUserPost(prev => currentUserIdeaPost ?? prev)
+    setIdeaPosts(ideaPostsData)
+    // create a currentUserIdeaPosts Array that holds all of the current user posts
+    const currentUserIdeaPosts = ideaPostsData?.filter(ideaPost => currentUser.id === ideaPost.authorId);
+    setTest(currentUserIdeaPosts ?? [])
 
     if (ideaPostsData !== undefined) {
       ideaPostsData?.sort((a, b) => {
@@ -75,12 +66,29 @@ export const Brainstorm = ({ planID }: any): JSX.Element | null => {
     }
   }, [showAddItemModal])
 
-  const handleDescriptionSave = (ideaPostId: string) => async () => {
+  const handleIdeaPostUpdate = (currentPost: BrainstormIdeaPost) => async () => {
     try {
-      const response = await axios.put(`/api/brainstorm/${ideaPostId}`, {
-        currentUserPost
-      })
-      setCurrentUserPost(response.data.description)
+      console.log('starting update')
+      const response = await axios.put(`/api/brainstorm/${currentPost.id}`, {
+        id: currentPost.id,
+        item: currentPost.item,
+        description: currentPost.description,
+        itemLink: currentPost.itemLink,
+        planID
+      }, { withCredentials: true })
+      console.log('finished update')
+      console.log(response)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleIdeaPostDelete = (currentPost: BrainstormIdeaPost) => async () => {
+    try {
+      const response = await axios.delete(`/api/brainstorm/${currentPost.id}`, { withCredentials: true })
+      console.log(response)
+      const returnedIdeaPost = response.data
+      setIdeaPosts((prevIdeaPosts: BrainstormIdeaPost[]) => prevIdeaPosts.filter(ideaPost => ideaPost.id !== returnedIdeaPost.id))
     } catch (error) {
       console.error(error)
     }
@@ -92,17 +100,19 @@ export const Brainstorm = ({ planID }: any): JSX.Element | null => {
     removeModal()
   }
 
-  function handleUpdateIdeaPosts(newIdeaPosts: any) {
-    // replace the old idea posts with the new idea posts that was created from the form submission
-    ideaPostsData?.map((ideaPost: any) => {
-      if (ideaPost.id === newIdeaPosts.id) {
-        return newIdeaPosts
-      }
-      return ideaPost
-    })
-  }
+  // function handleUpdateIdeaPosts(newIdeaPosts: any) {
+  //   // replace the old idea posts with the new idea posts that was created from the form submission
+  //   console.log('handling update idea post')
+  //   console.log('data', newIdeaPosts)
+  //   setIdeaPosts(ideaPostsData?.map((ideaPost: any) => {
+  //     if (ideaPost.id === newIdeaPosts.id) {
+  //       return newIdeaPosts
+  //     }
+  //     return ideaPost
+  //   }))
+  // }
 
-  const handleSubmitNewIdeaPost = async () => {
+  const handleIdeaPostCreate = async () => {
     setSubmissionLoading(true)
     if (ideaPostSubmission.item === '' || ideaPostSubmission.description === '' || ideaPostSubmission.itemLink === '') {
       alert('Please fill out all fields')
@@ -110,9 +120,13 @@ export const Brainstorm = ({ planID }: any): JSX.Element | null => {
       return
     }
     try {
-      const response = await axios.post('/api/brainstorm', ideaPostSubmission, { withCredentials: true })
+      const response = await axios.post('/api/brainstorm', {
+        ...ideaPostSubmission,
+        planID
+      }, { withCredentials: true })
       handleDiscardModal()
-      handleUpdateIdeaPosts(response.data)
+      console.log(response.data)
+      setIdeaPosts((prevIdeaPosts: BrainstormIdeaPost[]) => [...prevIdeaPosts, response.data])
       // TODO: create accordion for new idea post
     } catch (error) {
       console.error(error)
@@ -160,7 +174,7 @@ export const Brainstorm = ({ planID }: any): JSX.Element | null => {
               } />
 
             <div className={styles.addBtnContainer}>
-              <button className={styles.addBtn} onClick={handleSubmitNewIdeaPost}>
+              <button className={styles.addBtn} onClick={handleIdeaPostCreate}>
                 {submissionLoading ? 'loading...' : 'Add'}
               </button>
             </div>
@@ -173,8 +187,9 @@ export const Brainstorm = ({ planID }: any): JSX.Element | null => {
           Add
         </button>
       </div> */}
-      {ideaPostsData?.map(ideaPost => {
+      {ideaPosts?.map(ideaPost => {
         const isCurrentUserPost: boolean = currentUser.id === ideaPost.authorId
+        const currentPost = test?.find(post => post.id === ideaPost.id)
         return (
           <Accordion title={
             <div className={styles.closeView}>
@@ -187,25 +202,41 @@ export const Brainstorm = ({ planID }: any): JSX.Element | null => {
               <div className={styles.openView}>
                 <h2>Description</h2>
                 {/* if current user is the author, then allow the ability to edit/save on an ideaPost post */}
-                {isCurrentUserPost
+                {isCurrentUserPost && currentPost !== undefined
                   ? (
                     <div key={ideaPost.id}>
                       <textarea className={styles.textarea}
-                        value={currentUserPost.description}
+                        value={currentPost?.description}
                         maxLength={300}
                         onChange={(e) => {
-                          setCurrentUserPost(prev => ({ ...prev, description: e.target.value }))
+                          /* On change, this will loop thru the currentUserIdeaPosts array, and change the description of the currentPost */
+                          setTest(prev => prev.map(post => post.id === currentPost.id
+                            ? {
+                              ...post,
+                              description: e.target.value
+                            }
+                            : post
+                          ))
                         }}>
 
                       </textarea>
                       <h2>Link</h2>
                       <input
                         className={styles.itemLinkInput} type="text"
-                        value={currentUserPost.itemLink}
-                        onChange={(e) => { setCurrentUserPost(prev => ({ ...prev, itemLink: e.target.value })); }
+                        value={currentPost?.itemLink}
+                        onChange={(e) => {
+                          setTest(prev => prev.map(ideaPost => ideaPost.id === currentPost.id
+                            ? {
+                              ...ideaPost,
+                              itemLink: e.target.value
+                            }
+                            : ideaPost
+                          ))
+                        }
                         } />
-                      <div className={styles.saveButtonDiv}>
-                        <button className={styles.save} onClick={handleDescriptionSave(ideaPost.id)}>Save</button>
+                      <div className={styles.bottomBtnsContainer}>
+                        <button className={styles.deleteBtn} onClick={handleIdeaPostDelete(currentPost)}>Delete</button>
+                        <button className={styles.save} onClick={handleIdeaPostUpdate(currentPost)}>Save</button>
                       </div>
                     </div>
                   )
@@ -232,6 +263,6 @@ export const Brainstorm = ({ planID }: any): JSX.Element | null => {
       <div className={styles.addAccordion} onClick={() => { setShowAddItemModal(!showAddItemModal); }}>
         <img src={addButton} className={styles.addButtonImg} />
       </div>
-    </div>
+    </div >
   )
 }
