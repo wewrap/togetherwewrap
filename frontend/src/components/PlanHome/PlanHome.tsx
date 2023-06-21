@@ -61,7 +61,6 @@ export const PlanHome = (): JSX.Element => {
     contactData,
     membersListData
   } = fetchPlanAndContactsData(planID as string)
-  console.log('🚀 ~ file: PlanHome.tsx:64 ~ PlanHome ~ membersListData:', membersListData)
 
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
