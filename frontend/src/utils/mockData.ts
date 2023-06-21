@@ -161,7 +161,9 @@ export const brainstormIdeasMockData: BrainstormIdeaPost[] = [
     lastName: '',
     description: 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.',
     item: 'Chevrolet',
-    itemLink: 'https://www.chevrolet.com/'
+    itemLink: 'https://www.chevrolet.com/',
+    updatedAt: new Date(),
+    createdAt: new Date()
   },
   {
     authorId: '2',
@@ -170,7 +172,9 @@ export const brainstormIdeasMockData: BrainstormIdeaPost[] = [
     lastName: 'Sherrett',
     description: 'Cras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.\n\nProin interdum mauris non ligula pellentesque ultrices. Phasellus authorId sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl',
     item: 'Volkswagen',
-    itemLink: 'https://www.volkswagen.com/'
+    itemLink: 'https://www.volkswagen.com/',
+    updatedAt: new Date(),
+    createdAt: new Date()
   },
   {
     authorId: '3',
@@ -179,7 +183,9 @@ export const brainstormIdeasMockData: BrainstormIdeaPost[] = [
     lastName: 'Ringe',
     description: 'Fusce consequat. Nulla nisl. Nunc nisl.',
     item: 'Volkswagen',
-    itemLink: 'https://www.volkswagen.com/'
+    itemLink: 'https://www.volkswagen.com/',
+    updatedAt: new Date(),
+    createdAt: new Date()
   },
   {
     authorId: '4',
@@ -188,7 +194,9 @@ export const brainstormIdeasMockData: BrainstormIdeaPost[] = [
     lastName: 'Densumbe',
     description: 'Integer tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.',
     item: 'Ford',
-    itemLink: 'https://www.ford.com/'
+    itemLink: 'https://www.ford.com/',
+    updatedAt: new Date(),
+    createdAt: new Date()
   }
   // {
   //   authorId: '5',

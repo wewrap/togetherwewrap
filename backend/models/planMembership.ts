@@ -47,10 +47,10 @@ export default class PlanMembershipModel {
     }
   }
 
-  public static async dbReadOnePlanMembership(params: dbPlanMembershipReadInput) {
+  public static async dbReadOnePlanMembership(whereParams: dbPlanMembershipReadInput) {
     const responseData = await db.planMembership.findFirst({
       where: {
-        ...params
+        ...whereParams
       }
     })
 
