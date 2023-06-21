@@ -20,7 +20,7 @@ import voteIcon from '../../assets/Vote_icon.png'
 import poolIcon from '../../assets/poolMoney_icon.png'
 import purchaseGiftIcon from '../../assets/purchaseGift_icon.png'
 import deliveryIcon from '../../assets/delivery_icon.png'
-import addMemberButton from '../../assets/addMemberButton.png'
+import addButton from '../../assets/addButton.png'
 
 import { Brainstorm } from './PlanStage/Brainstorm'
 import { Voting } from './PlanStage/Voting'
@@ -259,7 +259,7 @@ export const PlanHome = (): JSX.Element => {
               <MemberList members={membersListData} />
             </div>
             <button className={styles.inviteMemberContainer} onClick={() => { setShowInviteModal(!showInviteModal); }}>
-              <img src={addMemberButton} />
+              <img src={addButton} />
               <p>
                 Invite to group
               </p>

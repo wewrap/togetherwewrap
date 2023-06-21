@@ -5,3 +5,12 @@ SESSION_SECRET=""
 FACEBOOK_CLIENT_ID=""
 FACEBOOK_APP_SECRET=""
 FACEBOOK_CALLBACK_URL=""
+
+# Please add the different parts that makes your local database url here
+LOCAL_DB_USERNAME=""
+LOCAL_DB_HOST=""
+LOCAL_DB_DBNAME=""
+LOCAL_DB_PASS=""
+
+# Production database:
+DATABASE_URL=""

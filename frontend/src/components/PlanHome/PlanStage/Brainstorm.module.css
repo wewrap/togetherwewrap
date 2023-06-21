@@ -1,0 +1,205 @@
+/* Add item Modal */
+
+.addItemModalContainer {
+  min-height: 500px;
+  max-height: auto;
+
+  width: 800px;
+  padding: 17px;
+  background-color: var(--white);
+
+  position: relative;
+  top: 15%;
+  left: 25%;
+
+  border-radius: 10px;
+}
+
+.closeModalBtn {
+  position: absolute;
+  right: 20px;
+  /* left: 20px; */
+  display: block;
+  top: 20px;
+}
+
+.addBtnContainer {
+  display: flex;
+  justify-content: end;
+  margin-right: 20px;
+}
+
+
+/* Stage main css*/
+.stageBackground {
+  background-color: aliceblue;
+  height: 790px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.buttonControls {
+  display: flex;
+  justify-content: start
+}
+
+.brainstormItemsContainer {
+  background-color: blueviolet;
+  width: 100%;
+  height: 100%;
+}
+
+.closeView {
+  width: 765px;
+  display: flex;
+  justify-content: start;
+  gap: 20px;
+  align-items: center;
+}
+
+.logo {
+  width: 71px;
+  height: 71px;
+}
+
+.username {
+  margin-left: auto;
+}
+
+.textarea {
+  resize: none;
+  width: 100%;
+
+  height: 250px;
+  font-size: 25px;
+  font-family: var(--mont);
+
+  margin: 20px 0;
+  overflow-x: hidden;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 0.5px solid #B9B9B9;
+
+}
+
+.saveButtonDiv {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.save {
+  padding: 18px 35px;
+  border-radius: 20px;
+  border: 1px solid #FFFFFF;
+
+  border: none;
+
+  font-size: 20px;
+  font-weight: 800;
+
+  color: var(--white);
+  background-color: var(--green);
+}
+
+.save:hover {
+  cursor: pointer;
+}
+
+.scrollable {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 10px;
+  background-color: none;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #B9B9B9;
+  border-radius: 20px;
+}
+
+.addBtn {
+  padding: 18px 35px;
+  border-radius: 20px;
+  border: 1px solid #FFFFFF;
+
+  border: none;
+
+  font-size: 20px;
+  font-weight: 800;
+
+  color: var(--white);
+  background-color: var(--green);
+}
+
+.addBtn:hover {
+  cursor: pointer;
+  background-color: #08c596;
+}
+
+.ideaPost {
+  padding: 10px 0;
+  line-height: 33px;
+  font-weight: 400;
+  font-size: 23px;
+
+  margin-bottom: 40px;
+}
+
+.itemLinkInput {
+  resize: none;
+  width: 100%;
+
+  height: 40px;
+  font-size: 20px;
+  font-family: var(--mont);
+
+  margin: 20px 0;
+  overflow-x: hidden;
+  padding: 5px 10px;
+  border: 0.5px solid #B9B9B9;
+  border-radius: 10px;
+}
+
+.itemLink {
+  margin: 10px 0;
+  line-height: 27px;
+  font-weight: 400;
+  font-size: 23px;
+  display: block;
+}
+
+/* Adding accordion, exact same style as accordion*/
+
+.addAccordion {
+  position: relative;
+
+  margin: 20px 0;
+  background: var(--green);
+  border: 0.5px solid #B9B9B9;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  overflow: hidden;
+  height: 120px;
+
+  transition: transform 0.3s ease-in-out;
+  /* This adds a smooth transition */
+}
+
+.addAccordion:hover {
+  cursor: pointer;
+  transform: scale(1.008);
+}
+
+.addButtonImg {
+  position: absolute;
+
+  top: 23%;
+  left: 47%;
+  width: 68px;
+  height: 68px;
+}

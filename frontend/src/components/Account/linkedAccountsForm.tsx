@@ -7,28 +7,28 @@ import xIcon from '../../assets/xIcon.png'
 import styles from './linkedAccount.module.css'
 
 export const LinkedAccounts = (): JSX.Element => {
-  const [venmo, setVenmo] = useState<string>('');
-  const [cashapp, setCashapp] = useState<string>('');
-  const [paypal, setPaypal] = useState<string>('');
-  const [hasVenmoAccount, setHasVenmoAccount] = useState<boolean>(false); 
-  const [hasCashappAccount, setHasCashappAccount] = useState<boolean>(false); 
-  const [hasPaypalAccount, setHasPaypalAccount] = useState<boolean>(false); 
+  const [venmo] = useState<string>('');
+  const [cashapp] = useState<string>('');
+  const [paypal] = useState<string>('');
+  //   const [hasVenmoAccount, setHasVenmoAccount] = useState<boolean>(false);
+  //   const [hasCashappAccount, setHasCashappAccount] = useState<boolean>(false);
+  //   const [hasPaypalAccount, setHasPaypalAccount] = useState<boolean>(false);
 
-  //TODO: retrieve venmo/cashapp/paypal URL from database 
+  // TODO: retrieve venmo/cashapp/paypal URL from database
 
   return (
         <form className = {styles.linkedAccountsForm}>
             <div className = {styles.profileFields}>
                 <label className = {styles.labelFields}> </label>
                     <a className= {styles.venmoContainer} href='http://localhost:8000/auth/venmo'>
-                    <img src={venmoIcon}  alt='venmoIcon' className = {styles.companyIcons} />
+                    <img src={venmoIcon} alt='venmoIcon' className = {styles.companyIcons} />
                     {venmo}
-                    </a> 
+                    </a>
                     <p> Log in with Venmo </p>
                 <img src = {xIcon} onClick = {(venmo) => {}} alt = 'xIcon' className = {styles.xIcon}/>
             </div>
             <div className = {styles.profileFields}>
-                <label className = {styles.labelFields}> 
+                <label className = {styles.labelFields}>
                 <a className= {styles.cashappContainer} href='http://localhost:8000/auth/cashapp'>
                     <img src={cashappIcon} alt='cashappIcon' className = {styles.companyIcons} />
                     {cashapp}
@@ -45,8 +45,8 @@ export const LinkedAccounts = (): JSX.Element => {
                 </a>
                 <p> Log in with Paypal </p>
                     <img src = {xIcon} onClick = {(paypal) => {}} alt = 'xIcon' className = {styles.xIcon}/>
-                </label> 
+                </label>
             </div>
         </form>
-    )
+  )
 }
