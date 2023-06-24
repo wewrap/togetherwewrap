@@ -246,9 +246,6 @@ export const PlanForm = ({
           />
         </div>
         <div>
-          Add Friends:
-        </div>
-        <div>
           <button type='submit'>Create Plan</button>
         </div>
       </form>
