@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './PlanForm.css'
 import axios, { AxiosError } from 'axios'
-
+import { SearchBar } from './PlanHome/SearchBar'
+import { type Contact } from '../utils/types'
+import { Tag } from './PlanHome/Tag'
 enum EventType {
   BIRTHDAY = 'BIRTHDAY',
   ANNIVERSARY = 'ANNIVERSARY',
@@ -58,8 +60,10 @@ export const fakeUserData = [
   }
 ]
 
-export const PlanForm = (): JSX.Element => {
-  const [specialPerson] = useState<Friend | undefined>()
+export const PlanForm = ({
+  handleModalClose
+}: any): JSX.Element => {
+  const [specialPerson, setSpecialPerson] = useState<Contact[]>([])
   const [description, setDescription] = useState<string>('')
   const [startDate, setStartDate] = useState<string>('')
   const [endDate, setEndDate] = useState<string>('')
@@ -68,6 +72,7 @@ export const PlanForm = (): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
   const [eventType, setEventType] = useState<EventType>()
+  const [contactsData, setContactsData] = useState<Contact[]>([])
 
   const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setDescription(event.target.value)
@@ -89,14 +94,41 @@ export const PlanForm = (): JSX.Element => {
     setEventType(e.target.value as EventType)
   }
 
+  const handleSpecialPersonSelect = (singleContact: Contact): void => {
+    setSpecialPerson([singleContact])
+  }
+
+  const handleRemoveTag = (contact: Contact): void => {
+    setSpecialPerson([])
+  }
+
+  useEffect(() => {
+    const getContacts = async () => {
+      try {
+        const response = await axios.get('/api/contacts', { withCredentials: true })
+        return response
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    getContacts()
+      .then((response: any) => {
+        setContactsData(response.data)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [])
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     if (specialPerson === undefined) {
       handleError('Please add 1 special person')
       return
     }
+    // TODO: Implement this route in the backend
     try {
-      await axios.post('http://localhost:8000/api/planForm', {
+      await axios.post('/api/planForm', {
         specialPerson,
         description,
         startDate,
@@ -126,19 +158,41 @@ export const PlanForm = (): JSX.Element => {
     }, 3000)
   }
 
+  const handleFormClose = (event: React.MouseEvent<HTMLButtonElement>): void => {
+    event.preventDefault()
+    handleModalClose()
+  }
+
   return (
-    <div>
+    <>
+      <button onClick={handleFormClose} className='close-form-btn'>
+        x
+      </button>
       <form onSubmit={handleSubmit} className="form">
         {error && <p className='error-message'> {errorMessage} </p>}
+
         <div>
-          Select 1 Special Person (user or contact):
+          <p>
+            Select 1 Special Person from your contact:
+          </p>
         </div>
+        <SearchBar data={contactsData} handleSelectChangeFn={handleSpecialPersonSelect} alreadySelectedData={specialPerson} />
+        {specialPerson?.map((contact: Contact) => {
+          return (
+            <Tag
+              key={contact.id}
+              contact={contact}
+              handleRemoveTag={handleRemoveTag}
+            />
+          )
+        })}
         <div>
           <label htmlFor='description'>Description: </label>
           <textarea
             id='description'
             required
             value={description}
+            className='description-input'
             onChange={handleDescriptionChange}>
           </textarea>
         </div>
@@ -198,6 +252,6 @@ export const PlanForm = (): JSX.Element => {
           <button type='submit'>Create Plan</button>
         </div>
       </form>
-    </div>
+    </>
   )
 }

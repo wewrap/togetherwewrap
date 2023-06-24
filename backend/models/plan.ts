@@ -2,6 +2,8 @@ import prisma from '../utils/prismaClient'
 import { type Plan } from '@prisma/client'
 const db = prisma
 
+type dbReadPlanInput = Partial<Plan>
+
 export default class PlanModel {
   public static async dbCreateOneplan(incomingData: Plan): Promise<Plan> {
     try {
@@ -37,6 +39,18 @@ export default class PlanModel {
     } catch (err) {
       console.error(`Error in dbReadOnePlan: ${err}`)
       throw new Error(`Error in dbReadOnePlan: ${err}`)
+    }
+  }
+
+  public static async dbReadManyPlan(wherePams: dbReadPlanInput): Promise<Plan[]> {
+    try {
+      const response = await db.plan.findMany({
+        where: wherePams
+      })
+
+      return response
+    } catch (error) {
+      throw new Error(`Error in dbReadAllPlan: ${error}`)
     }
   }
 }

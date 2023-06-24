@@ -14,7 +14,6 @@ import { Tag } from './Tag'
 import axios, { AxiosError } from 'axios'
 import { fetchPlanAndContactsData } from '../Plan/hook/fetchPlanAndContactsData'
 
-import editButton from '../../assets/editButton.png'
 import brainstormIcon from '../../assets/Brainstorm_icon.png'
 import voteIcon from '../../assets/Vote_icon.png'
 import poolIcon from '../../assets/poolMoney_icon.png'
@@ -236,7 +235,6 @@ export const PlanHome = (): JSX.Element => {
           <div className={styles.planTitleContainer}>
             <p className={styles.planTitle}>Write your plan title here</p>
             <p className={styles.giftEndDate}>Gift due by 3-20-23</p>
-            <img src={editButton} alt='edit button' className={styles.editButton} />
           </div>
           <div className={styles.pictureContainer}>
             picture

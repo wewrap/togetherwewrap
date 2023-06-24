@@ -39,10 +39,12 @@ export interface Contact {
 export interface Plan {
   id: string
   description: string
-  startData: string
+  startDate: string
   specialEventType: any
-  createdAt?: string
-  updatedAt?: string
+  leaderId: string
+  title: string
+  createdAt: string
+  updatedAt: string
 }
 
 export enum LoadStatus {

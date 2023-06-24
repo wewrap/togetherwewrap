@@ -3,7 +3,7 @@
 .background {
   background: linear-gradient(180deg, var(--green) 0%, var(--blue) 100%);
   width: 100%;
-  height: 100vh;
+  height: 123vh;
   position: absolute;
 
   display: flex;

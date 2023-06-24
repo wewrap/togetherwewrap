@@ -1,4 +1,4 @@
-import { Role, type Plan, InviteStatus } from '@prisma/client'
+import { Role, type Plan, InviteStatus, type User } from '@prisma/client'
 import { type GeneralPlanData } from '../utils/types'
 import PlanModel from '../models/plan'
 import PlanMembershipModel from '../models/planMembership'
@@ -31,6 +31,15 @@ export default class PlanService {
     } catch (err) {
       console.error(`Service failure: failed to fetch plan ${err}`)
       return null
+    }
+  }
+
+  public static async fetchAllPlansData(user: User) {
+    try {
+      const dbResponse = await PlanMembershipModel.dbReadManyPlanMembership({ userID: user.id }, true, { plan: true })
+      return dbResponse
+    } catch (error) {
+      throw new Error(`Error in fetchAllPlansData: ${error}`)
     }
   }
 
