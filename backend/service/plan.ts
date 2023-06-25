@@ -4,9 +4,9 @@ import PlanModel from '../models/plan'
 import PlanMembershipModel from '../models/planMembership'
 
 export default class PlanService {
-  public static async initiatePlan(data: any): Promise<Plan | null> {
+  public static async createPlan(planData: any): Promise<Plan | null> {
     try {
-      const modelResponse = await PlanModel.dbCreateOneplan(data)
+      const modelResponse = await PlanModel.dbCreateOneplan(planData)
 
       if (modelResponse === undefined) throw new Error('model response is undefined')
 

@@ -2,7 +2,7 @@ import { type Response, type NextFunction, type Request } from 'express';
 import PlanService from '../service/plan'
 import PlanMembership from '../service/planMembership'
 import { type GeneralPlanData } from '../utils/types'
-import { User } from '@prisma/client';
+import { InviteStatus, Role, type User } from '@prisma/client';
 
 export class PlanController {
   static async createPlan(req: any, res: any, next: NextFunction): Promise<void> {
@@ -11,34 +11,32 @@ export class PlanController {
         description,
         startDate,
         endDate,
+        title,
         eventType
       } = req.body
 
       const planData = {
+        title,
         description,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
         specialEventType: eventType
       }
-      const planRecord = await PlanService.initiatePlan(planData)
+      const planRecord = await PlanService.createPlan(planData)
 
-      if (planRecord === undefined) throw new Error('initiate plan failed')
+      if (planRecord === null) throw new Error('initiate plan failed')
 
-      const membershipData = {
-        friends: req.body.friends,
-        userID: req.user?.id,
-        planID: planRecord?.id
-      }
+      const planMembershipRecord = await PlanMembership.initiatePlanMembership(
+        req.user, planRecord.id, Role.PLAN_LEADER, InviteStatus.ACCEPTED
+      )
 
-      const planMembershipRecord = await PlanMembership.initiatePlanMembership(membershipData)
+      if (planMembershipRecord === null) throw new Error('initiate plan membership failed')
 
-      if (planMembershipRecord.length !== 2) throw new Error('initate plan membership failed')
-
-      res.status(201)
-    } catch (err) {
-      console.error('error in create plan', err)
+      res.status(201).json({ message: 'plan created', data: { planRecord, planMembershipRecord } })
+    } catch (error) {
+      console.error('error in create plan', error)
       // placeholder for error handling
-      res.status(400).send(' error')
+      res.status(400).json({ message: 'error in create plan', error })
     }
   }
 

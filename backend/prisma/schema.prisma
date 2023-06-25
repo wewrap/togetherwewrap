@@ -64,6 +64,7 @@ model Profile {
 
 model Plan {
   id               String           @id @default(uuid())
+  title            String
   description      String
   startDate        DateTime
   endDate          DateTime

@@ -10,6 +10,7 @@ export default class PlanModel {
       const responseData = await db.plan.create({
         data: {
           description: incomingData.description,
+          title: incomingData.title,
           startDate: incomingData.startDate,
           endDate: incomingData.endDate,
           specialEventType: incomingData.specialEventType

@@ -11,8 +11,8 @@ planRouter.post('/',
   body('startDate').isString(),
   body('startDate').isString(),
   body('endDate').isString(),
+  body('title').isString(),
   body('eventType').isIn(Object.values(EventType)),
-  body('friends').isArray(),
   handleInputErrors,
   PlanController.createPlan)
 
