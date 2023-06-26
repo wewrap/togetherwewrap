@@ -2,19 +2,15 @@ import prisma from '../utils/prismaClient'
 import { type Plan } from '@prisma/client'
 const db = prisma
 
-type dbReadPlanInput = Partial<Plan>
+export type dbReadPlanInput = Partial<Plan>
+
+export type dbCreatePlanInput = Pick<Plan, 'description' | 'title' | 'startDate' | 'endDate' | 'specialEventType' | 'contactID'>
 
 export default class PlanModel {
-  public static async dbCreateOneplan(incomingData: Plan): Promise<Plan> {
+  public static async dbCreateOneplan(incomingData: dbCreatePlanInput): Promise<Plan> {
     try {
       const responseData = await db.plan.create({
-        data: {
-          description: incomingData.description,
-          title: incomingData.title,
-          startDate: incomingData.startDate,
-          endDate: incomingData.endDate,
-          specialEventType: incomingData.specialEventType
-        }
+        data: incomingData
       })
 
       if (responseData === undefined) throw new Error(`Plan was not created: ${JSON.stringify(incomingData)}`)

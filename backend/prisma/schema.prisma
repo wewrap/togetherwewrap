@@ -69,6 +69,8 @@ model Plan {
   startDate        DateTime
   endDate          DateTime
   specialEventType EventType
+  contactID        String
+  contact          Contact         @relation(fields: [contactID], references: [id])
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   PlanMembership   PlanMembership[]
@@ -88,6 +90,7 @@ model Contact {
   owner              User                  @relation(fields: [ownerID], references: [id])
   importantDateEvent ImportantDateEvent[]
   relationships      ContactRelationship[]
+  Plan               Plan[]
 }
 
 model Pledge {

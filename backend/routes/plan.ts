@@ -12,6 +12,7 @@ planRouter.post('/',
   body('startDate').isString(),
   body('endDate').isString(),
   body('title').isString(),
+  body('contact').isObject(),
   body('eventType').isIn(Object.values(EventType)),
   handleInputErrors,
   PlanController.createPlan)

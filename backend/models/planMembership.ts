@@ -66,7 +66,9 @@ export default class PlanMembershipModel {
       if (include) {
         findManyOptions.include = includeParams
       }
-      const response = await db.planMembership.findMany(findManyOptions)
+      const response = await db.planMembership.findMany({
+        ...findManyOptions
+      })
 
       return response
     } catch (error) {

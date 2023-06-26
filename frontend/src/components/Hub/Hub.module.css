@@ -62,7 +62,7 @@ a.planBoxContainer {
 
 .planBottomPortionContainer p {
   margin: 0;
-
+  margin-top: 5px;
   font-size: 14px;
 }
 

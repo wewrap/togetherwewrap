@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `Plan` ADD COLUMN `contactID` VARCHAR(191) NULL;
+
+-- AddForeignKey
+ALTER TABLE `Plan` ADD CONSTRAINT `Plan_contactID_fkey` FOREIGN KEY (`contactID`) REFERENCES `Contact`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

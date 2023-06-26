@@ -1,10 +1,12 @@
-import { Role, type Plan, InviteStatus, type User } from '@prisma/client'
+import { Role, type Plan, InviteStatus, type User, type Contact, type PlanMembership } from '@prisma/client'
 import { type GeneralPlanData } from '../utils/types'
-import PlanModel from '../models/plan'
+import PlanModel, { type dbCreatePlanInput } from '../models/plan'
 import PlanMembershipModel from '../models/planMembership'
+import ContactModel from '../models/contacts'
+import UserModel from '../models/user'
 
 export default class PlanService {
-  public static async createPlan(planData: any): Promise<Plan | null> {
+  public static async createPlan(planData: dbCreatePlanInput): Promise<Plan | null> {
     try {
       const modelResponse = await PlanModel.dbCreateOneplan(planData)
 
@@ -23,11 +25,13 @@ export default class PlanService {
 
       if (plan === null) throw new Error('model response is null')
 
+      const specialPersonContact = await ContactModel.dbReadOneContact(plan.contactID)
+
       const planMembers = await PlanMembershipModel.dbReadPlanMembers({ planID })
 
       if (planMembers === null || planMembers === undefined) throw new Error('Unable to fetch plan members')
 
-      return PlanService.populatePlanDataObjectHelper(plan, planMembers)
+      return PlanService.populatePlanDataObjectHelper(plan, planMembers, specialPersonContact)
     } catch (err) {
       console.error(`Service failure: failed to fetch plan ${err}`)
       return null
@@ -36,18 +40,31 @@ export default class PlanService {
 
   public static async fetchAllPlansData(user: User) {
     try {
+      // includes the plan related to plan membership
       const dbResponse = await PlanMembershipModel.dbReadManyPlanMembership({ userID: user.id }, true, { plan: true })
-      return dbResponse
+
+      const currentUserPlanMembershipsWithPlanLeaderUserRecord = await Promise.all(dbResponse.map(async (planMembership) => {
+        const planLeaderMembership = dbResponse.reduce((acc: null | PlanMembership, planMembership) => {
+          if (planMembership.role === Role.PLAN_LEADER) return planMembership
+          return acc
+        }, null)
+        if (planLeaderMembership === null) throw new Error('Could not find plan leader membership')
+
+        const planLeaderUserRecord = await UserModel.dbReadOneUser({ id: planLeaderMembership.userID })
+
+        return { planMembership, planLeaderUserRecord }
+      }))
+
+      return currentUserPlanMembershipsWithPlanLeaderUserRecord
     } catch (error) {
       throw new Error(`Error in fetchAllPlansData: ${error}`)
     }
   }
 
-  private static populatePlanDataObjectHelper(plan: Plan, planMembers: any): GeneralPlanData {
+  private static populatePlanDataObjectHelper(plan: Plan, planMembers: any, specialPersonContact: Contact): GeneralPlanData {
     const planData: GeneralPlanData = {
-      description: plan.description,
-      specialDate: plan.endDate,
-      specialPerson: undefined,
+      ...plan,
+      specialPerson: specialPersonContact,
       members: {
         planLeader: undefined,
         acceptedMembers: [],

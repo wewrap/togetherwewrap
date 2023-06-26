@@ -64,11 +64,11 @@ export const PlanForm = ({
   handleModalClose
 }: any): JSX.Element => {
   const [specialPerson, setSpecialPerson] = useState<Contact[]>([])
+  console.log('🚀 ~ file: PlanForm.tsx:67 ~ specialPerson:', specialPerson)
+  const [planTitle, setPlanTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [startDate, setStartDate] = useState<string>('')
   const [endDate, setEndDate] = useState<string>('')
-  const [specialDate, setSpecialDate] = useState<string>('')
-  const [friends] = useState<Friend[]>([])
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [error, setError] = useState<boolean>(false)
   const [eventType, setEventType] = useState<EventType>()
@@ -84,10 +84,6 @@ export const PlanForm = ({
 
   const handleEndDateChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setEndDate(event.target.value)
-  }
-
-  const handleSpecialDateChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setSpecialDate(event.target.value)
   }
 
   const handleEventSelect = (e: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -123,22 +119,25 @@ export const PlanForm = ({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     if (specialPerson === undefined) {
+      console.log('🚀 ~ file: PlanForm.tsx:127 ~ handleSubmit ~ specialPerson:', specialPerson)
       handleError('Please add 1 special person')
       return
     }
     // TODO: Implement this route in the backend
     try {
-      await axios.post('/api/planForm', {
-        specialPerson,
+      const response = await axios.post('/api/plan', {
+        contact: specialPerson[0],
         description,
         startDate,
         endDate,
-        specialDate,
-        friends,
+        title: planTitle,
         eventType
       }, {
         withCredentials: true
       })
+      console.log('🚀 ~ file: PlanForm.tsx:144 ~ handleSubmit ~ specialPerson:', specialPerson)
+      console.log(response)
+      window.location.href = `/plan/${response.data.data.planRecord.id}`
     } catch (error) {
       if (error instanceof AxiosError) {
         console.error(error?.response?.status)
@@ -187,6 +186,16 @@ export const PlanForm = ({
           )
         })}
         <div>
+          <label htmlFor='plan-title'>Enter a title: </label>
+          <input
+            id='plan-title'
+            required
+            value={planTitle}
+            className='plan-title'
+            onChange={(e) => { setPlanTitle(e.target.value); }}>
+          </input>
+        </div>
+        <div>
           <label htmlFor='description'>Description: </label>
           <textarea
             id='description'
@@ -196,7 +205,7 @@ export const PlanForm = ({
             onChange={handleDescriptionChange}>
           </textarea>
         </div>
-        <div>
+        {/* <div>
           <label htmlFor='specialDate'>Special date: </label>
           <input
             type='date'
@@ -205,7 +214,7 @@ export const PlanForm = ({
             required
             onChange={handleSpecialDateChange}
           />
-        </div>
+        </div> */}
         <div>
           <label htmlFor='eventType'>
             Event Type

@@ -12,12 +12,14 @@ export class PlanController {
         startDate,
         endDate,
         title,
-        eventType
+        eventType,
+        contact
       } = req.body
 
       const planData = {
         title,
         description,
+        contactID: contact.id,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
         specialEventType: eventType

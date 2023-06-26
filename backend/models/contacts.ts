@@ -39,6 +39,27 @@ export default class ContactModel {
     }
   }
 
+  public static async dbReadOneContact(contactID: string): Promise<Contact> {
+    try {
+      const contact = await db.contact.findUnique({
+        where: {
+          id: contactID
+        },
+        include: {
+          relationships: true,
+          importantDateEvent: true
+        }
+      })
+
+      if (contact === null) throw new Error(`Contact ${contactID} was not found in the database`)
+
+      return contact
+    } catch (err) {
+      console.error(`Error in dbReadOneContact: ${err}`)
+      throw new Error(`Error in dbReadOneContact: ${err}`)
+    }
+  }
+
   public static async dbGetAllContacts(ownerID: string): Promise<Contact[] | undefined> {
     try {
       const contacts = await db.contact.findMany({
