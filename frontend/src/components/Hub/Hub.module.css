@@ -115,11 +115,11 @@ button.addPlan:hover {
 
 /* Current Plan Styles*/
 
-.currentPlanContainer img {
+.currentPlanContainer > img {
   width: 860px;
   height: auto;
   /* object-fit: cover; */
 
-  margin: 20px 60px;
+  margin: 0px 60px;
 
 }

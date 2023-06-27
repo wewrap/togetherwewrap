@@ -32,6 +32,10 @@ body {
     font-size: 1.3rem;
 }
 
+img {
+    display: inline;
+}
+
 h1,
 h2,
 h3,
