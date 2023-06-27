@@ -2,6 +2,13 @@ import { useEffect, useState } from 'react'
 import { type Plan, type Contact, LoadStatus, type User } from '../../../utils/types'
 import axios from 'axios'
 
+function localStringDateFormatter(dateInput: string) {
+  const date = new Date(dateInput);
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  const localDateString = date.toLocaleDateString('en-US', options);
+  return localDateString;
+}
+
 export const fetchPlanAndContactsData = (planIdParam: string): any => {
   const [status, setStatus] = useState<LoadStatus>(LoadStatus.NOT_LOADED)
   const [planData, setPlanData] = useState<Plan | undefined>(undefined)
@@ -24,7 +31,13 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
               withCredentials: true,
               signal: controller.signal
             })
-            .then(res => res.data)
+            .then(res => {
+
+              res.data.startDate = localStringDateFormatter(res.data.startDate);
+              res.data.endDate = localStringDateFormatter(res.data.endDate);
+
+              return res.data
+            })
         )
 
         setContactData(

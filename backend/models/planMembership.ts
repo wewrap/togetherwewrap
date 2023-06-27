@@ -57,6 +57,25 @@ export default class PlanMembershipModel {
     return responseData
   }
 
+  public static async dbReadManyPlanMembership(whereParms: dbPlanMembershipReadInput, include: boolean = false, includeParams: { plan?: boolean }): Promise<PlanMembership[]> {
+    try {
+      const findManyOptions: any = {
+        where: whereParms
+      }
+
+      if (include) {
+        findManyOptions.include = includeParams
+      }
+      const response = await db.planMembership.findMany({
+        ...findManyOptions
+      })
+
+      return response
+    } catch (error) {
+      throw new Error(`Error in dbReadPlanMembers: ${error}`)
+    }
+  }
+
   public static async dbReadPlanMembers(params: dbPlanMembershipReadInput): Promise<Array<PlanMembership & {
     user: User
   }

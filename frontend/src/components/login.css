@@ -31,7 +31,7 @@ h1 {
   margin-bottom: 40px;
 }
 
-form{
+.loginForm {
   background:#FFFFFF;
   width: 470px;
   height: auto;
