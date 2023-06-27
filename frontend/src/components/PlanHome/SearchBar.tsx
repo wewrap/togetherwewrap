@@ -50,10 +50,11 @@ export const SearchBar = ({
         placeholder="Search by contact email"
         className={styles.searchBar}
         onChange={handleQueryChange}
-        value={query}/>
-      {query.length > 0 &&
-        <button className={styles.clear} onClick={handleClearResults}>clear</button>
-      }
+        value={query}>
+      </input>
+        {query.length > 0 &&
+          <button className={styles.clear} onClick={handleClearResults}>clear</button>
+        }
       <div className={classNames(styles.searchResultContainer, styles.scrollable)}>
         {query.length > 0 &&
           searchResult.map((contact: Contact) => (

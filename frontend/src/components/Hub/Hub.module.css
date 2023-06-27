@@ -1,0 +1,125 @@
+.background {
+  background: linear-gradient(180deg, var(--green) 0%, var(--blue) 100%);
+  width: 100%;
+  min-height: 150vh;
+  position: relative;
+}
+
+/* Plan Add Modal */
+
+.planFormModal {
+  position: absolute;
+  top: 2%;
+  left: 35%;
+  width: 550px;
+}
+
+/* Plan boxes */
+.planContainer {
+  display: grid;
+  margin: 0 60px;
+  margin-bottom: 100px;
+
+  grid-template-columns: repeat(auto-fill, minmax(23vw, 1fr)); /* adjust the 20vw value */
+  column-gap: 100px;
+  row-gap: 80px;
+}
+
+a.planBoxContainer {
+  width: 23vw;    
+  height: 47vh;   
+
+  background-color: var(--light-yellow);
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: space-between;
+
+  text-decoration: none;
+  color: var(--black);
+}
+
+.planTitle {
+  text-align: center;
+  margin: 20px;
+
+  height: 20px;
+}
+
+.planTitle h3 {
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+  min-width: 100%;
+  line-height: 20px;
+  max-height: 40px;
+  overflow: hidden;
+
+  color: var(--black);
+}
+
+.planBottomPortionContainer p {
+  margin: 0;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.planBottomPortionContainer {
+  width: auto;
+  margin-bottom: 20px;
+
+  display: flex;
+}
+
+.planBottomPortionContainer img {
+  width: 50px;
+  height: auto;
+  margin: 0 10px;
+}
+
+.createdBy {
+  width: 87px;
+}
+
+button.addPlan {
+  width: 23vw;    
+  height: 47vh;
+
+  background-color: var(--blue);
+  border-radius: 20px;
+  border-style: none;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+button.addPlan:hover {
+  cursor: pointer;
+} 
+
+.planImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  width: 100%;  /* adjust as needed */
+  height: 50%;  /* adjust as needed */
+}
+
+.planImageContainer img {
+  width: 100%;
+  max-width: 203px;
+  height: auto;
+  object-fit: cover;  /* preserve aspect ratio while covering the whole area */
+}
+
+/* Current Plan Styles*/
+
+.currentPlanContainer img {
+  width: 860px;
+  height: auto;
+  /* object-fit: cover; */
+
+  margin: 20px 60px;
+
+}

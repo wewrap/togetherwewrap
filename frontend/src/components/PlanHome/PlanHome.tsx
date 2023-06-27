@@ -6,7 +6,7 @@ import styles from './PlanHome.module.css'
 import inviteModalStyles from './InviteModal.module.css'
 import { MemberList } from './MemberList'
 import { type Contact, PlanStage, PlanStageView } from '../../utils/types'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Modal } from '../Modal'
 import { removeModal } from '../../utils/helpers'
 import { SearchBar } from './SearchBar'
@@ -14,7 +14,6 @@ import { Tag } from './Tag'
 import axios, { AxiosError } from 'axios'
 import { fetchPlanAndContactsData } from '../Plan/hook/fetchPlanAndContactsData'
 
-import editButton from '../../assets/editButton.png'
 import brainstormIcon from '../../assets/Brainstorm_icon.png'
 import voteIcon from '../../assets/Vote_icon.png'
 import poolIcon from '../../assets/poolMoney_icon.png'
@@ -23,10 +22,11 @@ import deliveryIcon from '../../assets/delivery_icon.png'
 import addButton from '../../assets/addButton.png'
 
 import { Brainstorm } from './PlanStage/Brainstorm/Brainstorm'
-import { Voting } from './PlanStage/Voting'
+import { Voting } from './PlanStage/Voting/Voting'
 import { Pool } from './PlanStage/Pool'
 import { Purchase } from './PlanStage/Purchase'
 import { Delivery } from './PlanStage/Delivery'
+import { UserContext } from '../UserContext';
 
 const planProgressCalculator = (currentStage: PlanStage): number[] => {
   switch (currentStage) {
@@ -61,6 +61,9 @@ export const PlanHome = (): JSX.Element => {
     contactData,
     membersListData
   } = fetchPlanAndContactsData(planID as string)
+  const currentUser = useContext(UserContext)[0]
+
+  console.log('🚀 ~ file: PlanHome.tsx:63 ~ PlanHome ~ planData:', planData)
 
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
@@ -234,12 +237,14 @@ export const PlanHome = (): JSX.Element => {
       {currentStageViewComponent ?? ( // if null display the home view, otherwise display the current stage view
         <section className={styles.plan}>
           <div className={styles.planTitleContainer}>
-            <p className={styles.planTitle}>Write your plan title here</p>
-            <p className={styles.giftEndDate}>Gift due by 3-20-23</p>
-            <img src={editButton} alt='edit button' className={styles.editButton} />
+            <p className={styles.planTitle}>{planData?.title}</p>
+            <p className={styles.giftEndDate}>Gift due by {planData?.endDate}</p>
           </div>
-          <div className={styles.pictureContainer}>
-            picture
+          <div className={styles.planForContainer}>
+            <div>
+              <h2 className={styles.heading}>Special Person</h2>
+              <h3>{planData?.specialPerson.firstName} {planData?.specialPerson.lastName}</h3>
+            </div>
           </div>
           <div className={styles.notesFeedContainer}>
             <h3 className={styles.heading}>
@@ -272,7 +277,7 @@ export const PlanHome = (): JSX.Element => {
               Goal
             </h3>
             <h3 className={styles.goalAmount}>
-              $340
+              $-
             </h3>
           </div>
 
@@ -280,10 +285,9 @@ export const PlanHome = (): JSX.Element => {
             <h3 className={styles.heading}>
               Role
             </h3>
-
-            <h5>
-              You are Leader
-            </h5>
+            <h3 className={styles.role}>
+              {planData?.members.planLeader.id === currentUser.id ? 'You are Leader' : 'You are Member'}
+            </h3>
 
           </div>
         </section>
