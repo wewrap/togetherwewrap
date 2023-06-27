@@ -244,7 +244,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
               }}
             />
           </div>
-          <button type="button" className= 'buttonStyle' onClick={addRelationship}>+</button>
+          <button type="button" className= 'buttonStyle contactBtn' onClick={addRelationship}>+</button>
         </div>
 
         <div className="addRelationship">

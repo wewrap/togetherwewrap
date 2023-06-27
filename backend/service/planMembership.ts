@@ -1,20 +1,25 @@
-import { type User } from '@prisma/client';
+import { type InviteStatus, type Role, type User } from '@prisma/client';
 import PlanMembershipModel from '../models/planMembership';
 
 export default class PlanMembership {
   // TODO: add a type for data
-  public static async initiatePlanMembership(data: any): Promise<any> {
+  public static async initiatePlanMembership(user: User, planID: string, role: Role, inviteStatus: InviteStatus): Promise<PlanMembership | null> {
     try {
-      const leaderPlanMembership = await PlanMembershipModel.dbCreateOnePlanMembership(data)
-      const friendsPlanMembership = await PlanMembershipModel.dbCreateManyPlanMembership(data)
+      const leaderPlanMembership = await PlanMembershipModel.dbCreateOnePlanMembership({
+        userID: user.id,
+        planID,
+        role,
+        inviteStatus
+      })
 
-      if (leaderPlanMembership === undefined || friendsPlanMembership === undefined) {
+      if (leaderPlanMembership === null) {
         throw new Error('plan membership model failed')
       }
 
-      return [leaderPlanMembership, friendsPlanMembership]
+      return leaderPlanMembership
     } catch (err) {
       console.error(`failed to initiatePlanMembership ${err}`)
+      return null
     }
   }
 

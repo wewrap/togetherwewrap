@@ -218,7 +218,8 @@
     transition-property: box-shadow, transform;
 }
 
-.buttonStyle:hover, .buttonStyle:focus, button:active {
+/* FIXME: Hyun: This button selector is adding the active trigger for ALL buttons, might need to change this. I commented it out. */
+.buttonStyle:hover, .buttonStyle:focus /* button:active */ {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     -webkit-transform: scale(1.05);
     transform: scale(1.08);

@@ -58,7 +58,7 @@ export const LoginForm = (): JSX.Element | null => {
       <img src='./wewrap_green.png' alt='wewrap logo'></img>
       <h1>Log in to your account</h1>
       <p className='subheader'>Don't have an account? <Link to="/signup"> Sign up </Link> </p>
-      <form action="/login/password" method="post" onSubmit={handleSubmit}>
+      <form className='loginForm' action="/login/password" method="post" onSubmit={handleSubmit}>
         {(errorMessage !== '') && <p className='error_message'>{errorMessage}</p>}
         <div className='user_creds'>
           <label htmlFor="email">Email <span>*</span></label>
