@@ -1,4 +1,4 @@
-import { type User, type Contact, type BrainstormIdeaPost } from './types';
+import { type User, type Contact, type BrainstormIdeaPost, type Plan } from './types';
 
 export const contactsMockData: Contact[] = [
   {
@@ -198,58 +198,53 @@ export const brainstormIdeasMockData: BrainstormIdeaPost[] = [
     updatedAt: new Date(),
     createdAt: new Date()
   }
-  // {
-  //   authorId: '5',
-  //   id: '5',
-  //   firstName: 'Aguste',
-  //   lastName: 'Bugdale',
-  //   description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.',
-  //   item: 'Ford',
-  //   itemLink: 'https://www.ford.com/'
-  // },
-  // {
-  //   authorId: '6',
-  //   id: '6',
-  //   firstName: 'Asa',
-  //   lastName: 'Belone',
-  //   description: 'Phasellus in felis. Donec semper sapien a libero. Nam dui.\n\nProin leo odio, porttitor authorId, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.',
-  //   item: 'Nissan',
-  //   itemLink: 'https://www.nissanusa.com/'
-  // },
-  // {
-  //   authorId: '7',
-  //   id: '7',
-  //   firstName: 'Kandy',
-  //   lastName: 'Jozwik',
-  //   description: 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\n\nMorbi porttitor lorem authorId ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.\n\nFusce consequat. Nulla nisl. Nunc nisl.',
-  //   item: 'Suzuki',
-  //   itemLink: 'https://www.suzuki.com/'
-  // },
-  // {
-  //   authorId: '8',
-  //   id: '8',
-  //   firstName: 'Alecia',
-  //   lastName: 'Gent',
-  //   description: 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\n\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.',
-  //   item: 'Honda',
-  //   itemLink: 'https://www.honda.com/'
-  // },
-  // {
-  //   authorId: '9',
-  //   id: '9',
-  //   firstName: 'Natividad',
-  //   lastName: 'Taylo',
-  //   description: 'Quisque authorId justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros.',
-  //   item: 'Nissan',
-  //   itemLink: 'https://www.nissanusa.com/'
-  // },
-  // {
-  //   authorId: '10',
-  //   id: '10',
-  //   firstName: 'Adel',
-  //   lastName: 'Blaney',
-  //   description: 'Duis bibendum, felis sed interdum venenatis, turpis enim blandit mi, in porttitor pede justo eu massa. Donec dapibus. Duis at velit eu est congue elementum.\n\nIn hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.',
-  //   item: 'Toyota',
-  //   itemLink: 'https://www.toyota.com/'
-  // }
+]
+
+export const hubAllPlansMockData: Plan[] = [{
+  id: '1',
+  description: 'Morbi ut odio.',
+  startDate: '6/18/2023',
+  leaderId: 'dfed0759-4908-49a2-8c65-ec920276cbcf',
+  createdAt: '1/1/2023',
+  updatedAt: '9/29/2022',
+  title: 'Morbi vel lectus i. faucibus orci luctus et ultrfaucibus orci luctus et ultr',
+  specialEventType: 'tempus'
+}, {
+  id: '2',
+  description: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis. Duis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus. Mauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero. Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum.',
+  startDate: '9/24/2022',
+  leaderId: '0ab275bb-e201-4491-9cd1-dea2b6e08761',
+  createdAt: '9/18/2022',
+  updatedAt: '1/18/2023',
+  title: 'Morbi vel lectus i.',
+  specialEventType: 'at'
+}, {
+  id: '3',
+  description: 'Pellentesque ultrices mattis odio. Donec vitae nisi. Nam ultrices, libero non mattis pulvinar, nulla pede ullamcorper augue, a suscipit nulla elit ac nulla.',
+  startDate: '9/1/2022',
+  leaderId: '2d1f2b40-51bb-4721-9cce-2e64b422f818',
+  createdAt: '6/26/2022',
+  updatedAt: '11/2/2022',
+  title: 'Morbi vel lectus i.',
+  specialEventType: 'tincidunt'
+}, {
+  id: '4',
+  description: 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.',
+  startDate: '2/3/2023',
+  leaderId: '1900ebb7-a3a3-4184-88a6-ee1fc1d8d0b9',
+  createdAt: '4/24/2023',
+  updatedAt: '8/25/2022',
+  title: 'Morbi vel lectus i.',
+  specialEventType: 'primis'
+},
+{
+  id: '5',
+  description: 'Donec ut mauris eget massa tempor convallis. Nulla neque libero, convallis eget, eleifend luctus, ultricies eu, nibh. Quisque id justo sit amet sapien dignissim vestibulum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla dapibus dolor vel est. Donec odio justo, sollicitudin ut, suscipit a, feugiat et, eros. Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.',
+  startDate: '6/15/2023',
+  leaderId: 'e23c50e6-981f-4fe8-839f-89c7bf721f33',
+  createdAt: '4/15/2023',
+  updatedAt: '6/2/2023',
+  title: 'Morbi vel lectus i.',
+  specialEventType: 'ultrices'
+}
 ]
