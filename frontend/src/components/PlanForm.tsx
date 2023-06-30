@@ -255,7 +255,7 @@ export const PlanForm = ({
           />
         </div>
         <div>
-          <button type='submit'>Create Plan</button>
+          <button className='submit-planform' type='submit'>Create Plan</button>
         </div>
       </form>
     </>

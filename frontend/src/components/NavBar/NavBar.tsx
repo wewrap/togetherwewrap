@@ -81,11 +81,11 @@ export const NavBarLoggedIn = (): JSX.Element => {
                 <img src={NavLogo} alt='nav logo' />
               </NavLink>
             </li>
-            <li className={styles.text}>
+            {/* <li className={styles.text}>
               <NavLink to='/example' className='navOnlyTextActive'>
                 example
               </NavLink>
-            </li>
+            </li> */}
           </div>
           <li className={styles.calendar}>
             <NavLink to='/calendar'>

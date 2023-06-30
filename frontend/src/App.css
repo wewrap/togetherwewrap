@@ -23,6 +23,7 @@ html {
 *::after {
     box-sizing: inherit;
     font-family: var(--mont);
+    border-color:rgba(0, 0, 0, 0.25);
 }
 
 body {
@@ -43,6 +44,8 @@ h4,
 h5 {
     margin: 0;
     color: var(--black);
+    font-size: revert;
+    font-weight: revert;
 }
 
 nav .navOnlyTextActive.active {
