@@ -22,6 +22,7 @@ html {
 *::before,
 *::after {
     box-sizing: inherit;
+    font-family: var(--mont);
 }
 
 body {
@@ -35,7 +36,6 @@ body {
 img {
     display: inline;
 }
-
 h1,
 h2,
 h3,
@@ -68,6 +68,6 @@ nav .navOnlyTextActive.active:hover {
 }
 
 .overlay {
-    background-color: rgba(0, 0, 0, 0.25); /* Semi-transparent gray */
+    background-color: rgba(0, 0, 0, 0.25);
+    /* Semi-transparent gray */
 }
-

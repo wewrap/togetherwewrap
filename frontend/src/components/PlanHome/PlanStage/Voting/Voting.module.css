@@ -1,0 +1,24 @@
+.stageBackground {
+  background-color: aliceblue;
+  height: 790px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+
+/* Scrolling */
+.scrollable {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 10px;
+  background-color: none;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #B9B9B9;
+  border-radius: 20px;
+}

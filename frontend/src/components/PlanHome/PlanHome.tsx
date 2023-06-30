@@ -63,8 +63,6 @@ export const PlanHome = (): JSX.Element => {
   } = fetchPlanAndContactsData(planID as string)
   const currentUser = useContext(UserContext)[0]
 
-  console.log('🚀 ~ file: PlanHome.tsx:63 ~ PlanHome ~ planData:', planData)
-
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
       if (showInviteModal && event.target.closest('.clickOutsideOfModal') === null) {
@@ -153,7 +151,7 @@ export const PlanHome = (): JSX.Element => {
     case PlanStageView.VOTING:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
-          <Voting />
+          <Voting planID={planID}/>
         </div>
       )
       break;

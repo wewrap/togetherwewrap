@@ -33,20 +33,20 @@ export const NavBarLoggedOut = (): JSX.Element => {
                 <img src={NavLogo} alt='nav logo' />
               </NavLink>
             </li>
-            <li className={styles.text} >
+            {/* <li className={styles.text} >
               <NavLink
                 to='/About'
                 className='navOnlyTextActive'>
                 About
               </NavLink>
-            </li>
-            <li className={styles.text}>
+            </li> */}
+            {/* <li className={styles.text}>
               <NavLink
                 to='/support'
                 className='navOnlyTextActive'>
                 Support
               </NavLink>
-            </li>
+            </li> */}
           </div>
           <li className={styles.login}>
             <NavLink to='/login'>
