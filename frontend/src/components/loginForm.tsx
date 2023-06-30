@@ -49,7 +49,7 @@ export const LoginForm = (): JSX.Element | null => {
   return (
     <div className='login-background'>
       <div className='login_form'>
-        <img className='wewrap-logo' src='./wewrap_green.png' alt='wewrap logo'></img>
+        <img className='wewrap-logo' src='./wewrap_green.png' alt='wewrap logo' onClick={() => { navigate('/'); }}></img>
         <h1>Log in to your account</h1>
         <p className='subheader'>Don't have an account? <Link to="/signup" className='signup'> Sign up </Link> </p>
         <form className='loginForm' action="/login/password" method="post" onSubmit={handleSubmit}>

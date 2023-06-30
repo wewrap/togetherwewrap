@@ -19,6 +19,7 @@
     height: 103px;
     text-align: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .weWrapTitle {
