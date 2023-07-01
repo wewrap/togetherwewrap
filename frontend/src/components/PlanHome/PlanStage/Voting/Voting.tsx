@@ -1,27 +1,35 @@
 import classNames from 'classnames'
 import styles from './Voting.module.css'
-import { Accordion } from '../Accordion/Accordion'
 import { fetchBrainStormData } from '../Brainstorm/fetchBrainStormData'
+import { useEffect, useState } from 'react'
+import { type BrainstormIdeaPost } from '../../../../utils/types'
 
 export const Voting = ({ planID }: any): JSX.Element => {
-  const { ideaPostsData } = fetchBrainStormData(planID)
-  console.log(ideaPostsData)
+  const [votePosts, setVotePosts] = useState<BrainstormIdeaPost[]>([])
+  console.log('🚀 ~ file: Voting.tsx:10 ~ Voting ~ votePosts:', votePosts)
+  const { ideaPostsData: votePostData } = fetchBrainStormData(planID)
+
+  useEffect(() => {
+    const sortedVotePosts = votePostData?.sort((a: any, b: any) => {
+      if (a.voteCount > b.voteCount) {
+        return 1;
+      }
+      return 0;
+    })
+    setVotePosts(sortedVotePosts)
+
+  }, [votePostData])
 
   return (
     <div className={classNames(styles.scrollable, styles.stageBackground)}>
-      <Accordion
-        title={(
+      {votePostData?.map((votePost: BrainstormIdeaPost) => {
+        return (
           <div>
-            hi
+            {votePost.item}
           </div>
-        )}
-        content={
-          (<div>
-            hi
-          </div>)
-        }
-        width={600}
-      />
+        )
+      })}
+
     </div>
   )
 }

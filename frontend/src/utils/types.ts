@@ -76,4 +76,5 @@ export interface BrainstormIdeaPost {
   authorId: string
   createdAt: Date
   updatedAt: Date
+  voteCount: number
 }

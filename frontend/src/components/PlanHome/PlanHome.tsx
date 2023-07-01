@@ -35,7 +35,8 @@ const planProgressCalculator = (currentStage: PlanStage): [number, number, PlanS
   switch (currentStage) {
     // case PlanStage.UNINITIALIZED:
     case PlanStage.BRAINSTORM:
-      return [0, 0, [PlanStage.BRAINSTORM]];
+      // FIXME: this would only be [PlanStage.BRAINSTORM]
+      return [0, 0, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.PURCHASE, PlanStage.POOL, PlanStage.DELIVERY]];
     case PlanStage.VOTING:
       return [20, 1, [PlanStage.BRAINSTORM, PlanStage.VOTING]]
     case PlanStage.POOL:
@@ -43,9 +44,9 @@ const planProgressCalculator = (currentStage: PlanStage): [number, number, PlanS
     case PlanStage.PURCHASE:
       return [60, 3, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.PURCHASE]]
     case PlanStage.DELIVERY:
-      return [80, 4, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.DELIVERY]]
+      return [80, 4, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.PURCHASE, PlanStage.DELIVERY]]
     case PlanStage.COMPLETED:
-      return [100, 5, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.DELIVERY]]
+      return [100, 5, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.PURCHASE, PlanStage.DELIVERY]]
   }
 }
 

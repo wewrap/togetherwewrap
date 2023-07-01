@@ -33,9 +33,11 @@ export class BrainstormIdeaPostService {
             description: brainstormIdeaPost.description,
             item: brainstormIdeaPost.item,
             itemLink: brainstormIdeaPost.itemLink,
+            voteCount: brainstormIdeaPost.voteCount,
             authorId: planMembership.user.id,
             createdAt: brainstormIdeaPost.createdAt,
-            updatedAt: brainstormIdeaPost.updatedAt
+            updatedAt: brainstormIdeaPost.updatedAt,
+            planMembershipID: brainstormIdeaPost.planMembershipID
           }))
       }))
 

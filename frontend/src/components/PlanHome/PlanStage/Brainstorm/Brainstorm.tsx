@@ -30,6 +30,7 @@ export const Brainstorm = ({ planID }: BrainstormProps): JSX.Element | null => {
   const currentUser = useContext(UserContext)[0]
 
   const { ideaPostsData } = fetchBrainStormData(planID)
+  console.log('🚀 ~ file: Brainstorm.tsx:33 ~ Brainstorm ~ ideaPostsData:', ideaPostsData)
   const [ideaPosts, setIdeaPosts] = useState<BrainstormIdeaPost[]>([])
   const [test, setTest] = useState<BrainstormIdeaPost[]>([])
 

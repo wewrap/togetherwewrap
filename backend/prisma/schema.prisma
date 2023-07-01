@@ -160,15 +160,16 @@ enum EventType {
 }
 
 model PlanMembership {
-  id             String           @id @default(uuid())
-  plan           Plan             @relation(fields: [planID], references: [id])
-  planID         String
-  user           User             @relation(fields: [userID], references: [id])
-  userID         String
-  Pledge         Pledge[]
-  inviteStatus   InviteStatus
-  role           Role
-  PlanBrainstorm PlanBrainstorm[]
+  id                 String           @id @default(uuid())
+  plan               Plan             @relation(fields: [planID], references: [id])
+  planID             String
+  user               User             @relation(fields: [userID], references: [id])
+  userID             String
+  votedForPlanPostID String?
+  Pledge             Pledge[]
+  inviteStatus       InviteStatus
+  role               Role
+  PlanBrainstorm     PlanBrainstorm[]
 }
 
 model PlanInvite {
