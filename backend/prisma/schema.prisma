@@ -69,12 +69,22 @@ model Plan {
   startDate        DateTime
   endDate          DateTime
   specialEventType EventType
+  stage            PlanStage        @default(BRAINSTORM)
   contactID        String
-  contact          Contact         @relation(fields: [contactID], references: [id])
+  contact          Contact          @relation(fields: [contactID], references: [id])
   createdAt        DateTime         @default(now())
   updatedAt        DateTime         @updatedAt
   PlanMembership   PlanMembership[]
   PlanInvite       PlanInvite[]
+}
+
+enum PlanStage {
+  BRAINSTORM
+  VOTING
+  POOL
+  PURCHASE
+  DELIVERY
+  COMPLETED
 }
 
 model Contact {
@@ -178,6 +188,7 @@ model PlanBrainstorm {
   description      String
   item             String
   itemLink         String
+  voteCount        Int            @default(0)
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
 }

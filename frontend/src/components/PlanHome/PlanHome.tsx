@@ -27,30 +27,32 @@ import { Pool } from './PlanStage/Pool'
 import { Purchase } from './PlanStage/Purchase'
 import { Delivery } from './PlanStage/Delivery'
 import { UserContext } from '../UserContext';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const planProgressCalculator = (currentStage: PlanStage): number[] => {
+const planProgressCalculator = (currentStage: PlanStage): [number, number, PlanStage[]] => {
+  if (currentStage === undefined) return [0, 0, [PlanStage.BRAINSTORM]]
   switch (currentStage) {
-    case PlanStage.UNINITIALIZED:
+    // case PlanStage.UNINITIALIZED:
     case PlanStage.BRAINSTORM:
-      return [0, 0]
+      return [0, 0, [PlanStage.BRAINSTORM]];
     case PlanStage.VOTING:
-      return [20, 1]
+      return [20, 1, [PlanStage.BRAINSTORM, PlanStage.VOTING]]
     case PlanStage.POOL:
-      return [40, 2]
+      return [40, 2, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL]]
     case PlanStage.PURCHASE:
-      return [60, 3]
+      return [60, 3, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.PURCHASE]]
     case PlanStage.DELIVERY:
-      return [80, 4]
+      return [80, 4, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.DELIVERY]]
     case PlanStage.COMPLETED:
-      return [100, 5]
+      return [100, 5, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.DELIVERY]]
   }
 }
 
 export const PlanHome = (): JSX.Element => {
-  const [currentPlanStageView, setCurrentPlanStageView] = useState<PlanStageView>(PlanStageView.HOME)
+  const [currentPlanStageView, setCurrentPlanStageView] = useState<PlanStageView>(PlanStageView.HOME) // default is home view
   // TODO: keep track of max plan participants
   // TODO: prevent plan leader from adding more participants after max participants has reached
-  const [progressPercentage, taskCompleted] = planProgressCalculator(PlanStage.DELIVERY)
   const [showInviteModal, setShowInviteModal] = useState<boolean>(false)
   const [selectedContacts, setSelectedContacts] = useState<Contact[] | []>([]);
   const [message, setMessage] = useState<string | undefined>()
@@ -62,6 +64,9 @@ export const PlanHome = (): JSX.Element => {
     membersListData
   } = fetchPlanAndContactsData(planID as string)
   const currentUser = useContext(UserContext)[0]
+  console.log(planData)
+  const isUserPlanLeader = planData?.members.planLeader.id === currentUser.id
+  const [progressPercentage, taskCompleted, accessibleStages] = planProgressCalculator(planData?.stage)
 
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
@@ -138,20 +143,48 @@ export const PlanHome = (): JSX.Element => {
     }, 3000)
   }
 
+  const handlePlanFinishPlanStage = (PlanStageView: PlanStageView) => async (): Promise<void> => {
+    try {
+      await axios.post(`/api/update-plan?stage=${PlanStageView}`, {
+        planID,
+        PlanStageView
+      }, {
+        withCredentials: true
+      })
+      // TODO: after updating, UI can move to the next stage
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const nextButton = (PlanStageView: PlanStageView): JSX.Element => {
+    // BRAINSTORM -> Brainstorm
+    const planStageViewString = PlanStageView.charAt(0).toUpperCase() + PlanStageView.slice(1).toLowerCase()
+    return (
+      <div className={styles.nextBtnContainer}>
+        <button className={styles.nextBtn} onClick={handlePlanFinishPlanStage(PlanStageView)}>Finish {planStageViewString}</button>
+      </div>
+    )
+  }
+  // To start next stage, we can do a post request to '/api/plan/nextStage' to move on to the next stage
+
   let currentStageViewComponent;
 
   switch (currentPlanStageView) {
+    // TODO: implement a feature where can ONLY view past stages and NOT edit them
     case PlanStageView.BRAINSTORM:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
           <Brainstorm planID={planID} />
+          {isUserPlanLeader && planData.stage === PlanStageView.BRAINSTORM && nextButton(PlanStageView.BRAINSTORM)}
         </div>
       )
       break;
     case PlanStageView.VOTING:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
-          <Voting planID={planID}/>
+          <Voting planID={planID} />
+          {isUserPlanLeader && planData.stage === PlanStageView.VOTING && nextButton(PlanStageView.VOTING)}
         </div>
       )
       break;
@@ -159,6 +192,7 @@ export const PlanHome = (): JSX.Element => {
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
           <Pool />
+          {isUserPlanLeader && planData.stage === PlanStageView.POOL && nextButton(PlanStageView.POOL)}
         </div>
       )
       break;
@@ -166,6 +200,7 @@ export const PlanHome = (): JSX.Element => {
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
           <Purchase />
+          {isUserPlanLeader && planData.stage === PlanStageView.PURCHASE && nextButton(PlanStageView.PURCHASE)}
         </div>
       )
       break;
@@ -173,6 +208,7 @@ export const PlanHome = (): JSX.Element => {
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
           <Delivery />
+          {isUserPlanLeader && planData.stage === PlanStageView.DELIVERY && nextButton(PlanStageView.DELIVERY)}
         </div>
       )
       break;
@@ -284,7 +320,7 @@ export const PlanHome = (): JSX.Element => {
               Role
             </h3>
             <h3 className={styles.role}>
-              {planData?.members.planLeader.id === currentUser.id ? 'You are Leader' : 'You are Member'}
+              {isUserPlanLeader ? 'You are Leader' : 'You are Member'}
             </h3>
 
           </div>
@@ -293,31 +329,75 @@ export const PlanHome = (): JSX.Element => {
       }
       <section className={styles.progress}>
         <div className={styles.progressContainer}>
+          <button
+            className={styles.homeBtn}
+            onClick={() => {
+              setCurrentPlanStageView(PlanStageView.HOME)
+            }}
+          >
+            <FontAwesomeIcon icon={faHouse} size='lg' />
+          </button>
           <h5 className={styles.planProgressHeading}>Your Plan's Progress</h5>
 
           <div className={styles.planChoices}>
-            <button onClick={() => { handlePlanStageViewChange(PlanStageView.BRAINSTORM); }}
-              className={currentPlanStageView === PlanStageView.BRAINSTORM ? styles.isActivePlanStage : undefined}>
+            <button
+              onClick={() => { handlePlanStageViewChange(PlanStageView.BRAINSTORM); }}
+              className={currentPlanStageView === PlanStageView.BRAINSTORM ? styles.isActivePlanStage : undefined}
+              disabled={!accessibleStages.includes(PlanStage.BRAINSTORM)}
+            >
               <img src={brainstormIcon} alt='brainstorm icon' />
               <span>BrainStorm</span>
             </button>
-            <button onClick={() => { handlePlanStageViewChange(PlanStageView.VOTING); }}
-              className={currentPlanStageView === PlanStageView.VOTING ? styles.isActivePlanStage : undefined}>
+            <button
+              onClick={() => { handlePlanStageViewChange(PlanStageView.VOTING); }}
+              className={
+                classNames({
+                  [styles.isActivePlanStage]: currentPlanStageView === PlanStageView.VOTING,
+                  [styles.isStageDisabled]: !accessibleStages.includes(PlanStage.VOTING)
+                })
+              }
+              disabled={!accessibleStages.includes(PlanStage.VOTING)}
+            >
               <img src={voteIcon} alt='voting icon' />
               <span>Voting</span>
             </button>
-            <button onClick={() => { handlePlanStageViewChange(PlanStageView.POOL); }}
-              className={currentPlanStageView === PlanStageView.POOL ? styles.isActivePlanStage : undefined}>
+            <button
+              onClick={() => { handlePlanStageViewChange(PlanStageView.POOL); }}
+              className={
+                classNames({
+                  [styles.isActivePlanStage]: currentPlanStageView === PlanStageView.POOL,
+                  [styles.isStageDisabled]: !accessibleStages.includes(PlanStage.POOL)
+                })
+              }
+              disabled={!accessibleStages.includes(PlanStage.POOL)}
+            >
               <img src={poolIcon} alt='pool icon' />
               <span>Pool</span>
             </button>
-            <button onClick={() => { handlePlanStageViewChange(PlanStageView.PURCHASE); }}
-              className={currentPlanStageView === PlanStageView.PURCHASE ? styles.isActivePlanStage : undefined}>
+            <button
+              onClick={() => { handlePlanStageViewChange(PlanStageView.PURCHASE); }}
+              className={
+                classNames({
+                  [styles.isActivePlanStage]: currentPlanStageView === PlanStageView.PURCHASE,
+                  [styles.isStageDisabled]: !accessibleStages.includes(PlanStage.PURCHASE)
+                })
+              }
+              disabled={!accessibleStages.includes(PlanStage.PURCHASE)}
+            >
               <img src={purchaseGiftIcon} alt='purchase icon' />
               <span>Purchase</span>
             </button>
-            <button onClick={() => { handlePlanStageViewChange(PlanStageView.DELIVERY); }}
-              className={currentPlanStageView === PlanStageView.DELIVERY ? styles.isActivePlanStage : undefined}>
+            <button
+              onClick={() => { handlePlanStageViewChange(PlanStageView.DELIVERY); }}
+              className={
+                classNames({
+                  [styles.isActivePlanStage]: currentPlanStageView === PlanStageView.DELIVERY,
+                  [styles.isStageDisabled]: !accessibleStages.includes(PlanStage.DELIVERY)
+                })
+              }
+              disabled={!accessibleStages.includes(PlanStage.DELIVERY)}
+
+            >
               <img src={deliveryIcon} alt='delivery icon' />
               <span>Delivery</span>
             </button>

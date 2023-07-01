@@ -1,5 +1,5 @@
 import prisma from '../utils/prismaClient'
-import { type Plan } from '@prisma/client'
+import { type PlanMembership, type Plan } from '@prisma/client'
 const db = prisma
 
 export type dbReadPlanInput = Partial<Plan>
@@ -22,11 +22,16 @@ export default class PlanModel {
     }
   }
 
-  public static async dbReadOnePlan(planID: string): Promise<Plan> {
+  public static async dbReadOnePlan(planID: string): Promise<Plan & {
+    PlanMembership: PlanMembership[]
+  }> {
     try {
       const responseData = await db.plan.findUnique({
         where: {
           id: planID
+        },
+        include: {
+          PlanMembership: true
         }
       })
 

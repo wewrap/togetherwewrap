@@ -8,7 +8,6 @@ export interface User {
 }
 
 export enum PlanStage {
-  UNINITIALIZED = 'UNINITIALIZED',
   BRAINSTORM = 'BRAINSTORM',
   VOTING = 'VOTING',
   POOL = 'POOL',

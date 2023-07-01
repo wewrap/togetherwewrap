@@ -42,12 +42,19 @@ export default class PlanService {
     try {
       // includes the plan related to plan membership
       const dbResponse = await PlanMembershipModel.dbReadManyPlanMembership({ userID: user.id }, true, { plan: true })
+      // console.log('🚀 ~ file: plan.ts:45 ~ PlanService ~ fetchAllPlansData ~ dbResponse:', dbResponse)
+
+      // user current membership -> get plan -> plan membership -> user
 
       const currentUserPlanMembershipsWithPlanLeaderUserRecord = await Promise.all(dbResponse.map(async (planMembership) => {
-        const planLeaderMembership = dbResponse.reduce((acc: null | PlanMembership, planMembership) => {
+        // get plan -> get all user plan membership -> find leader -> get leader's user data
+        const plan = await PlanModel.dbReadOnePlan(planMembership.planID)
+
+        const planLeaderMembership = plan.PlanMembership.reduce((acc: null | PlanMembership, planMembership) => {
           if (planMembership.role === Role.PLAN_LEADER) return planMembership
           return acc
         }, null)
+
         if (planLeaderMembership === null) throw new Error('Could not find plan leader membership')
 
         const planLeaderUserRecord = await UserModel.dbReadOneUser({ id: planLeaderMembership.userID })

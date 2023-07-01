@@ -226,3 +226,15 @@
   width: 68px;
   height: 68px;
 }
+
+/* Next button */
+.nextBtn {
+  position: absolute;
+  bottom: 391px;
+  right: 506px;
+  padding: 10px 20px;
+  background: var(--green);
+  border-radius: 9px;
+  color: var(--white);
+  font-weight: 600;
+}
