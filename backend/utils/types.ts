@@ -1,4 +1,4 @@
-import { type PlanBrainstorm, type Contact, type Plan, type User } from '@prisma/client'
+import { type PlanBrainstorm, type Contact, type Plan, type User, type PlanMembership } from '@prisma/client'
 
 export interface GeneralPlanData extends Plan {
   specialPerson: Contact | undefined
@@ -21,4 +21,5 @@ export interface BrainstormIdeaPostOutput extends PlanBrainstorm {
   createdAt: Date
   updatedAt: Date
   voteCount: number
+  planMembership: PlanMembership
 }

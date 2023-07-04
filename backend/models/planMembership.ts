@@ -13,6 +13,8 @@ interface dbPlanMembershipReadInput extends Partial<PlanMembership> {
 
 }
 
+type dbPlanMembershipUpdateInput = Partial<PlanMembership>
+
 export default class PlanMembershipModel {
   public static async dbCreateOnePlanMembership(params: dbPlanMembershipCreateInput): Promise<PlanMembership | null> {
     try {
@@ -48,13 +50,21 @@ export default class PlanMembershipModel {
   }
 
   public static async dbReadOnePlanMembership(whereParams: dbPlanMembershipReadInput) {
-    const responseData = await db.planMembership.findFirst({
-      where: {
-        ...whereParams
-      }
-    })
+    try {
+      const responseData = await db.planMembership.findFirst({
+        where: {
+          ...whereParams
+        }
+      })
 
-    return responseData
+      if (!responseData) {
+        throw new Error('No plan membership found')
+      }
+
+      return responseData
+    } catch (error) {
+      throw new Error(`Error in dbReadOnePlanMembership: ${error}`)
+    }
   }
 
   public static async dbReadManyPlanMembership(whereParms: dbPlanMembershipReadInput, include: boolean = false, includeParams: { plan?: boolean }): Promise<PlanMembership[]> {
@@ -94,6 +104,20 @@ export default class PlanMembershipModel {
     } catch (err) {
       console.error(`Error in dbReadPlanMembers: ${err}`)
       return null
+    }
+  }
+
+  static async dbUpdateOnePlanMembership(whereParams: { id: string }, updateParams: dbPlanMembershipUpdateInput): Promise<PlanMembership> {
+    try {
+      const responseData = await db.planMembership.update({
+        where: whereParams,
+        data: updateParams
+      })
+
+      return responseData
+    } catch (error) {
+      console.error(`Error in dbUpdateOnePlanMembership: ${error}`)
+      throw new Error(`Error in dbUpdateOnePlanMembership: ${error}`)
     }
   }
 }

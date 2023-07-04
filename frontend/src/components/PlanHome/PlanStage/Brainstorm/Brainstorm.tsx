@@ -32,24 +32,20 @@ export const Brainstorm = ({ planID }: BrainstormProps): JSX.Element | null => {
   const { ideaPostsData } = fetchBrainStormData(planID)
   console.log('🚀 ~ file: Brainstorm.tsx:33 ~ Brainstorm ~ ideaPostsData:', ideaPostsData)
   const [ideaPosts, setIdeaPosts] = useState<BrainstormIdeaPost[]>([])
-  const [test, setTest] = useState<BrainstormIdeaPost[]>([])
 
   useEffect(() => {
-    setIdeaPosts(ideaPostsData)
     // create a currentUserIdeaPosts Array that holds all of the current user posts
     const currentUserIdeaPosts = ideaPostsData?.filter(ideaPost => currentUser.id === ideaPost.authorId);
-    setTest(currentUserIdeaPosts ?? [])
+    setIdeaPosts(currentUserIdeaPosts ?? [])
 
     if (ideaPostsData !== undefined) {
-      ideaPostsData?.sort((a, b) => {
+      const sortedIdeaPost = ideaPostsData?.sort((a, b) => {
         if (a.createdAt < b.createdAt) {
           return -1;
         }
-        if (a.item > b.item) {
-          return 1;
-        }
-        return 0;
+        return 1;
       })
+      setIdeaPosts(sortedIdeaPost)
     }
   }, [ideaPostsData])
 
@@ -176,7 +172,7 @@ export const Brainstorm = ({ planID }: BrainstormProps): JSX.Element | null => {
       </div> */}
         {ideaPosts?.map(ideaPost => {
           const isCurrentUserPost: boolean = currentUser.id === ideaPost.authorId
-          const currentPost = test?.find(post => post.id === ideaPost.id)
+          const currentPost = ideaPosts?.find(post => post.id === ideaPost.id)
           return (
             <Accordion title={
               <div className={styles.closeView}>
@@ -197,7 +193,7 @@ export const Brainstorm = ({ planID }: BrainstormProps): JSX.Element | null => {
                           maxLength={300}
                           onChange={(e) => {
                             /* On change, this will loop thru the currentUserIdeaPosts array, and change the description of the currentPost */
-                            setTest(prev => prev.map(post => post.id === currentPost.id
+                            setIdeaPosts(prev => prev.map(post => post.id === currentPost.id
                               ? {
                                 ...post,
                                 description: e.target.value
@@ -212,7 +208,7 @@ export const Brainstorm = ({ planID }: BrainstormProps): JSX.Element | null => {
                           className={styles.itemLinkInput} type="text"
                           value={currentPost?.itemLink}
                           onChange={(e) => {
-                            setTest(prev => prev.map(ideaPost => ideaPost.id === currentPost.id
+                            setIdeaPosts(prev => prev.map(ideaPost => ideaPost.id === currentPost.id
                               ? {
                                 ...ideaPost,
                                 itemLink: e.target.value

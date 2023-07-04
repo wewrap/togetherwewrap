@@ -13,7 +13,7 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
   const [status, setStatus] = useState<LoadStatus>(LoadStatus.NOT_LOADED)
   const [planData, setPlanData] = useState<Plan | undefined>(undefined)
   const [contactData, setContactData] = useState<Contact[] | undefined>(undefined)
-  const [membersListData, setMembersListData] = useState<User[] | undefined>(undefined)
+  const [membershipListData, setMembersListData] = useState<User[] | undefined>(undefined)
   const [hasFetched, setHasFetched] = useState<boolean>(false)
 
   useEffect(() => {
@@ -76,5 +76,5 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
       controller.abort();
     }
   }, [])
-  return { planData, contactData, status, membersListData }
+  return { planData, contactData, status, membershipListData }
 }

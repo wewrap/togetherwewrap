@@ -78,3 +78,12 @@ export interface BrainstormIdeaPost {
   updatedAt: Date
   voteCount: number
 }
+
+export interface PlanMembership {
+  id: string
+  planId: string
+  userId: string
+  votedForPlanID?: string
+  inviteStatus: string
+  role: string
+}

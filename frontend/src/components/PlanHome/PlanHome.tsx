@@ -62,10 +62,9 @@ export const PlanHome = (): JSX.Element => {
   const {
     planData,
     contactData,
-    membersListData
+    membershipListData
   } = fetchPlanAndContactsData(planID as string)
   const currentUser = useContext(UserContext)[0]
-  console.log(planData)
   const isUserPlanLeader = planData?.members.planLeader.id === currentUser.id
   const [progressPercentage, taskCompleted, accessibleStages] = planProgressCalculator(planData?.stage)
 
@@ -154,7 +153,7 @@ export const PlanHome = (): JSX.Element => {
       })
       // TODO: after updating, UI can move to the next stage
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
@@ -297,7 +296,7 @@ export const PlanHome = (): JSX.Element => {
             </h3>
             <div className={styles.whiteDivider}></div>
             <div className={`${styles.scrollable} ${styles.memberListWrapper}`}>
-              <MemberList members={membersListData} />
+              <MemberList memberships={membershipListData} />
             </div>
             <button className={styles.inviteMemberContainer} onClick={() => { setShowInviteModal(!showInviteModal); }}>
               <img src={addButton} />
