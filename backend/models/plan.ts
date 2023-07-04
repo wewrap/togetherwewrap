@@ -55,4 +55,16 @@ export default class PlanModel {
       throw new Error(`Error in dbReadAllPlan: ${error}`)
     }
   }
+
+  static async dbUpdateOnePlan(wherePams: { id: string }, updateParams: Partial<Plan>): Promise<Plan> {
+    try {
+      const response = await db.plan.update({
+        where: wherePams,
+        data: updateParams
+      })
+      return response
+    } catch (error) {
+      throw new Error(`Error in dbUpdateOnePlan: ${error}`)
+    }
+  }
 }

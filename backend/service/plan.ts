@@ -1,4 +1,4 @@
-import { Role, type Plan, InviteStatus, type User, type Contact, type PlanMembership } from '@prisma/client'
+import { Role, type Plan, InviteStatus, type User, type Contact, type PlanMembership, PlanStage } from '@prisma/client'
 import { type GeneralPlanData } from '../utils/types'
 import PlanModel, { type dbCreatePlanInput } from '../models/plan'
 import PlanMembershipModel from '../models/planMembership'
@@ -101,4 +101,25 @@ export default class PlanService {
     }
     return planData
   }
+
+  static async updatePlanStage(planID: string, planStage: PlanStage) {
+    try {
+      const nextStage = STAGES_FLOW[planStage]
+
+      const updatedPlan = await PlanModel.dbUpdateOnePlan({ id: planID }, { stage: nextStage })
+
+      return updatedPlan
+    } catch (error) {
+      throw new Error(`Error in updatePlanStage: ${error}`)
+    }
+  }
+}
+
+const STAGES_FLOW: Record<PlanStage, PlanStage> = {
+  [PlanStage.BRAINSTORM]: PlanStage.VOTING,
+  [PlanStage.VOTING]: PlanStage.POOL,
+  [PlanStage.POOL]: PlanStage.PURCHASE,
+  [PlanStage.PURCHASE]: PlanStage.DELIVERY,
+  [PlanStage.DELIVERY]: PlanStage.COMPLETED,
+  [PlanStage.COMPLETED]: PlanStage.COMPLETED
 }

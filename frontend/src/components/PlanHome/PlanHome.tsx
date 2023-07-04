@@ -23,12 +23,13 @@ import addButton from '../../assets/addButton.png'
 
 import { Brainstorm } from './PlanStage/Brainstorm/Brainstorm'
 import { Voting } from './PlanStage/Voting/Voting'
-import { Pool } from './PlanStage/Pool'
+import { Pool } from './PlanStage/Pool/Pool'
 import { Purchase } from './PlanStage/Purchase'
 import { Delivery } from './PlanStage/Delivery'
 import { UserContext } from '../UserContext';
-import { faHouse } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faHouse, faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ConfirmDiaglog } from './ConfirmDiaglog';
 
 /*
   This function is meant to calculate the plan progress
@@ -43,7 +44,7 @@ const planProgressCalculator = (currentStage: PlanStage): [number, number, PlanS
   switch (currentStage) {
     case PlanStage.BRAINSTORM:
       // FIXME: this would only be [PlanStage.BRAINSTORM]
-      return [0, 0, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.PURCHASE, PlanStage.POOL, PlanStage.DELIVERY]];
+      return [0, 0, [PlanStage.BRAINSTORM]];
     case PlanStage.VOTING:
       return [20, 1, [PlanStage.BRAINSTORM, PlanStage.VOTING]]
     case PlanStage.POOL:
@@ -65,12 +66,14 @@ export const PlanHome = (): JSX.Element => {
   const [selectedContacts, setSelectedContacts] = useState<Contact[] | []>([]);
   const [message, setMessage] = useState<string | undefined>()
   const [displayMessage, setDisplayMessage] = useState<string>('');
+  const [lastUpdate, setLastUpdate] = useState(Date.now())
   const { id: planID } = useParams();
   const {
     planData,
     contactData,
     membershipListData
-  } = fetchPlanAndContactsData(planID as string)
+  } = fetchPlanAndContactsData(planID as string, lastUpdate)
+  const currentPlanStage = planData?.stage
   const currentUser = useContext(UserContext)[0]
   const isUserPlanLeader = planData?.members.planLeader.id === currentUser.id
   const [progressPercentage, taskCompleted, accessibleStages] = planProgressCalculator(planData?.stage)
@@ -153,13 +156,13 @@ export const PlanHome = (): JSX.Element => {
 
   const handlePlanFinishPlanStage = (PlanStageView: PlanStageView) => async (): Promise<void> => {
     try {
-      await axios.post(`/api/update-plan?stage=${PlanStageView}`, {
-        planID,
-        PlanStageView
+      await axios.put(`/api/update-plan-stage/${PlanStageView}`, {
+        planID
       }, {
         withCredentials: true
       })
       // TODO: after updating, UI can move to the next stage
+      setLastUpdate(Date.now())
     } catch (error) {
       console.error(error)
     }
@@ -170,7 +173,12 @@ export const PlanHome = (): JSX.Element => {
     const planStageViewString = PlanStageView.charAt(0).toUpperCase() + PlanStageView.slice(1).toLowerCase()
     return (
       <div className={styles.nextBtnContainer}>
-        <button className={styles.nextBtn} onClick={handlePlanFinishPlanStage(PlanStageView)}>Finish {planStageViewString}</button>
+        <ConfirmDiaglog
+          buttonName={`Finish ${planStageViewString}`}
+          header={`Finish Plan ${planStageViewString} Stage`}
+          body={'Are you sure you want to finish this plan stage? You will not be able to edit this stage after finishing it.'}
+          onConfirm={handlePlanFinishPlanStage(PlanStageView)}
+        />
       </div>
     )
   }
@@ -182,7 +190,7 @@ export const PlanHome = (): JSX.Element => {
     case PlanStageView.BRAINSTORM:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
-          <Brainstorm planID={planID} isCurrentPlanStage={planData.stage === PlanStage.BRAINSTORM}/>
+          <Brainstorm planID={planID} isCurrentPlanStage={planData.stage === PlanStage.BRAINSTORM} />
           {isUserPlanLeader && planData.stage === PlanStageView.BRAINSTORM && nextButton(PlanStageView.BRAINSTORM)}
         </div>
       )
@@ -190,7 +198,7 @@ export const PlanHome = (): JSX.Element => {
     case PlanStageView.VOTING:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
-          <Voting planID={planID} isCurrentPlanStage={planData.stage === PlanStage.VOTING}/>
+          <Voting planID={planID} isCurrentPlanStage={planData.stage === PlanStage.VOTING} />
           {isUserPlanLeader && planData.stage === PlanStageView.VOTING && nextButton(PlanStageView.VOTING)}
         </div>
       )
@@ -198,7 +206,7 @@ export const PlanHome = (): JSX.Element => {
     case PlanStageView.POOL:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
-          <Pool />
+          <Pool planID={planID} />
           {isUserPlanLeader && planData.stage === PlanStageView.POOL && nextButton(PlanStageView.POOL)}
         </div>
       )
@@ -352,6 +360,12 @@ export const PlanHome = (): JSX.Element => {
               className={currentPlanStageView === PlanStageView.BRAINSTORM ? styles.isActivePlanStage : undefined}
               disabled={!accessibleStages.includes(PlanStage.BRAINSTORM)}
             >
+              {currentPlanStage === PlanStage.BRAINSTORM
+                // if current plan stage, then add a pen icon
+                ? <FontAwesomeIcon icon={faPen} style={{ color: '#EF476F' }} className={styles.faEllipsis} size='xl' />
+                // else if stage has already been completed, add a check icon
+                : (accessibleStages.includes(PlanStage.BRAINSTORM) ? <FontAwesomeIcon icon={faCheck} style={{ color: '#06D5A0' }} className={styles.faEllipsis} size='xl' /> : null)
+              }
               <img src={brainstormIcon} alt='brainstorm icon' />
               <span>BrainStorm</span>
             </button>
@@ -365,6 +379,12 @@ export const PlanHome = (): JSX.Element => {
               }
               disabled={!accessibleStages.includes(PlanStage.VOTING)}
             >
+              {currentPlanStage === PlanStage.VOTING
+                // if current plan stage, then add a pen icon
+                ? <FontAwesomeIcon icon={faPen} style={{ color: '#EF476F' }} className={styles.faEllipsis} size='xl' />
+                // else if stage has already been completed, add a check icon
+                : (accessibleStages.includes(PlanStage.VOTING) ? <FontAwesomeIcon icon={faCheck} style={{ color: '#06D5A0' }} className={styles.faEllipsis} size='xl' /> : null)
+              }
               <img src={voteIcon} alt='voting icon' />
               <span>Voting</span>
             </button>
@@ -378,6 +398,12 @@ export const PlanHome = (): JSX.Element => {
               }
               disabled={!accessibleStages.includes(PlanStage.POOL)}
             >
+              {currentPlanStage === PlanStage.POOL
+                // if current plan stage, then add a pen icon
+                ? <FontAwesomeIcon icon={faPen} style={{ color: '#EF476F' }} className={styles.faEllipsis} size='xl' />
+                // else if stage has already been completed, add a check icon
+                : (accessibleStages.includes(PlanStage.POOL) ? <FontAwesomeIcon icon={faCheck} style={{ color: '#06D5A0' }} className={styles.faEllipsis} size='xl' /> : null)
+              }
               <img src={poolIcon} alt='pool icon' />
               <span>Pool</span>
             </button>
@@ -391,6 +417,12 @@ export const PlanHome = (): JSX.Element => {
               }
               disabled={!accessibleStages.includes(PlanStage.PURCHASE)}
             >
+              {currentPlanStage === PlanStage.PURCHASE
+                // if current plan stage, then add a pen icon
+                ? <FontAwesomeIcon icon={faPen} style={{ color: '#EF476F' }} className={styles.faEllipsis} size='xl' />
+                // else if stage has already been completed, add a check icon
+                : (accessibleStages.includes(PlanStage.PURCHASE) ? <FontAwesomeIcon icon={faCheck} style={{ color: '#06D5A0' }} className={styles.faEllipsis} size='xl' /> : null)
+              }
               <img src={purchaseGiftIcon} alt='purchase icon' />
               <span>Purchase</span>
             </button>
@@ -403,8 +435,13 @@ export const PlanHome = (): JSX.Element => {
                 })
               }
               disabled={!accessibleStages.includes(PlanStage.DELIVERY)}
-
             >
+              {currentPlanStage === PlanStage.DELIVERY
+                // if current plan stage, then add a pen icon
+                ? <FontAwesomeIcon icon={faPen} style={{ color: '#EF476F' }} className={styles.faEllipsis} size='xl' />
+                // else if stage has already been completed, add a check icon
+                : (accessibleStages.includes(PlanStage.DELIVERY) ? <FontAwesomeIcon icon={faCheck} style={{ color: '#06D5A0' }} className={styles.faEllipsis} size='xl' /> : null)
+              }
               <img src={deliveryIcon} alt='delivery icon' />
               <span>Delivery</span>
             </button>

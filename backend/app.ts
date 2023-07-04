@@ -27,6 +27,7 @@ import verifyPlanInviteRouter from './routes/verifyPlanInvite'
 import brainstormRouter from './routes/brainstorm'
 import voteRouter from './routes/vote'
 import planMembershipRouter from './routes/planMembership'
+import updatePlanStageRouter from './routes/updatePlan'
 
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -192,5 +193,6 @@ app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
 app.use('/api/brainstorm', checkUserAuthorization, brainstormRouter)
 app.use('/api/vote', checkUserAuthorization, voteRouter)
 app.use('/api/plan-membership', checkUserAuthorization, planMembershipRouter)
+app.use('/api/update-plan-stage', checkUserAuthorization, updatePlanStageRouter)
 
 export default app

@@ -397,6 +397,13 @@ button.isStageDisabled {
   right: 30px;
 }
 
+.faEllipsis {
+  position: absolute;
+  top: 21px;
+  right: 34px;
+  color: var(--white);
+}
+
 /* Next button */
 
 .nextBtnContainer {

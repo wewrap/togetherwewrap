@@ -9,15 +9,13 @@ function localStringDateFormatter(dateInput: string) {
   return localDateString;
 }
 
-export const fetchPlanAndContactsData = (planIdParam: string): any => {
+export const fetchPlanAndContactsData = (planIdParam: string, lastUpdate: number): any => {
   const [status, setStatus] = useState<LoadStatus>(LoadStatus.NOT_LOADED)
   const [planData, setPlanData] = useState<Plan | undefined>(undefined)
   const [contactData, setContactData] = useState<Contact[] | undefined>(undefined)
   const [membershipListData, setMembersListData] = useState<User[] | undefined>(undefined)
-  const [hasFetched, setHasFetched] = useState<boolean>(false)
 
   useEffect(() => {
-    if (hasFetched) return
     const controller = new AbortController();
     const fetchPlanData = async (): Promise<void> => {
       try {
@@ -61,7 +59,6 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
         )
 
         setStatus(LoadStatus.LOADED);
-        setHasFetched(true)
       } catch (err) {
         if (err === 'AbortError') {
           console.error('request cancelled')
@@ -75,6 +72,6 @@ export const fetchPlanAndContactsData = (planIdParam: string): any => {
     return () => {
       controller.abort();
     }
-  }, [])
+  }, [lastUpdate])
   return { planData, contactData, status, membershipListData }
 }
