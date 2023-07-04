@@ -30,10 +30,17 @@ import { UserContext } from '../UserContext';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+/*
+  This function is meant to calculate the plan progress
+  @param currentStage: the current stage of the plan
+  @return [number, number, PlanStage[]]
+  @return number: the percentage of the plan progress
+  @return number: the number of tasks completed
+  @return PlanStage[]: the stages that are accessible to the user
+*/
 const planProgressCalculator = (currentStage: PlanStage): [number, number, PlanStage[]] => {
   if (currentStage === undefined) return [0, 0, [PlanStage.BRAINSTORM]]
   switch (currentStage) {
-    // case PlanStage.UNINITIALIZED:
     case PlanStage.BRAINSTORM:
       // FIXME: this would only be [PlanStage.BRAINSTORM]
       return [0, 0, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.PURCHASE, PlanStage.POOL, PlanStage.DELIVERY]];
@@ -71,14 +78,15 @@ export const PlanHome = (): JSX.Element => {
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
       if (showInviteModal && event.target.closest('.clickOutsideOfModal') === null) {
-        handleModalClose()
+        handleModalClose();
       }
     }
     if (showInviteModal) {
-      document.addEventListener('mousedown', handleClickOutsideOfModal)
+      document.addEventListener('mousedown', handleClickOutsideOfModal);
     } else {
-      document.removeEventListener('mousedown', handleClickOutsideOfModal)
+      document.removeEventListener('mousedown', handleClickOutsideOfModal);
     }
+    return () => { document.removeEventListener('mousedown', handleClickOutsideOfModal); }
   }, [showInviteModal])
 
   const handleContactSelect = (singleContact: Contact): void => {
@@ -166,7 +174,6 @@ export const PlanHome = (): JSX.Element => {
       </div>
     )
   }
-  // To start next stage, we can do a post request to '/api/plan/nextStage' to move on to the next stage
 
   let currentStageViewComponent;
 
@@ -175,7 +182,7 @@ export const PlanHome = (): JSX.Element => {
     case PlanStageView.BRAINSTORM:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
-          <Brainstorm planID={planID} />
+          <Brainstorm planID={planID} isCurrentPlanStage={planData.stage === PlanStage.BRAINSTORM}/>
           {isUserPlanLeader && planData.stage === PlanStageView.BRAINSTORM && nextButton(PlanStageView.BRAINSTORM)}
         </div>
       )
@@ -183,7 +190,7 @@ export const PlanHome = (): JSX.Element => {
     case PlanStageView.VOTING:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
-          <Voting planID={planID} />
+          <Voting planID={planID} isCurrentPlanStage={planData.stage === PlanStage.VOTING}/>
           {isUserPlanLeader && planData.stage === PlanStageView.VOTING && nextButton(PlanStageView.VOTING)}
         </div>
       )

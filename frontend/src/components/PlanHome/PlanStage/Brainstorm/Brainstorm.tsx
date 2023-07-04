@@ -16,9 +16,10 @@ import { fetchBrainStormData } from './fetchBrainStormData'
 
 interface BrainstormProps {
   planID: string | undefined
+  isCurrentPlanStage: boolean
 }
 
-export const Brainstorm = ({ planID }: BrainstormProps): JSX.Element | null => {
+export const Brainstorm = ({ planID, isCurrentPlanStage }: BrainstormProps): JSX.Element | null => {
   const [showAddItemModal, setShowAddItemModal] = useState<boolean>(false)
   const [ideaPostSubmission, setIdeaPostSubmission] = useState<any>({
     item: '',
@@ -109,9 +110,14 @@ export const Brainstorm = ({ planID }: BrainstormProps): JSX.Element | null => {
       handleDiscardModal()
       console.log(response.data)
       setIdeaPosts((prevIdeaPosts: BrainstormIdeaPost[]) => [...prevIdeaPosts, response.data])
-      // TODO: create accordion for new idea post
+      setIdeaPostSubmission({
+        item: '',
+        description: '',
+        itemLink: ''
+      })
     } catch (error) {
       console.error(error)
+      alert('Error creating idea post')
     }
   }
 
@@ -185,7 +191,7 @@ export const Brainstorm = ({ planID }: BrainstormProps): JSX.Element | null => {
                 <div className={styles.openView}>
                   <h2>Description</h2>
                   {/* if current user is the author, then allow the ability to edit/save on an ideaPost post */}
-                  {isCurrentUserPost && currentPost !== undefined
+                  {isCurrentUserPost && currentPost !== undefined && isCurrentPlanStage
                     ? (
                       <div key={ideaPost.id}>
                         <textarea className={styles.textarea}
@@ -243,9 +249,13 @@ export const Brainstorm = ({ planID }: BrainstormProps): JSX.Element | null => {
           )
         })}
 
-        <div className={styles.addAccordion} onClick={() => { setShowAddItemModal(!showAddItemModal); }}>
-          <img src={addButton} className={styles.addButtonImg} />
-        </div>
+        {
+          isCurrentPlanStage &&
+          <div className={styles.addAccordion} onClick={() => { setShowAddItemModal(!showAddItemModal); }
+          }>
+            <img src={addButton} className={styles.addButtonImg} />
+          </div>
+        }
 
       </div>
     </>

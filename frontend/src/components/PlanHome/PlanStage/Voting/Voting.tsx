@@ -7,7 +7,12 @@ import { Progress } from '@chakra-ui/react'
 import axios from 'axios'
 import { UserContext } from '../../../UserContext'
 
-export const Voting = ({ planID }: any): JSX.Element => {
+interface VotingProps {
+  planID: string | undefined
+  isCurrentPlanStage: boolean
+}
+
+export const Voting = ({ planID, isCurrentPlanStage }: VotingProps): JSX.Element => {
   const [votePosts, setVotePosts] = useState<BrainstormIdeaPost[]>([])
   const [planMemberList, setPlanMemberList] = useState<any[]>([])
   const [selectedVotePost, setSelectedVotePost] = useState<BrainstormIdeaPost | null>(null)
@@ -97,12 +102,14 @@ export const Voting = ({ planID }: any): JSX.Element => {
           )
         })}
       </section>
-      <section className={styles.submitSection}>
-        {currentUserVotedForPostID !== null
-          ? <p>You have voted, please wait patiently.</p>
-          : <button className={styles.submitVote} onClick={handleSubmitVote}>Submit Vote</button>
-        }
-      </section>
+      {isCurrentPlanStage &&
+        <section className={styles.submitSection}>
+          {currentUserVotedForPostID !== null
+            ? <p>You have voted, please wait patiently.</p>
+            : <button className={styles.submitVote} onClick={handleSubmitVote}>Submit Vote</button>
+          }
+        </section>
+      }
     </div>
   )
 }
