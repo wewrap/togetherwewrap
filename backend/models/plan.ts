@@ -64,6 +64,7 @@ export default class PlanModel {
       })
       return response
     } catch (error) {
+      console.error(`Error in dbUpdateOnePlan: ${error}`)
       throw new Error(`Error in dbUpdateOnePlan: ${error}`)
     }
   }

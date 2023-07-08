@@ -73,5 +73,5 @@ export const fetchPlanAndContactsData = (planIdParam: string, lastUpdate: number
       controller.abort();
     }
   }, [lastUpdate])
-  return { planData, contactData, status, membershipListData }
+  return { planData, contactData, setPlanData, status, membershipListData }
 }

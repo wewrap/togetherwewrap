@@ -3,5 +3,186 @@
   height: 790px;
   width: 100%;
   border-radius: 10px;
+}
+
+.stageContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+  width: auto;
+  padding: 30px;
+}
+
+.pledge {
+  background-color: rgb(190, 188, 237);
+  width: 540px;
+  height: 100%;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+
+}
+
+/* Gift data */
+
+.giftData {
+  padding: 15px;
+}
+
+.giftName {
+
+}
+
+.setGoalBtn {
+  margin-top: 20px;
+
+  background-color: var(--black);
+  padding: 15px;
+
+  font-weight: 600;
+  color: var(--white);
+
+  border-radius: 10px;
+}
+
+.giftMoneyProgress {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 20px;
+  margin-bottom: 4px;
+}
+
+
+/* --------- */
+
+/* Leader confirm money view */
+
+.LeaderConfirmMoneyReceivedView {
+  padding: 15px;
+}
+
+.LeaderConfirmMoneyReceivedView > h2 {
+  margin-bottom: 20px;
+}
+
+.confirmDiv {
+  overflow: auto;
+  height: 300px;
+}
+
+.confirmCard {
+  background-color: var(--white);
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+
+  padding: 15px;
+  width: 98%;
+}
+
+.controlBtns {
+  margin-right: 10px;
+  display: flex;
+  gap: 20px;
+}
+
+
+
+/* --------- */
+
+
+/* Member send money view */
+
+.sendMoneyContainer {
+  padding: 15px;
+  height: 300px;
+}
+
+.leaderPaymentContainer {
+  margin-top: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+  
+}
+
+.notifyContainer {
+  margin-top: 20px;
+}
+
+.notifyContainer > h2 {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.notifyBtn {
+  margin-top: 14px;
+  background-color: var(--green);
+  padding: 15px;
+
+  font-weight: 600;
+  color: var(--white);
+
+  border-radius: 10px;
+}
+
+/* --------- */
+
+
+.pledge .giftData {
+  height: 50%;
+  background-color: bisque;
+  border-radius: 10px;
+}
+
+.pledge {
+
+}
+
+.received {
+  background-color: rgb(241, 184, 184);
+  width: 300px;
+  height: 100%;
+  border-radius: 10px;
+
+}
+
+.receivedNotificationContainer {
+  background-color: aquamarine;
+  width: 300px;
+  height: 92%;
+
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: auto;
+}
+
+.scrollable {
+  overflow-y: scroll;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 10px;
+  background-color: none;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: var(--white);
+  border-radius: 20px;
+}
+
+.notification {
+  margin: 15px;
+  /* margin-bottom: 2x; */
+  background-color: var(--blue);
+  text-align: center;
+
   padding: 20px;
+  border-radius: 10px;
 }

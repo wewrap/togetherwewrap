@@ -69,4 +69,19 @@ export class PlanController {
       res.status(400).json({ message: 'Error retrieving all plans', error })
     }
   }
+
+  static async updatePlan(updateData: any): Promise<any> {
+    try {
+      // formatting data for update
+      const { PlanMembership, specialPerson, members, ...filteredUpdateData } = updateData.data;
+      filteredUpdateData.startDate = new Date(filteredUpdateData.startDate)
+      filteredUpdateData.endDate = new Date(filteredUpdateData.endDate)
+
+      const planRecord = await PlanService.updatePlan(filteredUpdateData.id, filteredUpdateData)
+
+      return planRecord
+    } catch (error) {
+      throw new Error('error in update plan')
+    }
+  }
 }

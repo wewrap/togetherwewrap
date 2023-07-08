@@ -121,7 +121,7 @@ export const PlanHome = (): JSX.Element => {
       return
     }
 
-    if (message === undefined) {
+    if (message === undefined || message === '') {
       showDisplayMessage('Add a message')
       return
     }
@@ -161,7 +161,6 @@ export const PlanHome = (): JSX.Element => {
       }, {
         withCredentials: true
       })
-      // TODO: after updating, UI can move to the next stage
       setLastUpdate(Date.now())
     } catch (error) {
       console.error(error)
@@ -186,7 +185,6 @@ export const PlanHome = (): JSX.Element => {
   let currentStageViewComponent;
 
   switch (currentPlanStageView) {
-    // TODO: implement a feature where can ONLY view past stages and NOT edit them
     case PlanStageView.BRAINSTORM:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
@@ -206,7 +204,7 @@ export const PlanHome = (): JSX.Element => {
     case PlanStageView.POOL:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
-          <Pool planID={planID} />
+          <Pool planID={planID} isCurrentPlanStage={planData.stage === PlanStage.POOL} isUserPlanLeader={isUserPlanLeader} />
           {isUserPlanLeader && planData.stage === PlanStageView.POOL && nextButton(PlanStageView.POOL)}
         </div>
       )

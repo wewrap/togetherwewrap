@@ -20,6 +20,9 @@ model User {
   venmoUrl       String?
   cashappUrl     String?
   paypalUrl      String?
+  venmoID        String?
+  cashappID      String?
+  paypalID       String?
   profile        Profile?
   User           UserRelationship[] @relation("self")
   friendsWith    UserRelationship[] @relation("friendsWith")
@@ -63,19 +66,23 @@ model Profile {
 }
 
 model Plan {
-  id               String           @id @default(uuid())
-  title            String
-  description      String
-  startDate        DateTime
-  endDate          DateTime
-  specialEventType EventType
-  stage            PlanStage        @default(BRAINSTORM)
-  contactID        String
-  contact          Contact          @relation(fields: [contactID], references: [id])
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  PlanMembership   PlanMembership[]
-  PlanInvite       PlanInvite[]
+  id                  String           @id @default(uuid())
+  title               String
+  description         String
+  startDate           DateTime
+  endDate             DateTime
+  specialEventType    EventType
+  pledgeGoal          Int              @default(0)
+  currentPledgeAmount Int              @default(0)
+  chosenGiftName      String?
+  chosenGiftLink      String?
+  stage               PlanStage        @default(BRAINSTORM)
+  contactID           String
+  contact             Contact          @relation(fields: [contactID], references: [id])
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  PlanMembership      PlanMembership[]
+  PlanInvite          PlanInvite[]
 }
 
 enum PlanStage {
@@ -108,6 +115,7 @@ model Pledge {
   status       PledgeStatus
   pledgeAmount Int
   pledgeDate   DateTime?
+  platform     String
   membership   PlanMembership @relation(fields: [membershipID], references: [id])
   membershipID String
   createdAt    DateTime       @default(now())
@@ -130,8 +138,8 @@ model ContactRelationship {
 }
 
 enum PledgeStatus {
-  SENT_MONEY
-  HAVENT_SENT_MONEY
+  CONFIRMED
+  NOT_CONFIRMED
 }
 
 enum Role {

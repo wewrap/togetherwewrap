@@ -1,9 +1,11 @@
-import { Role, type Plan, InviteStatus, type User, type Contact, type PlanMembership, PlanStage } from '@prisma/client'
+/* eslint-disable no-case-declarations */
+import { Role, type Plan, InviteStatus, type User, type Contact, type PlanMembership, PlanStage, type PlanBrainstorm } from '@prisma/client'
 import { type GeneralPlanData } from '../utils/types'
 import PlanModel, { type dbCreatePlanInput } from '../models/plan'
 import PlanMembershipModel from '../models/planMembership'
 import ContactModel from '../models/contacts'
 import UserModel from '../models/user'
+import BrainstormModel from '../models/brainstorm'
 
 export default class PlanService {
   public static async createPlan(planData: dbCreatePlanInput): Promise<Plan | null> {
@@ -105,12 +107,48 @@ export default class PlanService {
   static async updatePlanStage(planID: string, planStage: PlanStage) {
     try {
       const nextStage = STAGES_FLOW[planStage]
+      let updatedPlan: Plan | undefined;
+      switch (planStage) {
+        case PlanStage.BRAINSTORM:
+          updatedPlan = await PlanModel.dbUpdateOnePlan({ id: planID }, { stage: nextStage })
+          break;
+        case PlanStage.VOTING:
+          // get all plan memberships record
+          const allPlanMemberships = await PlanMembershipModel.dbReadPlanMembers({ planID })
 
-      const updatedPlan = await PlanModel.dbUpdateOnePlan({ id: planID }, { stage: nextStage })
+          if (allPlanMemberships === null || allPlanMemberships === undefined) throw new Error('Unable to fetch plan members')
+
+          // get all brainstorm posts
+          const allBrainstormPosts = await Promise.all(allPlanMemberships.map(async (planMembership) => {
+            const brainstormPosts = await BrainstormModel.dbReadAllBrainstorm({ planMembershipID: planMembership.id })
+            return brainstormPosts
+          }))
+          const flattenedAllBrainstormPosts = allBrainstormPosts.flat()
+
+          // get most voted post
+          const mostVotedPost = flattenedAllBrainstormPosts.reduce((acc: any, post: PlanBrainstorm & { planMembership: PlanMembership }) => {
+            if (post.voteCount === acc.voteCount) return Math.random() > 0.5 ? post : acc
+            if (post.voteCount > acc.voteCount) return post
+            return acc
+          }, { voteCount: -1 }) as PlanBrainstorm & { planMembership: PlanMembership }
+
+          // update plan with the most voted post
+          updatedPlan = await PlanModel.dbUpdateOnePlan({ id: planID }, { chosenGiftName: mostVotedPost.item, chosenGiftLink: mostVotedPost.itemLink, stage: nextStage });
+      }
 
       return updatedPlan
     } catch (error) {
       throw new Error(`Error in updatePlanStage: ${error}`)
+    }
+  }
+
+  static async updatePlan(planID: string, data: any): Promise<any> {
+    try {
+      const planRecord = await PlanModel.dbUpdateOnePlan({ id: planID }, data)
+
+      return planRecord
+    } catch (error) {
+      throw new Error(`Error in updatePlan: ${error}`)
     }
   }
 }

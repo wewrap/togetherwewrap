@@ -28,6 +28,7 @@ import brainstormRouter from './routes/brainstorm'
 import voteRouter from './routes/vote'
 import planMembershipRouter from './routes/planMembership'
 import updatePlanStageRouter from './routes/updatePlan'
+import pledgeRouter from './routes/pledge'
 
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -194,5 +195,6 @@ app.use('/api/brainstorm', checkUserAuthorization, brainstormRouter)
 app.use('/api/vote', checkUserAuthorization, voteRouter)
 app.use('/api/plan-membership', checkUserAuthorization, planMembershipRouter)
 app.use('/api/update-plan-stage', checkUserAuthorization, updatePlanStageRouter)
+app.use('/api/pledge', checkUserAuthorization, pledgeRouter)
 
 export default app

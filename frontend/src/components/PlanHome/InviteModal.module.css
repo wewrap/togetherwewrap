@@ -1,5 +1,5 @@
 .inviteModalContainer {
-  min-height: 312px;
+  min-height: 330px;
   max-height: auto;
   width: 400px;
   background-color: var(--white);
@@ -26,14 +26,14 @@
 .errorMessage {
   position: absolute;
   left: 44px;
-  top: 14px;
+  top: 10px;
   color: var(--pink);
 }
 
 .successMessage {
   position: absolute;
   left: 44px;
-  top: 14px;
+  top: 10px;
   color: var(--green);
 }
 
