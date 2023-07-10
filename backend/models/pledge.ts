@@ -55,4 +55,30 @@ export default class PledgeModel {
       throw new Error(`Error in dbReadManyPledge: ${error}`)
     }
   }
+
+  static async dbUpdateOnePledge(whereParams: { id: string }, updateParams: Partial<Pledge>): Promise<Pledge> {
+    try {
+      const response = await db.pledge.update({
+        where: whereParams,
+        data: updateParams,
+        include: {
+          membership: {
+            include: {
+              user: {
+                select: {
+                  firstName: true,
+                  lastName: true
+                }
+              }
+            }
+          }
+        }
+      })
+
+      return response
+    } catch (error) {
+      console.error(`Error in dbUpdateOnePledge: ${error}`)
+      throw new Error(`Error in dbUpdateOnePledge: ${error}`)
+    }
+  }
 }

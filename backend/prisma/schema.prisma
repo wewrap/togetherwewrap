@@ -139,6 +139,7 @@ model ContactRelationship {
 
 enum PledgeStatus {
   CONFIRMED
+  DENIED
   NOT_CONFIRMED
 }
 

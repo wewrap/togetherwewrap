@@ -33,4 +33,14 @@ export default class PledgeService {
       throw new Error(`Error in PledgeService.getAllPledgesData: ${error}`)
     }
   }
+
+  static async updatePledge(pledge: Pledge, updateData: Partial<Pledge>): Promise<Pledge> {
+    try {
+      const updatedPledgeRecord = await PledgeModel.dbUpdateOnePledge({ id: pledge.id }, updateData)
+      return updatedPledgeRecord
+    } catch (error) {
+      console.error(`Error in PledgeService.updatePledge: ${error}`)
+      throw new Error(`Error in PledgeService.updatePledge: ${error}`)
+    }
+  }
 }

@@ -27,6 +27,11 @@ io.on('connection', (socket) => {
     const pledgeRecord = await PledgeController.createPledge(data)
     io.emit('finishedHandleUserNotifyMoneySent', pledgeRecord)
   })
+
+  socket.on('handlePledgeMoneyReceivedStatus', async (data) => {
+    const updatedPledgeRecordAndPlanData = await PledgeController.updatePledge(data)
+    io.emit('finishedHandlePledgeMoneyReceivedStatus', updatedPledgeRecordAndPlanData)
+  })
 })
 
 server.listen(port, () => {

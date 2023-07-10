@@ -134,6 +134,10 @@ export default class PlanService {
 
           // update plan with the most voted post
           updatedPlan = await PlanModel.dbUpdateOnePlan({ id: planID }, { chosenGiftName: mostVotedPost.item, chosenGiftLink: mostVotedPost.itemLink, stage: nextStage });
+          break;
+        case PlanStage.POOL:
+          updatedPlan = await PlanModel.dbUpdateOnePlan({ id: planID }, { stage: nextStage });
+          break;
       }
 
       return updatedPlan
@@ -142,7 +146,7 @@ export default class PlanService {
     }
   }
 
-  static async updatePlan(planID: string, data: any): Promise<any> {
+  static async updatePlan(planID: string, data: any): Promise<Plan> {
     try {
       const planRecord = await PlanModel.dbUpdateOnePlan({ id: planID }, data)
 
