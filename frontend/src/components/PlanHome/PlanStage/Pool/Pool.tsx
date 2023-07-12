@@ -37,14 +37,20 @@ export const Pool = ({ planID, isCurrentPlanStage, isUserPlanLeader }: PoolProps
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [lastUpdate] = useState(Date.now())
   const { planData, setPlanData, membershipListData } = fetchPlanAndContactsData(planID, lastUpdate)
+  console.log('🚀 ~ file: Pool.tsx:40 ~ Pool ~ planData:', planData)
   const [pledgeGoal, setPledgeGoal] = useState(0)
   const [unconfirmedPledges, setUnconfirmedPledges] = useState<any>([])
   const [confirmedPledges, setConfirmedPledges] = useState<any>([])
   const currentUser = useContext(UserContext)[0]
-  // isUserPlanLeader = false
+
+  isUserPlanLeader = false // For testing purposes
 
   const handleSetGoal = () => {
     socket.emit('handleSetGoal', { data: { ...planData, pledgeGoal } })
+  }
+
+  const handlePledgeMoneyReceivedStatus = (pledgeData: any, confirmationStatus: 'CONFIRMED' | 'DENY' | 'NOT_CONFIRMED') => {
+    socket.emit('handlePledgeMoneyReceivedStatus', { pledgeData, confirmationStatus, planData })
   }
 
   useEffect(() => {
@@ -57,13 +63,23 @@ export const Pool = ({ planID, isCurrentPlanStage, isUserPlanLeader }: PoolProps
       setUnconfirmedPledges((prev: any) => [...prev, responseData])
 
     })
+
+    socket.on('finishedHandlePledgeMoneyReceivedStatus', (responseData) => {
+      const { updatedPledgeRecord, updatedPlanRecord } = responseData
+      if (updatedPledgeRecord.status === 'CONFIRMED') {
+        setPlanData(updatedPlanRecord)
+        setUnconfirmedPledges((prev: any) => prev.filter((pledge: any) => pledge.id !== updatedPledgeRecord.id))
+        setConfirmedPledges((prev: any) => [...prev, updatedPledgeRecord])
+      } else {
+        setUnconfirmedPledges((prev: any) => prev.filter((pledge: any) => pledge.id !== updatedPledgeRecord.id))
+      }
+    })
   }, [socket])
 
   useEffect(() => {
     const pledgeData = async () => {
       try {
         const response = await axios.get(`/api/pledge/?planID=${planID}`)
-        console.log('🚀 ~ file: Pool.tsx:61 ~ pledgeData ~ response:', response)
         setUnconfirmedPledges(response.data.filter((pledge: any) => pledge.status === 'NOT_CONFIRMED'))
         setConfirmedPledges(response.data.filter((pledge: any) => pledge.status === 'CONFIRMED'))
       } catch (error) {
@@ -84,13 +100,16 @@ export const Pool = ({ planID, isCurrentPlanStage, isUserPlanLeader }: PoolProps
     <div className={styles.stageBackground}>
       <div className={styles.stageContainer}>
         <section className={styles.received}>
-          <div>
-            <h2>Received</h2>
+          <div className={styles.receivedDiv}>
+            <h2>Received Pledges</h2>
           </div>
+          <div className={styles.line}></div>
           <div className={classNames(styles.scrollable, styles.receivedNotificationContainer)}>
             {confirmedPledges?.map((pledge: any) => (
               <div className={styles.notification}>
-                {pledge.membership.user.firstName} {pledge.membership.user.lastName} pledged ${pledge.pledgeAmount}
+                <p>
+                  {pledge.membership.user.firstName} {pledge.membership.user.lastName} pledged ${pledge.pledgeAmount}
+                </p>
               </div>
             ))}
           </div>
@@ -98,23 +117,24 @@ export const Pool = ({ planID, isCurrentPlanStage, isUserPlanLeader }: PoolProps
         <section className={styles.pledge}>
           <div className={styles.giftData}>
             <h2 className={styles.giftName}>
-              gift: {planData?.chosenGiftName}
+              Chosen Gift: {planData?.chosenGiftName}
             </h2>
+            <div className={styles.line}></div>
             <div className={styles.giftProgressContainer}>
               <div className={styles.giftMoneyProgress}>
                 <p>
-                  current: ${planData?.currentPledgeAmount}
+                  Current: ${planData?.currentPledgeAmount}
                 </p>
                 <p>
-                  goal ${planData?.pledgeGoal}
+                  Goal: ${planData?.pledgeGoal}
                 </p>
               </div>
-              <Progress height='20px' value={(20 / planData?.pledgeGoal) * 100} />
+              <Progress height='20px' value={(planData?.currentPledgeAmount / planData?.pledgeGoal) * 100} animation={'ease'} />
             </div>
 
             {isUserPlanLeader &&
               <div>
-                <Button className={styles.setGoalBtn} onClick={onOpen}>Set Goal</Button>
+                {isCurrentPlanStage && <Button className={styles.setGoalBtn} onClick={onOpen}>Set Goal</Button>}
                 <Modal
                   onClose={onClose}
                   isOpen={isOpen}
@@ -147,8 +167,8 @@ export const Pool = ({ planID, isCurrentPlanStage, isUserPlanLeader }: PoolProps
             }
           </div>
           {isUserPlanLeader
-            ? <LeaderConfirmMoneyReceivedView pledgeData={unconfirmedPledges} />
-            : <MemberSendMoneyView handleNotifyFn={handleUserNotifyMoneySent} />
+            ? <LeaderConfirmMoneyReceivedView pledgeData={unconfirmedPledges} handlePledgeMoneyReceivedStatus={handlePledgeMoneyReceivedStatus} isCurrentPlanStage={isCurrentPlanStage} />
+            : <MemberSendMoneyView handleNotifyFn={handleUserNotifyMoneySent} planData={planData} isCurrentPlanStage={isCurrentPlanStage} />
           }
         </section>
 
@@ -157,13 +177,14 @@ export const Pool = ({ planID, isCurrentPlanStage, isUserPlanLeader }: PoolProps
   )
 }
 
-const LeaderConfirmMoneyReceivedView = ({ pledgeData }: any): JSX.Element => {
+const LeaderConfirmMoneyReceivedView = ({ pledgeData, handlePledgeMoneyReceivedStatus, isCurrentPlanStage }: any): JSX.Element => {
   console.log('🚀 ~ file: Pool.tsx:161 ~ LeaderConfirmMoneyReceivedView ~ pledgeData:', pledgeData)
 
   return (
     <>
       <div className={styles.LeaderConfirmMoneyReceivedView}>
         <h2>Confirm money</h2>
+        <div className={styles.line}></div>
         <div className={classNames(styles.confirmDiv, styles.scrollable)}>
           {pledgeData?.map((pledge: any) => (
             <div className={styles.confirmCard}>
@@ -174,12 +195,17 @@ const LeaderConfirmMoneyReceivedView = ({ pledgeData }: any): JSX.Element => {
               {/* <p>amount: ${pledge.pledgeAmount}</p>
             <p>platform: {pledge.platform}</p> */}
               <div className={styles.controlBtns}>
-                <button>
-                  <FontAwesomeIcon icon={faCheck} />
-                </button>
-                <button>
-                  <FontAwesomeIcon icon={faX} />
-                </button>
+                {isCurrentPlanStage === true &&
+                  <div>
+                    <button onClick={() => handlePledgeMoneyReceivedStatus(pledge, 'CONFIRMED')}>
+                      <FontAwesomeIcon icon={faCheck} />
+                    </button>
+                    <button onClick={() => handlePledgeMoneyReceivedStatus(pledge, 'DENIED')}>
+                      <FontAwesomeIcon icon={faX} />
+                    </button>
+
+                  </div>
+                }
               </div>
             </div>
           ))}
@@ -189,7 +215,7 @@ const LeaderConfirmMoneyReceivedView = ({ pledgeData }: any): JSX.Element => {
   )
 }
 
-const MemberSendMoneyView = ({ handleNotifyFn }: any): JSX.Element => {
+const MemberSendMoneyView = ({ handleNotifyFn, planData, isCurrentPlanStage }: any): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [platform, setPlatform] = useState('');
   const [amount, setAmount] = useState('');
@@ -199,17 +225,20 @@ const MemberSendMoneyView = ({ handleNotifyFn }: any): JSX.Element => {
 
   return (
     <div className={styles.sendMoneyContainer}>
-      <h1>
+      <h2>
         Send money to your Plan leader!
-      </h1>
+      </h2>
+      <div className={styles.line}></div>
       <div className={styles.leaderPaymentContainer}>
-        <p>Venmo: $kv123</p>
-        <p>Cashapp: $kv123</p>
-
+        <p>Venmo: ${planData?.members?.planLeader?.venmoID}</p>
+        <p>Cashapp: ${planData?.members?.planLeader?.cashappID}</p>
+        <p>Paypal: ${planData?.members?.planLeader?.paypalID}</p>
       </div>
       <div className={styles.notifyContainer}>
-        <h2 >After you have sent your money, notify your Plan leader</h2>
-        <Button onClick={onOpen} className={styles.notifyBtn}>Notify</Button>
+        <h2 >After you have sent your money, please notify your Plan leader.</h2>
+        {isCurrentPlanStage === true &&
+          <Button onClick={onOpen} className={styles.notifyBtn}>Notify</Button>
+        }
         <Modal
           onClose={onClose}
           isOpen={isOpen}

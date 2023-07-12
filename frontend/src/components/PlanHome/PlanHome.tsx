@@ -24,7 +24,7 @@ import addButton from '../../assets/addButton.png'
 import { Brainstorm } from './PlanStage/Brainstorm/Brainstorm'
 import { Voting } from './PlanStage/Voting/Voting'
 import { Pool } from './PlanStage/Pool/Pool'
-import { Purchase } from './PlanStage/Purchase'
+import { Purchase } from './PlanStage/Purchase/Purchase'
 import { Delivery } from './PlanStage/Delivery'
 import { UserContext } from '../UserContext';
 import { faCheck, faHouse, faPen } from '@fortawesome/free-solid-svg-icons';
@@ -39,22 +39,22 @@ import { ConfirmDiaglog } from './ConfirmDiaglog';
   @return number: the number of tasks completed
   @return PlanStage[]: the stages that are accessible to the user
 */
-const planProgressCalculator = (currentStage: PlanStage): [number, number, PlanStage[]] => {
-  if (currentStage === undefined) return [0, 0, [PlanStage.BRAINSTORM]]
+const planProgressCalculator = (currentStage: PlanStage): [number, number, PlanStage[], string] => {
+  if (currentStage === undefined) return [0, 0, [PlanStage.BRAINSTORM], 'Plan has just started']
   switch (currentStage) {
     case PlanStage.BRAINSTORM:
       // FIXME: this would only be [PlanStage.BRAINSTORM]
-      return [0, 0, [PlanStage.BRAINSTORM]];
+      return [0, 0, [PlanStage.BRAINSTORM], 'Plan has just started'];
     case PlanStage.VOTING:
-      return [20, 1, [PlanStage.BRAINSTORM, PlanStage.VOTING]]
+      return [20, 1, [PlanStage.BRAINSTORM, PlanStage.VOTING], 'Vote for gift ideas!']
     case PlanStage.POOL:
-      return [40, 2, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL]]
+      return [40, 2, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL], 'Start pledging!']
     case PlanStage.PURCHASE:
-      return [60, 3, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.PURCHASE]]
+      return [60, 3, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.PURCHASE], 'Purchase the gift!']
     case PlanStage.DELIVERY:
-      return [80, 4, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.PURCHASE, PlanStage.DELIVERY]]
+      return [80, 4, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.PURCHASE, PlanStage.DELIVERY], 'Delivery is on the way!']
     case PlanStage.COMPLETED:
-      return [100, 5, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.PURCHASE, PlanStage.DELIVERY]]
+      return [100, 5, [PlanStage.BRAINSTORM, PlanStage.VOTING, PlanStage.POOL, PlanStage.PURCHASE, PlanStage.DELIVERY], 'The plan is completed!']
   }
 }
 
@@ -76,7 +76,7 @@ export const PlanHome = (): JSX.Element => {
   const currentPlanStage = planData?.stage
   const currentUser = useContext(UserContext)[0]
   const isUserPlanLeader = planData?.members.planLeader.id === currentUser.id
-  const [progressPercentage, taskCompleted, accessibleStages] = planProgressCalculator(planData?.stage)
+  const [progressPercentage, taskCompleted, accessibleStages, planProgressPhrase] = planProgressCalculator(planData?.stage)
 
   useEffect(() => {
     const handleClickOutsideOfModal = (event: any) => {
@@ -212,7 +212,7 @@ export const PlanHome = (): JSX.Element => {
     case PlanStageView.PURCHASE:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
-          <Purchase />
+          <Purchase planID={planID} isCurrentPlanStage={planData.stage === PlanStage.POOL} isUserPlanLeader={isUserPlanLeader}/>
           {isUserPlanLeader && planData.stage === PlanStageView.PURCHASE && nextButton(PlanStageView.PURCHASE)}
         </div>
       )
@@ -445,7 +445,7 @@ export const PlanHome = (): JSX.Element => {
             </button>
           </div>
           <div className={styles.progressBarContainer}>
-            <p className={styles.progressStatus}>Plan has just started</p>
+            <p className={styles.progressStatus}>{planProgressPhrase}</p>
             <p className={styles.itemsCompleted}>{taskCompleted} out of 5 completed</p>
             <CircularProgressbar
               value={progressPercentage}

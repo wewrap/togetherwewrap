@@ -138,6 +138,9 @@ export default class PlanService {
         case PlanStage.POOL:
           updatedPlan = await PlanModel.dbUpdateOnePlan({ id: planID }, { stage: nextStage });
           break;
+        case PlanStage.PURCHASE:
+          updatedPlan = await PlanModel.dbUpdateOnePlan({ id: planID }, { stage: nextStage });
+          break;
       }
 
       return updatedPlan

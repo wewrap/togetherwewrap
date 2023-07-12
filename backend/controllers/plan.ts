@@ -84,4 +84,18 @@ export class PlanController {
       throw new Error('error in update plan')
     }
   }
+
+  static async updatePlanViaREST(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const planID = req.params.id
+
+      const updatedPlanRecord = await PlanService.updatePlan(planID, req.body);
+      console.log('🚀 ~ file: plan.ts:93 ~ PlanController ~ updatePlanViaREST ~ updatedPlanRecord:', updatedPlanRecord)
+
+      res.status(200).json(updatedPlanRecord)
+    } catch (error) {
+      console.error('error in update plan', error)
+      res.status(400).json({ error })
+    }
+  }
 }

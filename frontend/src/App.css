@@ -7,6 +7,7 @@
     --green: #06D5A0;
     --blue: #1B9AAA;
     --pink: #EF476F;
+    --light-pink: #f7b2c2;
     --orange-yellow: #FFC43D;
     --black: rgb(54, 51, 66);
     --mont: 'Montserrat', sans-serif;
@@ -23,7 +24,7 @@ html {
 *::after {
     box-sizing: inherit;
     font-family: var(--mont);
-    border-color:rgba(0, 0, 0, 0.25);
+    border-color: rgba(0, 0, 0, 0.25);
 }
 
 body {
@@ -37,6 +38,7 @@ body {
 img {
     display: inline;
 }
+
 h1,
 h2,
 h3,
@@ -74,10 +76,23 @@ nav .navOnlyTextActive.active:hover {
 .css-gtwgf4 {
     border-radius: 10px !important;
 }
+
 .css-1jrtelv {
     background-color: var(--green) !important;
     border-radius: 10px !important;
 }
+
+/* Pool progress bar */
+.css-132re53 {
+    border-radius: 10px !important;
+}
+
+/* .css-ez23ye {
+    background-color: var(--green) !important;
+    border-radius: 10px !important;
+    padding: 20px !important;
+    color: var(--white) !important;
+} */
 
 .overlay {
     background-color: rgba(0, 0, 0, 0.25);

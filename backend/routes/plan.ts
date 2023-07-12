@@ -22,4 +22,6 @@ planRouter.get('/:id', PlanController.fetchPlan)
 planRouter.get('/',
   PlanController.fetchAllPlans)
 
+planRouter.put('/:id', PlanController.updatePlanViaREST)
+
 export default planRouter
