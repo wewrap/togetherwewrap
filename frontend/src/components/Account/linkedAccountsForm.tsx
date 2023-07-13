@@ -20,7 +20,7 @@ export const LinkedAccounts = (): JSX.Element => {
         <form className = {styles.linkedAccountsForm}>
             <div className = {styles.profileFields}>
                 <label className = {styles.labelFields}> </label>
-                    <a className= {styles.venmoContainer} href='http://localhost:8000/auth/venmo'>
+                    <a className= {styles.venmoContainer} href='/auth/venmo'>
                     <img src={venmoIcon} alt='venmoIcon' className = {styles.companyIcons} />
                     {venmo}
                     </a>
@@ -29,7 +29,7 @@ export const LinkedAccounts = (): JSX.Element => {
             </div>
             <div className = {styles.profileFields}>
                 <label className = {styles.labelFields}>
-                <a className= {styles.cashappContainer} href='http://localhost:8000/auth/cashapp'>
+                <a className= {styles.cashappContainer} href='/auth/cashapp'>
                     <img src={cashappIcon} alt='cashappIcon' className = {styles.companyIcons} />
                     {cashapp}
                 </a>
@@ -39,7 +39,7 @@ export const LinkedAccounts = (): JSX.Element => {
             </div>
             <div className = {styles.profileFields}>
                 <label className = {styles.labelFields}>
-                <a className= {styles.paypalContainer} href='http://localhost:8000/auth/paypal'>
+                <a className= {styles.paypalContainer} href='/auth/paypal'>
                         <img src={paypalIcon} alt='paypalIcon' className = {styles.companyIcons} />
                         {paypal}
                 </a>

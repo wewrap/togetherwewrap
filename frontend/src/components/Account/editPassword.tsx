@@ -39,7 +39,7 @@ export const EditPassword = (): JSX.Element => {
     if (isValidLength && hasNumber && hasSpecialChar) {
       if (newPassword === confirmPassword) {
         setNotification('');
-        await axios.post('http://localhost:8000/api/account', {
+        await axios.post('/api/account', {
           newPassword
         })
           .then((res) => {

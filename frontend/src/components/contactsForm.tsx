@@ -115,7 +115,7 @@ export const CreateContactForm = ({ handleContactCreate }: Props) => {
     event.preventDefault()
     try {
       // TODO(FK) T144: change url once app deployed
-      const response = await axios.post('http://localhost:8000/api/contacts', {
+      const response = await axios.post('/api/contacts', {
         firstName,
         lastName,
         relationships,

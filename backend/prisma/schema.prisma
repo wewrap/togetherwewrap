@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
 }
 
 datasource db {
@@ -20,6 +21,9 @@ model User {
   venmoUrl       String?
   cashappUrl     String?
   paypalUrl      String?
+  venmoID        String?
+  cashappID      String?
+  paypalID       String?
   profile        Profile?
   User           UserRelationship[] @relation("self")
   friendsWith    UserRelationship[] @relation("friendsWith")
@@ -63,18 +67,54 @@ model Profile {
 }
 
 model Plan {
-  id               String           @id @default(uuid())
-  title            String
-  description      String
-  startDate        DateTime
-  endDate          DateTime
-  specialEventType EventType
-  contactID        String
-  contact          Contact         @relation(fields: [contactID], references: [id])
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-  PlanMembership   PlanMembership[]
-  PlanInvite       PlanInvite[]
+  id                  String             @id @default(uuid())
+  title               String
+  description         String
+  startDate           DateTime
+  endDate             DateTime
+  specialEventType    EventType
+  pledgeGoal          Int                @default(0)
+  currentPledgeAmount Int                @default(0)
+  chosenGiftName      String?
+  chosenGiftLink      String?
+  giftPurchaseStatus  PurchaseStatus     @default(NOT_PURCHASED)
+  giftDeliveryChoice  GiftDeliveryChoice @default(UNDECIDED)
+  giftDeliveryAddress String?
+  stage               PlanStage          @default(BRAINSTORM)
+  contactID           String
+  deliveryStatus      DeliveryStatus     @default(NOT_PURCHASED)
+  contact             Contact            @relation(fields: [contactID], references: [id])
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  PlanMembership      PlanMembership[]
+  PlanInvite          PlanInvite[]
+}
+
+enum DeliveryStatus {
+  NOT_PURCHASED
+  PURCHASED
+  AWAITING_GIFT_DELIVERY
+  GIFT_DELIVERED
+}
+
+enum GiftDeliveryChoice {
+  UNDECIDED
+  HAND_IN_PERSON
+  SHIP
+}
+
+enum PurchaseStatus {
+  PURCHASED
+  NOT_PURCHASED
+}
+
+enum PlanStage {
+  BRAINSTORM
+  VOTING
+  POOL
+  PURCHASE
+  DELIVERY
+  COMPLETED
 }
 
 model Contact {
@@ -98,6 +138,7 @@ model Pledge {
   status       PledgeStatus
   pledgeAmount Int
   pledgeDate   DateTime?
+  platform     String
   membership   PlanMembership @relation(fields: [membershipID], references: [id])
   membershipID String
   createdAt    DateTime       @default(now())
@@ -120,8 +161,9 @@ model ContactRelationship {
 }
 
 enum PledgeStatus {
-  SENT_MONEY
-  HAVENT_SENT_MONEY
+  CONFIRMED
+  DENIED
+  NOT_CONFIRMED
 }
 
 enum Role {
@@ -150,15 +192,16 @@ enum EventType {
 }
 
 model PlanMembership {
-  id             String           @id @default(uuid())
-  plan           Plan             @relation(fields: [planID], references: [id])
-  planID         String
-  user           User             @relation(fields: [userID], references: [id])
-  userID         String
-  Pledge         Pledge[]
-  inviteStatus   InviteStatus
-  role           Role
-  PlanBrainstorm PlanBrainstorm[]
+  id                 String           @id @default(uuid())
+  plan               Plan             @relation(fields: [planID], references: [id])
+  planID             String
+  user               User             @relation(fields: [userID], references: [id])
+  userID             String
+  votedForPlanPostID String?
+  Pledge             Pledge[]
+  inviteStatus       InviteStatus
+  role               Role
+  PlanBrainstorm     PlanBrainstorm[]
 }
 
 model PlanInvite {
@@ -178,6 +221,7 @@ model PlanBrainstorm {
   description      String
   item             String
   itemLink         String
+  voteCount        Int            @default(0)
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
 }

@@ -1,0 +1,36 @@
+.stageBackground {
+  background-color: aliceblue;
+  height: 790px;
+  width: 100%;
+  border-radius: 10px;
+
+  padding: 30px;
+}
+
+.purchaseContainer {
+  background: var(--light-pink);
+
+  padding: 15px;
+  border-radius: 10px;
+
+  width: 100%;
+  height: 100%;
+}
+
+.setPlanDataContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.line {
+  height: 2px;
+  background-color: var(--white);
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.setPlanDataContainer h2 {
+  color: var(--light-yellow);
+  font-weight: 600;
+}

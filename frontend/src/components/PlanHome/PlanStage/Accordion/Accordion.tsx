@@ -13,7 +13,9 @@ export interface AccordionProps {
 
 export const Accordion = ({
   title,
-  content
+  content,
+  width,
+  height
 }: AccordionProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false)
   // TODO: Add dynamic height to content based on content size
@@ -23,10 +25,10 @@ export const Accordion = ({
         [styles.accordion]: true,
         [styles.accordionOpen]: isOpen
       })
-    }>
+    } style={{ width }}>
       <div className={styles.title} onClick={() => { setIsOpen(!isOpen); }}>
         {title}
-        <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} className={styles.chevron}/>
+        <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} className={styles.chevron} />
       </div>
       {isOpen && (
         <div className={styles.content}>

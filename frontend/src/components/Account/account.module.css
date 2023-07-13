@@ -1,9 +1,16 @@
+.background {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background-color: #06D6A0;
+    padding: 20px;
+}
+
 .accountFlex{
     display: flex; 
     flex-direction: row;
-    background-color: #06D6A0;
     justify-content: center;
-    margin-top: 1%; 
+    gap: 30px;
 }
 
 .rightSide{

@@ -11,7 +11,18 @@ export default class UserModel {
           id: true,
           email: true,
           firstName: true,
-          lastName: true
+          lastName: true,
+          cashappID: true,
+          venmoID: true,
+          paypalID: true,
+          googleID: true,
+          facebookID: true,
+          createdAt: true,
+          updatedAt: true,
+          cashappUrl: true,
+          venmoUrl: true,
+          birthDate: true,
+          paypalUrl: true
         }
       })
 
@@ -20,6 +31,36 @@ export default class UserModel {
     } catch (error) {
       console.error(`Error in dbReadOneUser: ${error}`)
       throw new Error(`Error in dbReadOneUser: ${error}`)
+    }
+  }
+
+  static async dbUpdateOneUser(whereParams: { id: string }, updateParams: Partial<User>): Promise<Partial<User>> {
+    try {
+      const response = await db.user.update({
+        where: whereParams,
+        data: updateParams,
+        select: {
+          id: true,
+          email: true,
+          firstName: true,
+          lastName: true,
+          cashappID: true,
+          venmoID: true,
+          paypalID: true,
+          googleID: true,
+          facebookID: true,
+          createdAt: true,
+          updatedAt: true,
+          cashappUrl: true,
+          venmoUrl: true,
+          birthDate: true,
+          paypalUrl: true
+        }
+      })
+
+      return response
+    } catch (error) {
+      throw new Error(`Error in dbUpdateOneUser: ${error}`)
     }
   }
 }

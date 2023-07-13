@@ -9,7 +9,7 @@ export const fetchUser = (): Array<string | User | null> => {
   useEffect(() => {
     const getUserData = async (): Promise<void> => {
       setLoadingStatus(LoadStatus.LOADING)
-      const userDataResponse = await axios.get('http://localhost:8000/userData/1', { withCredentials: true })
+      const userDataResponse = await axios.get('/api/userData/1', { withCredentials: true })
       setUser(userDataResponse.data)
       setLoadingStatus(LoadStatus.LOADED)
     }
