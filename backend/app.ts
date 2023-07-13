@@ -26,6 +26,11 @@ import inviteContactsRouter from './routes/inviteContactsRouter'
 import path from 'path'
 import verifyPlanInviteRouter from './routes/verifyPlanInvite'
 import brainstormRouter from './routes/brainstorm'
+import voteRouter from './routes/vote'
+import planMembershipRouter from './routes/planMembership'
+import updatePlanStageRouter from './routes/updatePlan'
+import pledgeRouter from './routes/pledge'
+import accountRouter from './routes/account'
 
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -198,6 +203,11 @@ app.use('/api/logout', logoutRouter)
 app.use('/api/memberList', checkUserAuthorization, planMemberListRouter)
 app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
 app.use('/api/brainstorm', checkUserAuthorization, brainstormRouter)
+app.use('/api/vote', checkUserAuthorization, voteRouter)
+app.use('/api/plan-membership', checkUserAuthorization, planMembershipRouter)
+app.use('/api/update-plan-stage', checkUserAuthorization, updatePlanStageRouter)
+app.use('/api/pledge', checkUserAuthorization, pledgeRouter)
+app.use('/api/account', checkUserAuthorization, accountRouter)
 
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));

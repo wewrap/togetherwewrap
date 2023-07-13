@@ -163,7 +163,8 @@ export const brainstormIdeasMockData: BrainstormIdeaPost[] = [
     item: 'Chevrolet',
     itemLink: 'https://www.chevrolet.com/',
     updatedAt: new Date(),
-    createdAt: new Date()
+    createdAt: new Date(),
+    voteCount: 0
   },
   {
     authorId: '2',
@@ -174,7 +175,8 @@ export const brainstormIdeasMockData: BrainstormIdeaPost[] = [
     item: 'Volkswagen',
     itemLink: 'https://www.volkswagen.com/',
     updatedAt: new Date(),
-    createdAt: new Date()
+    createdAt: new Date(),
+    voteCount: 0
   },
   {
     authorId: '3',
@@ -185,7 +187,8 @@ export const brainstormIdeasMockData: BrainstormIdeaPost[] = [
     item: 'Volkswagen',
     itemLink: 'https://www.volkswagen.com/',
     updatedAt: new Date(),
-    createdAt: new Date()
+    createdAt: new Date(),
+    voteCount: 0
   },
   {
     authorId: '4',
@@ -196,7 +199,8 @@ export const brainstormIdeasMockData: BrainstormIdeaPost[] = [
     item: 'Ford',
     itemLink: 'https://www.ford.com/',
     updatedAt: new Date(),
-    createdAt: new Date()
+    createdAt: new Date(),
+    voteCount: 0
   }
 ]
 

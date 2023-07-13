@@ -2,7 +2,7 @@
   width: auto;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 23px;
   height: 700px;
   align-items: center;
   background-color: var(--light-yellow);
@@ -33,4 +33,16 @@
   color: red;
   padding: 0;
   margin: 0;
+}
+
+.submit-planform {
+  position: absolute;
+  background: var(--green);
+  color: var(--white);
+  font-weight: 600;
+  padding: 10px;
+  border-radius: 10px;
+
+  bottom: 20px;
+  right: 20px;
 }

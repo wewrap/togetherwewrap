@@ -2,8 +2,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
+  justify-content: start;
+  gap: 10px;
+  height: 100vh;
+
+  background-color: #F8FFE5;
+
+}
+
+.wewrap-logo {
+  margin-top: 30px;
+  width: 89px;
+  height: 103px;
+  cursor: pointer;
 }
 
 img {
@@ -22,8 +33,7 @@ h1 {
   margin-bottom: 0px;
 }
 
-.subheader{
-  font-weight:lighter;
+.subheader {
   font-size: 18px;
   text-align: center;
   letter-spacing: -0.015em;
@@ -32,7 +42,7 @@ h1 {
 }
 
 .loginForm {
-  background:#FFFFFF;
+  background: #FFFFFF;
   width: 470px;
   height: auto;
   padding: 35px;
@@ -48,33 +58,35 @@ h1 {
   color: #EF476F;
 }
 
-.user_creds{
+.user_creds {
   display: flex;
   flex-direction: column;
   font-size: 14px;
 }
 
-.email{
+.email {
   margin-bottom: 10px;
 }
 
-.email{
+.email {
   background: #FFFFFF;
   border: 1px solid #D7D7D7;
   border-radius: 6px;
   box-sizing: border-box;
   height: 41px;
+  padding: 12px;
 }
 
-.password{
+.password {
   background: #FFFFFF;
   border: 1px solid #D7D7D7;
   border-radius: 6px;
   box-sizing: border-box;
   height: 41px;
+  padding: 12px;
 }
 
-span{
+span {
   color: red;
 }
 
@@ -85,12 +97,12 @@ span{
   margin-bottom: 30px;
 }
 
-.remember_me_and_checkbox{
+.remember_me_and_checkbox {
   display: flex;
   align-items: center;
 }
 
-.login_button{
+.login_button {
   width: 100%;
   height: 41px;
   font-style: normal;
@@ -111,7 +123,7 @@ a {
   color: #06D6A0;
 }
 
-.remember_me{
+.remember_me {
   appearance: none;
   -webkit-appearance: none;
   height: 15px;
@@ -124,16 +136,16 @@ a {
   border: 1px solid #D7D7D7;
 }
 
-.remember_me:hover{
+.remember_me:hover {
   background-color: #a5a5a5;
 }
 
-.remember_me:checked{
+.remember_me:checked {
   background-color: #06D6A0;
   content: "\2713";
 }
 
-.remember_me:checked:after{
+.remember_me:checked:after {
   display: block;
   content: "\2713";
   color: white;
@@ -205,4 +217,9 @@ a {
 .orOAuth p {
   font-size: 20px;
   margin: 13px;
+}
+
+.signup {
+  text-decoration: none;
+  color: #06D6A0;
 }

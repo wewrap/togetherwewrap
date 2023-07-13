@@ -1,4 +1,4 @@
-import { type PlanBrainstorm } from '@prisma/client'
+import { type PlanMembership, type PlanBrainstorm } from '@prisma/client'
 import prisma from '../utils/prismaClient'
 const db = prisma
 
@@ -6,14 +6,19 @@ export type DbBrainstormInput = Partial<PlanBrainstorm>;
 
 export type DbBrainstormCreateInput = Pick<PlanBrainstorm, 'description' | 'item' | 'itemLink' | 'planMembershipID'>;
 
-export type DbBrainstormUpdateInput = Pick<PlanBrainstorm, 'description' | 'item' | 'itemLink'>;
+export type DbBrainstormUpdateInput = Partial<Pick<PlanBrainstorm, 'description' | 'item' | 'itemLink' | 'voteCount'>>;
 
 export default class BrainstormModel {
-  static async dbReadAllBrainstorm(params: DbBrainstormInput): Promise<PlanBrainstorm[]> {
+  static async dbReadAllBrainstorm(params: DbBrainstormInput): Promise<Array<PlanBrainstorm & {
+    planMembership: PlanMembership
+  }>> {
     try {
       const res = await db.planBrainstorm.findMany({
         where: {
           ...params
+        },
+        include: {
+          planMembership: true
         }
       })
       if (!res) throw Error('No brainstorm data found')

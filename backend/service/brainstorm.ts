@@ -33,9 +33,12 @@ export class BrainstormIdeaPostService {
             description: brainstormIdeaPost.description,
             item: brainstormIdeaPost.item,
             itemLink: brainstormIdeaPost.itemLink,
+            voteCount: brainstormIdeaPost.voteCount,
             authorId: planMembership.user.id,
             createdAt: brainstormIdeaPost.createdAt,
-            updatedAt: brainstormIdeaPost.updatedAt
+            updatedAt: brainstormIdeaPost.updatedAt,
+            planMembershipID: brainstormIdeaPost.planMembershipID,
+            planMembership: brainstormIdeaPost.planMembership
           }))
       }))
 
@@ -50,7 +53,7 @@ export class BrainstormIdeaPostService {
     planID: string,
     user: User,
     data: { description: string, item: string, itemLink: string }):
-    Promise<BrainstormIdeaPostOutput> {
+    Promise<BrainstormIdeaPostOutput | any> {
     try {
       // get plan membership using user id
       const planMembership = await PlanMembershipModel.dbReadOnePlanMembership({ planID, userID: user.id })
@@ -77,7 +80,7 @@ export class BrainstormIdeaPostService {
     itemLink: link to the idea
     */
     updateBrainstormIdeaPostData: UpdateBrainstormIdeaPostData):
-    Promise<BrainstormIdeaPostOutput> {
+    Promise<BrainstormIdeaPostOutput | any> {
     try {
       // get plan membership using user id
       const planMembership = await PlanMembershipModel.dbReadOnePlanMembership({ planID, userID: user.id })

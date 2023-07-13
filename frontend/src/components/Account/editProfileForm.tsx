@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/indent */
 import * as React from 'react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from 'axios'
 import styles from './editProfile.module.css';
+import { UserContext } from '../UserContext';
+import { useToast } from '@chakra-ui/react';
 
 export interface birthDate {
   date: string
@@ -12,115 +15,144 @@ export interface timezone {
 }
 
 export const EditProfile = (): JSX.Element => {
-  const [firstName, setFirstName] = useState<string>('');
-  const [lastName, setLastName] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
-  const [URL, setURL] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [phoneNumber, setPhoneNumber] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
-  const [birthDate, setBirthDate] = useState<string>();
-  const [timezone, setTimezone] = useState<string>();
-  const [bio, setBio] = useState<string>();
-  const [notification, setNotification] = useState<string>();
+  const user = useContext(UserContext)[0]
+  const [firstName, setFirstName] = useState<string>(user.firstName);
+  const [lastName, setLastName] = useState<string>(user.lastName);
+
+  const [email, setEmail] = useState<string>(user.email);
+  const [cashappID, setCashappID] = useState<string>(user.cashappID);
+  const [venmoID, setVenmoID] = useState<string>(user.venmoID);
+  const [paypalID, setPaypalID] = useState<string>(user.paypalID);
+
   const [showCancel, setShowCancel] = useState<boolean>(false);
-  const [toggleEdit, hasToggledEdit] = useState<boolean>(true);
+  const [toggleEdit, hasToggledEdit] = useState<boolean>(false);
+  const toast = useToast();
 
   const handleEditProfile = () => {
     setShowCancel(true);
-    hasToggledEdit(false);
+    hasToggledEdit(true);
   };
 
   const handleCancel = () => {
     setShowCancel(false);
-    hasToggledEdit(true);
+    hasToggledEdit(false);
   }
-
-  const handleSaveChanges = () => {
-    handleEditProfile();
-  }
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-
-    await axios.post('/api/account', {
-      firstName,
-      lastName,
-      username,
-      URL,
-      email,
-      phoneNumber,
-      address,
-      birthDate,
-      timezone,
-      bio
-    })
-      .then((res) => {
-        setNotification('Successful submission.');
-        setShowCancel(false);
+    try {
+      const response = await axios.put(`/api/account/${user.id}`, {
+        firstName,
+        lastName,
+        email,
+        cashappID,
+        venmoID,
+        paypalID
       })
-      .catch((err) => {
-        setNotification(`Error occured. Please try again. error: ${err}`)
+      toast({
+        title: 'Profile Updated.',
+        description: 'Your profile has been updated.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+        colorScheme: 'green'
       })
+      setFirstName(response.data.firstName);
+      setLastName(response.data.lastName);
+      setEmail(response.data.email);
+      setCashappID(response.data.cashappID);
+      setVenmoID(response.data.venmoID);
+      setPaypalID(response.data.paypalID);
+    } catch (error) {
+      console.error(error)
+      toast({
+        title: 'An error occurred.',
+        description: 'Unable to update profile. Please retry again.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom'
+      })
+    }
   }
 
   return (
-        <div className = {styles.container}>
-        <form className = {styles.profileForm} onSubmit = {handleSubmit}>
-            <div className = {styles.profileContainer}>
-                <label className = {styles.profileNotifTitles}> {notification} </label>
-            </div>
-            <div className = {styles.profileNameContainer}>
-                <label className= {styles.profileNameTitles}> first name </label>
-                <input id = "profileFirstName" readOnly = {toggleEdit} className = {styles.profileFirstNameField} type = "text" value = {firstName} onChange = {(event) => { setFirstName(event.target.value) }}/>
-                <label className = {styles.profileNameTitles}> last name </label>
-                    <input id = "profileLastName" readOnly = {toggleEdit} className = {styles.profileLastNameField} type = "text" value = {lastName} onChange = {(event) => { setLastName(event.target.value) }}/>
-            </div>
-            <div className = {styles.profileContainer}>
-                <label className = {styles.profileNameTitles}> username </label>
-                    <input id = "profileUsername" readOnly = {toggleEdit} className = {styles.profileUsernameField} type = "text" value = {username} onChange = {(event) => { setUsername(event.target.value) }}/>
-            </div>
-            <div className = {styles.profileContainer}>
-                <label className = {styles.profileFieldTitles}> URL  </label>
-                    <input id = "profileURL" readOnly = {toggleEdit} className = {styles.profileFields} type = "text" value = {URL} onChange = {(event) => { setURL(event.target.value) }}/>
-            </div>
-            <div className = {styles.profileContainer}>
-                <label className = {styles.profileFieldTitles}> email </label>
-                    <input id = "profileEmail" readOnly = {toggleEdit} className = {styles.profileFields} type = "text" value = {email} onChange = {(event) => { setEmail(event.target.value) }}/>
-            </div>
-            <div className = {styles.profileContainer}>
-            <label className = {styles.profileFieldTitles}> phone # </label>
-                <input id = "profileNumber" readOnly = {toggleEdit} className = {styles.profileFields} type = "text" value = {phoneNumber} onChange = {(event) => { setPhoneNumber(event.target.value) }}/>
-            </div>
-            <div className = {styles.profileContainer}>
-            <label className = {styles.profileFieldTitles}> address </label>
-                <input id = "profileAddress" readOnly = {toggleEdit} className = {styles.profileFields} type = "text" value = {address} onChange = {(event) => { setAddress(event.target.value) }}/>
-            </div>
-            <div className = {styles.profileContainer}>
-            <label className = {styles.profileFieldTitles}> birth-date </label>
-                <input id = "profileBirthDate" readOnly = {toggleEdit} className = {styles.profileFields} type = "text" value = {birthDate} onChange = {(event) => { setBirthDate(event.target.value) }}/>
-            </div>
-            <div className = {styles.profileContainer}>
-            <label className = {styles.profileFieldTitles}> time-zone </label>
-                <input id = "profileTimezone" readOnly = {toggleEdit} className = {styles.profileFields} type = "text" value = {timezone} onChange = {(event) => { setTimezone(event.target.value) }}/>
-            </div>
-            <div className = {styles.profileContainer}>
-            <label className = {styles.profileFieldTitles}> bio </label>
-                <input id = "profileTimezone" readOnly = {toggleEdit} className = {styles.profileBioField} type = "text" value = {bio} onChange = {(event) => { setBio(event.target.value) }}/>
-            </div>
-            <div className = "buttonContainer">
-                    {!showCancel
-                      ? (
-                        <button id = {styles.edit} onClick ={handleEditProfile} className = {styles.editButton} type = "submit"> edit profile </button>
-                        )
-                      : (
-                        <div>
-                          <button id = {styles.cancel} onClick = {handleCancel} className = {styles.cancelButton} type = "submit"> cancel </button>
-                          <button id = {styles.cancel} onClick = {handleSaveChanges} className = {styles.saveButton} type = "submit"> save changes </button>
-                        </div>
-                        )}
-             </div>
-        </form>
+    <div className={styles.container}>
+      <form className={styles.profileForm} onSubmit={handleSubmit}>
+        <h1>Account</h1>
+
+        <div>
+          <label className={styles.profileNameTitles}> first name </label>
+          {
+            user.firstName !== undefined &&
+              !toggleEdit
+              ? <p>{user.firstName}</p>
+              : <input id="profileFirstName" className={styles.profileFirstNameField} type="text" value={firstName} onChange={(event) => { setFirstName(event.target.value) }} />
+          }
         </div>
+        <div>
+          <label className={styles.profileNameTitles}> last name </label>
+          {
+            user.lastName !== undefined &&
+              !toggleEdit
+              ? <p>{user.lastName}</p>
+              : <input id="profileLastName" className={styles.profileLastNameField} type="text" value={lastName} onChange={(event) => { setLastName(event.target.value) }} />
+          }
+        </div>
+        <div className={styles.profileContainer}>
+
+          <label className={styles.profileFieldTitles}> email </label>
+          {
+            user.email !== undefined &&
+              !toggleEdit
+              ? <p>{user.email}</p>
+              : <input id="profileEmail" className={styles.profileFields} type="text" value={email} onChange={(event) => { setEmail(event.target.value) }} />
+          }
+        </div>
+        <div className={styles.profileContainer}>
+
+          <label className={styles.profileFieldTitles}> cashappID </label>
+          {
+            user.cashappID !== undefined &&
+              !toggleEdit
+              ? <p>{user.cashappID}</p>
+              : <input id="profileEmail" className={styles.profileFields} type="text" value={cashappID} onChange={(event) => { setCashappID(event.target.value) }} />
+          }
+        </div>
+
+        <div className={styles.profileContainer}>
+
+          <label className={styles.profileFieldTitles}> paypalID </label>
+          {
+            user.paypalID !== undefined &&
+              !toggleEdit
+              ? <p>{user.paypalID}</p>
+              : <input id="profileEmail" className={styles.profileFields} type="text" value={paypalID} onChange={(event) => { setPaypalID(event.target.value) }} />
+          }
+        </div>
+        <div className={styles.profileContainer}>
+
+          <label className={styles.profileFieldTitles}> venmoID </label>
+          {
+            user.venmoID !== undefined &&
+              !toggleEdit
+              ? <p>{user.venmoID}</p>
+              : <input id="profileEmail" className={styles.profileFields} type="text" value={venmoID} onChange={(event) => { setVenmoID(event.target.value) }} />
+          }
+        </div>
+        <div className={styles.buttonContainer}>
+          {!showCancel
+            ? (
+              <button id={styles.edit} onClick={handleEditProfile} className={styles.editButton} > Edit profile </button>
+            )
+            : (
+              <div>
+                <button id={styles.cancel} onClick={handleCancel} className={styles.cancelButton} > Cancel </button>
+                <button id={styles.cancel} className={styles.saveButton} type="submit"> Save changes </button>
+              </div>
+            )}
+        </div>
+      </form>
+    </div>
   )
 }

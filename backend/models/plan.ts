@@ -1,5 +1,5 @@
 import prisma from '../utils/prismaClient'
-import { type Plan } from '@prisma/client'
+import { type PlanMembership, type Plan } from '@prisma/client'
 const db = prisma
 
 export type dbReadPlanInput = Partial<Plan>
@@ -22,11 +22,16 @@ export default class PlanModel {
     }
   }
 
-  public static async dbReadOnePlan(planID: string): Promise<Plan> {
+  public static async dbReadOnePlan(planID: string): Promise<Plan & {
+    PlanMembership: PlanMembership[]
+  }> {
     try {
       const responseData = await db.plan.findUnique({
         where: {
           id: planID
+        },
+        include: {
+          PlanMembership: true
         }
       })
 
@@ -48,6 +53,19 @@ export default class PlanModel {
       return response
     } catch (error) {
       throw new Error(`Error in dbReadAllPlan: ${error}`)
+    }
+  }
+
+  static async dbUpdateOnePlan(wherePams: { id: string }, updateParams: Partial<Plan>): Promise<Plan> {
+    try {
+      const response = await db.plan.update({
+        where: wherePams,
+        data: updateParams
+      })
+      return response
+    } catch (error) {
+      console.error(`Error in dbUpdateOnePlan: ${error}`)
+      throw new Error(`Error in dbUpdateOnePlan: ${error}`)
     }
   }
 }

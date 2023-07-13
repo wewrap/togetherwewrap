@@ -20,6 +20,8 @@
   display: grid;
   gap: 2rem;
   width: 940px;
+  height: 810px;
+  grid-template-rows: auto 47px;
 }
 
 .plan {
@@ -284,7 +286,7 @@
 .planProgressHeading {
   font-style: normal;
   text-align: center;
-  margin-top: 30px;
+  margin-top: 10px;
   font-weight: 800;
   font-size: 25px;
   line-height: 30px;
@@ -317,8 +319,14 @@
   cursor: pointer;
 }
 
+/* Plan stage buttons */
+
 button.isActivePlanStage {
   background-color: #FFEC3D;
+}
+
+button.isStageDisabled {
+  cursor: not-allowed;
 }
 
 .planChoices>button>span {
@@ -387,4 +395,44 @@ button.isActivePlanStage {
   width: 80.33px !important;
   top: 40px;
   right: 30px;
+}
+
+.faEllipsis {
+  position: absolute;
+  top: 21px;
+  right: 34px;
+  color: var(--white);
+}
+
+/* Next button */
+
+.nextBtnContainer {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+
+.nextBtn {
+  position: relative;
+  padding: 10px 20px;
+  background: var(--green);
+  border-radius: 9px;
+  color: var(--white);
+  font-weight: 600;
+}
+
+/* Home button */
+
+.homeBtn {
+  position: relative;
+  left: 80%;
+  margin: 10px 0;
+  /* background: var(--white); */
+  border-radius: 9px;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.faHouse {
+  width: 50px;
 }

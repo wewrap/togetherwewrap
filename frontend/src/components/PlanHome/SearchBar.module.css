@@ -1,6 +1,8 @@
 .searchBarContainer {
   width: 300px;
   position: relative;
+
+  margin: 0 40px;
 /* 
   padding-left: 40px;
   margin-top: 20px; */
@@ -17,7 +19,7 @@
 
 .clear {
   position: absolute;
-  top: 17px;
+  top: 13px;
   right: 18px;
 
   background-color: transparent;
