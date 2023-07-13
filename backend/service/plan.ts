@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { Role, type Plan, InviteStatus, type User, type Contact, type PlanMembership, PlanStage, type PlanBrainstorm } from '@prisma/client'
+import { Role, type Plan, InviteStatus, type User, type Contact, type PlanMembership, PlanStage, type PlanBrainstorm, DeliveryStatus } from '@prisma/client'
 import { type GeneralPlanData } from '../utils/types'
 import PlanModel, { type dbCreatePlanInput } from '../models/plan'
 import PlanMembershipModel from '../models/planMembership'
@@ -139,6 +139,10 @@ export default class PlanService {
           updatedPlan = await PlanModel.dbUpdateOnePlan({ id: planID }, { stage: nextStage });
           break;
         case PlanStage.PURCHASE:
+          updatedPlan = await PlanModel.dbUpdateOnePlan({ id: planID }, { stage: nextStage, deliveryStatus: DeliveryStatus.PURCHASED });
+          break;
+
+        case PlanStage.DELIVERY:
           updatedPlan = await PlanModel.dbUpdateOnePlan({ id: planID }, { stage: nextStage });
           break;
       }

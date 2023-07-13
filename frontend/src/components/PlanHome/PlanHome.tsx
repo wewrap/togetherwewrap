@@ -25,7 +25,7 @@ import { Brainstorm } from './PlanStage/Brainstorm/Brainstorm'
 import { Voting } from './PlanStage/Voting/Voting'
 import { Pool } from './PlanStage/Pool/Pool'
 import { Purchase } from './PlanStage/Purchase/Purchase'
-import { Delivery } from './PlanStage/Delivery'
+import { Delivery } from './PlanStage/Delivery/Delivery'
 import { UserContext } from '../UserContext';
 import { faCheck, faHouse, faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -220,7 +220,7 @@ export const PlanHome = (): JSX.Element => {
     case PlanStageView.DELIVERY:
       currentStageViewComponent = (
         <div className={styles.defaultPlanView}>
-          <Delivery />
+          <Delivery planID={planID} isCurrentPlanStage={planData.stage === PlanStage.DELIVERY} isUserPlanLeader={isUserPlanLeader}/>
           {isUserPlanLeader && planData.stage === PlanStageView.DELIVERY && nextButton(PlanStageView.DELIVERY)}
         </div>
       )
@@ -324,7 +324,7 @@ export const PlanHome = (): JSX.Element => {
               Goal
             </h3>
             <h3 className={styles.goalAmount}>
-              $-
+              $ {planData?.pledgeGoal}
             </h3>
           </div>
 

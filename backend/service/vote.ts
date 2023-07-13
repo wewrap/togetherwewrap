@@ -8,6 +8,8 @@ export class VoteService {
       // find user plan membership
       const userPlanMembership = await PlanMembershipModel.dbReadOnePlanMembership({ planID, userID: user.id })
 
+      if (userPlanMembership === null) throw new Error('unable to find user plan membership')
+
       // update votedForPlanPostID within the plan membership
       const updatedPlanMembership = await PlanMembershipModel.dbUpdateOnePlanMembership({ id: userPlanMembership.id }, { votedForPlanPostID: selectedVotePost.id })
       console.log('🚀 ~ file: vote.ts:9 ~ VoteService ~ updateVotePost ~ updatedPlanMembership:', updatedPlanMembership)

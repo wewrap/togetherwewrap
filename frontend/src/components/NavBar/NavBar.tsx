@@ -4,9 +4,21 @@ import NavCalendar from '../../assets/NavCalendar.png'
 import NavContact from '../../assets/NavContact.png'
 import NavProfile from '../../assets/NavProfile.png'
 import styles from './NavBar.module.css'
-import { useContext } from 'react'
+import React, { useContext } from 'react'
 import { UserContext } from '../UserContext'
 import { LoadStatus } from '../../utils/types'
+import {
+  Link as ChakraLink,
+  Box,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+  Portal,
+  List,
+  ListItem
+} from '@chakra-ui/react'
+import axios from 'axios'
 
 export const NavBar = (): JSX.Element | null => {
   const [user, loadingStatus] = useContext(UserContext);
@@ -98,13 +110,58 @@ export const NavBarLoggedIn = (): JSX.Element => {
             </NavLink>
           </li>
           <li className={styles.profile}>
-            <NavLink to='/account'>
-              <img src={NavProfile} />
-            </NavLink>
+            <AccountPopover />
           </li>
         </ul>
       </nav>
       <div className={styles.separator}></div>
     </>
   )
+}
+
+export default function AccountPopover() {
+
+  const handleLogOut = async () => {
+    try {
+      await axios.post('/api/logout')
+      window.location.href = '/'
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  return (
+    <Box>
+      <Popover>
+        <PopoverTrigger>
+          <Box cursor="pointer" >
+            <img src={NavProfile} style={{ width: '45px', margin: 'auto' }} />
+          </Box>
+        </PopoverTrigger>
+        <Portal>
+          <PopoverContent
+            width={200}
+            backgroundColor={'var(--chakra-colors-gray-100)'}
+          >
+            <PopoverBody
+              width={'100%'}
+            >
+              <List spacing={3}>
+                <ListItem>
+                  <ChakraLink as={NavLink} to='/account' display="block" p={2} textAlign={'center'}>
+                    Account
+                  </ChakraLink>
+                </ListItem>
+                <ListItem>
+                  <ChakraLink as={NavLink} onClick={handleLogOut} display="block" p={2} textAlign={'center'}>
+                    logout
+                  </ChakraLink>
+                </ListItem>
+              </List>
+            </PopoverBody>
+          </PopoverContent>
+        </Portal>
+      </Popover>
+    </Box>
+  );
+
 }

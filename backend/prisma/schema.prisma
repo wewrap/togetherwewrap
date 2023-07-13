@@ -81,11 +81,19 @@ model Plan {
   giftDeliveryAddress String?
   stage               PlanStage          @default(BRAINSTORM)
   contactID           String
+  deliveryStatus      DeliveryStatus     @default(NOT_PURCHASED)
   contact             Contact            @relation(fields: [contactID], references: [id])
   createdAt           DateTime           @default(now())
   updatedAt           DateTime           @updatedAt
   PlanMembership      PlanMembership[]
   PlanInvite          PlanInvite[]
+}
+
+enum DeliveryStatus {
+  NOT_PURCHASED
+  PURCHASED
+  AWAITING_GIFT_DELIVERY
+  GIFT_DELIVERED
 }
 
 enum GiftDeliveryChoice {

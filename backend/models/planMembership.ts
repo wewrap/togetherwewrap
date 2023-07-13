@@ -57,10 +57,6 @@ export default class PlanMembershipModel {
         }
       })
 
-      if (!responseData) {
-        throw new Error('No plan membership found')
-      }
-
       return responseData
     } catch (error) {
       throw new Error(`Error in dbReadOnePlanMembership: ${error}`)

@@ -129,13 +129,13 @@ const LeaderView = ({
 
   };
 
-  const setDeliveryStatus = async () => {
+  const setGiftDeliveryChoiceStatus = async () => {
     setIsDeliveryLoading(true);
 
     await handleUpdateDeliveryChoice(deliveryState)
 
     toast({
-      title: 'Successfully set delivery status',
+      title: 'Successfully gift delivery mode',
       status: 'success',
       duration: 4000,
       isClosable: true,
@@ -154,7 +154,6 @@ const LeaderView = ({
         <div>
           <h2>Please set the mode of delivery</h2>
           <div className={styles.line}></div>
-
           <Flex align="center">
             <Select
               onChange={(event) => { setDeliveryState(event.target.value as GiftDeliveryChoice); }}
@@ -168,7 +167,7 @@ const LeaderView = ({
             </Select>
 
             <Button
-              onClick={setDeliveryStatus}
+              onClick={setGiftDeliveryChoiceStatus}
               background={'var(--green)'}
               color={'var(--white)'}
               isLoading={isDeliveryLoading}
