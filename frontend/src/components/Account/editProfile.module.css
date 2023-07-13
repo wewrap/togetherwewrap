@@ -1,6 +1,6 @@
 .profileForm{
     width: 410px;
-    height: 781.36px;
+    height: auto;
     display: flex;
     background-color: #FFFFFF;
     border-radius: 6px; 
@@ -8,20 +8,23 @@
     border: 1px solid #D7D7D7;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
     box-sizing: border-box; 
-    align-items: center;
+    align-items: start;
+    gap: 20px;
+    padding: 20px;
 } 
 
 .profileFieldTitles {
-    font-size: 13px;
+    font-size: 14px;
 } 
 
 .profileFields {
+    padding: 5px;
     border-radius: 6px;
     border: 1px solid #D7D7D7;
     width: 363.08px; 
     height: 46.25px;
-    text-align: center;
-    font-size: 10px;
+    text-align: start;
+    font-size: 14px;
     display: flex; 
     align-items: center;
 }
@@ -53,45 +56,50 @@
 
 
 .buttonContainer{
+    margin-top: 20px;
     flex-direction: row;
 }
 
 .profileFirstNameField, .profileLastNameField {
+    padding: 5px;
     border-radius: 6px;
     border: 1px solid #D7D7D7;
-    width: 105px; 
+    width: 363px; 
     height: 36.42px;
-    text-align: center;
-    display: flex; 
+    text-align: start;
+    display: flex;
+    font-size: 14px;
 }
 
 .profileBioField{
+    padding: 5px;
     border-radius: 6px;
     border: 1px solid #D7D7D7;
     width: 363px; 
     height: 66px;
-    text-align: center;
-    font-size: 10px;
+    text-align: start;
+    font-size: 14px;
     display: flex; 
 }
 
 .profileUsernameField{
+    padding: 5px;
     border-radius: 6px;
     border: 1px solid #D7D7D7;
-    width: 223px; 
+    width: 363px; 
     height: 34.25px;
-    text-align: center;
-    font-size: 10px;
+    text-align: start;
+    font-size: 14px;
     display: flex; 
 }
 
 .profileNameContainer {
-    flex-direction: row;
-    flex-flow: row wrap;
+    gap: 20px;
+    flex-direction: column;
 }
 
 .profileNameTitles{
-    font-size: 10px;
+    font-size: 14px;
 }
 
 .profileNotifTitles{

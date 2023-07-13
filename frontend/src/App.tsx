@@ -13,7 +13,7 @@ import { PlanHome } from './components/PlanHome/PlanHome'
 import { Home } from './components/Home/Home'
 import { PlanInviteVerification } from './components/PlanInviteVerification'
 import { PlanInviteLogInRequest } from './components/PlanInviteLogInRequest'
-import { Account } from './components/accountForm'
+import { Account } from './components/Account/accountForm'
 import { Hub } from './components/Hub/Hub'
 
 function App(): JSX.Element {
@@ -28,7 +28,7 @@ function App(): JSX.Element {
             <Route path="/plan-form" element={<PlanForm />} />
             <Route path="/plan/:id" element={<PlanHome />} />
             <Route path="/hub" element={<Hub />} />
-            <Route path="/calendar" element={<h1>Calendar</h1>} />
+            {/* <Route path="/calendar" element={<h1>Calendar</h1>} /> */}
             <Route path="/profile" element={<h1>profile</h1>} />
             <Route path="/example" element={<h1>example</h1>} />
           </Route>

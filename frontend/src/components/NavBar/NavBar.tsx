@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom'
 import NavLogo from '../../assets/NavLogo.png'
-import NavCalendar from '../../assets/NavCalendar.png'
 import NavContact from '../../assets/NavContact.png'
 import NavProfile from '../../assets/NavProfile.png'
 import styles from './NavBar.module.css'
@@ -99,11 +98,11 @@ export const NavBarLoggedIn = (): JSX.Element => {
               </NavLink>
             </li> */}
           </div>
-          <li className={styles.calendar}>
+          {/* <li className={styles.calendar}>
             <NavLink to='/calendar'>
               <img src={NavCalendar} />
             </NavLink>
-          </li>
+          </li> */}
           <li className={styles.contact}>
             <NavLink to='/contacts'>
               <img src={NavContact} />

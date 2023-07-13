@@ -29,6 +29,7 @@ import voteRouter from './routes/vote'
 import planMembershipRouter from './routes/planMembership'
 import updatePlanStageRouter from './routes/updatePlan'
 import pledgeRouter from './routes/pledge'
+import accountRouter from './routes/account'
 
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -196,5 +197,6 @@ app.use('/api/vote', checkUserAuthorization, voteRouter)
 app.use('/api/plan-membership', checkUserAuthorization, planMembershipRouter)
 app.use('/api/update-plan-stage', checkUserAuthorization, updatePlanStageRouter)
 app.use('/api/pledge', checkUserAuthorization, pledgeRouter)
+app.use('/api/account', checkUserAuthorization, accountRouter)
 
 export default app
