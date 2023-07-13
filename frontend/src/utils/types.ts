@@ -8,7 +8,6 @@ export interface User {
 }
 
 export enum PlanStage {
-  UNINITIALIZED = 'UNINITIALIZED',
   BRAINSTORM = 'BRAINSTORM',
   VOTING = 'VOTING',
   POOL = 'POOL',
@@ -77,4 +76,14 @@ export interface BrainstormIdeaPost {
   authorId: string
   createdAt: Date
   updatedAt: Date
+  voteCount: number
+}
+
+export interface PlanMembership {
+  id: string
+  planId: string
+  userId: string
+  votedForPlanID?: string
+  inviteStatus: string
+  role: string
 }

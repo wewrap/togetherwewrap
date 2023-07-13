@@ -111,7 +111,7 @@ export const Contacts = (): JSX.Element => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     try {
-      await axios.post('http://localhost:8000/user/contacts', {
+      await axios.post('/user/contacts', {
         firstName,
         lastName,
         relationships,

@@ -39,7 +39,7 @@ export const SignUp = (): JSX.Element | null => {
     if (isValidLength && hasNumber && hasSpecialChar) {
       if (password === confirmPassword) {
         setWarning('');
-        await axios.post('http://localhost:8000/signup', {
+        await axios.post('/api/signup', {
           firstName,
           lastName,
           email,
@@ -64,9 +64,9 @@ export const SignUp = (): JSX.Element | null => {
 
   return (
         <div className = {styles.container}>
-        <img className = {styles.logo} src='./wewrap_green.png' alt='wewrap logo'></img>
+        <img className = {styles.logo} src='./wewrap_green.png' alt='wewrap logo' onClick={() => { navigate('/'); }}></img>
         <h3 className = {styles.weWrapTitle}> Sign Up for WeWrap </h3>
-        <p className = {styles.createAccount} > Create a free account or <Link to = "/login">log in </Link> </p>
+        <p className = {styles.createAccount} > Create a free account or <Link to = "/login" className={styles.login}>log in </Link> </p>
             <form className = {styles.signUpForm} onSubmit = {handleSubmit}>
                 <p className = {styles.errorNotification}> {warning} </p>
                 <label className = {styles.signUpFieldTitles}> First Name <span>*</span>

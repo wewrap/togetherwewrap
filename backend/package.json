@@ -3,14 +3,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node ./dist/index.js",
-    "build": "npm run clean && cross-env tsc",
+    "start": "npx prisma migrate dev && NODE_ENV=production node ./dist/index.js",
+    "build": "npx prisma generate && npm run clean && tsc",
     "clean": "rm -rf ./dist",
+    "deploy": "eb deploy",
     "lint": "eslint . --fix --ext .ts",
     "lint:fix": "npm run lint -- --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development nodemon index.ts",
     "tsc": "tsc"
+  },
+  "engines": {
+    "node": "18.12.1"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +30,7 @@
     "@types/passport-facebook": "^2.1.11",
     "@types/passport-google-oauth20": "^2.0.11",
     "@types/passport-local": "^1.0.35",
+    "@types/socket.io": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^5.59.2",
     "@typescript-eslint/parser": "^5.59.2",
     "eslint": "^8.40.0",
@@ -53,7 +58,8 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
-    "react-router-dom": "^6.8.1"
+    "react-router-dom": "^6.8.1",
+    "socket.io": "^4.7.1"
   },
   "keywords": [],
   "description": "",

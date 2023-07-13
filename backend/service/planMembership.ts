@@ -23,19 +23,32 @@ export default class PlanMembership {
     }
   }
 
-  public static async getPlanMembers(planID: string): Promise<User[]> {
+  public static async getPlanMembers(planID: string): Promise<any> {
     try {
       const planMembers = await PlanMembershipModel.dbReadPlanMembers({ planID })
 
       if (planMembers === undefined || planMembers === null) throw new Error('plan membership model failed')
 
       // map through planMembers and return an array of user object
-      const arrayOfUsers = planMembers.map(planMember => planMember.user)
+      // const arrayOfUsers = planMembers.map(planMember => planMember.user)
 
-      return arrayOfUsers
+      return planMembers
     } catch (err) {
       console.error(`failed to getPlanMembers ${err}`)
       throw new Error(err as string)
+    }
+  }
+
+  static async getPlanMembership(planMembershipID: string): Promise<PlanMembership | null> {
+    try {
+      const planMembership = await PlanMembershipModel.dbReadOnePlanMembership({ id: planMembershipID })
+
+      if (planMembership === null) throw new Error('plan membership model failed')
+
+      return planMembership
+    } catch (err) {
+      console.error(`failed to getPlanMembership ${err}`)
+      return null
     }
   }
 }

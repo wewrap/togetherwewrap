@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `User` ADD COLUMN `cashappID` VARCHAR(191) NULL,
+    ADD COLUMN `paypalID` VARCHAR(191) NULL,
+    ADD COLUMN `venmoID` VARCHAR(191) NULL;

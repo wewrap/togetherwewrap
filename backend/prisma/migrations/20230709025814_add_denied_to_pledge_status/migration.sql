@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Pledge` MODIFY `status` ENUM('CONFIRMED', 'DENIED', 'NOT_CONFIRMED') NOT NULL;

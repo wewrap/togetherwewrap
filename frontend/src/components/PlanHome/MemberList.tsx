@@ -1,22 +1,22 @@
-import { type User } from '../../utils/types'
+import { type PlanMembership, type User } from '../../utils/types'
 import styles from './MemberList.module.css'
 
 interface MemberListProps {
-  members: User[]
+  memberships: Array<PlanMembership & { user: User }>
 }
 
 export const MemberList = ({
-  members
+  memberships
 }: MemberListProps): JSX.Element => {
   return (
     <>
       <ul className={styles.memberUl}>
         {/* TODO: Fix this map function once this component receives the correct
         and established data between the frontend and backend  */}
-        {members?.map((member: User) => (
-          <li key={member.id}>
+        {memberships?.map((membership) => (
+          <li key={membership.user.id}>
             <div className={styles.memberContainer}>
-              <p>{member.firstName} {member.lastName}</p>
+              <p>{membership.user.firstName} {membership.user.lastName}</p>
             </div>
           </li>
         ))}

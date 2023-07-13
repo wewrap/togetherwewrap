@@ -23,8 +23,14 @@ import contactCreatorRouter from './routes/contactCreator'
 import logoutRouter from './routes/logout'
 import planMemberListRouter from './routes/planMemberList'
 import inviteContactsRouter from './routes/inviteContactsRouter'
+import path from 'path'
 import verifyPlanInviteRouter from './routes/verifyPlanInvite'
 import brainstormRouter from './routes/brainstorm'
+import voteRouter from './routes/vote'
+import planMembershipRouter from './routes/planMembership'
+import updatePlanStageRouter from './routes/updatePlan'
+import pledgeRouter from './routes/pledge'
+import accountRouter from './routes/account'
 
 const GoogleStrategy = googleStrategy.Strategy
 const FacebookStrategy = facebookStrategy.Strategy
@@ -35,11 +41,12 @@ const THREE_DAYS = 1000 * 60 * 60 * 24 * 3
 const TWO_MINUTES = 1000 * 60 * 2
 
 app.use(morgan('dev'))
+app.use(express.static('build'))
 
+const originConfig = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.wewrap.app'
 app.use(cors({
-  credentials: true,
-  // origin property w/ localhost is required for local development
-  origin: 'http://localhost:3000'
+  origin: originConfig,
+  credentials: true
 }));
 app.use(express.json());
 app.use(passport.initialize())
@@ -155,6 +162,7 @@ passport.use(
 
   },
   async function (req, email, password, done) {
+    console.log('Passport start authentication')
     const user = await db.user.findUnique({
       where: {
         email
@@ -162,31 +170,47 @@ passport.use(
     })
 
     if ((user === null) || (user.salt === null)) {
+      console.log('Authentication failed')
       done(null, false)
       return
     }
 
     const hashedPassword = crypto.pbkdf2Sync(password, user.salt, 310000, 32, 'sha256').toString('base64')
     if (user.password !== hashedPassword) {
+      console.log('Authentication failed')
       done(null, false)
     } else {
+      console.log('Authentication successful')
       done(null, user)
     }
   }
   ))
 
+app.get('/api/test', (req, res) => {
+  res.send('Hello World!')
+})
+
 app.use('/', testRouter)
 app.use('/verify-plan-invite', checkUserAuthorization, verifyPlanInviteRouter)
 app.use('/auth/google', googleOAuthRouter)
 app.use('/auth/facebook', facebookOAuthRouter)
-app.use('/login', loginAuthRouter)
+app.use('/api/login', loginAuthRouter)
 app.use('/api/plan', checkUserAuthorization, planRouter)
-app.use('/signup', signUpAuth)
+app.use('/api/signup', signUpAuth)
 app.use('/api/contacts', checkUserAuthorization, contactCreatorRouter)
-app.use('/userData', userDataRouter)
-app.use('/logout', logoutRouter)
+app.use('/api/userData', userDataRouter)
+app.use('/api/logout', logoutRouter)
 app.use('/api/memberList', checkUserAuthorization, planMemberListRouter)
 app.use('/api/inviteContacts', checkUserAuthorization, inviteContactsRouter)
 app.use('/api/brainstorm', checkUserAuthorization, brainstormRouter)
+app.use('/api/vote', checkUserAuthorization, voteRouter)
+app.use('/api/plan-membership', checkUserAuthorization, planMembershipRouter)
+app.use('/api/update-plan-stage', checkUserAuthorization, updatePlanStageRouter)
+app.use('/api/pledge', checkUserAuthorization, pledgeRouter)
+app.use('/api/account', checkUserAuthorization, accountRouter)
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 export default app

@@ -7,6 +7,7 @@
     --green: #06D5A0;
     --blue: #1B9AAA;
     --pink: #EF476F;
+    --light-pink: #f7b2c2;
     --orange-yellow: #FFC43D;
     --black: rgb(54, 51, 66);
     --mont: 'Montserrat', sans-serif;
@@ -22,6 +23,8 @@ html {
 *::before,
 *::after {
     box-sizing: inherit;
+    font-family: var(--mont);
+    border-color: rgba(0, 0, 0, 0.25);
 }
 
 body {
@@ -32,6 +35,10 @@ body {
     font-size: 1.3rem;
 }
 
+img {
+    display: inline;
+}
+
 h1,
 h2,
 h3,
@@ -39,6 +46,8 @@ h4,
 h5 {
     margin: 0;
     color: var(--black);
+    font-size: revert;
+    font-weight: revert;
 }
 
 nav .navOnlyTextActive.active {
@@ -63,7 +72,26 @@ nav .navOnlyTextActive.active:hover {
     display: none;
 }
 
-.overlay {
-    background-color: rgba(0, 0, 0, 0.25); /* Semi-transparent gray */
+/* Overriding ChakraUI progress bar styles css- */
+.css-gtwgf4 {
+    border-radius: 10px !important;
 }
 
+.css-1jrtelv {
+    background-color: var(--green) !important;
+    border-radius: 10px !important;
+}
+
+/* Pool progress bar */
+.css-132re53 {
+    border-radius: 10px !important;
+}
+
+.css-1ev2o8b {    
+    background-color: var(--green) !important;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.25);
+    /* Semi-transparent gray */
+}

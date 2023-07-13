@@ -1,0 +1,83 @@
+.stageBackground {
+  background-color: aliceblue;
+  height: 790px;
+  width: 100%;
+  border-radius: 10px;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: row;
+  gap: 30px
+}
+
+
+.submitVote {
+  background-color: var(--green);
+  padding: 16px;
+  border-radius: 10px;
+  color: var(--white);
+
+  font-weight: 600;
+  margin: 40px 20px;
+}
+
+.submitSection > p {
+  margin-top: 40px;
+  font-weight: 600;
+}
+
+/* vote card */
+
+.voteCardContainer {
+  margin: 40px 0;
+  background: #FFFFFF;
+  border: 0.5px solid #B9B9B9;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 600px;
+  height: 150px;
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+
+  cursor: pointer;
+}
+
+.selectedVoteCard {
+  border-color: var(--green);
+  border-width: 10px;
+  transition: border-color 0.2s ease, border-width 0.2s;
+}
+
+.user {
+  margin-top: 10px;
+}
+
+.user > p {
+  font-size: 13px;
+}
+
+.disableVoteCard {
+  cursor: unset;
+}
+
+/* Scrolling */
+.scrollable {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.scrollable::-webkit-scrollbar {
+  width: 10px;
+  background-color: none;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #B9B9B9;
+  border-radius: 20px;
+}

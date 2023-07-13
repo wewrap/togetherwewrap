@@ -34,5 +34,5 @@ export const fetchAccountData = (accountIdParam: string): any => {
     }
   }, [])
 
-  return [data, status]
+  return { data, status }
 }
