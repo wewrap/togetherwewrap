@@ -87,7 +87,11 @@
   width: 98%;
 }
 
-.controlBtns {
+.confirmCard > div > p{
+  width: 400px;
+}
+
+.controlBtns > div{
   margin-right: 10px;
   display: flex;
   gap: 20px;

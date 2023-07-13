@@ -43,7 +43,7 @@ export const Pool = ({ planID, isCurrentPlanStage, isUserPlanLeader }: PoolProps
   const [confirmedPledges, setConfirmedPledges] = useState<any>([])
   const currentUser = useContext(UserContext)[0]
 
-  isUserPlanLeader = false // For testing purposes
+  // isUserPlanLeader = false // For testing purposes
 
   const handleSetGoal = () => {
     socket.emit('handleSetGoal', { data: { ...planData, pledgeGoal } })

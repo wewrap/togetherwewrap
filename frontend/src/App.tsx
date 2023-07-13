@@ -13,7 +13,7 @@ import { PlanHome } from './components/PlanHome/PlanHome'
 import { Home } from './components/Home/Home'
 import { PlanInviteVerification } from './components/PlanInviteVerification'
 import { PlanInviteLogInRequest } from './components/PlanInviteLogInRequest'
-import { Account } from './components/accountForm'
+import { Account } from './components/Account/accountForm'
 import { NotFoundPage } from './components/NotFoundPage'
 import { Hub } from './components/Hub/Hub'
 
